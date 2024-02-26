@@ -82,7 +82,7 @@ div
 }
 
 /* 메뉴의 a 태그 */
-a
+.link
 {
 	/* 남산초록색 - #345F53 */
 	text-decoration: none;
@@ -167,7 +167,7 @@ a
 
 
 /* 대주제 메뉴에 마우스를 올렸을 때, 메뉴 아이콘 스타일 */
-.menuOptions > ul:hover > a > .menuIcon
+.menuOptions > ul:hover > .link > .menuIcon
 {
 	background-color: #12a991;
 	color: white;
@@ -189,7 +189,7 @@ a
 }
 
 /* 대주제 메뉴에 마우스를 올렸을 때, a 텍스트 색상 변경 */
-.menuOptions > ul:hover > a
+.menuOptions > ul:hover > .link
 {
 	color: #12a991;
 	transform:translateX(5px);
@@ -528,7 +528,7 @@ ion-icon[name="search-circle"]
     transition: color .5s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.container, .ban, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     --bs-gutter-x: 7.5rem;
     --bs-gutter-y: 0;
     width: 100%;
@@ -572,7 +572,7 @@ ion-icon[name="search-circle"]
 }
 
 .bannerMain
-{width: 100%; max-width: none; padding-right: 10px; height: 100px;}
+{width: 1920px; max-width: none; padding-right: 10px; height: 100px;}
 
 .log{margin-top: 6px;}
 .mainArea{justify-content: center;}
