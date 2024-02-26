@@ -29,7 +29,7 @@
 	<div class="col-12 bannerMain">
 		<div class="row bannerArea">
 			<nav class="navbar bg-body-tertiary">
-			  <div class="container-fluid nav nav-underline ban">
+			  <div class="container-fluid nav nav-underline bannerMainBox">
 			    
 			 	<!--===========[Logo]===========-->
 				<a class="navbar-brand bannerLogo link" href="#">
@@ -184,6 +184,7 @@
 			<div class="col-9">
 				<a href="#">하잉</a>
 			</div>
+			<div class="col-9">본문을 여기에 작성하세용</div>
 			<div class="col-3">사이드를 여기에 작성하세요</div>
 		</div>
 	</div>
