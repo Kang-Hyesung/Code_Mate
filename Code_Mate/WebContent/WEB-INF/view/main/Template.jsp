@@ -32,14 +32,14 @@
 			  <div class="container-fluid nav nav-underline ban">
 			    
 			 	<!--===========[Logo]===========-->
-				<a class="navbar-brand bannerLogo" href="#">
+				<a class="navbar-brand bannerLogo link" href="#">
 					<img alt="Logo" class="bannerLogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 				</a>
 				<!--===========[Logo]===========-->
 				
-				<span class="nav-link"><a href="#">프로젝트 게시판</a></span>
-				<span class="nav-link"><a href="#">커리어 게시판</a></span>
-				<span class="nav-link"><a href="#">포트폴리오 게시판</a></span>
+				<span class="nav-link"><a href="#" class="link">프로젝트 게시판</a></span>
+				<span class="nav-link"><a href="#" class="link">커리어 게시판</a></span>
+				<span class="nav-link"><a href="#" class="link">포트폴리오 게시판</a></span>
 			
 			    
 			    <!--=======[ member Icon ]=======-->
@@ -73,7 +73,7 @@
 					</div>
 					 -->
 					 <!-- 로그인/회원가입으로 이동 -->
-					<span class="nav-link log" ><a href="Login.action">로그인/회원가입</a></span>
+					<span class="nav-link log" ><a href="Login.action" class="link">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
 			    <!--=======[ member Icon ]=======-->
 			    </div>
@@ -123,7 +123,7 @@
 				<div class="leftmenuBar">
 				
 					<!--===========[Logo]===========-->
-					<a class="navbar-brand mainLogo" href="#">
+					<a class="navbar-brand mainLogo link" href="#">
 						<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 					</a>
 					<!--===========[Logo]===========-->
@@ -131,46 +131,46 @@
 					
 					<div class="menuOptions nav nav-underline" id="nav">
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link">Menu1<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
-							<li>
+							<a href="#" class="majorTopic nav-link link">Menu1<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
+							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small1</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small2</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small3</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small4</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small1</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small2</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small3</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small4</a></li>
+								</ul>
+							</li>
+						</ul>
+						<ul class="nav-item ">
+							<a href="#" class="majorTopic nav-link link">Menu2<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
+							<li  class="miniMenuOption">
+								<ul>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small1</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small2</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small3</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small4</a></li>
 								</ul>
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link">Menu2<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
-							<li>
+							<a href="#" class="majorTopic nav-link link">Menu3<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small1</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small2</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small3</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small4</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small1</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small2</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small3</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small4</a></li>
 								</ul>
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link">Menu3<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
-							<li>
+							<a href="#" class="majorTopic nav-link link">Menu4<ion-icon class="menuIcon" name="person-outline"></ion-icon></a>
+							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small1</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small2</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small3</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small4</a></li>
-								</ul>
-							</li>
-						</ul>
-						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link">Menu4<ion-icon class="menuIcon" name="person-outline"></ion-icon></a>
-							<li>
-								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small1</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small2</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small3</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link">small4</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small1</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small2</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small3</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">small4</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -181,11 +181,14 @@
 		
 		<!-- 본문 영역 -->
 		<div class="row main-text">
-			<div class="col-9">본문을 여기에 작성하세요</div>
+			<div class="col-9">
+				<a href="#">하잉</a>
+			</div>
 			<div class="col-3">사이드를 여기에 작성하세요</div>
 		</div>
 	</div>
 </div><!-- end .row -->
+
 
 </body>
 </html>
