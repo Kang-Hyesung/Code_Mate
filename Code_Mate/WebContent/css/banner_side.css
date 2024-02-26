@@ -177,7 +177,7 @@ a
 }
 
 /* 대주제 메뉴에 마우스를 올렸을 때, 작은 메뉴가 보이도록 설정 */
-.menuOptions > ul:hover > li
+.menuOptions > ul:hover > .miniMenuOption
 {
 	display: block;
 	left: 100%;
@@ -199,7 +199,7 @@ a
 /*=================[ 소주제 ]=================*/
 
 /* 소주제 항목 */
-li
+.miniMenuOption
 {
 	/* 기본적으로 숨겨진 상태 */
 	display: none;
@@ -209,7 +209,7 @@ li
 
 
 /* 메뉴 소주제 항목 스타일 */
-.majorTopic ~ li > ul > li {
+.majorTopic ~ li > ul > .miniMenuOption{
     display: block;
     padding: 10px;
     /* border: 1px solid blue; */
@@ -227,7 +227,7 @@ li
 }
 
 /* 메뉴 소주제 항목에 마우스 오버했을 때 li - before */
-.majorTopic ~ li > ul > li:hover
+.majorTopic ~ li > ul > .miniMenuOption:hover
 {
  	background-color: #12a991;
 	
@@ -235,7 +235,7 @@ li
 }
 
 /* 메뉴 소주제 항목에 마우스 오버했을 때 a */
-.majorTopic ~ li > ul > li:hover > a 
+.majorTopic ~ li > ul > .miniMenuOption:hover > a 
 {
     color: white;
 }
