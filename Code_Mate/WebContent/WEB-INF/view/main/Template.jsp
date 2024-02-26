@@ -134,10 +134,10 @@
 							<a href="#" class="majorTopic nav-link">Menu1<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
 							<li>
 								<ul>
-									<li><a href="#" class="nav-link">small1</a></li>
-									<li><a href="#" class="nav-link">small2</a></li>
-									<li><a href="#" class="nav-link">small3</a></li>
-									<li><a href="#" class="nav-link">small4</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small1</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small2</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small3</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small4</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -145,10 +145,10 @@
 							<a href="#" class="majorTopic nav-link">Menu2<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
 							<li>
 								<ul>
-									<li><a href="#" class="nav-link">small1</a></li>
-									<li><a href="#" class="nav-link">small2</a></li>
-									<li><a href="#" class="nav-link">small3</a></li>
-									<li><a href="#" class="nav-link">small4</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small1</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small2</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small3</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small4</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -156,10 +156,10 @@
 							<a href="#" class="majorTopic nav-link">Menu3<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li>
 								<ul>
-									<li><a href="#" class="nav-link">small1</a></li>
-									<li><a href="#" class="nav-link">small2</a></li>
-									<li><a href="#" class="nav-link">small3</a></li>
-									<li><a href="#" class="nav-link">small4</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small1</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small2</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small3</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small4</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -167,10 +167,10 @@
 							<a href="#" class="majorTopic nav-link">Menu4<ion-icon class="menuIcon" name="person-outline"></ion-icon></a>
 							<li>
 								<ul>
-									<li><a href="#" class="nav-link">small1</a></li>
-									<li><a href="#" class="nav-link">small2</a></li>
-									<li><a href="#" class="nav-link">small3</a></li>
-									<li><a href="#" class="nav-link">small4</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small1</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small2</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small3</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link">small4</a></li>
 								</ul>
 							</li>
 						</ul>
