@@ -80,9 +80,9 @@
 				</a>
 				<!--===========[Logo]===========-->
 				
-				<span class="nav-link"><a href="#">프로젝트 게시판</a></span>
-				<span class="nav-link"><a href="#">커리어 게시판</a></span>
-				<span class="nav-link"><a href="#">포트폴리오 게시판</a></span>
+				<span class="nav-link"><a href="#" class="link">프로젝트 게시판</a></span>
+				<span class="nav-link"><a href="#" class="link">커리어 게시판</a></span>
+				<span class="nav-link"><a href="#" class="link">포트폴리오 게시판</a></span>
 			
 			    
 			    <!--=======[ member Icon ]=======-->
@@ -116,7 +116,7 @@
 					</div>
 					 -->
 					 <!-- 로그인/회원가입으로 이동 -->
-					<span class="nav-link log" ><a href="Login.action">로그인/회원가입</a></span>
+					<span class="nav-link log" ><a href="Login.action" class="link">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
 			    <!--=======[ member Icon ]=======-->
 			    </div>
