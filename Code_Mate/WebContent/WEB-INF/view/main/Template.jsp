@@ -181,7 +181,7 @@
 		
 		<!-- 본문 영역 -->
 		<div class="row main-text">
-			<div class="col-9">본문을 여기에 작성하세요</div>
+			<div class="col-9">본문을 여기에 작성하세용</div>
 			<div class="col-3">사이드를 여기에 작성하세요</div>
 		</div>
 	</div>
