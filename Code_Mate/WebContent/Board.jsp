@@ -21,6 +21,49 @@
 <!-- ionicons -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<style type="text/css">
+
+.w_tag_list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -5px;
+}
+
+.l_widget {
+    margin-bottom: 45px;
+}
+
+.tag{
+	color : #425466;
+    padding: 2px 18px;
+    display: inline-block;
+    background: #F0F2F5;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: all 0.2s linear;
+}
+
+.qustion_wd button {
+    background: #4C4CF1;
+    border: none;
+    border-radius: 40px !important;
+    height: 80px;
+    line-height: 80px;
+    outline: none !important;
+    box-shadow: none !important;
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+    padding-left: 30px;
+    padding-right: 30px;
+    transition: all 300ms linear 0s;
+}
+</style>
+
 </head>
 <body>
 
@@ -115,7 +158,220 @@
 	</div>
 	<!--===========[offCanvas]===========-->
 	
-	아아아
+	<div class="main">
+		<div class="row">
+			<div class="col-md-2" style="padding-left: 50px;">
+				<aside class="l_widget forum_list">
+                                <h3 class="wd_title">카테고리</h3>
+                                <ul class="navbar-nav ">
+                                    <li class="active nav-item">
+                                        <a href="#"><i class="social_tumbleupon"></i>전체 보기</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#"><i class="icon_lightbulb_alt"></i>기술</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#"><i class="icon_lightbulb_alt"></i>커리어</a>
+                                    </li>
+                                </ul>
+                </aside>
+                
+                <aside class="l_widget l_tags_wd">
+                                <h3 class="wd_title">태그</h3>
+                                <ul class="list-unstyled w_tag_list style-light">
+                                    <li><a href="#" class="tag">자바</a></li>
+                                    <li><a href="#" class="tag">오라클</a></li>
+                                    <li><a href="#" class="tag">금융</a></li>
+                                    <li><a href="#" class="tag">중고거래</a></li>
+                                    <li><a href="#" class="tag">쇼핑몰</a></li>
+                                    <li><a href="#" class="tag">리액트</a></li>
+                                </ul>
+               </aside>
+               <aside class="l_widget comment_list">
+                                <h3 class="wd_title">최근 올라온 글</h3>
+                                <ul class="navbar-nav">
+                                    <li>
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <i class="icon_chat_alt"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <a href="#">
+                                                    <h4>A회사 갈까요? by</h4>
+                                                </a>
+                                                <a href="#">
+                                                    <h5><img src="img/forum/r-topic-user.png" alt=""> 정한울</h5>
+                                                </a>
+                                                <p>4일전</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="media">
+                                            <div class="d-flex">
+                                                <i class="icon_chat_alt"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <a href="#">
+                                                    <h4>어떻게 해요? by</h4>
+                                                </a>
+                                                <a href="#">
+                                                    <h5><img src="img/forum/r-topic-user.png" alt=""> 이윤수</h5>
+                                                </a>
+                                                <p>1주일 전</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </aside>
+			</div>
+			<div class="col-md-7" style="padding-left: 50px;">
+				
+			</div>
+			<div class="col-md-3" style="padding-left: 50px; padding-right: 70px;">
+				<aside class="r_widget qustion_wd">
+                       	<button class="btn" type="button"><img src="img/question-1.png" alt=""> 질문하기<i class="arrow_carrot-right"></i></button>
+                </aside>
+                
+                <aside class="r_widget user_list_wd">
+                                <div class="r_heading d-flex justify-content-between">
+                                    <h3>Most Helpful</h3>
+                                    <h5>Last 30 days</h5>
+                                </div>
+                                <ul class="navbar-nav">
+                                    <li>
+                                        <a href="#">
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img class="rounded-circle" src="img/forum/helpful-user/h-user-1.png" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4>cleo-parra</h4>
+                                                </div>
+                                                <div class="media-right">
+                                                    <div class="count">
+                                                        10
+                                                    </div>
+                                                    <i class="icon_check_alt"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img class="rounded-circle" src="img/forum/helpful-user/h-user-2.png" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4>roy_marin</h4>
+                                                </div>
+                                                <div class="media-right">
+                                                    <div class="count">
+                                                        08
+                                                    </div>
+                                                    <i class="icon_check_alt"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img class="rounded-circle" src="img/forum/helpful-user/h-user-3.png" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4>hellen.austin</h4>
+                                                </div>
+                                                <div class="media-right">
+                                                    <div class="count">
+                                                        05
+                                                    </div>
+                                                    <i class="icon_check_alt"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img class="rounded-circle" src="img/forum/helpful-user/h-user-4.png" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4>erna.may</h4>
+                                                </div>
+                                                <div class="media-right">
+                                                    <div class="count">
+                                                        03
+                                                    </div>
+                                                    <i class="icon_check_alt"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img class="rounded-circle" src="img/forum/helpful-user/h-user-5.png" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4>jacobson</h4>
+                                                </div>
+                                                <div class="media-right">
+                                                    <div class="count">
+                                                        02
+                                                    </div>
+                                                    <i class="icon_check_alt"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img class="rounded-circle" src="img/forum/helpful-user/h-user-6.png" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4>van.mays</h4>
+                                                </div>
+                                                <div class="media-right">
+                                                    <div class="count">
+                                                        01
+                                                    </div>
+                                                    <i class="icon_check_alt"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img class="rounded-circle" src="img/forum/helpful-user/h-user-7.png" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4>steve_barr</h4>
+                                                </div>
+                                                <div class="media-right">
+                                                    <div class="count">
+                                                        01
+                                                    </div>
+                                                    <i class="icon_check_alt"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </aside>
+			</div>
+			
+		</div>
+	</div>
+	
 
 </body>
 </html>
