@@ -17,7 +17,6 @@ public class MainController
 	public String hello(Model model)
 	{	
 		return "/WEB-INF/view/main/Template.jsp";
-		
 	}
 	
 	@RequestMapping(value="/Login.action", method=RequestMethod.GET)
@@ -29,9 +28,6 @@ public class MainController
 	@RequestMapping(value="/join.action", method=RequestMethod.GET)
 	public String join(String email, String id, String pw)
 	{	
-		System.out.println(id);
-		System.out.println(pw);
-		
 		MemberDTO dto = new MemberDTO();
 		
 		dto.setId(id);

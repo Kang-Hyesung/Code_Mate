@@ -528,7 +528,7 @@ ion-icon[name="search-circle"]
     transition: color .5s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+.container, .ban, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     --bs-gutter-x: 7.5rem;
     --bs-gutter-y: 0;
     width: 100%;

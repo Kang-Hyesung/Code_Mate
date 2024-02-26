@@ -29,7 +29,7 @@
 	<div class="col-12 bannerMain">
 		<div class="row bannerArea">
 			<nav class="navbar bg-body-tertiary">
-			  <div class="container-fluid nav nav-underline">
+			  <div class="container-fluid nav nav-underline ban">
 			    
 			 	<!--===========[Logo]===========-->
 				<a class="navbar-brand bannerLogo" href="#">
