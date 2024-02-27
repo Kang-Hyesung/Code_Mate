@@ -1,10 +1,17 @@
 @charset "UTF-8";
 
-/* 폰트 - 강원교육튼튼체 */
-
+/* 폰트 - 스위트 */
 @font-face {
-    font-family: 'Hahmlet-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/Hahmlet-Regular.woff2') format('woff2');
+font-family: 'SUITE-Regular';
+src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+font-weight: 400;
+font-style: normal;
+}
+
+/* 폰트 - 강원교육튼튼체 */
+@font-face {
+    font-family: 'GangwonEduPowerExtraBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduPowerExtraBoldA.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -13,10 +20,9 @@
 /* 모든 엘리먼트 선택 */
 *
 {
-	font-family: 'Hahmlet-Regular';
+	font-family: 'SUITE-Regular';
 	
 }
-
 
 
 /* 전체 div */
@@ -47,12 +53,12 @@ div
 /* 왼쪽 메뉴바 영역 */
 .leftmenuBar
 {
-	width: 220px;
-	height: 460px;
+	width: 90%;
+    height: 100%;
 	background: linear-gradient(0deg, #ededed, white);
 	padding: 10px;
 	margin: 100px 0px 0px 0px;
-	transform: translate(-150px, 0);
+	transform: translate(-297px, 0);
 	border-radius: 10px;
 	transition: .5s;
 	box-shadow : 2px 2px 2px 2px #87878775;
@@ -70,8 +76,9 @@ div
 /* Code mate 로고 이미지 */
 .LogoImage
 {
-	width: 120px;
-	margin: 30px 0 10px 10px;
+	width: 156px;
+    object-fit: contain;
+    margin: -2px 0 10px 10px;
 }
 
 /* Code mate 로고 이미지를 감싸는 navbar div 영역 */
@@ -88,8 +95,8 @@ div
 	text-decoration: none;
 	color: #345F53;
 	font-weight: bold;
+	font-family: 'GangwonEduPowerExtraBoldA';
 }
-
 
 /* 왼쪽 메뉴바의 대주제에 표시되는 아이콘 */
 .menuIcon
@@ -102,7 +109,10 @@ div
 	border-radius: 50%;
 	transition-property: all;
 	transition-duration:0.5s;
-	
+	float: right;
+	position: relative;
+    bottom: 33px;
+    left: 41px;
 }
 
 
@@ -114,6 +124,8 @@ div
 	
 }
 
+/* 메뉴바 큰 메뉴 한 줄 */
+.nav-item{width: 299px;}
 
 /* 왼쪽 메뉴바 부모 영역에 마우스를 올렸을 때 */
 /* 메뉴바 왼쪽에서 나타나기 */
@@ -127,7 +139,7 @@ div
 /* 메뉴 옵션 항목 천천히 이동하기 */
 .leftmenuBarBox:hover > .leftmenuBar > .menuOptions
 {
-	transform: translateX(-10px) translateY(30px);
+	transform: translateX(-10px) translateY(6px);
 	transition: .5s; 
 }
 
@@ -180,11 +192,13 @@ div
 .menuOptions > ul:hover > .miniMenuOption
 {
 	display: block;
-	left: 100%;
+	left: 116%;
 	width: 100%;
 	position: absolute;
-	height: 187%;
-	top: 30%;
+	height: 200%;
+	top: 1%;
+	margin-bottom: 20%;
+	
 
 }
 
@@ -207,6 +221,7 @@ div
 	list-style: none;
 }
 
+.majorTopic{width: 267px;}
 
 /* 메뉴 소주제 항목 스타일 */
 .majorTopic ~ li > ul > .miniMenuOption{
@@ -243,11 +258,11 @@ div
 
 /*==============[ 배너 ]==============*/
 
-/* 배너에 있는 로고 이미지 */
-.bannerLogoImage
-{
-	width: 120px;
-
+/* 사이드바에 있는 로고 이미지 */
+.LogoImageBanner {
+    width: 156px;
+    object-fit: contain;
+    margin: 30px 0 10px 10px;
 }
 
 
@@ -306,6 +321,8 @@ ion-icon[name="search-circle"]
 	
 }
 
+
+
 /* 회원 프로필 이미지 삽입 */
 .memberImg
 {
@@ -326,7 +343,7 @@ ion-icon[name="search-circle"]
 .nickname
 {
 	/* margin: 25px 0px 25px 5px; */
-	font-size: 15px;
+	+-size: 15px;
 	font-weight: bold;
 	line-height: 33px;
 	color: #2f4047;
@@ -578,3 +595,4 @@ ion-icon[name="search-circle"]
 .mainArea{justify-content: center;}
 .flex{display:flex; width: 100%}
 .main-text{width: 100%;}
+.lastchange{margin-top: 40px;}
