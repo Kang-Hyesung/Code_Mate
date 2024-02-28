@@ -41,7 +41,7 @@
 	/* 큰 창 */
 	.skill-progress{
     width: 400px;
-    height: 250px;
+    height: 354px;
     padding: 20px;
     color: white;
     background-color: white;
@@ -60,10 +60,12 @@
 	    text-align: center;
 	    font-size: 30px;
 	    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.089);
-	    background-color: white;
+	    background-color: #B0A695;
+	    border-radius: 10px;
 	}
 	.item {
     transition: 0.4s;
+    margin-bottom: 18px;
 	}
 	.item:hover {
 	    border-radius: 3px;
@@ -219,7 +221,7 @@
     hr{color: #EED3D9; border: 1px solid gray;}
     
     .table {
-  margin: 0 0 40px 0;
+  margin: 0 0 3px 0;
   width: 100%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   display: table;
@@ -278,19 +280,16 @@
 
 .cell {
   padding: 6px 12px;
-  display: table-cell;
+  display: inline-block;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-@media screen and (max-width: 580px) {
-  .cell {
-    padding: 2px 16px;
-    display: block;
-  }
-}
+
 	
 	/* 요악 시작 */
 	.second{display: flex;}
-	.meeting{margin-left: 60px; background-color: white; box-shadow: 0 3px 9px rgba(0,0,0,5.16); height: 258px;
-	         border-radius: 10px; padding: 15px;}
+	.meeting{margin-left: 60px; background-color: white; box-shadow: 0 3px 9px rgba(0,0,0,5.16); height: 354px;
+	         border-radius: 10px; padding: 25px;}
 	/* 회의록 그림 */
 	img{width: 40px; height: 40px;}
 	
@@ -298,7 +297,32 @@
 	.dot{background-color: gray; width: 30px; height: 30px; border-radius: 20px;}
 	.meetingTitle{display: flex;}
 	tr{text-align: center;}
+	.taskRepo{margin-left: 60px; background-color: white; box-shadow: 0 3px 9px rgba(0,0,0,5.16); height: 354px;
+	         border-radius: 10px; padding: 25px;}
+	.cwid{width: 139px; height: 35px;}
+	.or{width: 20px; height: 20px;}
+	 
+	 
+	 .table>:not(caption)>*>* {
+    padding: 0rem 0rem;
+    background-color: unset;
+}
 </style>
+
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth'
+    });
+    calendar.render();
+  });
+
+</script>
+
 
 </head>
 <body>
@@ -325,19 +349,13 @@
 			    <div class="oneMember">
 					<div class="buttonBox">
 						<!--======[ search Button ]======-->
-						<button id="searchButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+						<button id="searchButton" class="btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
 							<ion-icon name="search-outline"></ion-icon>
 						</button>
 						<!--======[ search Button ]======-->
 		
-						<!--======[ chat Button ]======-->
-						<button id="chatButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="chatbubble-outline"></ion-icon>
-						</button>
-						<!--======[ chat Button ]======-->
-		
 						<!--======[ alarmButton ]======-->
-						<button id="alarmButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+						<button id="alarmButton" class="btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
 							<ion-icon name="notifications"></ion-icon>
 						</button>				
 						<!--======[ alarmButton ]======-->
@@ -408,7 +426,7 @@
 					<!--===========[Logo]===========-->
 					
 					
-					<div class="menuOptions nav nav-underline lastchange" id="nav">
+					<div class="menuOptions nav nav-underline" id="nav">
 						<ul class="nav-item">
 							<a href="#" class="majorTopic nav-link link">프로젝트12345123<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
 							<li class="miniMenuOption">
@@ -472,7 +490,7 @@
 		
 		<!-- 본문 영역 -->
 		<div class="row main-text">
-			<div class="col-10">
+			<div class="col-11">
 				
 				<!-- 프로젝트 설명 -->
 				<div class="row prjtitle">
@@ -543,11 +561,12 @@
 					                <div class="progress-level" style="width:70%"></div>
 					            </div>
 					        </div>
+					        
 					    </div>
 					
 					<div class="meeting">
+					
 						<div class="meetingTitle">
-							<div class="dot"> </div>
 							<h3>&nbsp; 회의록</h3>
 						</div>
 					    
@@ -557,7 +576,7 @@
 						      <div class="cell">
 						        회차
 						      </div>
-						      <div class="cell">
+						      <div class="cell cwid">
 						        회의록 제목
 						      </div>
 						      <div class="cell">
@@ -572,7 +591,7 @@
 						      <div class="cell" data-title="Product">
 						        1회차
 						      </div>
-						      <div class="cell" data-title="Unit Price">
+						      <div class="cell cwid" data-title="Unit Price">
 						        데이터베이스 설계
 						      </div>
 						      <div class="cell" data-title="Quantity">
@@ -587,7 +606,7 @@
 						      <div class="cell" data-title="Product">
 						        1회차
 						      </div>
-						      <div class="cell" data-title="Unit Price">
+						      <div class="cell cwid" data-title="Unit Price">
 						        데이터베이스 설계
 						      </div>
 						      <div class="cell" data-title="Quantity">
@@ -602,7 +621,7 @@
 						      <div class="cell" data-title="Product">
 						        1회차
 						      </div>
-						      <div class="cell" data-title="Unit Price">
+						      <div class="cell cwid" data-title="Unit Price">
 						        데이터베이스 설계
 						      </div>
 						      <div class="cell" data-title="Quantity">
@@ -616,7 +635,7 @@
 						      <div class="cell" data-title="Product">
 						        1회차
 						      </div>
-						      <div class="cell" data-title="Unit Price">
+						      <div class="cell cwid" data-title="Unit Price">
 						        데이터베이스 설계
 						      </div>
 						      <div class="cell" data-title="Quantity">
@@ -630,7 +649,7 @@
 						      <div class="cell" data-title="Product">
 						        1회차
 						      </div>
-						      <div class="cell" data-title="Unit Price">
+						      <div class="cell cwid" data-title="Unit Price">
 						        데이터베이스 설계
 						      </div>
 						      <div class="cell" data-title="Quantity">
@@ -640,13 +659,246 @@
 						        2023-05-11
 						      </div>
 						    </div>
-						 </div>
-
+						 </div><!-- close .table -->
+						 
+					    <div class="more-box">
+					 		<span style="float: right"><a href="#">더보기</a></span>
+					 	</div><!-- close .more-box -->
 						  
-					</div>					
-
+					</div><!-- close .meeting -->					
+					
+					<div class="taskRepo">
+						<div class="taskRepoTitle">
+							<h3>&nbsp; 업무보고서</h3>
+						</div>
+					    
+						  <div class="table">
+						    
+						    <div class="tablerow header blue">
+						      <div class="cell">
+						        제출자
+						      </div>
+						      <div class="cell cwid">
+						        업무보고서 제목
+						      </div>
+						      <div class="cell">
+						        제출일자
+						      </div>
+						      <div class="cell">
+						        프론트 / 백
+						      </div>
+						    </div>
+						    
+						    <div class="tablerow">
+						      <div class="cell" data-title="Product">
+						        이윤수
+						      </div>
+						      <div class="cell cwid" data-title="Unit Price">
+						        데이터베이스 설계
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-15-17
+						      </div>
+						      <div class="cell" data-title="Date Sold">
+						        <img src="<%=cp %>/img/frontend.png" class="or"/>
+						      </div>
+						    </div>
+						    
+						    <div class="tablerow">
+						      <div class="cell" data-title="Product">
+						        이윤수
+						      </div>
+						      <div class="cell cwid" data-title="Unit Price">
+						        데이터베이스 설계
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-15-17
+						      </div>
+						      <div class="cell" data-title="Date Sold">
+						        <img src="<%=cp %>/img/backend.png" class="or"/>
+						      </div>
+						    </div>
+						    
+						    <div class="tablerow">
+						      <div class="cell" data-title="Product">
+						        이윤수
+						      </div>
+						      <div class="cell cwid" data-title="Unit Price">
+						        데이터베이스 설계
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-15-17
+						      </div>
+						      <div class="cell" data-title="Date Sold">
+						        <img src="<%=cp %>/img/frontend.png" class="or"/>
+						      </div>
+						    </div>
+						    
+						    <div class="tablerow">
+						      <div class="cell" data-title="Product">
+						        이윤수
+						      </div>
+						      <div class="cell cwid" data-title="Unit Price">
+						        데이터베이스 설계
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-15-17
+						      </div>
+						      <div class="cell" data-title="Date Sold">
+						        <img src="<%=cp %>/img/backend.png" class="or"/>
+						      </div>
+						    </div>
+						    
+						    <div class="tablerow">
+						      <div class="cell" data-title="Product">
+						        이윤수
+						      </div>
+						      <div class="cell cwid" data-title="Unit Price">
+						        데이터베이스 설계
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-15-17
+						      </div>
+						      <div class="cell" data-title="Date Sold">
+						        <img src="<%=cp %>/img/backend.png" class="or"/>
+						      </div>
+						    </div>
+						 </div><!-- close .table -->
+						 
+					    <div class="more-box">
+					 		<span style="float: right"><a href="#">더보기</a></span>
+					 	</div><!-- close .more-box -->
+					</div>
 				</div>
 				
+				<div class="row" style="padding-top: 30px;">
+					<div class="col-5">
+						<div class="taskRepo">
+						<div class="taskRepoTitle">
+							<h3>&nbsp; 업무할당</h3>
+						</div>
+					    
+						  <div class="table">
+						    
+						    <div class="tablerow header red">
+						      <div class="cell">
+						        닉네임
+						      </div>
+						      <div class="cell cwid">
+						        맡은 업무
+						      </div>
+						      <div class="cell">
+						        업무 시작일 &nbsp;&nbsp;
+						      </div>
+						      <div class="cell">
+						        업무 종료일
+						      </div>
+						      <div class="cell">
+						        승인 여부
+						      </div>
+						    </div>
+						    
+						    <div class="tablerow">
+						      <div class="cell" data-title="Product">
+						        이윤수
+						      </div>
+						      <div class="cell cwid" data-title="Unit Price">
+						        데이터베이스 설계
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-15-17
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-18-17
+						      </div>
+						      <div class="cell" data-title="Date Sold">
+						        합격
+						      </div>
+						    </div>
+						    
+						    <div class="tablerow">
+						      <div class="cell" data-title="Product">
+						        이윤수
+						      </div>
+						      <div class="cell cwid" data-title="Unit Price">
+						        데이터베이스 설계
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-15-17
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-18-17
+						      </div>
+						      <div class="cell" data-title="Date Sold">
+						        합격
+						      </div>
+						    </div>
+						    
+						    <div class="tablerow">
+						      <div class="cell" data-title="Product">
+						        이윤수
+						      </div>
+						      <div class="cell cwid" data-title="Unit Price">
+						        데이터베이스 설계
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-15-17
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-18-17
+						      </div>
+						      <div class="cell" data-title="Date Sold">
+						        합격
+						      </div>
+						    </div>
+						    
+						    <div class="tablerow">
+						      <div class="cell" data-title="Product">
+						        이윤수
+						      </div>
+						      <div class="cell cwid" data-title="Unit Price">
+						        데이터베이스 설계
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-15-17
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-18-17
+						      </div>
+						      <div class="cell" data-title="Date Sold">
+						        합격
+						      </div>
+						    </div>
+						    
+						    <div class="tablerow">
+						      <div class="cell" data-title="Product">
+						        이윤수
+						      </div>
+						      <div class="cell cwid" data-title="Unit Price">
+						        데이터베이스 설계
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-15-17
+						      </div>
+						      <div class="cell" data-title="Quantity">
+						        2023-18-17
+						      </div>
+						      <div class="cell" data-title="Date Sold">
+						        합격
+						      </div>
+						    </div>
+						 </div><!-- close .table -->
+						 
+					    <div class="more-box">
+					 		<span style="float: right"><a href="#">더보기</a></span>
+					 	</div><!-- close .more-box -->
+					</div>
+					</div>
+					
+					<div class="col-7"></div>
+				</div>
+				
+				<div id='calendar'></div>
 			</div>
 		</div>
 		

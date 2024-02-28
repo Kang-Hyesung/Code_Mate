@@ -231,20 +231,14 @@
 			    <div class="oneMember">
 					<div class="buttonBox">
 						<!--======[ search Button ]======-->
-						<button id="searchButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="search-outline"></ion-icon>
+						<button id="searchButton" class="btn banner-btn search-btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+							<ion-icon name="search-outline" class="banner-btn-icon"></ion-icon>
 						</button>
 						<!--======[ search Button ]======-->
 		
-						<!--======[ chat Button ]======-->
-						<button id="chatButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="chatbubble-outline"></ion-icon>
-						</button>
-						<!--======[ chat Button ]======-->
-		
 						<!--======[ alarmButton ]======-->
-						<button id="alarmButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="notifications"></ion-icon>
+						<button id="alarmButton" class="btn banner-btn alarm-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+							<ion-icon name="notifications" class="banner-btn-icon"></ion-icon>
 						</button>				
 						<!--======[ alarmButton ]======-->
 				    </div><!-- end .buttonBox -->
@@ -309,12 +303,12 @@
 				
 					<!--===========[Logo]===========-->
 					<a class="navbar-brand mainLogo link" href="#">
-						<img alt="Logo" class="LogoImageBanner d-inline-block align-text-top" src="img/TestLogo.png" >
+						<img alt="Logo" class="LogoImageBanner d-inline-block align-text-top lastchange" src="img/TestLogo.png" >
 					</a>
 					<!--===========[Logo]===========-->
 					
 					
-					<div class="menuOptions nav nav-underline lastchange" id="nav">
+					<div class="menuOptions nav nav-underline" id="nav">
 						<ul class="nav-item">
 							<a href="#" class="majorTopic nav-link link">프로젝트12345123<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
 							<li class="miniMenuOption">
