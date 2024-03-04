@@ -1,0 +1,165 @@
+@charset "UTF-8";
+
+
+.w_tag_list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -5px;
+}
+
+.l_widget {
+    margin-bottom: 45px;
+}
+
+.tag{
+	color : #425466;
+    padding: 2px 18px;
+    display: inline-block;
+    background: #F0F2F5;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: all 0.2s linear;
+    margin: 1px; 
+}
+
+.qustion_wd button {
+    background: #4C4CF1;
+    border: none;
+    border-radius: 40px !important;
+    height: 80px;
+    line-height: 80px;
+    outline: none !important;
+    box-shadow: none !important;
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+    padding-left: 30px;
+    padding-right: 30px;
+    transition: all 300ms linear 0s;
+}
+
+.r_widget {
+    margin-bottom: 50px;
+}
+
+.media {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+.media-body {
+    -ms-flex: 1;
+    flex: 1;
+    text-align: left;
+}
+
+.board-a-tag-link
+{
+	text-decoration: none;
+	color: cornflowerblue;
+}
+
+.heart {
+	color: red;
+}
+
+.r_heading {
+    background: rgba(76, 76, 241, 0.05);
+    border-bottom: 1px solid rgba(76, 76, 241, 0.05);
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.comment_list .navbar-nav li:first-child {
+    padding-top: 0;
+}
+.comment_list .navbar-nav li {
+    border-bottom: 1px solid #e6edf0;
+    padding: 10px 0;
+}
+
+.user_list_wd {
+    border: 1px solid #eaeeef;
+    border-radius: 6px;
+}
+
+.nav-bar:last-child
+{
+	background-color: green;
+}
+
+.user_list_wd .navbar-nav li:not(:last-child) {
+    border-bottom: 1px solid #425466;
+}
+
+.user_list_wd .navbar-nav li {
+    padding: 11px 0 8px;
+}
+
+.question_list_wd .navbar-nav {
+    padding: 7px 20px 18px;
+}
+
+.question_list_wd .navbar-nav li a {
+    font-size: 14px;
+    font-weight: 400;
+    color: #54595d;
+    position: relative;
+    padding-left: 45px;
+    display: inline-block;
+    line-height: 1.5;
+}
+
+.question_list_wd .navbar-nav li a span {
+    top: 2px;
+}
+.question_list_wd .navbar-nav li a span {
+    height: 30px;
+    width: 30px;
+    border: 1px solid #e6edf0;
+    text-align: center;
+    line-height: 28px;
+    color: var(--p_color);
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 9px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.question_list_wd .navbar-nav li {
+    padding: 15px 0 15px;
+}
+
+.arrow {
+    float: right;
+    margin-top: 32px;
+}
+
+.forum_l_inner .forum_head {
+    background: rgba(76, 76, 241, 0.05);
+    padding-left: 20px;
+    padding-right: 20px;
+    border-bottom: 1px solid rgba(76, 76, 241, 0.05);
+}
+
+.forum_body .navbar-nav li {
+    padding: 25.5px 30px;
+    transition: all 300ms linear 0s;
+}
+
+.postLi:not(:last-child){
+	border-bottom: 1px solid gray;
+}
+
+.tagList{
+list-style-type: none;
+}

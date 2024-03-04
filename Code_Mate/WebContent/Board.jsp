@@ -194,11 +194,11 @@ list-style-type: none;
 	<div class="col-12 bannerMain">
 		<div class="row bannerArea">
 			<nav class="navbar bg-body-tertiary">
-			  <div class="container-fluid nav nav-underline">
+			  <div class="container-fluid nav nav-underline bannerMainBox">
 			    
 			 	<!--===========[Logo]===========-->
-				<a class="navbar-brand bannerLogo" href="#">
-					<img alt="Logo" class="bannerLogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
+				<a class="navbar-brand bannerLogo link" href="#">
+					<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 				</a>
 				<!--===========[Logo]===========-->
 				
@@ -211,20 +211,14 @@ list-style-type: none;
 			    <div class="oneMember">
 					<div class="buttonBox">
 						<!--======[ search Button ]======-->
-						<button id="searchButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="search-outline"></ion-icon>
+						<button id="searchButton" class="btn banner-btn search-btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+							<ion-icon name="search-outline" class="banner-btn-icon"></ion-icon>
 						</button>
 						<!--======[ search Button ]======-->
 		
-						<!--======[ chat Button ]======-->
-						<button id="chatButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="chatbubble-outline"></ion-icon>
-						</button>
-						<!--======[ chat Button ]======-->
-		
 						<!--======[ alarmButton ]======-->
-						<button id="alarmButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="notifications"></ion-icon>
+						<button id="alarmButton" class="btn banner-btn alarm-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+							<ion-icon name="notifications" class="banner-btn-icon"></ion-icon>
 						</button>				
 						<!--======[ alarmButton ]======-->
 				    </div><!-- end .buttonBox -->
@@ -245,6 +239,38 @@ list-style-type: none;
 			  	</div><!-- end .container-fluid -->
 			</nav>
 		</div><!-- end .row .bannerArea  -->
+	</div>
+
+	
+	<!--===========[offCanvas]===========-->
+	<div class="col-12">
+		
+		
+		<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+		  
+		  
+		  <!--[ 검색창을 열었을 때 보여지는 내용 ]-->
+		  <div class="offcanvas-body">
+		  
+		  	<div class="row searchFormArea align-self-center">
+		  	
+				<div class="col-2">
+					<ion-icon name="search-circle"></ion-icon>
+				</div><!-- end .col-1 -->
+				
+				<div class="col-8">
+				    <!--===========[searchForm]===========-->
+				    <form class="d-flex" role="search">
+				      <input class="form-control me-2 searchTextForm" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+				      <button class="btn btn-outline-success" type="submit">Search</button>
+				    </form>
+				    <!--===========[searchForm]===========-->
+			    </div><!-- end .col-8 -->
+			    
+		    </div><!-- end .row -->
+		    
+		  </div><!-- end .offcanvas-body -->
+		</div>
 	</div>
 
 	

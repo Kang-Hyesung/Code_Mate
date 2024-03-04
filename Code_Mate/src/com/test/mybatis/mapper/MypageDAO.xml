@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
+
+<mapper namespace="com.test.mybatis.IMyPageDAO">
+	
+<!--
+	**[미완료]*******************************
+	public String profileImg(String memCode);
+	*****************************************
+-->
+	
+	<!-- 닉네임 -->
+	<!-- public String nickName(String memCode); -->
+	<select id="nickName" resultType="java.lang.String">
+		SELECT NICKNAME
+		FROM MEMBER
+		WHERE MEM_CODE = #{memCode}
+	</select>
+	
+	<!-- 이메일 -->
+	<!-- public String email(String memCode); -->
+	<select id="email" resultType="java.lang.String">
+		SELECT MI.EMAIL     AS EMAIL
+		FROM MEMBER M
+		     INNER JOIN MEM_INFO MI
+		        ON M.MEM_CODE = MI.MEM_CODE
+		WHERE M.MEM_CODE = #{memCode}
+	</select>
+	
+	
+	<!-- 이메일 공개여부 -->
+	<!-- public int emailOpen(String memCode); -->
+	<select id="emailOpen" resultType="java.lang.Integer">
+		SELECT MI.ISE_OPEN  AS EMAIL_OPEN
+		FROM MEMBER M
+		     INNER JOIN MEM_INFO MI
+		        ON M.MEM_CODE = MI.MEM_CODE
+		WHERE M.MEM_CODE = #{memCode}
+	</select>
+	
+	
+	
+	<!-- 성별 -->
+	<!-- public String gender(String memCode); -->
+	<select id="gender" resultType="java.lang.String">
+		SELECT G.GENDER     AS GENDER
+		FROM MEMBER M
+		     INNER JOIN MEM_INFO MI
+		        ON M.MEM_CODE = MI.MEM_CODE
+		     INNER JOIN GENDER G
+		        ON MI.GENDER_CODE = G.GENDER_CODE
+		WHERE M.MEM_CODE = #{memCode}
+	</select>
+	
+	
+	<!-- 성별 공개여부 -->
+	<!-- public int genderOpen(String memCode); -->
+	<select id="genderOpen" resultType="java.lang.Integer">
+		SELECT MI.ISG_OPEN  AS GENDER_OPEN
+		FROM MEMBER M
+		     INNER JOIN MEM_INFO MI
+		        ON M.MEM_CODE = MI.MEM_CODE
+		     INNER JOIN GENDER G
+		        ON MI.GENDER_CODE = G.GENDER_CODE
+		WHERE M.MEM_CODE = #{memCode}
+	</select>
+	
+	
+	<!-- 생년월일 -->
+	<!-- public String birthDay(String memCode); -->
+	<select id="birthDay" resultType="java.lang.String">
+		SELECT TO_CHAR(MI.BDAY, 'YYYY"년" FMMM"월" DD"일"') AS BIRTH_DAY
+		FROM MEMBER M
+		     INNER JOIN MEM_INFO MI
+		        ON M.MEM_CODE = MI.MEM_CODE
+		WHERE M.MEM_CODE = #{memCode}
+	</select>
+	
+	
+	<!-- 생년월일 공개여부 -->
+	<!-- public int birthDayOpen(String memCode); -->
+	<select id="birthDayOpen" resultType="java.lang.Integer">
+		SELECT MI.ISB_OPEN  AS BIRTH_OPEN
+		FROM MEMBER M
+		     INNER JOIN MEM_INFO MI
+		        ON M.MEM_CODE = MI.MEM_CODE
+		WHERE M.MEM_CODE = #{memCode}
+	</select>
+	
+	
+	<!-- MBTI -->
+	<!-- public String mbti(String memCode); -->
+	<select id="mbti" resultType="java.lang.String">
+		SELECT MBTI.MBTI AS MBTI
+		FROM MEMBER M
+		     INNER JOIN MBTI MBTI
+		     ON M.MBTI_CODE = MBTI.MBTI_CODE
+		WHERE M.MEM_CODE = #{memCode}
+	</select>
+	
+	
+	<!-- 스킬 태그 -->
+	<!-- public ArrayList<String> skillTag(String memCode); -->
+	<select id="skillTag" resultType="java.lang.String">
+		SELECT TAG_NAME AS SKILL_TAG
+		FROM MEMBER M
+		     INNER JOIN SKILL_TAG KT
+		        ON M.MEM_CODE = KT.MEM_CODE
+		WHERE M.MEM_CODE = #{memCode}
+	</select>
+	
+	
+	<!-- 백엔드 스킬 점수 -->
+	<!-- public int backendScore(String memCode); -->
+	<select id="backendScore" resultType="java.lang.Integer">
+		SELECT 1000 + NVL(SUM(EV.SCORE), 0) AS BACK_SCORE
+		FROM MEMBER M
+		     INNER JOIN MEMBER_APPLY MA       
+		        ON M.MEM_CODE = MA.MEM_CODE 
+		     INNER JOIN ROLE_COMP RC           
+		        ON MA.RC_CODE = RC.RC_CODE
+		     INNER JOIN MEMBER_ROLE MR
+		        ON RC.MR_CODE = MR.MR_CODE
+		     INNER JOIN EVALUATION EV
+		        ON MA.MA_CODE = EV.MA_CODEP
+		     INNER JOIN EV_DEVISION ED
+		        ON EV.ED_CODE = ED.ED_CODE
+		WHERE M.MEM_CODE = #{memCode}
+		  AND MR.MR_CODE = 'MR0002'
+		  AND ED.ED_CODE = 'ED0001'
+	</select>
+	
+	
+	<!-- 프론트엔드 스킬 점수 -->
+	<!-- public int frontendScore(String memCode); -->
+	<select id="frontendScore" resultType="java.lang.Integer">
+		SELECT 1000 + NVL(SUM(EV.SCORE), 0) AS FRONT_SCORE
+		FROM MEMBER M
+		     INNER JOIN MEMBER_APPLY MA       
+		        ON M.MEM_CODE = MA.MEM_CODE 
+		     INNER JOIN ROLE_COMP RC           
+		        ON MA.RC_CODE = RC.RC_CODE
+		     INNER JOIN MEMBER_ROLE MR
+		        ON RC.MR_CODE = MR.MR_CODE
+		     INNER JOIN EVALUATION EV
+		        ON MA.MA_CODE = EV.MA_CODEP
+		     INNER JOIN EV_DEVISION ED
+		        ON EV.ED_CODE = ED.ED_CODE
+		WHERE M.MEM_CODE = #{memCode}
+		  AND MR.MR_CODE = 'MR0003'
+		  AND ED.ED_CODE = 'ED0001'
+	</select>
+	
+	
+	<!-- 매너 점수 -->
+	<!-- public int mannerScore(String memCode); -->
+	<select id="mannerScore" resultType="java.lang.Double">
+		SELECT 36.5 + SUM(DECODE(EV.SCORE
+		                        , 5, 0.2
+		                        , 4, 0.1
+		                        , 3, 0
+		                        , 2, -0.1
+		                        , 1, -0.2)) AS MANNER_SCORE
+		FROM MEMBER M
+		     INNER JOIN MEMBER_APPLY MA       
+		        ON M.MEM_CODE = MA.MEM_CODE 
+		     INNER JOIN ROLE_COMP RC           
+		        ON MA.RC_CODE = RC.RC_CODE
+		     INNER JOIN MEMBER_ROLE MR
+		        ON RC.MR_CODE = MR.MR_CODE
+		     INNER JOIN EVALUATION EV
+		        ON MA.MA_CODE = EV.MA_CODEP
+		     INNER JOIN EV_DEVISION ED
+		        ON EV.ED_CODE = ED.ED_CODE
+		WHERE M.MEM_CODE = #{memCode}
+		  AND ED.ED_CODE = 'ED0002'
+	</select>	
+	
+	<!-- 경력 -->
+	<!-- public ArrayList<MyPage_CareerDTO> careerList(String memCode); -->
+	<select id="careerList" resultType="com.test.mybatis.MyPage_CareerDTO">
+		SELECT C.NAME                                           AS COMPANY_NAME
+		     , TO_CHAR(C.SDATE, 'YYYY.FMMM')                    AS JOIN_DATE
+		     , TO_CHAR(C.EDATE, 'YYYY.FMMM')                    AS LEAVE_DATE
+		     , TRUNC(MONTHS_BETWEEN(C.EDATE, C.SDATE) / 12)     AS WORKED_YEAR
+		     , TRUNC(MOD(MONTHS_BETWEEN(C.EDATE, C.SDATE), 12)) AS WORKED_MONTH
+		     , 
+		     (
+		        SELECT SUM(CT.근속년)
+		        FROM
+		        (
+		            SELECT TRUNC(MONTHS_BETWEEN(C.EDATE, C.SDATE) / 12)     AS 근속년                                    
+		            FROM MEMBER M
+		                 INNER JOIN MEM_INFO MI
+		                    ON M.MEM_CODE = MI.MEM_CODE
+		                 INNER JOIN CAREER C
+		                    ON MI.MI_CODE = C.MI_CODE
+		            WHERE M.MEM_CODE = #{memCode}
+		              AND C.ISC_OPEN = 0
+		        ) CT
+		        
+		     )  AS TOT_WORKED_YEAR
+		     ,
+		     (
+		        SELECT SUM(CT.근속월)
+		        FROM
+		        (
+		            SELECT TRUNC(MOD(MONTHS_BETWEEN(C.EDATE, C.SDATE), 12)) AS 근속월                               
+		            FROM MEMBER M
+		                 INNER JOIN MEM_INFO MI
+		                    ON M.MEM_CODE = MI.MEM_CODE
+		                 INNER JOIN CAREER C
+		                    ON MI.MI_CODE = C.MI_CODE
+		            WHERE M.MEM_CODE = #{memCode}
+		              AND C.ISC_OPEN = 0
+		        ) CT
+		        
+		     )  AS TOT_WORKED_MONTH
+		     
+		FROM MEMBER M
+		     INNER JOIN MEM_INFO MI
+		        ON M.MEM_CODE = MI.MEM_CODE
+		     INNER JOIN CAREER C
+		        ON MI.MI_CODE = C.MI_CODE
+		WHERE M.MEM_CODE = #{memCode}
+		  AND C.ISC_OPEN = 0
+	</select>
+	
+	
+	<!-- 포트폴리오 이력 -->
+	<!-- public ArrayList<MyPage_PjHistoryDTO> pjHistoryList(String memCode); -->
+	<select id="pjHistoryList" resultType="com.test.mybatis.MyPage_PjHistoryDTO">
+		SELECT AP.PRJ_NAME                              AS PRJ_NAME
+		     , MR.ROLE                                  AS PRJ_ROLE
+		     , AP.SUMMARY                               AS PRJ_SUMMARY
+		     , TO_CHAR(AP.SDATE, 'YYYY.MM.DD')          AS PRJ_START_DATE
+		     , TO_CHAR(AP.EDATE, 'YYYY.MM.DD')          AS PRJ_END_DATE
+		     , DECODE(FR.TITLE, NULL, '미완료', '완료') AS PRJ_COMPLETE
+		FROM MEMBER M
+		     INNER JOIN MEMBER_APPLY MA
+		        ON M.MEM_CODE = MA.MEM_CODE
+		     INNER JOIN ROLE_COMP RC
+		        ON MA.RC_CODE = RC.RC_CODE
+		     INNER JOIN MEMBER_ROLE MR
+		        ON RC.MR_CODE = MR.MR_CODE
+		     INNER JOIN APP_OPENING AP
+		        ON RC.AP_CODE = AP.AP_CODE
+		     INNER JOIN C_PROJECT CP
+		        ON AP.AP_CODE = CP.AP_CODE
+		     INNER JOIN FINAL_REPORT FR
+		        ON CP.CP_CODE = FR.CP_CODE
+		WHERE M.MEM_CODE = #{memCode}
+		  AND AR_CODE = 'AR0000'
+	</select>
+	
+	
+	<!-- 본인이 작성한 게시글 -->
+	<!-- public ArrayList<MyPage_PostDTO> postList(String memCode, String postClass); -->
+	<select id="postList"  resultType="com.test.mybatis.MyPage_PostDTO">
+		SELECT MY_POST.POST_CLASS               AS POST_CLASS
+		     , MY_POST.POST_NUMBER              AS POST_NUMBER
+		     , MY_POST.POST_TITLE               AS POST_TITLE
+		     , MY_POST.POST_CREATION_DATE       AS POST_CREATION_DATE
+		     , MY_POST.POST_REAL_WRITE_DATE     AS POST_REAL_WRITE_DATE
+		     , MY_POST.POST_PREV_MONTH          AS POST_PREV_MONTH
+		     , MY_POST.POST_PREV_DAY            AS POST_PREV_DAY
+		     , MY_POST.POST_PREV_HOUR           AS POST_PREV_HOUR
+		     , MY_POST.POST_PREV_MINUTE         AS POST_PREV_MINUTE
+		     , MY_POST.POST_VIEWS               AS POST_VIEWS
+		     , MY_POST.NICKNAME                 AS NICKNAME
+		     , MY_POST.MEM_CODE                 AS MEM_CODE
+		     , MY_POST.POST_COMMENT_COUNT       AS POST_COMMENT_COUNT
+		FROM 
+		(
+		   SELECT '커리어'                                      AS POST_CLASS
+		         , CQ.CQ_CODE                                   AS POST_NUMBER
+		         , CQ.TITLE                                     AS POST_TITLE
+		         , CQ.KDATE                                     AS POST_CREATION_DATE
+		         , TO_CHAR(CQ.KDATE, 'YYYY-MM-DD HH24:MI:SS')   AS POST_REAL_WRITE_DATE
+		         , TRUNC(MONTHS_BETWEEN(SYSDATE, CQ.KDATE))     AS POST_PREV_MONTH
+		         , TRUNC(SYSDATE - CQ.KDATE)                    AS POST_PREV_DAY
+		         , TRUNC(MOD((SYSDATE - CQ.KDATE) * 24, 24))    AS POST_PREV_HOUR
+		         , TRUNC(MOD(MOD((SYSDATE - CQ.KDATE) * 24, 24) * 60, 60)) AS POST_PREV_MINUTE
+		         , CQ.VIEWS                                     AS POST_VIEWS
+		         , M.NICKNAME                                   AS NICKNAME
+		         , M.MEM_CODE                                   AS MEM_CODE
+		         ,
+		         (
+		            SELECT COUNT(CQ2.CQ_CODE)
+		            FROM MEMBER M
+		                 INNER JOIN C_QNA CQ2
+		                    ON M.MEM_CODE = CQ2.MEM_CODE
+		                 INNER JOIN CQ_COMMENT CQC
+		                    ON CQ2.CQ_CODE = CQC.CQ_CODE
+		            WHERE M.MEM_CODE = 'MEM0001'
+		              AND CQ2.CQ_CODE = CQ.CQ_CODE
+		         ) AS POST_COMMENT_COUNT
+		    FROM MEMBER M
+		         INNER JOIN C_QNA CQ
+		            ON M.MEM_CODE = CQ.MEM_CODE
+		            
+		    UNION ALL
+		    
+		   SELECT '기술'                                    
+		         , TQ.TQ_CODE                                 
+		         , TQ.TITLE                                     
+		         , TQ.KDATE                                     
+		         , TO_CHAR(TQ.KDATE, 'YYYY-MM-DD HH24:MI:SS')    
+		         , TRUNC(MONTHS_BETWEEN(SYSDATE, TQ.KDATE))     
+		         , TRUNC(SYSDATE - TQ.KDATE)                    
+		         , TRUNC(MOD((SYSDATE - TQ.KDATE) * 24, 24))    
+		         , TRUNC(MOD(MOD((SYSDATE - TQ.KDATE) * 24, 24) * 60, 60)) 
+		         , TQ.VIEWS                                    
+		         , M.NICKNAME             
+		         , M.MEM_CODE  
+		         ,
+		         (
+		            SELECT COUNT(TQ2.TQ_CODE)
+		            FROM MEMBER M
+		                 INNER JOIN TECH_QNA TQ2
+		                    ON M.MEM_CODE = TQ2.MEM_CODE
+		                 INNER JOIN TQ_COMMENT TC
+		                    ON TQ2.TQ_CODE = TC.TQ_CODE
+		            WHERE M.MEM_CODE = 'MEM0001'
+		              AND TQ2.TQ_CODE = TQ.TQ_CODE
+		         ) AS POST_COMMENT_COUNT
+		    FROM MEMBER M
+		         INNER JOIN TECH_QNA TQ
+		            ON M.MEM_CODE = TQ.MEM_CODE
+		    
+		) MY_POST
+		WHERE MY_POST.MEM_CODE = #{memCode}
+		ORDER BY MY_POST.POST_CREATION_DATE
+	</select>
+	
+	
+	<!-- 본인이 작성한 댓글 -->
+	<!-- public ArrayList<MyPage_CommentDTO> commentList(@Param("memCode") String memCode); -->
+	<select id="commentList" resultType="com.test.mybatis.MyPage_CommentDTO">
+		SELECT ALL_CMT.COMMENT_CLASS            AS COMMENT_CLASS
+		     , ALL_CMT.COMMENT_POST_TITLE       AS COMMENT_POST_TITLE
+		     , ALL_CMT.COMMENT_CONTENT          AS COMMENT_CONTENT
+		     , ALL_CMT.NICKNAME                 AS NICKNAME
+		     , ALL_CMT.COMMENT_UP_COUNT         AS COMMENT_UP_COUNT
+		     , ALL_CMT.COMMENT_REAL_WRITE_DATE  AS COMMENT_REAL_WRITE_DATE
+		     , ALL_CMT.COMMENT_PREV_MONTH       AS COMMENT_PREV_MONTH
+		     , ALL_CMT.COMMENT_PREV_DAY         AS COMMENT_PREV_DAY
+		     , ALL_CMT.COMMENT_PREV_HOUR        AS COMMENT_PREV_HOUR
+		     , ALL_CMT.COMMENT_PREV_MINUTE      AS COMMENT_PREV_MINUTE
+		FROM
+		(
+		    SELECT CMT.COMMENT_CLASS            AS COMMENT_CLASS
+		         , CMT.COMMENT_POST_TITLE       AS COMMENT_POST_TITLE
+		         , CMT.COMMENT_CONTENT          AS COMMENT_CONTENT
+		         , CMT.NICKNAME                 AS NICKNAME
+		         , CMT.MEM_CODE                 AS MEM_CODE
+		         , COUNT(CMT.COMMENT_UP_CODE)   AS COMMENT_UP_COUNT
+		         , CMT.COMMENT_REAL_WRITE_DATE  AS COMMENT_REAL_WRITE_DATE
+		         , CMT.COMMENT_PREV_MONTH       AS COMMENT_PREV_MONTH
+		         , CMT.COMMENT_PREV_DAY         AS COMMENT_PREV_DAY
+		         , CMT.COMMENT_PREV_HOUR        AS COMMENT_PREV_HOUR
+		         , CMT.COMMENT_PREV_MINUTE      AS COMMENT_PREV_MINUTE
+		    FROM
+		    (
+		        SELECT '커리어'                 AS COMMENT_CLASS
+		             , CQ.TITLE                 AS COMMENT_POST_TITLE
+		             , CQC.COMMENTS             AS COMMENT_CONTENT
+		             , CU.CU_CODE               AS COMMENT_UP_CODE
+		             , M.NICKNAME               AS NICKNAME
+		             , TO_CHAR(CQC.KDATE, 'YYYY-MM-DD HH24:MI:SS')              AS COMMENT_REAL_WRITE_DATE
+		             , TRUNC(MONTHS_BETWEEN(SYSDATE, CQC.KDATE))                AS COMMENT_PREV_MONTH
+		             , TRUNC(SYSDATE - CQC.KDATE)                               AS COMMENT_PREV_DAY
+		             , TRUNC(MOD((SYSDATE - CQC.KDATE) * 24, 24))               AS COMMENT_PREV_HOUR
+		             , TRUNC(MOD(MOD((SYSDATE - CQC.KDATE) * 24, 24) * 60, 60)) AS COMMENT_PREV_MINUTE
+		             , M.MEM_CODE               AS MEM_CODE
+		        FROM MEMBER M
+		             INNER JOIN CQ_COMMENT CQC
+		                ON M.MEM_CODE = CQC.MEM_CODE
+		             INNER JOIN C_QNA CQ
+		                ON CQC.CQ_CODE = CQ.CQ_CODE
+		             LEFT OUTER JOIN CAREER_UP CU
+		                ON CQC.CQC_CODE = CU.CQC_CODE
+		    ) CMT
+		    GROUP BY CMT.COMMENT_CLASS, CMT.COMMENT_POST_TITLE, CMT.COMMENT_CONTENT, CMT.NICKNAME
+		           , CMT.MEM_CODE
+		           , CMT.COMMENT_REAL_WRITE_DATE
+		           , CMT.COMMENT_PREV_MONTH
+		           , CMT.COMMENT_PREV_DAY
+		           , CMT.COMMENT_PREV_HOUR
+		           , CMT.COMMENT_PREV_MINUTE
+		    
+		    UNION ALL
+		    
+		    SELECT CMT.COMMENT_CLASS           
+		         , CMT.COMMENT_POST_TITLE      
+		         , CMT.COMMENT_CONTENT          
+		         , CMT.NICKNAME          
+		         , CMT.MEM_CODE
+		         , COUNT(CMT.COMMENT_UP_CODE)
+		         , CMT.COMMENT_REAL_WRITE_DATE
+		         , CMT.COMMENT_PREV_MONTH
+		         , CMT.COMMENT_PREV_DAY
+		         , CMT.COMMENT_PREV_HOUR
+		         , CMT.COMMENT_PREV_MINUTE
+		         
+		    FROM
+		    (
+		        SELECT '기술'                   AS COMMENT_CLASS
+		             , TQ.TITLE                 AS COMMENT_POST_TITLE
+		             , TC.COMMENTS              AS COMMENT_CONTENT
+		             , TU.TU_CODE               AS COMMENT_UP_CODE
+		             , M.NICKNAME               AS NICKNAME
+		             , M.MEM_CODE               AS MEM_CODE
+		             , TO_CHAR(TC.KDATE, 'YYYY-MM-DD HH24:MI:SS')              AS COMMENT_REAL_WRITE_DATE
+		             , TRUNC(MONTHS_BETWEEN(SYSDATE, TC.KDATE))                AS COMMENT_PREV_MONTH
+		             , TRUNC(SYSDATE - TC.KDATE)                               AS COMMENT_PREV_DAY
+		             , TRUNC(MOD((SYSDATE - TC.KDATE) * 24, 24))               AS COMMENT_PREV_HOUR
+		             , TRUNC(MOD(MOD((SYSDATE - TC.KDATE) * 24, 24) * 60, 60)) AS COMMENT_PREV_MINUTE
+		        FROM MEMBER M
+		             INNER JOIN TQ_COMMENT TC
+		                ON M.MEM_CODE = TC.MEM_CODE
+		             INNER JOIN TECH_QNA TQ
+		                ON TC.TQ_CODE = TQ.TQ_CODE
+		             LEFT OUTER JOIN TECH_UP TU
+		                ON TC.TC_CODE = TU.TC_CODE
+		    ) CMT
+		    GROUP BY CMT.COMMENT_CLASS, CMT.COMMENT_POST_TITLE, CMT.COMMENT_CONTENT, CMT.NICKNAME
+		             , CMT.MEM_CODE
+		             , CMT.COMMENT_REAL_WRITE_DATE
+		             , CMT.COMMENT_PREV_MONTH
+		             , CMT.COMMENT_PREV_DAY
+		             , CMT.COMMENT_PREV_HOUR
+		             , CMT.COMMENT_PREV_MINUTE
+		
+		) ALL_CMT
+		WHERE ALL_CMT.MEM_CODE = #{memCode}
+	</select>
+	
+	
+	
+</mapper>
+
