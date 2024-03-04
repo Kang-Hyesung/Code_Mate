@@ -536,48 +536,34 @@
 						    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
 						  </div>
 						  <div class="carousel-inner">
-						    <c:forEach begin="1" end="3" step="1" varStatus="vs">
-								<c:set var="num" value="${vs.count }" />
+						    <c:forEach var="i" begin="0" end="2" step="1">
 								
-								<c:if test="${num eq 1}">
+								<c:if test="${i eq 0}">
 								    <div class="carousel-item active">
+								</c:if>
+								<c:if test="${i > 0}">
+								    <div class="carousel-item">
+								</c:if>
+									<c:forEach var="j" begin="0" end="2" step="1">
+										<c:if test="${3 * i + j eq taskList.size()}">
+										</c:if>
+									
+									
 								      	<div class="task">
-									      	<c:forEach items="${taskList }" var="item" varStatus="card">
-									      		<c:set var="card" value="${card.count }" />
-									      		<c:if test="${card <= 3}">
-													<div class="card task-card">
-														 <h5 class="card-title"> <span class="task-status sta-ing"> 진행중</span></h5>
-														 <h6 class="card-subtitle mb-2 text-body-secondary task-date">${item.startDate } ~ ${item.endDate }</h6>
-														 <p class="card-text">${item.title }</p>
-														 <div class="task-date"">
-														 	<span>부여일</span>
-														 	<span style="float: right;">${item.kdate }</span>
-														</div><br>
-													</div><%-- close.card --%>
-												</c:if>
-											</c:forEach>
+									      	
+											<div class="card task-card">
+												 <h5 class="card-title"> <span class="task-status sta-ing"> 진행중</span></h5>
+												 <h6 class="card-subtitle mb-2 text-body-secondary task-date">${taskList[3 * i + j].startDate } ~ ${taskList[3 * i + j].endDate }</h6>
+												 <p class="card-text">${taskList[3 * i + j].title }</p>
+												 <div class="task-date"">
+												 	<span>부여일</span>
+												 	<span style="float: right;">${taskList[3 * i + j].kdate }</span>
+												</div><br>
+											</div><%-- close.card --%>
 										</div><!-- close.task -->
+										
+									 </c:forEach>
 								    </div>
-								</c:if>
-								
-								<c:if test="${num >= 2}">
-									<c:forEach begin="1" end="3" step="1" varStatus="card">
-									    <div class="carousel-item">
-									      	<div class="task">
-										      		<c:set var="card" value="${card.count }" />
-													<div class="card task-card">
-														 <h5 class="card-title"> <span class="task-status sta-ing"> 진행중</span></h5>
-														 <h6 class="card-subtitle mb-2 text-body-secondary task-date">${taskList[3].startDate } ~ ${taskList[3].endDate }</h6>
-														 <p class="card-text">${taskList[3].title }</p>
-														 <div class="task-date"">
-														 	<span>부여일</span>
-														 	<span style="float: right;">${taskList[3].kdate }</span>
-														</div><br>
-													</div><!-- close.card -->
-											</div><!-- close.task -->
-									    </div>
-									</c:forEach>
-								</c:if>
 						    </c:forEach>
 						  </div>
 						  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
