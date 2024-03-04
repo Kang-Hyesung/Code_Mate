@@ -16,6 +16,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -99,6 +100,74 @@ public class MainController
 		
 		return "/WEB-INF/view/project/prjActPage.jsp";
 	}
+	
+	
+	
+	//=================================[마이 페이지]====================================
+	
+		@RequestMapping(value="/mypage.action", method=RequestMethod.GET)
+		public String mypage(ModelMap model, HttpSession session, HttpServletRequest request)
+		{
+			IMyPageDAO dao = sqlSession.getMapper(IMyPageDAO.class);
+			MyPageMethod mpm = new MyPageMethod();
+			
+			MemberDTO member = (MemberDTO)session.getAttribute("member");
+			
+			request.setAttribute("member", member);
+			
+			String mem_code = member.getMem_code();
+			
+			model.addAttribute("nickName", dao.nickName("MEM0001"));
+			model.addAttribute("mbti", dao.mbti("MEM0001"));
+			model.addAttribute("skillTag", dao.skillTag("MEM0001"));
+			model.addAttribute("backendScore", dao.backendScore("MEM0001"));
+			model.addAttribute("frontendScore", dao.frontendScore("MEM0001"));
+			model.addAttribute("mannerScore", dao.mannerScore("MEM0001"));
+
+			//=======================================================
+			// 개인정보 공개 / 비공개 설정 가능 항목 처리
+			//=======================================================
+			
+			int emailOpen = dao.emailOpen("MEM0001");
+			int genderOpen = dao.genderOpen("MEM0001");
+			int birthDayOpen = dao.birthDayOpen("MEM0001");
+			
+			String email = dao.email("MEM0001");
+			String gender = dao.gender("MEM0001");
+			String birthDay = dao.birthDay("MEM0001");
+			
+			email = mpm.nullOrBlindCheck(email, emailOpen, "이메일");
+			gender = mpm.nullOrBlindCheck(gender, genderOpen, "성별");
+			birthDay = mpm.nullOrBlindCheck(birthDay, birthDayOpen, "생년월일");
+			
+			model.addAttribute("email", email);
+			model.addAttribute("gender", gender);
+			model.addAttribute("birthDay", birthDay);
+			//=======================================================
+			
+			// 경력
+			model.addAttribute("careerList", dao.careerList("MEM0001"));
+			
+			// 프로젝트 이력
+			model.addAttribute("pjHistoryList", dao.pjHistoryList("MEM0001"));
+			
+			
+			//▦▦▦▦▦▦▦▦[ 2 페이지 - 본인이 작성한 게시글 ]▦▦▦▦▦▦▦▦
+				
+			model.addAttribute("postList", dao.postList("MEM0001"));
+			System.out.println("postList 추가 완료");
+			
+			//▦▦▦▦▦▦▦▦[ 3 페이지 - 본인이 작성한 댓글 ]▦▦▦▦▦▦▦▦▦
+			
+			model.addAttribute("commentList", dao.commentList("MEM0001"));
+			System.out.println("commentList 추가 완료");
+			
+			
+			
+			return "/WEB-INF/view/main/MyPage_DB.jsp";
+		}
+		
+
 }
 
 
