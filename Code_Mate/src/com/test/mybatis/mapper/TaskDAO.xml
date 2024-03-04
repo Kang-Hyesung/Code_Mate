@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">				
+
+<mapper namespace="com.test.mybatis.ITaskDAO">
+
+	<select id="list" resultType="com.test.mybatis.TaskDTO">
+		SELECT TASK_CODE, TITLE, CONTENT, TO_CHAR(SDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(SDATE, 'YYYY-MM-DD') AS ENDDATE, MA_CODEP,
+			   TO_CHAR(KDATE, 'YYYY-MM-DD') AS KDATE
+		FROM TASK
+		WHERE CP_CODE = #{arg0}
+		ORDER BY KDATE DESC
+	</select>
+	
+	<select id="getWriter" resultType="java.lang.String">
+		SELECT MEM_CODE
+		FROM MEMBER_APPLY
+		WHERE MA_CODE = #[arg0]
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

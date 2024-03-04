@@ -92,10 +92,15 @@ div
 .link
 {
 	/* 남산초록색 - #345F53 */
-	text-decoration: none;
+	/* text-decoration: none;
 	color: #345F53;
 	font-weight: bold;
-	font-family: 'GangwonEduPowerExtraBoldA';
+	*/
+	font-family: 'SUITE-Regular';
+	color: #4f59ca;
+	font-size: 20px;
+	text-decoration: none;
+	font-weight: bold;
 }
 
 /* 왼쪽 메뉴바의 대주제에 표시되는 아이콘 */
@@ -115,13 +120,16 @@ div
     left: 41px;
 }
 
+.upside{position: relative; bottom: 4px;}
 
 /* 메뉴 옵션에 해당하는 a 태그 영역에 마우스 올렸을 때 */
 .nav-link:hover
 {
 	transform: translateY(5px);
 	transition: .5s;
-	
+}
+.nav-link:focus, .nav-link:hover {
+    color: #4f59ca;
 }
 
 /* 메뉴바 큰 메뉴 한 줄 */
@@ -181,7 +189,7 @@ div
 /* 대주제 메뉴에 마우스를 올렸을 때, 메뉴 아이콘 스타일 */
 .menuOptions > ul:hover > .link > .menuIcon
 {
-	background-color: #12a991;
+	background-color: #4f59ca;
 	color: white;
 	font-weight: bold;
 	text-shadow: 2px 2px 2px gray;
@@ -205,7 +213,7 @@ div
 /* 대주제 메뉴에 마우스를 올렸을 때, a 텍스트 색상 변경 */
 .menuOptions > ul:hover > .link
 {
-	color: #12a991;
+	color: #4f59ca;
 	transform:translateX(5px);
 
 }
@@ -244,7 +252,7 @@ div
 /* 메뉴 소주제 항목에 마우스 오버했을 때 li - before */
 .majorTopic ~ li > ul > .miniMenuOption:hover
 {
- 	background-color: #12a991;
+ 	background-color: #4f59ca;
 	
  
 }
@@ -272,8 +280,8 @@ div
 ion-icon[name="search-circle"]
 {
 	line-height: 50px;
-	font-size: 70px;
-	color: #12a991;
+	font-size: 37px;
+	color: #4f59ca;
 }
 
 /* 검색어 안내문 텍스트 스타일 */
@@ -473,19 +481,19 @@ ion-icon[name="search-circle"]
 }
 
 .btn-outline-success {
-    --bs-btn-color: #12a991;
-    --bs-btn-border-color: #12a991;
+    --bs-btn-color: #4f59ca;
+    --bs-btn-border-color: #4f59ca;
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #12a991;
-    --bs-btn-hover-border-color: #12a991;
+    --bs-btn-hover-bg: #4f59ca;;
+    --bs-btn-hover-border-color: #4f59ca;;
     --bs-btn-focus-shadow-rgb: 25,135,84;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #12a991;
-    --bs-btn-active-border-color: #12a991;
+    --bs-btn-active-bg: #4f59ca;;
+    --bs-btn-active-border-color: #4f59ca;;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #12a991;
+    --bs-btn-disabled-color: #4f59ca;;
     --bs-btn-disabled-bg: transparent;
-    --bs-btn-disabled-border-color: #12a991;
+    --bs-btn-disabled-border-color: #4f59ca;;
     --bs-gradient: none;
 }
 
@@ -509,7 +517,7 @@ ion-icon[name="search-circle"]
 
 
 /* 배너 버튼 아이콘 */
-#searchButton, #alarmButton
+#searchButton, .alarm-btn
 {
 	padding: 0 5px 0 5px;
 	transition-property: all;
@@ -517,14 +525,14 @@ ion-icon[name="search-circle"]
 	border-radius: 50%;
 	font-size: 20px;
 	line-height: 30px;
-	color: #12a991;
+	color: #4f49ca;
 
 }
 
 /* 검색 버튼 돋보기 아이콘에 마우스 올렸을 때 */
 #searchButton:hover, #alarmButton:hover
 {
-	background: #12a991;
+	background-color: #4f59ca;
 	color: white;
 }
 
@@ -553,3 +561,10 @@ ion-icon[name="search-circle"]
 .flex{display:flex; width: 100%}
 .main-text{width: 100%;}
 .lastchange{margin-top: 0px; height: 40px;}
+
+ .searchFormArea{width: 700px; display: flex;}
+ .alarm-btn {
+    background-color: #f8f9fa;
+    border: #f8f9fa;
+    color: #4f59ca;
+}

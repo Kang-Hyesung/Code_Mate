@@ -18,6 +18,12 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 		ORDER BY MEM_CODE
 	</select>
 	
+	<select id="login" resultType="com.test.mybatis.MemberDTO" >
+		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
+		FROM MEMBER
+		WHERE PW = #{arg1} AND ID = #{arg0}
+	</select>
+	
 	<!-- 정수반환 하므로 resultType에 Integer 넣어준다. -->
 	<select id="count" resultType="java.lang.Integer">
 		SELECT COUNT(*) AS COUNT
@@ -37,6 +43,38 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 		WHERE MEM_CODE = ${mem_code}
 	</delete>
 	
+	<!-- member, mem_info 동시에 넣는 프로시저 -->
+	<insert id="memberJoin" statementType="CALLABLE">
+		{CALL MEMBER_JOIN (#{arg0}, #{arg1}, #{arg2})}
+	</insert>
+	
+	<!-- 프로젝트의 팀장 가져오는 쿼리 -->
+	<select id="getLeader" resultType="com.test.mybatis.MemberDTO">
+		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
+		FROM MEMBER
+		WHERE MEM_CODE IN (SELECT MEM_CODE 
+						  FROM MEMBER_APPLY M JOIN ROLE_COMP R ON M.RC_CODE = R.RC_CODE
+						  WHERE AP_CODE = #{arg0} AND MR_CODE = #{arg1}) 
+	</select>
+	
+	<!--  프로젝트의 프론트 가져오는 쿼리 -->
+	<select id="getFront" resultType="com.test.mybatis.MemberDTO" >
+		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
+		FROM MEMBER
+		WHERE MEM_CODE IN (SELECT MEM_CODE 
+						  FROM MEMBER_APPLY M JOIN ROLE_COMP R ON M.RC_CODE = R.RC_CODE
+						  WHERE AP_CODE = 'AP0006' AND MR_CODE = 'MR0002')
+	</select>
+	
+	<!-- 프로젝트의 백 가져오는 쿼리 -->
+	<select id="getBack" resultType="com.test.mybatis.MemberDTO" >
+		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
+		FROM MEMBER
+		WHERE MEM_CODE IN (SELECT MEM_CODE 
+						  FROM MEMBER_APPLY M JOIN ROLE_COMP R ON M.RC_CODE = R.RC_CODE
+						  WHERE AP_CODE = 'AP0006' AND MR_CODE = 'MR0003') 
+	</select>
+	 
 </mapper>
 
 

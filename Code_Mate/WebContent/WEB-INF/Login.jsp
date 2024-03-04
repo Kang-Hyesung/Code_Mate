@@ -252,11 +252,11 @@ $(document).ready(function()
           <h1 class="login__title">로그인</h1>
           <div class="login__box">
             <i class='bx bx-user login__icon'></i>
-            <input type="text" placeholder="Username" class="login__input">
+            <input type="text" placeholder="Username" class="login__input" id="loginid">
           </div>
           <div class="login__box">
             <i class='bx bx-lock login__icon'></i>
-            <input type="text" placeholder="Password" class="login__input">
+            <input type="text" placeholder="Password" class="login__input" id="loginpw">
           </div>
           <a href="#" class="login__forgot">비밀번호를 잊으셨나요? </a>
           

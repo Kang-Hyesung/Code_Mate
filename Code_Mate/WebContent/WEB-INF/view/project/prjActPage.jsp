@@ -3,7 +3,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
-	System.out.println(cp);
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -41,8 +41,8 @@
 	.part1, .part2, .part3{width: 30%; margin: 20px; height: 500px;
 							 border-radius: 15px; background-color: white;
 							 box-shadow	:2px 3px 5px 0px #1fc1c0;}
-	.part4{width: 63%; margin: 20px; height: 500px; border: 1px solid black;
-							box-shadow: 0 2px 2px rgba(0,0,0,1.16); border-radius: 15px; background-color: white;}
+	.part4{width: 63%; margin: 20px; height: 500px;	
+							box-shadow	:2px 3px 5px 0px #1fc1c0;; border-radius: 15px; background-color: white;}
 	
 	h1{font-size: 30px; color:#ed6653;}
 	hr {
@@ -480,7 +480,9 @@
 						</div>				        
 				    </div><!-- close.skill-progress -->
 				</div>
+				
 				<div class="part2">
+					<!-- 멤버리스트 -->
 					<div class="memberlistall">
 						<h1>MEMBERLIST</h1>
 						<div class="memberlist">
@@ -496,42 +498,26 @@
 							
 							<div class="front-back">
 								<div class="front-all">
-									<h5 class="job-type">FRONT-END <span class="membernum">1명</span></h5>
+									<h5 class="job-type">FRONT-END <span class="membernum">${frontList.size() }명</span></h5>
 									<div class="front">
-										<div class="membername">
-											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-											<span class="member-name">정한울</span>
-										</div>
-										<div class="membername">
-											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-											<span class="member-name">프론트마스터문정환</span>
-										</div>
+										<c:forEach items="${frontList }" var="item">
+											<div class="membername">
+													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+													<span class="member-name">${item.nickname }</span>
+											</div>
+									    </c:forEach>
 									</div>
 									
 								</div>
 								<div class="back-all">
-									<h5 class="job-type">BACK-END <span class="membernum">5명</span></h5>
+									<h5 class="job-type">BACK-END <span class="membernum">${backList.size() }명</span></h5>
 									<div class="back">
-										<div class="membername">
-											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-											<span class="member-name">백엔드마스터김지민</span>
-										</div>
-										<div class="membername">
-											<img src="<%=cp %>/img/profile.png" class="memberimg"/>
-											<span class="member-name">시나모롤이</span>
-										</div>
-										<div class="membername">
-											<img src="<%=cp %>/img/profileImg_1.png" class="memberimg"/>
-											<span class="member-name">좋아요</span>
-										</div>
-										<div class="membername">
-											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-											<span class="member-name">박범구</span>
-										</div>
-										<div class="membername">
-											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-											<span class="member-name">길현욱</span>
-										</div>
+										<c:forEach items="${backList }" var="item">
+											<div class="membername">
+													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+													<span class="member-name">${item.nickname }</span>
+											</div>
+									    </c:forEach>
 									</div>
 								</div>
 							</div><!-- close.front-back -->
@@ -550,99 +536,49 @@
 						    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
 						  </div>
 						  <div class="carousel-inner">
-						    <div class="carousel-item active">
-						      	<div class="task">
-									<div class="card task-card">
-										 <h5 class="card-title">백엔드마스터김지민트색이좋아 <span class="task-status sta-ing"> 진행중</span></h5>
-										 <h6 class="card-subtitle mb-2 text-body-secondary task-date">2024년 2월 15일 ~ 2030년 10월 15일</h6>
-										 <p class="card-text">뷰페이지 만들기</p>
-										 <div class="task-date"">
-										 	<span>부여일</span>
-										 	<span style="float: right;">2028년 12월 1일</span>
-										</div>
-									</div><!-- close.card -->
-									<div class="card task-card">
-										 <h5 class="card-title">백엔드마스터김지민트색이좋아 <span class="task-status sta-bef">진행전</span></h5>
-										 <h6 class="card-subtitle mb-2 text-body-secondary task-date">2024년 2월 15일 ~ 2030년 10월 15일</h6>
-										 <p class="card-text">뷰페이지 만들기</p>
-										 <div class="task-date"">
-										 	<span>부여일</span>
-										 	<span style="float: right;">2028년 12월 1일</span>
-										</div>
-									</div><!-- close.card -->
-									<div class="card task-card">
-										 <h5 class="card-title">백엔드마스터김지민트색이좋아 <span class="task-status sta-ing">완료</span></h5>
-										 <h6 class="card-subtitle mb-2 text-body-secondary task-date">2024년 2월 15일 ~ 2030년 10월 15일</h6>
-										 <p class="card-text">뷰페이지 만들기</p>
-										 <div class="task-date"">
-										 	<span>부여일</span>
-										 	<span style="float: right;">2028년 12월 1일</span>
-										</div>
-									</div><!-- close.card -->
-								</div><!-- close.task -->
-						    </div>
-						    <div class="carousel-item">
-						      	<div class="task">
-									<div class="card task-card">
-										 <h5 class="card-title">백엔드마스터김지민트색이좋아 <span class="task-status sta-ing"> 진행중</span></h5>
-										 <h6 class="card-subtitle mb-2 text-body-secondary task-date">2024년 2월 15일 ~ 2030년 10월 15일</h6>
-										 <p class="card-text">뷰페이지 만들기</p>
-										 <div class="task-date"">
-										 	<span>부여일</span>
-										 	<span style="float: right;">2028년 12월 1일</span>
-										</div>
-									</div><!-- close.card -->
-									<div class="card task-card">
-										 <h5 class="card-title">백엔드마스터김지민트색이좋아 <span class="task-status sta-bef">진행전</span></h5>
-										 <h6 class="card-subtitle mb-2 text-body-secondary task-date">2024년 2월 15일 ~ 2030년 10월 15일</h6>
-										 <p class="card-text">뷰페이지 만들기</p>
-										 <div class="task-date"">
-										 	<span>부여일</span>
-										 	<span style="float: right;">2028년 12월 1일</span>
-										</div>
-									</div><!-- close.card -->
-									<div class="card task-card">
-										 <h5 class="card-title">백엔드마스터김지민트색이좋아 <span class="task-status sta-ing">완료</span></h5>
-										 <h6 class="card-subtitle mb-2 text-body-secondary task-date">2024년 2월 15일 ~ 2030년 10월 15일</h6>
-										 <p class="card-text">뷰페이지 만들기</p>
-										 <div class="task-date"">
-										 	<span>부여일</span>
-										 	<span style="float: right;">2028년 12월 1일</span>
-										</div>
-									</div><!-- close.card -->
-								</div><!-- close.task --> 
-						    </div>
-						    <div class="carousel-item">
-						      	<div class="task">
-									<div class="card task-card">
-										 <h5 class="card-title">백엔드마스터김지민트색이좋아 <span class="task-status sta-ing"> 진행중</span></h5>
-										 <h6 class="card-subtitle mb-2 text-body-secondary task-date">2024년 2월 15일 ~ 2030년 10월 15일</h6>
-										 <p class="card-text">뷰페이지 만들기</p>
-										 <div class="task-date"">
-										 	<span>부여일</span>
-										 	<span style="float: right;">2028년 12월 1일</span>
-										</div>
-									</div><!-- close.card -->
-									<div class="card task-card">
-										 <h5 class="card-title">백엔드마스터김지민트색이좋아 <span class="task-status sta-bef">진행전</span></h5>
-										 <h6 class="card-subtitle mb-2 text-body-secondary task-date">2024년 2월 15일 ~ 2030년 10월 15일</h6>
-										 <p class="card-text">뷰페이지 만들기</p>
-										 <div class="task-date"">
-										 	<span>부여일</span>
-										 	<span style="float: right;">2028년 12월 1일</span>
-										</div>
-									</div><!-- close.card -->
-									<div class="card task-card">
-										 <h5 class="card-title">백엔드마스터김지민트색이좋아 <span class="task-status sta-ing">완료</span></h5>
-										 <h6 class="card-subtitle mb-2 text-body-secondary task-date">2024년 2월 15일 ~ 2030년 10월 15일</h6>
-										 <p class="card-text">뷰페이지 만들기</p>
-										 <div class="task-date"">
-										 	<span>부여일</span>
-										 	<span style="float: right;">2028년 12월 1일</span>
-										</div>
-									</div><!-- close.card -->
-								</div><!-- close.task -->
-						    </div>
+						    <c:forEach begin="1" end="3" step="1" varStatus="vs">
+								<c:set var="num" value="${vs.count }" />
+								
+								<c:if test="${num eq 1}">
+								    <div class="carousel-item active">
+								      	<div class="task">
+									      	<c:forEach items="${taskList }" var="item" varStatus="card">
+									      		<c:set var="card" value="${card.count }" />
+									      		<c:if test="${card <= 3}">
+													<div class="card task-card">
+														 <h5 class="card-title"> <span class="task-status sta-ing"> 진행중</span></h5>
+														 <h6 class="card-subtitle mb-2 text-body-secondary task-date">${item.startDate } ~ ${item.endDate }</h6>
+														 <p class="card-text">${item.title }</p>
+														 <div class="task-date"">
+														 	<span>부여일</span>
+														 	<span style="float: right;">${item.kdate }</span>
+														</div><br>
+													</div><%-- close.card --%>
+												</c:if>
+											</c:forEach>
+										</div><!-- close.task -->
+								    </div>
+								</c:if>
+								
+								<c:if test="${num >= 2}">
+									<c:forEach begin="1" end="3" step="1" varStatus="card">
+									    <div class="carousel-item">
+									      	<div class="task">
+										      		<c:set var="card" value="${card.count }" />
+													<div class="card task-card">
+														 <h5 class="card-title"> <span class="task-status sta-ing"> 진행중</span></h5>
+														 <h6 class="card-subtitle mb-2 text-body-secondary task-date">${taskList[3].startDate } ~ ${taskList[3].endDate }</h6>
+														 <p class="card-text">${taskList[3].title }</p>
+														 <div class="task-date"">
+														 	<span>부여일</span>
+														 	<span style="float: right;">${taskList[3].kdate }</span>
+														</div><br>
+													</div><!-- close.card -->
+											</div><!-- close.task -->
+									    </div>
+									</c:forEach>
+								</c:if>
+						    </c:forEach>
 						  </div>
 						  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
 						    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -898,6 +834,7 @@
 </div><!-- end .row -->
 
 
+					
 <br />
 <br />
 <br />

@@ -13,4 +13,9 @@ public interface IMemberDAO
 	public int count();
 	public int add(MemberDTO m);
 	public int remove(int mem_code);
+	public MemberDTO login(String art0, String arg1);
+	public void memberJoin(String id, String pw, String email);
+	public ArrayList<MemberDTO> getLeader(String ap_code, String mr_code);
+	public ArrayList<MemberDTO> getFront(String ap_code, String mr_code);
+	public ArrayList<MemberDTO> getBack(String ap_code, String mr_code);
 }
