@@ -3,9 +3,9 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">				
 
-<mapper namespace="com.test.mybatis.ITaskDAO">
+<mapper namespace="com.test.mybatis.dao.ITaskDAO">
 
-	<select id="list" resultType="com.test.mybatis.TaskDTO">
+	<select id="list" resultType="com.test.mybatis.dto.TaskDTO">
 		SELECT A.TASK_CODE, A.TITLE, A.CONTENT, A.STARTDATE, A.ENDDATE, A.KDATE, A.MA_CODEP, M.NICKNAME, M.MEM_CODE
 		FROM (SELECT TASK_CODE, TITLE, CONTENT, TO_CHAR(SDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(EDATE, 'YYYY-MM-DD') AS ENDDATE, KDATE, MA_CODEP 
 			  FROM TASK

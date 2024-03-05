@@ -348,37 +348,51 @@
 						<h4>MEMBERLIST</h4>
 						<div class="memberlist">
 							<div class="leader">
-								<c:forEach items="${leader }" var="item">
-							      	<span><img src="<%=cp %>/img/crown.png" class="leadericon"/> Leader : </span>
-									<div class="membername">
-											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-											<span class="member-name">${item.nickname }</span>
-									</div>
-							    </c:forEach>
+								<span><img src="<%=cp %>/img/crown.png" class="leadericon"/> Leader : </span>
+								<div class="membername">
+										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+										<span class="member-name">빠라바라바라밤</span>
+								</div>
 							</div>
 							
 							<div class="front-back">
 								<div class="front-all">
 									<h5 class="job-type">FRONT-END <span class="membernum">1명</span></h5>
 									<div class="front">
-										<c:forEach items="${frontList }" var="item">
-											<div class="membername">
-													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-													<span class="member-name">${item.nickname }</span>
-											</div>
-									    </c:forEach>
+										<div class="membername">
+											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+											<span class="member-name">정한울</span>
+										</div>
+										<div class="membername">
+											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+											<span class="member-name">프론트마스터문정환</span>
+										</div>
 									</div>
 									
 								</div>
 								<div class="back-all">
 									<h5 class="job-type">BACK-END <span class="membernum">5명</span></h5>
 									<div class="back">
-										<c:forEach items="${backList }" var="item">
-											<div class="membername">
-													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-													<span class="member-name">${item.nickname }</span>
-											</div>
-									    </c:forEach>
+										<div class="membername">
+											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+											<span class="member-name">백엔드마스터김지민</span>
+										</div>
+										<div class="membername">
+											<img src="<%=cp %>/img/profile.png" class="memberimg"/>
+											<span class="member-name">시나모롤이</span>
+										</div>
+										<div class="membername">
+											<img src="<%=cp %>/img/profileImg_1.png" class="memberimg"/>
+											<span class="member-name">좋아요</span>
+										</div>
+										<div class="membername">
+											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+											<span class="member-name">박범구</span>
+										</div>
+										<div class="membername">
+											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+											<span class="member-name">길현욱</span>
+										</div>
 									</div>
 								</div>
 							</div><!-- close.front-back -->
@@ -388,5 +402,6 @@
 		</div>
 		
 </div><!-- end .row -->
+
 </body>
 </html>

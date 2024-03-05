@@ -1,6 +1,9 @@
-package com.test.mybatis;
+package com.test.mybatis.dao;
 
 import java.util.ArrayList;
+
+import com.test.mybatis.dto.ReportDTO;
+
 
 public interface IReportDAO
 {

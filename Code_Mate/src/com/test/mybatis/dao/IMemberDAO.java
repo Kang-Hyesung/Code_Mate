@@ -3,9 +3,11 @@
  *   - 인터페이스
  ======================*/
 
-package com.test.mybatis;
+package com.test.mybatis.dao;
 
 import java.util.ArrayList;
+
+import com.test.mybatis.dto.MemberDTO;
 
 public interface IMemberDAO
 {

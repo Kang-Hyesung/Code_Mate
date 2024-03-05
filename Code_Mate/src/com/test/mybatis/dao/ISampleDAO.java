@@ -3,7 +3,7 @@
  *   - 인터페이스
  ======================*/
 
-package com.test.mybatis;
+package com.test.mybatis.dao;
 
 public interface ISampleDAO
 {

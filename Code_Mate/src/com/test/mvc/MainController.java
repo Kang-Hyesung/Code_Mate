@@ -3,7 +3,7 @@
  *   - 컨트롤러 객체
  ===================*/
 
-package com.test.mybatis;
+package com.test.mvc;
 
 import java.util.ArrayList;
 
@@ -19,6 +19,17 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.test.mybatis.dao.IMeetingDAO;
+import com.test.mybatis.dao.IMemberDAO;
+import com.test.mybatis.dao.IMyPageDAO;
+import com.test.mybatis.dao.IReportDAO;
+import com.test.mybatis.dao.ITaskDAO;
+import com.test.mybatis.dto.MeetingDTO;
+import com.test.mybatis.dto.MemberDTO;
+import com.test.mybatis.dto.MyPageMethod;
+import com.test.mybatis.dto.ReportDTO;
+import com.test.mybatis.dto.TaskDTO;
 
 @Controller
 public class MainController
@@ -77,45 +88,6 @@ public class MainController
 			
 		return "redirect:Code_Mate.action";
 	}
-	
-	@RequestMapping(value = "/projectProgress.action")
-	public String projectProgress(HttpServletRequest request)
-	{
-		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
-		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
-		IMeetingDAO meetingDao = sqlSession.getMapper(IMeetingDAO.class);
-		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
-		
-		// 멤버리스트
-		ArrayList<MemberDTO> leader = memberDao.getLeader("AP0006", "MR0001");
-		ArrayList<MemberDTO> frontList = memberDao.getFront("AP0006", "MR0001");
-		ArrayList<MemberDTO> backList = memberDao.getBack("AP0006", "MR0001");
-		
-		request.setAttribute("leader", leader);
-		request.setAttribute("frontList", frontList);
-		request.setAttribute("backList", backList);
-		
-		// Task
-		ArrayList<TaskDTO> taskList = taskDao.list("CP0002");
-		
-		request.setAttribute("taskList", taskList);
-		
-		// 회의록
-		ArrayList<MeetingDTO> meetingList = meetingDao.list("AP0006");
-		
-		request.setAttribute("meetingList", meetingList);
-		
-		// 업무보고글
-		ArrayList<ReportDTO> reportList = reportDao.list("CP0002");
-		request.setAttribute("reportList", reportList);
-		
-		// 활동량
-		ArrayList<ReportDTO> rank = reportDao.rank("CP0002");
-		request.setAttribute("rank", rank);
-		
-		return "/WEB-INF/view/project/prjActPage.jsp";
-	}
-	
 	
 	
 	//=================================[마이 페이지]====================================

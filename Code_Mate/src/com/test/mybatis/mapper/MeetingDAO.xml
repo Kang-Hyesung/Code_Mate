@@ -3,9 +3,9 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">				
 
-<mapper namespace="com.test.mybatis.IMeetingDAO">
+<mapper namespace="com.test.mybatis.dao.IMeetingDAO">
 
-	<select id="list" resultType="com.test.mybatis.MeetingDTO">
+	<select id="list" resultType="com.test.mybatis.dto.MeetingDTO">
 		SELECT M.MN_CODE, M.KDATE, M.TITLE, M.CONTENT, M.MA_CODE, M2.MEM_CODE, M2.NICKNAME
 		FROM MINUTES m JOIN MEMBER_APPLY ma ON M.MA_CODE = MA.MA_CODE
 					   JOIN "MEMBER" m2 ON MA.MEM_CODE = M2.MEM_CODE

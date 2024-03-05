@@ -7,18 +7,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- namespace는 인터페이스 경로를 지정하면 된다.
 인터페이스와 연결되는 무언가를 만들겠다.          
 IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
-<mapper namespace="com.test.mybatis.IMemberDAO">
+<mapper namespace="com.test.mybatis.dao.IMemberDAO">
 
 	<!-- list()를 구현하기 위해서 select 가 필요하다 -->
 	<!-- id 속성에는 메소드 이름이 들어감 , 개행 공백 규칙 sqldeveloper과 같음-->
 	<!-- resultType : 반환하는 결과 타입 select 결과 MemberDTO 타입이 하나씩 나온다.-->
-	<select id="list" resultType="com.test.mybatis.MemberDTO">
+	<select id="list" resultType="com.test.mybatis.dto.MemberDTO">
 		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
 		FROM MEMBER
 		ORDER BY MEM_CODE
 	</select>
 	
-	<select id="login" resultType="com.test.mybatis.MemberDTO" >
+	<select id="login" resultType="com.test.mybatis.dto.MemberDTO" >
 		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
 		FROM MEMBER
 		WHERE PW = #{arg1} AND ID = #{arg0}
@@ -49,7 +49,7 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 	</insert>
 	
 	<!-- 프로젝트의 팀장 가져오는 쿼리 -->
-	<select id="getLeader" resultType="com.test.mybatis.MemberDTO">
+	<select id="getLeader" resultType="com.test.mybatis.dto.MemberDTO">
 		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
 		FROM MEMBER
 		WHERE MEM_CODE IN (SELECT MEM_CODE 
@@ -58,7 +58,7 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 	</select>
 	
 	<!--  프로젝트의 프론트 가져오는 쿼리 -->
-	<select id="getFront" resultType="com.test.mybatis.MemberDTO" >
+	<select id="getFront" resultType="com.test.mybatis.dto.MemberDTO" >
 		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
 		FROM MEMBER
 		WHERE MEM_CODE IN (SELECT MEM_CODE 
@@ -67,7 +67,7 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 	</select>
 	
 	<!-- 프로젝트의 백 가져오는 쿼리 -->
-	<select id="getBack" resultType="com.test.mybatis.MemberDTO" >
+	<select id="getBack" resultType="com.test.mybatis.dto.MemberDTO" >
 		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
 		FROM MEMBER
 		WHERE MEM_CODE IN (SELECT MEM_CODE 

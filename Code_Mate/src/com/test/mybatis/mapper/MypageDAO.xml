@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
 
-<mapper namespace="com.test.mybatis.IMyPageDAO">
+<mapper namespace="com.test.mybatis.dao.IMyPageDAO">
 	
 <!--
 	**[미완료]*******************************
@@ -180,7 +180,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 경력 -->
 	<!-- public ArrayList<MyPage_CareerDTO> careerList(String memCode); -->
-	<select id="careerList" resultType="com.test.mybatis.MyPage_CareerDTO">
+	<select id="careerList" resultType="com.test.mybatis.dto.MyPage_CareerDTO">
 		SELECT C.NAME                                           AS COMPANY_NAME
 		     , TO_CHAR(C.SDATE, 'YYYY.FMMM')                    AS JOIN_DATE
 		     , TO_CHAR(C.EDATE, 'YYYY.FMMM')                    AS LEAVE_DATE
@@ -231,7 +231,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 포트폴리오 이력 -->
 	<!-- public ArrayList<MyPage_PjHistoryDTO> pjHistoryList(String memCode); -->
-	<select id="pjHistoryList" resultType="com.test.mybatis.MyPage_PjHistoryDTO">
+	<select id="pjHistoryList" resultType="com.test.mybatis.dto.MyPage_PjHistoryDTO">
 		SELECT AP.PRJ_NAME                              AS PRJ_NAME
 		     , MR.ROLE                                  AS PRJ_ROLE
 		     , AP.SUMMARY                               AS PRJ_SUMMARY
@@ -258,7 +258,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 본인이 작성한 게시글 -->
 	<!-- public ArrayList<MyPage_PostDTO> postList(String memCode, String postClass); -->
-	<select id="postList"  resultType="com.test.mybatis.MyPage_PostDTO">
+	<select id="postList"  resultType="com.test.mybatis.dto.MyPage_PostDTO">
 		SELECT MY_POST.POST_CLASS               AS POST_CLASS
 		     , MY_POST.POST_NUMBER              AS POST_NUMBER
 		     , MY_POST.POST_TITLE               AS POST_TITLE
@@ -338,7 +338,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 본인이 작성한 댓글 -->
 	<!-- public ArrayList<MyPage_CommentDTO> commentList(@Param("memCode") String memCode); -->
-	<select id="commentList" resultType="com.test.mybatis.MyPage_CommentDTO">
+	<select id="commentList" resultType="com.test.mybatis.dto.MyPage_CommentDTO">
 		SELECT ALL_CMT.COMMENT_CLASS            AS COMMENT_CLASS
 		     , ALL_CMT.COMMENT_POST_TITLE       AS COMMENT_POST_TITLE
 		     , ALL_CMT.COMMENT_CONTENT          AS COMMENT_CONTENT

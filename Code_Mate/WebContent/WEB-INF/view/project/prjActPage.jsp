@@ -107,10 +107,10 @@
 	/* 그라데이션 막대 */
 	.progress-level{
 	    height: 15px;
-	    background : linear-gradient(to right, #EED3D9, #EED3D9);   /*방향(deg각도도 가능), 시작색상, 종료색상*/
+	    background: linear-gradient(to right, #ffe8f7, #99daff);
 	    animation: ani;
 	    animation-duration: 1s;                               /*1초만에 발생한 애니메이션이 끝나게 함*/
-	
+		
 	    animation-fill-mode: both; 
 	    /*애니메이션이 반복이 끝나면 -> 무조건 keyframe에서 100%구간에 머무르게 해라
 	    애니메이션은 기본적으로, 0%->100%->0%로 진행됨. 
@@ -224,8 +224,12 @@
 
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
- <script>
 
+ <script>
+	  /* task 리스트를 자바스크립트로 가져온다. */	  
+	  
+	  
+ 
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -267,7 +271,9 @@
               if (confirm('이 일정을 삭제하시겠습니까?')) {
                 arg.event.remove();
               }
-          }
+          },
+          events: ${data}
+          
         });
         calendar.render();
       });
@@ -378,7 +384,7 @@
 					
 					<div class="menuOptions nav nav-underline" id="nav">
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">프로젝트12345123<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
+							<a href="#" class="majorTopic nav-link link">프로젝트 메인<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
 									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
