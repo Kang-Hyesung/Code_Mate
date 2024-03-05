@@ -28,23 +28,29 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <style type="text/css">
-	body{background-color: #fffbfb}
-
 	/* 업무보고서로 넘어가는 검색모양 input */
 	.searchInput{border: none; width: 400px; margin: 10px 0 0 22px; background: white;}
 	/* searchInput 감싸는 div */
 	.searchBar{width: 500px; height: 50px; border: 1px solid gray; float: right; border-radius: 40px;
-			   margin-left: auto; background: white; box-shadow: 0 2px 2px rgba(0,0,0,1.16);}
-	h2,h3,h5{color: #ed6653;}
+			   margin-left: auto; background: white; box-shadow: 0px 3px 5px 0px #919191;}
+	h2,h3,h5{color: black;}
 	.content-first, .content-second{display: flex;}
 	
 	.part1, .part2, .part3{width: 30%; margin: 20px; height: 500px;
 							 border-radius: 15px; background-color: white;
-							 box-shadow	:2px 3px 5px 0px #1fc1c0;}
+							 box-shadow: 0px 3px 5px 0px #919191;}
 	.part4{width: 63%; margin: 20px; height: 500px;	
-							box-shadow	:2px 3px 5px 0px #1fc1c0;; border-radius: 15px; background-color: white;}
+							box-shadow: 0px 3px 5px 0px #919191; border-radius: 15px; background-color: white;}
 	
-	h1{font-size: 30px; color:#ed6653;}
+	h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 44px;
+    text-align: left;
+    margin-left: 25px;
+    text-shadow: 0 2px #3b9197;
+}
 	hr {
     margin: 1rem 0;
     color: #4f59ca;
@@ -187,7 +193,33 @@
 	{margin-top: 30px;}
 	
 	.rank, .report{height: 400px;}
+	
+	.caltitle, .ranktitle, .protitle, .memtitle, .tasktitle {
+    border-top-left-radius: 15px;
+    background: #1fc1c0;
+    display: -webkit-box;
+    position: relative;
+    width: 110%;
+    right: 20px;
+    height: 47px;
+    bottom: 20px;
+    border-top-right-radius: 15px;
 }
+
+	.meettitle, .reporttitle{
+		border-top-left-radius: 15px;
+	    background: #1fc1c0;
+	    display: -webkit-box;
+	    position: relative;
+	    width: 926px;
+	    right: 20px;
+	    height: 47px;
+	    bottom: 20px;
+	    padding-left: -1px;
+	    border-top-right-radius: 15px;
+	}
+	
+	.task-card{height: 120px;}
 </style>
 
 
@@ -435,8 +467,9 @@
 			<div class="col-11 content-first">
 				<div class="part1">
 					<div class="skill-progress">
+					<div class="protitle">
 				        <h1>MILESTONE</h1>
-				        
+				    </div>
 				        <div class="milestone-content">
 					        <div class="item">
 					            <p class="subject">
@@ -484,7 +517,9 @@
 				<div class="part2">
 					<!-- 멤버리스트 -->
 					<div class="memberlistall">
-						<h1>MEMBERLIST</h1>
+						<div class="memtitle">
+							<h1>MEMBERLIST</h1>
+						</div>
 						<div class="memberlist">
 							<div class="leader">
 								<c:forEach items="${leader }" var="item">
@@ -545,14 +580,11 @@
 								    <div class="carousel-item">
 								</c:if>
 									<c:forEach var="j" begin="0" end="2" step="1">
-										<c:if test="${3 * i + j eq taskList.size()}">
-										</c:if>
-									
-									
+										<!-- 반복문 종료하는 처리 해야 함 -->
 								      	<div class="task">
 									      	
 											<div class="card task-card">
-												 <h5 class="card-title"> <span class="task-status sta-ing"> 진행중</span></h5>
+												 <h5 class="card-title">${taskList[3 * i + j].nickname } <span class="task-status sta-ing"> 진행중</span></h5>
 												 <h6 class="card-subtitle mb-2 text-body-secondary task-date">${taskList[3 * i + j].startDate } ~ ${taskList[3 * i + j].endDate }</h6>
 												 <p class="card-text">${taskList[3 * i + j].title }</p>
 												 <div class="task-date"">
@@ -594,88 +626,22 @@
 						<div class="meettitle"><h1>MEETING</h1></div>
 						<table class="table">
 							<tr>
-								<th>회차</th>
 								<th>제목</th>
 								<th>작성일자</th>
 								<th>작성자</th>
 							</tr>
-							<tr>
-								<td>5</td>
-								<td>테이불 구상</td>
-								<td>2024-02-19</td>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>테이불 구상</td>
-								<td>2024-02-19</td>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>테이불 구상</td>
-								<td>2024-02-19</td>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>테이불 구상</td>
-								<td>2024-02-19</td>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>테이불 구상</td>
-								<td>2024-02-19</td>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>테이불 구상</td>
-								<td>2024-02-19</td>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>테이불 구상</td>
-								<td>2024-02-19</td>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-							</tr>
+							<c:forEach var="i" begin="0" end="${meetingList.size()-1 }" step="1">
+								<tr>
+									<td>${meetingList[i].title }</td>
+									<td>${meetingList[i].kdate }</td>
+									<td>
+										<div class="membername">
+											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+											<span class="member-name">${meetingList[i].nickname }</span>
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
 						</table>
 						
 					</div>
@@ -694,43 +660,25 @@
 								<th>닉네임</th>
 								<th>활동량</th>
 							</tr>
-							<tr>
-								<td>1</td>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-								<td>14회</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-								<td>8회</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-								<td>2회</td>
-							</tr>
+							<c:forEach var="i" begin="0" end="${rank.size()-1 }" step="1">
+								<tr>
+									<td>${i + 1}위</td>
+									<td>
+										<div class="membername">
+											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+											<span class="member-name">${rank[i].nickname }</span>
+										</div>
+									</td>
+									<td>${rank[i].num }회</td>
+								</tr>
+							</c:forEach>
 						</table>
 					</div>
 				
 				</div>
 				<div class="part4 report">
 					<div class="reportall">
-						<div class="ranktitle"><h1>TASK REPORT</h1></div>
+						<div class="reporttitle"><h1>TASK REPORT</h1></div>
 						<table class="table">
 							<tr>
 								<th>작성자</th>
@@ -739,78 +687,21 @@
 								<th>보고서 제목</th>
 								<th>승인 여부</th>
 							</tr>
-							<tr>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-								<td>2023년 12월 21일</td>
-								<td>컨트롤러 구성</td>
-								<td>컨트롤러 구성 완료</td>
-								<td>승인</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-								<td>2023년 12월 21일</td>
-								<td>컨트롤러 구성</td>
-								<td>컨트롤러 구성 완료</td>
-								<td>미승인</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-								<td>2023년 12월 21일</td>
-								<td>컨트롤러 구성</td>
-								<td>컨트롤러 구성 완료</td>
-								<td>승인</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-								<td>2023년 12월 21일</td>
-								<td>컨트롤러 구성</td>
-								<td>컨트롤러 구성 완료</td>
-								<td>미승인</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-								<td>2023년 12월 21일</td>
-								<td>컨트롤러 구성</td>
-								<td>컨트롤러 구성 완료</td>
-								<td>승인</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="membername">
-										<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-										<span class="member-name">백엔드마스터김지민</span>
-									</div>
-								</td>
-								<td>2023년 12월 21일</td>
-								<td>컨트롤러 구성</td>
-								<td>컨트롤러 구성 완료</td>
-								<td>승인</td>
-							</tr>
+							<c:forEach var="i" begin="0" end="${reportList.size()-1 }" step="1">
+								<tr>
+									<td>
+										<div class="membername">
+											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+											<span class="member-name">${reportList[i].nickname }</span>
+										</div>
+									</td>
+									<td>${reportList[i].kdate }</td>
+									<td>${reportList[i].title }</td>
+									<td>${reportList[i].summary }</td>
+									<td>${reportList[i].state }</td>
+								</tr>
+							</c:forEach>
+							
 						</table>
 					</div><!-- close.</div> -->
 				</div>

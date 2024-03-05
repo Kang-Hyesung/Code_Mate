@@ -3,6 +3,27 @@ package com.test.mybatis;
 public class TaskDTO
 {
 	private String task_code, title, content, startDate, endDate, ma_codep, kdate;
+	private String mem_code, nickname;
+
+	public String getMem_code()
+	{
+		return mem_code;
+	}
+
+	public void setMem_code(String mem_code)
+	{
+		this.mem_code = mem_code;
+	}
+
+	public String getNickname()
+	{
+		return nickname;
+	}
+
+	public void setNickname(String nickname)
+	{
+		this.nickname = nickname;
+	}
 
 	public String getKdate()
 	{

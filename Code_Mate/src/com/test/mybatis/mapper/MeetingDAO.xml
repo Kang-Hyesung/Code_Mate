@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">				
+
+<mapper namespace="com.test.mybatis.IMeetingDAO">
+
+	<select id="list" resultType="com.test.mybatis.MeetingDTO">
+		SELECT M.MN_CODE, M.KDATE, M.TITLE, M.CONTENT, M.MA_CODE, M2.MEM_CODE, M2.NICKNAME
+		FROM MINUTES m JOIN MEMBER_APPLY ma ON M.MA_CODE = MA.MA_CODE
+					   JOIN "MEMBER" m2 ON MA.MEM_CODE = M2.MEM_CODE
+		WHERE M.MA_CODE IN (SELECT ma.MA_CODE
+						   FROM APP_OPENING ao JOIN ROLE_COMP rc ON ao.AP_CODE = rc.AP_CODE
+											   JOIN MEMBER_APPLY ma ON rc.RC_CODE = MA.RC_CODE									   
+						   WHERE ao.AP_CODE = #{arg0} AND MA.AR_CODE = 'AR0001')
+	</select>
+
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

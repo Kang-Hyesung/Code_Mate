@@ -45,7 +45,8 @@ div
 /* 왼쪽 메뉴바를 감싸는 부모 div 영역 */
 .leftmenuBarBox
 {
-	/* border: 1px solid purple; */
+    position: absolute;
+    z-index: 20;
 	width: 420px;
 }
 

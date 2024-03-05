@@ -157,12 +157,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 매너 점수 -->
 	<!-- public int mannerScore(String memCode); -->
 	<select id="mannerScore" resultType="java.lang.Double">
-		SELECT 36.5 + SUM(DECODE(EV.SCORE
+		SELECT 36.5 + NVL(SUM(DECODE(EV.SCORE
 		                        , 5, 0.2
 		                        , 4, 0.1
 		                        , 3, 0
 		                        , 2, -0.1
-		                        , 1, -0.2)) AS MANNER_SCORE
+		                        , 1, -0.2)), 0) AS MANNER_SCORE
 		FROM MEMBER M
 		     INNER JOIN MEMBER_APPLY MA       
 		        ON M.MEM_CODE = MA.MEM_CODE 

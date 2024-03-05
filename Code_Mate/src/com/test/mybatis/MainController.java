@@ -52,7 +52,7 @@ public class MainController
 	    session.setAttribute("member", member);
 	    session.setMaxInactiveInterval(5 * 60);
 	    
-		return "/WEB-INF/view/main/Template.jsp";
+		return "redirect:Code_Mate.action";
 	}
 	
 	@RequestMapping(value="/login-in.action", method=RequestMethod.POST)
@@ -83,6 +83,8 @@ public class MainController
 	{
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
+		IMeetingDAO meetingDao = sqlSession.getMapper(IMeetingDAO.class);
+		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
 		
 		// 멤버리스트
 		ArrayList<MemberDTO> leader = memberDao.getLeader("AP0006", "MR0001");
@@ -97,6 +99,19 @@ public class MainController
 		ArrayList<TaskDTO> taskList = taskDao.list("CP0002");
 		
 		request.setAttribute("taskList", taskList);
+		
+		// 회의록
+		ArrayList<MeetingDTO> meetingList = meetingDao.list("AP0006");
+		
+		request.setAttribute("meetingList", meetingList);
+		
+		// 업무보고글
+		ArrayList<ReportDTO> reportList = reportDao.list("CP0002");
+		request.setAttribute("reportList", reportList);
+		
+		// 활동량
+		ArrayList<ReportDTO> rank = reportDao.rank("CP0002");
+		request.setAttribute("rank", rank);
 		
 		return "/WEB-INF/view/project/prjActPage.jsp";
 	}
@@ -117,24 +132,24 @@ public class MainController
 			
 			String mem_code = member.getMem_code();
 			
-			model.addAttribute("nickName", dao.nickName("MEM0001"));
-			model.addAttribute("mbti", dao.mbti("MEM0001"));
-			model.addAttribute("skillTag", dao.skillTag("MEM0001"));
-			model.addAttribute("backendScore", dao.backendScore("MEM0001"));
-			model.addAttribute("frontendScore", dao.frontendScore("MEM0001"));
-			model.addAttribute("mannerScore", dao.mannerScore("MEM0001"));
+			model.addAttribute("nickName", dao.nickName(mem_code));
+			model.addAttribute("mbti", dao.mbti(mem_code));
+			model.addAttribute("skillTag", dao.skillTag(mem_code));
+			model.addAttribute("backendScore", dao.backendScore(mem_code));
+			model.addAttribute("frontendScore", dao.frontendScore(mem_code));
+			model.addAttribute("mannerScore", dao.mannerScore(mem_code));
 
 			//=======================================================
 			// 개인정보 공개 / 비공개 설정 가능 항목 처리
 			//=======================================================
 			
-			int emailOpen = dao.emailOpen("MEM0001");
-			int genderOpen = dao.genderOpen("MEM0001");
-			int birthDayOpen = dao.birthDayOpen("MEM0001");
+			int emailOpen = dao.emailOpen(mem_code);
+			int genderOpen = dao.genderOpen(mem_code);
+			int birthDayOpen = dao.birthDayOpen(mem_code);
 			
-			String email = dao.email("MEM0001");
-			String gender = dao.gender("MEM0001");
-			String birthDay = dao.birthDay("MEM0001");
+			String email = dao.email(mem_code);
+			String gender = dao.gender(mem_code);
+			String birthDay = dao.birthDay(mem_code);
 			
 			email = mpm.nullOrBlindCheck(email, emailOpen, "이메일");
 			gender = mpm.nullOrBlindCheck(gender, genderOpen, "성별");
@@ -146,20 +161,20 @@ public class MainController
 			//=======================================================
 			
 			// 경력
-			model.addAttribute("careerList", dao.careerList("MEM0001"));
+			model.addAttribute("careerList", dao.careerList(mem_code));
 			
 			// 프로젝트 이력
-			model.addAttribute("pjHistoryList", dao.pjHistoryList("MEM0001"));
+			model.addAttribute("pjHistoryList", dao.pjHistoryList(mem_code));
 			
 			
 			//▦▦▦▦▦▦▦▦[ 2 페이지 - 본인이 작성한 게시글 ]▦▦▦▦▦▦▦▦
 				
-			model.addAttribute("postList", dao.postList("MEM0001"));
+			model.addAttribute("postList", dao.postList(mem_code));
 			System.out.println("postList 추가 완료");
 			
 			//▦▦▦▦▦▦▦▦[ 3 페이지 - 본인이 작성한 댓글 ]▦▦▦▦▦▦▦▦▦
 			
-			model.addAttribute("commentList", dao.commentList("MEM0001"));
+			model.addAttribute("commentList", dao.commentList(mem_code));
 			System.out.println("commentList 추가 완료");
 			
 			
