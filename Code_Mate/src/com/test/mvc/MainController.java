@@ -14,7 +14,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -154,7 +156,11 @@ public class MainController
 			return "/WEB-INF/view/main/MyPage_DB.jsp";
 		}
 		
-
+ @Scheduled(fixedDelay = 1000)
+ public void hello() {
+	 
+	 System.out.println("test");
+ }
 }
 
 

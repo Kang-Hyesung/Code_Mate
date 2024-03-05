@@ -1,4 +1,4 @@
-<%@page import="com.test.mybatis.MemberDTO"%>
+<%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
@@ -43,46 +43,6 @@
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
-<style type="text/css">
-
-	@font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-	}
-	
-	*
-	{
-		font-family: 'Pretendard-Regular';
-	}
-	
-	.offcanvas.hiding, .offcanvas.show, .offcanvas.showing {
-    visibility: visible;
-    width: 733px;
-    left: 31%;
-    border-radius: 13px;
-    height: 77px;
-}
-	
-	 .alarm-btn {
-    background-color: #f8f9fa;
-    border: #f8f9fa;
-    color: #4f59ca;
-    padding: 0 5px 0 5px;
-	transition-property: all;
-	transition-duration:0.5s;
-	border-radius: 50%;
-	font-size: 20px;
-	line-height: 30px;
-	
-}
-	.alarm-btn:hover {
-    color: var(--bs-btn-hover-color);
-    background-color: #4f59ca;
-    }
-</style>
 
 <script type="text/javascript">
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')

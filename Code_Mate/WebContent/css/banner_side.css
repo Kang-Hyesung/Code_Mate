@@ -564,8 +564,40 @@ ion-icon[name="search-circle"]
 .lastchange{margin-top: 0px; height: 40px;}
 
  .searchFormArea{width: 700px; display: flex;}
- .alarm-btn {
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+	}
+	
+	*
+	{
+		font-family: 'Pretendard-Regular';
+	}
+	
+	.offcanvas.hiding, .offcanvas.show, .offcanvas.showing {
+    visibility: visible;
+    width: 733px;
+    left: 31%;
+    border-radius: 13px;
+    height: 77px;
+}
+	
+	 .alarm-btn {
     background-color: #f8f9fa;
     border: #f8f9fa;
     color: #4f59ca;
+    padding: 0 5px 0 5px;
+	transition-property: all;
+	transition-duration:0.5s;
+	border-radius: 50%;
+	font-size: 20px;
+	line-height: 30px;
+	
 }
+	.alarm-btn:hover {
+    color: var(--bs-btn-hover-color);
+    background-color: #4f59ca;
+    }

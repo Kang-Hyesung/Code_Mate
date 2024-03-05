@@ -1,10 +1,9 @@
-<%@page import="com.test.mybatis.MemberDTO"%>
-<%@page import="com.test.mybatis.MyPage_PostDTO"%>
+<%@page import="com.test.mybatis.dto.MyPage_PostDTO"%>
+<%@page import="com.test.mybatis.dto.MyPageMethod"%>
+<%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@page import="java.util.AbstractCollection"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.test.mybatis.MyPage_PjHistoryDTO"%>
-<%@page import="com.test.mybatis.MyPageMethod"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
