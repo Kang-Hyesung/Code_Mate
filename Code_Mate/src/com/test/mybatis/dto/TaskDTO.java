@@ -2,7 +2,28 @@ package com.test.mybatis.dto;
 
 public class TaskDTO
 {
-	private String task_code, title, content, startDate, endDate, ma_codep, kdate;
+	private String task_code, title, content, startDate, endDate, ma_codep, kdate, ma_codea, cp_code;
+	
+	public String getCp_code()
+	{
+		return cp_code;
+	}
+
+	public void setCp_code(String cp_code)
+	{
+		this.cp_code = cp_code;
+	}
+
+	public String getMa_codea()
+	{
+		return ma_codea;
+	}
+
+	public void setMa_codea(String ma_codea)
+	{
+		this.ma_codea = ma_codea;
+	}
+
 	private String mem_code, nickname;
 
 	public String getMem_code()

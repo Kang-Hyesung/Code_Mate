@@ -20,4 +20,8 @@ public interface IMemberDAO
 	public ArrayList<MemberDTO> getLeader(String ap_code, String mr_code);
 	public ArrayList<MemberDTO> getFront(String ap_code, String mr_code);
 	public ArrayList<MemberDTO> getBack(String ap_code, String mr_code);
+	public String getMacode(String mem_code, String cp_code);
+	public String getLeader_ma(String ap_code);
+	
+	
 }

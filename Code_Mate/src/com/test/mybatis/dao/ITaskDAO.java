@@ -17,4 +17,5 @@ public interface ITaskDAO
 	public ArrayList<TaskDTO> getIng(String cp_code);
 	public ArrayList<TaskDTO> getWill(String cp_code);
 	public String getWriter(String ma_code);
+	public void addTask(TaskDTO dto);
 }

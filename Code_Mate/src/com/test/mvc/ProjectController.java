@@ -141,7 +141,7 @@ public class ProjectController
 		model.addAttribute("getIng", getIng);
 		model.addAttribute("getWill", getWill);
 		
-		System.out.println(getWill.size());
+		
 		
 		// 멤버리스트
 		ArrayList<MemberDTO> leader = memberDao.getLeader("AP0006", "MR0001");
@@ -153,6 +153,33 @@ public class ProjectController
 		request.setAttribute("backList", backList);
 		
 		return "/WEB-INF/view/project/taskView.jsp";
+	}
+	
+	@RequestMapping(value = "/taskInsert.action")
+	public String taskInsert(TaskDTO dto, ModelMap model)
+	{
+		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
+		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
+		
+		String ma_codep = memberDao.getMacode(dto.getMa_codep(), "CP0002");
+		String ma_codea = memberDao.getLeader_ma("AP0006");
+		
+		dto.setMa_codea(ma_codea);
+		dto.setMa_codep(ma_codep);
+		dto.setCp_code("CP0002");
+		
+		System.out.println(dto.getTitle());
+		System.out.println(dto.getContent());
+		System.out.println(dto.getStartDate());
+		System.out.println(dto.getEndDate());
+		System.out.println(dto.getMa_codea());
+		System.out.println(dto.getMa_codep());
+		System.out.println(dto.getCp_code());
+		
+		
+		taskDao.addTask(dto);
+		
+		return "redirect:taskView.action";
 	}
 }
 

@@ -74,6 +74,24 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 						  FROM MEMBER_APPLY M JOIN ROLE_COMP R ON M.RC_CODE = R.RC_CODE
 						  WHERE AP_CODE = 'AP0006' AND MR_CODE = 'MR0003') 
 	</select>
+	
+	<!-- MEM코드와 CP코드로 MA_CODE 뽑아내기 -->
+	<select id="getMacode" resultType="java.lang.String">
+		SELECT MA_CODE
+		FROM MEMBER_APPLY ma JOIN ROLE_COMP rc ON ma.RC_CODE = RC.RC_CODE
+		 					 JOIN APP_OPENING ao ON rc.AP_CODE = ao.AP_CODE
+		 					 JOIN C_PROJECT cp ON rc.AP_CODE = CP.AP_CODE
+		WHERE MA.MEM_CODE = #{arg0} AND MA.AR_CODE = 'AR0001' AND CP.CP_CODE = #{arg1}
+	</select>
+	 
+	 <!-- 개설신청코드로 팀장 ma_code 뽑기 -->
+	 <select id="getLeader_ma" resultType="java.lang.String">
+		SELECT ma.MA_CODE
+		FROM APP_OPENING ao JOIN ROLE_COMP rc ON ao.AP_CODE = rc.AP_CODE
+							JOIN MEMBER_APPLY ma ON rc.RC_CODE = MA.RC_CODE 
+							JOIN "MEMBER" m ON MA.MEM_CODE = M.MEM_CODE
+		WHERE ao.AP_CODE = #{arg0} AND MA.AR_CODE = 'AR0001' AND RC.MR_CODE = 'MR0001'
+	 </select>
 	 
 </mapper>
 

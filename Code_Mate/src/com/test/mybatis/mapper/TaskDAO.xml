@@ -37,6 +37,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM GETWILL
 		WHERE CP_CODE = #{arg0}
 	</select>
+	
+	
+	<insert id="addTask">
+		INSERT INTO TASK (TASK_CODE, TITLE, CONTENT, STARTDATE, ENDDATE, MA_CODEA, MA_CODEP, CP_CODE)
+        VALUES(TO_CHAR('TASK' || LPAD(TASK_SEQ.NEXTVAL, 4, '0')), #{title}, #{content}
+        , TO_DATE(#{startDate}, 'YYYY-MM-DD'), TO_DATE(#{endDate}, 'YYYY-MM-DD'), #{ma_codea}, #{ma_codep}, #{cp_code})
+	</insert>
 </mapper>
 
 

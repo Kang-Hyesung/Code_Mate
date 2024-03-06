@@ -50,11 +50,21 @@
 
 <script type="text/javascript">
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 	
 	  $( function () {
 	    $( '[data-bs-toggle="popover"]' ).popover()
 	  } );
+	 
+</script>
+
+<script type="text/javascript">
+		$(function () {
+		    $("#save").click(function()
+			{
+				$("#insertTask").submit();
+			})
+		});
 </script>
 
 
@@ -375,12 +385,16 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
     left: 1000px;
 }
 	.assign{float: right; position: relative; top:6px; background-color: #4f59ca}
-	.modal-content{width: 700px; height: 800px;}
+	.modal-content{width: 700px; height: 500px;}
 	.form-control, .form-select{border: 1px solid #c7cbed;}
 	.form-control{width: 93%}
 	.form-select{width: 89%;}
 	.datepick{display: flex;}
-	.datepicker{width: 170px;}
+	.datepicker{width: 170px; margin-left: 10px;}
+	.dateText{    position: relative;
+    top: 1px;
+    font-size: 24px;}
+    .form-select{margin-top: 16px;}
 </style>
 
 </head>
@@ -680,32 +694,35 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <from id="insertTask">
+        <form id="insertTask" action="taskInsert.action">
         	<div class="mb-3">
 			  <label for="exampleFormControlInput1" class="form-label">업무 명</label>
-			  <input type="text" class="form-control" id="exampleFormControlInput1">
+			  <input type="text" class="form-control" name="title">
 			</div>
 			<div class="mb-3">
 			  <label for="exampleFormControlTextarea1" class="form-label">업무 설명</label>
-			  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+			  <textarea class="form-control" name="content" rows="3"></textarea>
 			</div>
 			
 			<div class="datepick">
-				<span> 시작일 : </span><input type="date" id="datePicker start" class="form-control datepicker" value="2019-06-27">
-				종료일 : </span><input type="date" id="datePicker end" class="form-control datepicker" value="2019-06-27">
+				<span class="dateText">시작일 : </span><input type="date" id="datePicker" class="form-control datepicker" name="startDate">&nbsp;&nbsp;
+				<span class="dateText">종료일 : </span><input type="date" id="datePicker" class="form-control datepicker" name="endDate">
 			</div>
 			
-			<select class="form-select" aria-label="Default select example">
+			<select class="form-select" aria-label="Default select example" name="ma_codep">
 			  <option selected>할당받을 팀원</option>
-			  <option value="1">One</option>
-			  <option value="2">Two</option>
-			  <option value="3">Three</option>
+			  <c:forEach items="${backList }" var="item">
+				  <option value="${item.mem_code }">${item.nickname }</option>
+			  </c:forEach>
+			  <c:forEach items="${frontList }" var="item">
+				  <option value="${item.mem_code }">${item.nickname }</option>
+			  </c:forEach>
 			</select>
-        </from>
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary" id="save">저장</button>
       </div>
     </div>
   </div>
