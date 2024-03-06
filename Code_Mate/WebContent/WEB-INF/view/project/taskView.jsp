@@ -692,7 +692,7 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 			
 			<div class="datepick">
 				<span> 시작일 : </span><input type="date" id="datePicker start" class="form-control datepicker" value="2019-06-27">
-				종료일 : <input type="date" id="datePicker end" class="form-control datepicker" value="2019-06-27">
+				종료일 : </span><input type="date" id="datePicker end" class="form-control datepicker" value="2019-06-27">
 			</div>
 			
 			<select class="form-select" aria-label="Default select example">
