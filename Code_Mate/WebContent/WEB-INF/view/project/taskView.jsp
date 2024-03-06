@@ -35,7 +35,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/banner_side.css" />
-
+<link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">
 <!-- JQuery -->
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -44,6 +44,9 @@
 <!-- ionicons -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<!-- datepicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script type="text/javascript">
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
@@ -63,6 +66,8 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
     border-right: 1px solid #d1d4d7;
     margin: -30px 15px -30px -15px
 }
+
+
 
 .page-todo .task-list {
     padding: 30px 15px;
@@ -143,7 +148,10 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 
 .page-todo .task .time .date {
     font-size: 18px;
-    margin-bottom: 5px
+    margin-bottom: 5px;
+    width: 170px;
+    position: relative;
+    right: 63px;
 }
 
 .page-todo .task.last {
@@ -317,132 +325,62 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
     padding: 5px 40px 5px 10px
 }
 
-@media only screen and (min-width:992px) and (max-width:1199px) {
-    .page-todo task .desc {
-        display: inline-block;
-        width: 70%;
-        padding: 10px 10px;
-        font-size: 12px
-    }
-    .page-todo task .desc .title {
-        font-size: 16px;
-        margin-bottom: 5px
-    }
-    .page-todo task .time {
-        display: inline-block;
-        float: right;
-        width: 20%;
-        padding: 10px 10px;
-        font-size: 12px;
-        text-align: right
-    }
-    .page-todo task .time .date {
-        font-size: 16px;
-        margin-bottom: 5px
-    }
+.taskContent{
+	font-size: 15px;
 }
 
-@media only screen and (min-width:768px) and (max-width:991px) {
-    .page-todo .task {
-        margin-bottom: 1px
-    }
-    .page-todo .task .desc {
-        display: inline-block;
-        width: 65%;
-        padding: 10px 10px;
-        font-size: 10px;
-        margin-right: -20px
-    }
-    .page-todo .task .desc .title {
-        font-size: 14px;
-        margin-bottom: 5px
-    }
-    .page-todo .task .time {
-        display: inline-block;
-        float: right;
-        width: 25%;
-        padding: 10px 10px;
-        font-size: 10px;
-        text-align: right
-    }
-    .page-todo .task .time .date {
-        font-size: 14px;
-        margin-bottom: 5px
-    }
-    .page-todo .timeslot .task span {
-        padding: 5px;
-        display: block;
-        font-size: 10px
-    }
-    .page-todo .timeslot .task span span {
-        border: 0;
-        background: 0 0;
-        padding: 0
-    }
-    .page-todo .timeslot .task span span.details {
-        font-size: 14px;
-        margin-bottom: 0
-    }
-    .page-todo .timeslot .task span span.remaining {
-        font-size: 12px
-    }
-}
 
-@media only screen and (max-width:767px) {
-    .page-todo .tasks {
-        position: relative;
-        margin: 0!important
-    }
-    .page-todo .graph {
-        position: relative;
-        margin: 0!important
-    }
-    .page-todo .task {
-        margin-bottom: 1px
-    }
-    .page-todo .task .desc {
-        display: inline-block;
-        width: 65%;
-        padding: 10px 10px;
-        font-size: 10px;
-        margin-right: -20px
-    }
-    .page-todo .task .desc .title {
-        font-size: 14px;
-        margin-bottom: 5px
-    }
-    .page-todo .task .time {
-        display: inline-block;
-        float: right;
-        width: 25%;
-        padding: 10px 10px;
-        font-size: 10px;
-        text-align: right
-    }
-    .page-todo .task .time .date {
-        font-size: 14px;
-        margin-bottom: 5px
-    }
-    .page-todo .timeslot .task span {
-        padding: 5px;
-        display: block;
-        font-size: 10px
-    }
-    .page-todo .timeslot .task span span {
-        border: 0;
-        background: 0 0;
-        padding: 0
-    }
-    .page-todo .timeslot .task span span.details {
-        font-size: 14px;
-        margin-bottom: 0
-    }
-    .page-todo .timeslot .task span span.remaining {
-        font-size: 12px
-    }
-}
 	
 	.bootdeys{margin-top: 90px;}
+	
+	/* 왕관이미지 */
+	.leadericon{width: 20px; position: relative; border: 6px;}
+	/* 멤버 프로필 이미지 */
+	.memberimg{width: 20px; border-radius: 15px;}
+	
+	.leader{    display: flex;
+    font-size: 20px;
+    border-bottom: 1px solid black;
+    width: 50%;}
+	.front-back {
+    margin-top: 3px;
+	}
+	.front, .back{width: 100%; height: 90px; overflow-y: scroll;}
+	
+	.front-all, .back-all{width: 49%; height: 100%; padding: 3px 0 4px 0; border-bottom: 1px solid black;}
+	.membernum {
+    background-color: #e1a74f;
+    border-radius: 22px;
+    padding: 3px 12px 3px 12px;
+    float: right;
+    margin-right: 15px;
+    font-size: 12px;
+    position: relative;
+    bottom: 2px;
+    color: azure;
+	}
+	
+	.memberlistall{width: 600px;}
+	.main-text{display: flex;}
+	*, ::after, ::before {
+    box-sizing: content-box;
+	}
+	
+	.task{height: 120px;}
+	.time{float: right;}
+	.memberlistall {
+    width: 600px;
+    position: relative;
+    bottom: 800px;
+    left: 1000px;
+}
+	.assign{float: right; position: relative; top:6px; background-color: #4f59ca}
+	.modal-content{width: 700px; height: 800px;}
+	.form-control, .form-select{border: 1px solid #c7cbed;}
+	.form-control{width: 93%}
+	.form-select{width: 89%;}
+	.datepick{display: flex;}
+	.datepicker{width: 170px;}
 </style>
 
 </head>
@@ -617,80 +555,75 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 				<div class="container page-todo bootstrap snippets bootdeys">
 					<div class="col-sm-7 tasks">
 						<div class="task-list">
-							<h1>Tasks</h1>
+							<h1>Tasks 
+								<button type="button" class="btn btn-primary assign" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								  업무 할당
+								</button>
+							</h1>
 							<div class="priority high"><span>일주일 내 마감</span></div>
-							<div class="task high">
-								<div class="desc">
-									<div class="title">Lorem Ipsum</div>
-									<div>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</div>
-								</div>
-								<div class="time">
-									<div class="date">Jun 1, 2012</div>
-									<div> 1 day</div>
-								</div>
-							</div>
-							<div class="task high last">
-								<div class="desc">
-									<div class="title">Lorem Ipsum</div>
-									<div>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</div>
-								</div>
-								<div class="time">
-									<div class="date">Jun 1, 2012</div>
-									<div>1 day</div>
-								</div>
-							</div>
+							<c:forEach items="${getWeek }" var="item" varStatus="status">
+								<c:choose> 
+									<c:when test="${status.index < getWeek.size()-1}">
+										<div class="task high">
+									</c:when>  
+									<c:otherwise>
+										<div class="task high last">
+									</c:otherwise> 
+								</c:choose> 
+							
+									<div class="desc">
+										<div class="title">${item.title }</div>
+										<div class="taskContent">${item.content }</div>
+									</div>
+									<div class="time">
+										<div class="date">시작일 : ${item.startDate }</div>
+										<div class="date">마감일 : ${item.endDate }</div>
+									</div>
+								</div><!-- close. task high / last -->
+								
+							</c:forEach>
 					
-							<div class="priority medium"><span>여유 있음</span></div>
+							<div class="priority medium"><span>진행 중</span></div>
+							
+							<c:forEach items="${getIng }" var="item" varStatus="status2">
+								<c:choose> 
+									<c:when test="${status2.index < getIng.size()-1}">
+										<div class="task medium">
+									</c:when>  
+									<c:otherwise>
+										<div class="task medium last">
+									</c:otherwise> 
+								</c:choose>
+							
+									<div class="desc">
+										<div class="title">${item.title }</div>
+										<div class="taskContent">${item.content }</div>
+									</div>
+									<div class="time">
+										<div class="date">시작일 : ${item.startDate }</div>
+										<div class="date">마감일 : ${item.endDate }</div>
+									</div>
+								</div><!-- close. task medium / last -->
+							</c:forEach>
 					
-							<div class="task medium">
-								<div class="desc">
-									<div class="title">Lorem Ipsum</div>
-									<div>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</div>
+							<div class="priority low"><span>진행 예정</span></div>
+							
+							<c:forEach items="${getWill }" var="item" varStatus="status2">
+								<div class="task low">
+									<div class="desc">
+										<div class="title">${item.title }</div>
+										<div class="taskContent">${item.content }</div>
+									</div>
+									<div class="time">
+										<div class="date">시작일 : ${item.startDate }</div>
+										<div class="date">마감일 : ${item.endDate }</div>
+									</div>
 								</div>
-								<div class="time">
-									<div class="date">Jun 1, 2012</div>
-									<div> 1 day</div>
-								</div>
-							</div>
-							<div class="task medium last">
-								<div class="desc">
-									<div class="title">Lorem Ipsum</div>
-									<div>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</div>
-								</div>
-								<div class="time">
-									<div class="date">Jun 1, 2012</div>
-									<div> 1 day</div>
-								</div>
-							</div>
-					
-							<div class="priority low"><span>완료된 항목</span></div>
-
-							<div class="task low">
-								<div class="desc">
-									<div class="title">Lorem Ipsum</div>
-									<div>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</div>
-								</div>
-								<div class="time">
-									<div class="date">Jun 1, 2012</div>
-									<div> 1 day</div>
-								</div>
-							</div>
-							<div class="task low">
-								<div class="desc">
-									<div class="title">Lorem Ipsum</div>
-									<div>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</div>
-								</div>
-								<div class="time">
-									<div class="date">Jun 1, 2012</div>
-									<div> 1 day</div>
-								</div>
-							</div>
+							</c:forEach>
 							<div class="clearfix"></div>		
 						</div>		
 					</div>
-					</div>
-				
-			</div>
+				</div>
 			<div class="col-2" style="margin-top: 12%;">
 				<div class="memberlistall">
 						<h4>MEMBERLIST</h4>
@@ -736,6 +669,47 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 		</div>
 		
 </div><!-- end .row -->
+
+
+<!-- 모달 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">업무 할당</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <from id="insertTask">
+        	<div class="mb-3">
+			  <label for="exampleFormControlInput1" class="form-label">업무 명</label>
+			  <input type="text" class="form-control" id="exampleFormControlInput1">
+			</div>
+			<div class="mb-3">
+			  <label for="exampleFormControlTextarea1" class="form-label">업무 설명</label>
+			  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+			</div>
+			
+			<div class="datepick">
+				<span> 시작일 : </span><input type="date" id="datePicker start" class="form-control datepicker" value="2019-06-27">
+				종료일 : <input type="date" id="datePicker end" class="form-control datepicker" value="2019-06-27">
+			</div>
+			
+			<select class="form-select" aria-label="Default select example">
+			  <option selected>할당받을 팀원</option>
+			  <option value="1">One</option>
+			  <option value="2">Two</option>
+			  <option value="3">Three</option>
+			</select>
+        </from>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

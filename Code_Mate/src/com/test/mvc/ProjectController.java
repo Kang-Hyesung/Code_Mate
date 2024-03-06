@@ -72,6 +72,8 @@ public class ProjectController
 		
 		String data = "" + "[";
 		
+		
+		
 		// 캘린더 events 에 들어갈 것
 		for(TaskDTO dto: taskList)
 		{
@@ -102,7 +104,7 @@ public class ProjectController
 		for(TaskDTO dto: taskList)
 		{
 			data += "{'title' :'" + dto.getTitle() + "', "; 
-			data += "'start' :'" + dto.getStartDate() + "', "; 
+			data += "'start' :'" + dto.getStartDate() + "', ";
 			data += "'end' :'" + dto.getEndDate() + "'},"; 
 		}
 		
@@ -122,6 +124,35 @@ public class ProjectController
 		System.out.println(data);
 		
 		return "/WEB-INF/view/project/taskCal.jsp";
+	}
+	
+	@RequestMapping(value = "/taskView.action")
+	public String task(HttpServletRequest request, ModelMap model)
+	{
+		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
+		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
+		
+		// task 날짜별로 분류
+		ArrayList<TaskDTO> getWeek = taskDao.getWeek("CP0002");
+		ArrayList<TaskDTO> getIng = taskDao.getIng("CP0002");
+		ArrayList<TaskDTO> getWill = taskDao.getWill("CP0002");
+		
+		model.addAttribute("getWeek", getWeek);
+		model.addAttribute("getIng", getIng);
+		model.addAttribute("getWill", getWill);
+		
+		System.out.println(getWill.size());
+		
+		// 멤버리스트
+		ArrayList<MemberDTO> leader = memberDao.getLeader("AP0006", "MR0001");
+		ArrayList<MemberDTO> frontList = memberDao.getFront("AP0006", "MR0001");
+		ArrayList<MemberDTO> backList = memberDao.getBack("AP0006", "MR0001");
+		
+		request.setAttribute("leader", leader);
+		request.setAttribute("frontList", frontList);
+		request.setAttribute("backList", backList);
+		
+		return "/WEB-INF/view/project/taskView.jsp";
 	}
 }
 
