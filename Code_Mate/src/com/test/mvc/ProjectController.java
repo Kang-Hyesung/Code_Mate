@@ -7,6 +7,7 @@ package com.test.mvc;
 
 import java.util.ArrayList;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.test.mybatis.dao.IMeetingDAO;
 import com.test.mybatis.dao.IMemberDAO;
@@ -202,16 +204,19 @@ public class ProjectController
 	@RequestMapping(value = "/insertReport.action")
 	public String insertReport(ReportDTO dto, ModelMap model)
 	{
-		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
 		
-		System.out.println(dto.getSummary());
-		System.out.println(dto.getContent());
-		System.out.println(dto.getTask_code());
+		reportDao.addReport(dto.getTask_code(), dto.getContent(), dto.getSummary());
 		
-		
-		
-		return "/WEB-INF/view/project/myTask.jsp";
+		return "redirect:myTask.action";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getReport.action", method = RequestMethod.GET)
+	public String getReport(String task_code)
+	{
+		System.out.println(task_code);
+		return task_code;
 	}
 }
 

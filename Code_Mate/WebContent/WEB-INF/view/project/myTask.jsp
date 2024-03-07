@@ -58,7 +58,6 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	myModal.addEventListener('shown.bs.modal', function () {
 	  myInput.focus()
 	})
-	})
 </script>
 
 <script type="text/javascript">
@@ -69,6 +68,19 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 		{
 			var id = $(this).val();
 			$("#" + id).show();
+			
+			$.ajax({
+				url:"getReport.action?task_code=" + id ,
+				type:"GET",
+				success: function(data)
+				{
+					alert(data);
+				},
+				error : function()
+				{
+					alert("에러");
+				}
+			})
 		})
 		
 		$(".btn-close").click(function()
@@ -586,7 +598,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 											<div class="membername">
 													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
 													<span class="member-name">${item.nickname }</span>
-													<button class="open" value="${item.task_code }">업무보고서 열기</button>
+													<button class="open" value="${item.task_code }" name="taskCode">업무보고서 열기</button>
 													<div class="report" id="${item.task_code }">
 														<div class="reportAll">
 															<h4>

@@ -28,7 +28,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY NUM DESC
 	</select>
 	
-
+		<!-- 업무보고서 작성시 업무보고서 제출 결과에 기본 상태로 들어가는 프로시저 -->
+	<insert id="addReport" statementType="CALLABLE">
+		{CALL WRITE_REPORT (#{task_code}, #{content}, #{summary})}
+	</insert>
 	
 </mapper>
 

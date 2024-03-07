@@ -3,6 +3,9 @@ package com.test.mybatis.dto;
 public class ReportDTO
 {
 	private String title, summary, state, kdate, mem_code, nickname, content, task_code;
+	private int num;
+	
+	
 	public String getTask_code()
 	{
 		return task_code;
@@ -23,7 +26,6 @@ public class ReportDTO
 		this.content = content;
 	}
 
-	private int num;
 
 	public int getNum()
 	{
