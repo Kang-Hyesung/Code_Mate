@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.test.mybatis.dao.ITaskDAO">
 
 	<select id="list" resultType="com.test.mybatis.dto.TaskDTO">
-		SELECT A.TASK_CODE, A.TITLE, A.CONTENT, A.STARTDATE, A.ENDDATE, A.KDATE, A.MA_CODEP, M.NICKNAME, M.MEM_CODE
-		FROM (SELECT TASK_CODE, TITLE, CONTENT, TO_CHAR(SDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(EDATE, 'YYYY-MM-DD') AS ENDDATE, KDATE, MA_CODEP 
+		SELECT A.TASK_CODE, A.TITLE, A.CONTENT, A.STARTDATE, A.ENDDATE, A.KDATE, A.MA_CODEP, M.NICKNAME, M.MEM_CODE, A.COLOR
+		FROM (SELECT TASK_CODE, TITLE, CONTENT, TO_CHAR(STARTDATE, 'YYYY-MM-DD') AS STARTDATE, TO_CHAR(ENDDATE, 'YYYY-MM-DD') AS ENDDATE, KDATE, MA_CODEP, COLOR 
 			  FROM TASK
 			  WHERE CP_CODE = #{arg0}
 			  ORDER BY KDATE DESC) A JOIN MEMBER_APPLY MA ON MA_CODEP = MA.MA_CODE
@@ -20,30 +20,64 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE MA_CODE = #[arg0]
 	</select>
 	
+	<!-- 마감기한 일주일 남은 업무 전부 -->
 	<select id="getWeek" resultType="com.test.mybatis.dto.TaskDTO">
 		SELECT TASK_CODE, TITLE, CONTENT, STARTDATE, ENDDATE, KDATE, MA_CODEP, NICKNAME, MEM_CODE, CP_CODE
 		FROM GETWEEK
 		WHERE CP_CODE = #{arg0}
 	</select>
 	
+	<!-- 마감기한 일주일 남은 내 업무 전부 -->
+	<select id="getMyWeek" resultType="com.test.mybatis.dto.TaskDTO">
+		SELECT TASK_CODE, TITLE, CONTENT, STARTDATE, ENDDATE, KDATE, MA_CODEP, NICKNAME, MEM_CODE, CP_CODE
+		FROM GETWEEK
+		WHERE CP_CODE = #{arg0} AND MA_CODEP = #{arg1}
+	</select>
+	
+	<!-- 진행중인 업무 전부 -->
 	<select id="getIng" resultType="com.test.mybatis.dto.TaskDTO">
 		SELECT TASK_CODE, TITLE, CONTENT, STARTDATE, ENDDATE, KDATE, MA_CODEP, NICKNAME, MEM_CODE, CP_CODE
 		FROM GETING
 		WHERE CP_CODE = #{arg0}
 	</select>
 	
+	<!-- 진행중인 내업무 전부 -->
+	<select id="getMyIng" resultType="com.test.mybatis.dto.TaskDTO">
+		SELECT TASK_CODE, TITLE, CONTENT, STARTDATE, ENDDATE, KDATE, MA_CODEP, NICKNAME, MEM_CODE, CP_CODE
+		FROM GETING
+		WHERE CP_CODE = #{arg0} AND MA_CODEP = #{arg1}
+	</select>
+	
+	<!-- 진행예정 업무 전부 -->
 	<select id="getWill" resultType="com.test.mybatis.dto.TaskDTO">
 		SELECT TASK_CODE, TITLE, CONTENT, STARTDATE, ENDDATE, KDATE, MA_CODEP, NICKNAME, MEM_CODE, CP_CODE
 		FROM GETWILL
 		WHERE CP_CODE = #{arg0}
 	</select>
 	
+	<!-- 진행예정 내 업무 전부 -->
+	<select id="getMyWill" resultType="com.test.mybatis.dto.TaskDTO">
+		SELECT TASK_CODE, TITLE, CONTENT, STARTDATE, ENDDATE, KDATE, MA_CODEP, NICKNAME, MEM_CODE, CP_CODE
+		FROM GETWILL
+		WHERE CP_CODE = #{arg0} AND MA_CODEP = #{arg1}
+	</select>
+	
+	<!-- 종료된 내 업무 -->
+	<select id="getMyEnd" resultType="com.test.mybatis.dto.TaskDTO">
+		SELECT TASK_CODE, TITLE, CONTENT, STARTDATE, ENDDATE, KDATE, MA_CODEP, NICKNAME, MEM_CODE, CP_CODE
+		FROM getMyEnd
+		WHERE CP_CODE = #{arg0} AND MA_CODEP = #{arg1}
+	</select>
+	
 	
 	<insert id="addTask">
-		INSERT INTO TASK (TASK_CODE, TITLE, CONTENT, STARTDATE, ENDDATE, MA_CODEA, MA_CODEP, CP_CODE)
+		INSERT INTO TASK (TASK_CODE, TITLE, CONTENT, STARTDATE, ENDDATE, MA_CODEA, MA_CODEP, CP_CODE, COLOR)
         VALUES(TO_CHAR('TASK' || LPAD(TASK_SEQ.NEXTVAL, 4, '0')), #{title}, #{content}
-        , TO_DATE(#{startDate}, 'YYYY-MM-DD'), TO_DATE(#{endDate}, 'YYYY-MM-DD'), #{ma_codea}, #{ma_codep}, #{cp_code})
+        , TO_DATE(#{startDate}, 'YYYY-MM-DD'), TO_DATE(#{endDate}, 'YYYY-MM-DD'), #{ma_codea}, #{ma_codep}, #{cp_code}, #{color})
 	</insert>
+	
+	
+	
 </mapper>
 
 

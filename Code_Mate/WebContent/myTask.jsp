@@ -35,18 +35,14 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/banner_side.css" />
-<link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">
+
 <!-- JQuery -->
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <!-- ionicons -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-<!-- datepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <script type="text/javascript">
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
@@ -55,21 +51,9 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	  $( function () {
 	    $( '[data-bs-toggle="popover"]' ).popover()
 	  } );
-	 
 </script>
-
-<script type="text/javascript">
-		$(function () {
-		    $("#save").click(function()
-			{
-				$("#insertTask").submit();
-			})
-		});
-</script>
-
 
 <style type="text/css">
-
 .page-todo .tasks {
     background: #fff;
     padding: 0;
@@ -340,62 +324,6 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 }
 	.task{height: 120px;}
 	.time{float: right;}
-
-	
-	.bootdeys{margin-top: 90px;}
-	
-	/* 왕관이미지 */
-	.leadericon{width: 20px; position: relative; border: 6px;}
-	/* 멤버 프로필 이미지 */
-	.memberimg{width: 20px; border-radius: 15px;}
-	
-	.leader{    display: flex;
-    font-size: 20px;
-    border-bottom: 1px solid black;
-    width: 50%;}
-	.front-back {
-    margin-top: 3px;
-	}
-	.front, .back{width: 100%; height: 90px; overflow-y: scroll;}
-	
-	.front-all, .back-all{width: 49%; height: 100%; padding: 3px 0 4px 0; border-bottom: 1px solid black;}
-	.membernum {
-    background-color: #e1a74f;
-    border-radius: 22px;
-    padding: 3px 12px 3px 12px;
-    float: right;
-    margin-right: 15px;
-    font-size: 12px;
-    position: relative;
-    bottom: 2px;
-    color: azure;
-	}
-	
-	.memberlistall{width: 600px;}
-	.main-text{display: flex;}
-	*, ::after, ::before {
-    box-sizing: content-box;
-	}
-	
-	
-	.memberlistall {
-    width: 600px;
-    position: absolute;
-    bottom: 400px;
-    left: 1250px;
-}
-	.assign{float: right; position: relative; top:6px; background-color: #4f59ca}
-	.modal-content{width: 700px; height: 620px;}
-	.form-control, .form-select{border: 1px solid #c7cbed;}
-	.form-control{width: 93%}
-	.form-select{width: 89%;}
-	.datepick{display: flex;}
-	.datepicker{width: 170px; margin-left: 10px;}
-	.dateText{    position: relative;
-    top: 5px;
-    font-size: 18px;}
-    .form-select, .colorSelect{margin-top: 16px;}
-    
 </style>
 
 </head>
@@ -565,48 +493,14 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 		
 		<!-- 본문 영역 -->
 		<div class="row main-text">
-			<div class="col-9">
-				
+			<div class="col-10">
+				<h1>내 업무 보기</h1>
 				<div class="container page-todo bootstrap snippets bootdeys">
 					<div class="col-sm-7 tasks">
 						<div class="task-list">
-							<h1>Tasks 
-								<button type="button" class="btn btn-primary assign" data-bs-toggle="modal" data-bs-target="#exampleModal">
-								  업무 할당
-								</button>
-							</h1>
-							<div class="priority high"><span>일주일 내 마감</span></div>
-							<c:forEach items="${getWeek }" var="item" varStatus="status">
-								<c:choose> 
-									<c:when test="${status.index < getWeek.size()-1}">
-										<div class="task high">
-									</c:when>  
-									<c:otherwise>
-										<div class="task high last">
-									</c:otherwise> 
-								</c:choose> 
-							
-									<div class="desc">
-										<div class="title">${item.title }</div>
-										<div class="taskContent">${item.content }</div>
-									</div>
-									<div class="time">
-										<div class="date">시작일 : ${item.startDate }</div>
-										<div class="date">마감일 : ${item.endDate }</div>
-									</div>
-									<div class="name">
-										<div class="membername">
-												<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-												<span class="member-name">${item.nickname }</span>
-										</div>
-									</div>
-								</div><!-- close. task high / last -->
-								
-							</c:forEach>
-					
 							<div class="priority medium"><span>진행 중</span></div>
 							
-							<c:forEach items="${getIng }" var="item" varStatus="status2">
+							<c:forEach items="${getMyIng }" var="item" varStatus="status2">
 								<c:choose> 
 									<c:when test="${status2.index < getIng.size()-1}">
 										<div class="task medium">
@@ -635,7 +529,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 					
 							<div class="priority low"><span>진행 예정</span></div>
 							
-							<c:forEach items="${getWill }" var="item" varStatus="status2">
+							<c:forEach items="${getMyWill }" var="item" varStatus="status2">
 								<div class="task low">
 									<div class="desc">
 										<div class="title">${item.title }</div>
@@ -654,103 +548,12 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 								</div>
 							</c:forEach>
 							<div class="clearfix"></div>		
-						</div>		
-					</div>
-				</div>
-			<div class="col-2" style="margin-top: 12%;">
-				<div class="memberlistall">
-						<h4>MEMBERLIST</h4>
-						<div class="memberlist">
-							<div class="leader">
-								<c:forEach items="${leader }" var="item">
-							      	<span><img src="<%=cp %>/img/crown.png" class="leadericon"/> Leader : </span>
-									<div class="membername">
-											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-											<span class="member-name">${item.nickname }</span>
-									</div>
-							    </c:forEach>
-							</div>
-							
-							<div class="front-back">
-								<div class="front-all">
-									<h5 class="job-type">FRONT-END <span class="membernum">${frontList.size() }명</span></h5>
-									<div class="front">
-										<c:forEach items="${frontList }" var="item">
-											<div class="membername">
-													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-													<span class="member-name">${item.nickname }</span>
-											</div>
-									    </c:forEach>
-									</div>
-									
-								</div>
-								<div class="back-all">
-									<h5 class="job-type">BACK-END <span class="membernum">${backList.size() }명</span></h5>
-									<div class="back">
-										<c:forEach items="${backList }" var="item">
-											<div class="membername">
-													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-													<span class="member-name">${item.nickname }</span>
-											</div>
-									    </c:forEach>
-									</div>
-								</div>
-							</div><!-- close.front-back -->
-						</div><!-- close.memberlist -->
-					</div><!-- close.memberlistall -->
+						</div>	
+				
 			</div>
 		</div>
 		
 </div><!-- end .row -->
-
-
-<!-- 모달 -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">업무 할당</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="insertTask" action="taskInsert.action">
-        	<div class="mb-3">
-			  <label for="exampleFormControlInput1" class="form-label"><span class="dateText">업무 명</span></label>
-			  <input type="text" class="form-control" name="title">
-			</div>
-			<div class="mb-3">
-			  <label for="exampleFormControlTextarea1" class="form-label"><span class="dateText">업무 설명</span></label>
-			  <textarea class="form-control" name="content" rows="3"></textarea>
-			</div>
-			
-			<div class="datepick">
-				<span class="dateText">시작일 : </span><input type="date" id="datePicker" class="form-control datepicker" name="startDate">&nbsp;&nbsp;
-				<span class="dateText">종료일 : </span><input type="date" id="datePicker" class="form-control datepicker" name="endDate">
-			</div>
-			
-			<select class="form-select" aria-label="Default select example" name="ma_codep">
-			  <option selected>할당받을 팀원</option>
-			  <c:forEach items="${backList }" var="item">
-				  <option value="${item.mem_code }">${item.nickname }</option>
-			  </c:forEach>
-			  <c:forEach items="${frontList }" var="item">
-				  <option value="${item.mem_code }">${item.nickname }</option>
-			  </c:forEach>
-			</select>
-			
-			<div class="colorSelect">
-				<label for="exampleColorInput" class="form-label">Color picker</label>
-				<input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color" name="color">
-			</div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-primary" id="save">저장</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>

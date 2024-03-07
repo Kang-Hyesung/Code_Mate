@@ -1,3 +1,5 @@
+<%@page import="com.test.mybatis.dao.IMemberDAO"%>
+<%@page import="org.apache.ibatis.session.SqlSession"%>
 <%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -23,8 +25,6 @@
 		logout = "";
 	}
 		
-	
-		
 %>
 <!DOCTYPE html>
 <html>
@@ -35,18 +35,14 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/banner_side.css" />
-<link rel="stylesheet" href="resources/css/plugin/datepicker/bootstrap-datepicker.css">
+
 <!-- JQuery -->
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <!-- ionicons -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-<!-- datepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <script type="text/javascript">
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
@@ -55,21 +51,49 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	  $( function () {
 	    $( '[data-bs-toggle="popover"]' ).popover()
 	  } );
-	 
+	  
+	var myModal = document.getElementById('myModal')
+	var myInput = document.getElementById('myInput')
+	
+	myModal.addEventListener('shown.bs.modal', function () {
+	  myInput.focus()
+	})
+	})
 </script>
 
 <script type="text/javascript">
-		$(function () {
-		    $("#save").click(function()
-			{
-				$("#insertTask").submit();
-			})
-		});
+	$(function(){
+		$(".report").css('display', 'none');
+		
+		$(".open").click(function()
+		{
+			var id = $(this).val();
+			$("#" + id).show();
+		})
+		
+		$(".btn-close").click(function()
+		{
+			var id = $(this).val();
+			$("#" + id).hide();
+		})
+		
+		$("#reportSave").click(function()
+		{
+			$("#insertReport").submit();
+		})
+		
+		$("#task_code").click(function()
+		{
+			var code = $("#task_code").val();
+			$("#place").val(code);
+			
+			alert(code);
+		})
+	});
+	
 </script>
 
-
 <style type="text/css">
-
 .page-todo .tasks {
     background: #fff;
     padding: 0;
@@ -77,7 +101,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
     margin: -30px 15px -30px -15px
 }
 
-
+.report{display: none;}
 
 .page-todo .task-list {
     padding: 30px 15px;
@@ -157,7 +181,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 }
 
 .page-todo .task .time .date {
-    font-size: 18px;
+    font-size: 15px;
     margin-bottom: 5px;
     width: 170px;
     position: relative;
@@ -334,68 +358,36 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
     right: 50%;
     padding: 5px 40px 5px 10px
 }
+	.priority.medium, .priority.low{width: 656px;}
 
 .taskContent{
 	font-size: 15px;
 }
+	.bootdeys{margin-top: 90px;}
 	.task{height: 120px;}
 	.time{float: right;}
-
-	
-	.bootdeys{margin-top: 90px;}
-	
-	/* 왕관이미지 */
-	.leadericon{width: 20px; position: relative; border: 6px;}
 	/* 멤버 프로필 이미지 */
 	.memberimg{width: 20px; border-radius: 15px;}
 	
-	.leader{    display: flex;
-    font-size: 20px;
-    border-bottom: 1px solid black;
-    width: 50%;}
-	.front-back {
-    margin-top: 3px;
-	}
-	.front, .back{width: 100%; height: 90px; overflow-y: scroll;}
-	
-	.front-all, .back-all{width: 49%; height: 100%; padding: 3px 0 4px 0; border-bottom: 1px solid black;}
-	.membernum {
-    background-color: #e1a74f;
-    border-radius: 22px;
-    padding: 3px 12px 3px 12px;
-    float: right;
-    margin-right: 15px;
-    font-size: 12px;
-    position: relative;
-    bottom: 2px;
-    color: azure;
-	}
-	
-	.memberlistall{width: 600px;}
-	.main-text{display: flex;}
-	*, ::after, ::before {
-    box-sizing: content-box;
-	}
-	
-	
-	.memberlistall {
-    width: 600px;
+	/* 업무보고서 열기 버튼 */
+	.open{border: 0px; background: white; float: right;}
+	/* 업무보고서 div */
+	.report {
+    width: 500px;
+    height: 300px;
     position: absolute;
-    bottom: 400px;
-    left: 1250px;
+    left: 700px;
+    top: -14px;
 }
-	.assign{float: right; position: relative; top:6px; background-color: #4f59ca}
-	.modal-content{width: 700px; height: 620px;}
-	.form-control, .form-select{border: 1px solid #c7cbed;}
-	.form-control{width: 93%}
-	.form-select{width: 89%;}
-	.datepick{display: flex;}
-	.datepicker{width: 170px; margin-left: 10px;}
-	.dateText{    position: relative;
-    top: 5px;
-    font-size: 18px;}
-    .form-select, .colorSelect{margin-top: 16px;}
-    
+	.reportAll{margin: 15px;}
+	.btn-close {
+    width: 7px;
+    float: right;
+    position: relative;
+    bottom: 5px;
+}
+	.form-control{border: 1px solid #d5d5d5;}
+	.modal-content {top: 150px;}
 </style>
 
 </head>
@@ -565,189 +557,151 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 		
 		<!-- 본문 영역 -->
 		<div class="row main-text">
-			<div class="col-9">
-				
+			<div class="col-10">
+				<h1>내 업무 보기</h1>
 				<div class="container page-todo bootstrap snippets bootdeys">
 					<div class="col-sm-7 tasks">
 						<div class="task-list">
-							<h1>Tasks 
-								<button type="button" class="btn btn-primary assign" data-bs-toggle="modal" data-bs-target="#exampleModal">
-								  업무 할당
-								</button>
-							</h1>
-							<div class="priority high"><span>일주일 내 마감</span></div>
-							<c:forEach items="${getWeek }" var="item" varStatus="status">
-								<c:choose> 
-									<c:when test="${status.index < getWeek.size()-1}">
-										<div class="task high">
-									</c:when>  
-									<c:otherwise>
-										<div class="task high last">
-									</c:otherwise> 
-								</c:choose> 
-							
-									<div class="desc">
-										<div class="title">${item.title }</div>
-										<div class="taskContent">${item.content }</div>
-									</div>
-									<div class="time">
-										<div class="date">시작일 : ${item.startDate }</div>
-										<div class="date">마감일 : ${item.endDate }</div>
-									</div>
-									<div class="name">
-										<div class="membername">
-												<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-												<span class="member-name">${item.nickname }</span>
-										</div>
-									</div>
-								</div><!-- close. task high / last -->
+							<h4>이윤수 님의 업무입니다.</h4>
+							<div class="priority high"><span>진행 중</span></div>
+								<c:forEach items="${getMyIng }" var="item" varStatus="status">
+									<c:choose> 
+										<c:when test="${status.index < getWeek.size()-1}">
+											<div class="task high">
+										</c:when>  
+										<c:otherwise>
+											<div class="task high last">
+										</c:otherwise> 
+									</c:choose> 
 								
-							</c:forEach>
-					
-							<div class="priority medium"><span>진행 중</span></div>
-							
-							<c:forEach items="${getIng }" var="item" varStatus="status2">
-								<c:choose> 
-									<c:when test="${status2.index < getIng.size()-1}">
-										<div class="task medium">
-									</c:when>  
-									<c:otherwise>
-										<div class="task medium last">
-									</c:otherwise> 
-								</c:choose>
-							
-									<div class="desc">
-										<div class="title">${item.title }</div>
-										<div class="taskContent">${item.content }</div>
-									</div>
-									<div class="time">
-										<div class="date">시작일 : ${item.startDate }</div>
-										<div class="date">마감일 : ${item.endDate }</div>
-									</div>
-									<div class="name">
-										<div class="membername">
-												<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-												<span class="member-name">${item.nickname }</span>
+										<div class="desc">
+											<div class="title">${item.title }</div>
+											<div class="taskContent">${item.content }</div>
 										</div>
-									</div>
-								</div><!-- close. task medium / last -->
-							</c:forEach>
-					
-							<div class="priority low"><span>진행 예정</span></div>
-							
-							<c:forEach items="${getWill }" var="item" varStatus="status2">
-								<div class="task low">
-									<div class="desc">
-										<div class="title">${item.title }</div>
-										<div class="taskContent">${item.content }</div>
-									</div>
-									<div class="time">
-										<div class="date">시작일 : ${item.startDate }</div>
-										<div class="date">마감일 : ${item.endDate }</div>
-									</div>
-									<div class="name">
-										<div class="membername">
-												<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-												<span class="member-name">${item.nickname }</span>
+										<div class="time">
+											<div class="date">시작일 : ${item.startDate }</div>
+											<div class="date">마감일 : ${item.endDate }</div>
 										</div>
-									</div>
-								</div>
-							</c:forEach>
-							<div class="clearfix"></div>		
-						</div>		
-					</div>
-				</div>
-			<div class="col-2" style="margin-top: 12%;">
-				<div class="memberlistall">
-						<h4>MEMBERLIST</h4>
-						<div class="memberlist">
-							<div class="leader">
-								<c:forEach items="${leader }" var="item">
-							      	<span><img src="<%=cp %>/img/crown.png" class="leadericon"/> Leader : </span>
-									<div class="membername">
-											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
-											<span class="member-name">${item.nickname }</span>
-									</div>
-							    </c:forEach>
-							</div>
-							
-							<div class="front-back">
-								<div class="front-all">
-									<h5 class="job-type">FRONT-END <span class="membernum">${frontList.size() }명</span></h5>
-									<div class="front">
-										<c:forEach items="${frontList }" var="item">
+										<div class="name">
 											<div class="membername">
 													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
 													<span class="member-name">${item.nickname }</span>
+													<button class="open" value="${item.task_code }">업무보고서 열기</button>
+													<div class="report" id="${item.task_code }">
+														<div class="reportAll">
+															<h4>
+																${item.title }의 업무보고서
+																<button type="button" class="btn-close" aria-label="Close" value="${item.task_code }"></button>
+															</h4>
+															
+															<table class="table">
+																<tr>
+																	<th>제목</th>
+																	<th>작성일</th>
+																	<th>승인 여부</th>
+																</tr>
+																<tr>
+																	<td>어려워요</td>
+																	<td>2023-10-10</td>
+																	<td>미승인</td>
+																</tr>
+															</table>
+															
+															<button id="task_code" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="${item.task_code }">
+															  작성하기
+															</button>
+														</div>
+													</div>
 											</div>
-									    </c:forEach>
-									</div>
+										</div>
+									</div><!-- close. task high / last -->
 									
-								</div>
-								<div class="back-all">
-									<h5 class="job-type">BACK-END <span class="membernum">${backList.size() }명</span></h5>
-									<div class="back">
-										<c:forEach items="${backList }" var="item">
+								</c:forEach>
+							
+							<div class="priority medium"><span>진행 예정</span></div>
+							
+								<c:forEach items="${getMyWill }" var="item" varStatus="status2">
+									<c:choose> 
+										<c:when test="${status2.index < getIng.size()-1}">
+											<div class="task medium">
+										</c:when>  
+										<c:otherwise>
+											<div class="task medium last">
+										</c:otherwise> 
+									</c:choose>
+								
+										<div class="desc">
+											<div class="title">${item.title }</div>
+											<div class="taskContent">${item.content }</div>
+										</div>
+										<div class="time">
+											<div class="date">시작일 : ${item.startDate }</div>
+											<div class="date">마감일 : ${item.endDate }</div>
+										</div>
+										<div class="name">
+											<div class="membername">
+													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+													<span class="member-name">${item.nickname }</span>
+													<button class="open" value="${item.task_code }">업무보고서 열기</button>
+													<div class="report" id="${item.task_code }"> 업무보고서 </div>
+											</div>
+										</div>
+									</div><!-- close. task medium / last -->
+								</c:forEach>
+					
+							<div class="priority low"><span>완료한 업무</span></div>
+							
+								<c:forEach items="${getMyEnd }" var="item" varStatus="status2">
+									<div class="task low">
+										<div class="desc">
+											<div class="title">${item.title }</div>
+											<div class="taskContent">${item.content }</div>
+										</div>
+										<div class="time">
+											<div class="date">시작일 : ${item.startDate }</div>
+											<div class="date">마감일 : ${item.endDate }</div>
+										</div>
+										<div class="name">
 											<div class="membername">
 													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
 													<span class="member-name">${item.nickname }</span>
 											</div>
-									    </c:forEach>
+										</div>
 									</div>
-								</div>
-							</div><!-- close.front-back -->
-						</div><!-- close.memberlist -->
-					</div><!-- close.memberlistall -->
+								</c:forEach>
+							<div class="clearfix"></div>		
+						</div>	
+				
 			</div>
 		</div>
 		
 </div><!-- end .row -->
 
-
-<!-- 모달 -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">업무 할당</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">업무 보고서 작성</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <form id="insertTask" action="taskInsert.action">
-        	<div class="mb-3">
-			  <label for="exampleFormControlInput1" class="form-label"><span class="dateText">업무 명</span></label>
-			  <input type="text" class="form-control" name="title">
-			</div>
+      <form action="insertReport.action" id="insertReport">
+      	<div class="modal-body">
+      
 			<div class="mb-3">
-			  <label for="exampleFormControlTextarea1" class="form-label"><span class="dateText">업무 설명</span></label>
+			  <label for="exampleFormControlTextarea1" class="form-label"><span class="dateText">진행 내용</span></label>
 			  <textarea class="form-control" name="content" rows="3"></textarea>
 			</div>
-			
-			<div class="datepick">
-				<span class="dateText">시작일 : </span><input type="date" id="datePicker" class="form-control datepicker" name="startDate">&nbsp;&nbsp;
-				<span class="dateText">종료일 : </span><input type="date" id="datePicker" class="form-control datepicker" name="endDate">
+	        <div class="mb-3">
+			  <label for="exampleFormControlInput1" class="form-label"><span class="dateText">요약</span></label>
+			  <input type="text" class="form-control" name="summary">
 			</div>
-			
-			<select class="form-select" aria-label="Default select example" name="ma_codep">
-			  <option selected>할당받을 팀원</option>
-			  <c:forEach items="${backList }" var="item">
-				  <option value="${item.mem_code }">${item.nickname }</option>
-			  </c:forEach>
-			  <c:forEach items="${frontList }" var="item">
-				  <option value="${item.mem_code }">${item.nickname }</option>
-			  </c:forEach>
-			</select>
-			
-			<div class="colorSelect">
-				<label for="exampleColorInput" class="form-label">Color picker</label>
-				<input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color" name="color">
-			</div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-primary" id="save">저장</button>
-      </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	        <button type="button" class="btn btn-primary" id="reportSave">저장</button>
+	      </div>
+	      <input type="hidden" id="place" name="task_code" value=""/>
+      </form>
     </div>
   </div>
 </div>

@@ -106,7 +106,12 @@
     color: azure;
 	}
 	
-	.memberlistall{width: 500px;}
+	.memberlistall {
+    width: 600px;
+    position: absolute;
+    bottom: 400px;
+    left: 1250px;
+	}
 	.calall{margin-left: 120px; width: 800px;}
 }
 	

@@ -2,8 +2,20 @@ package com.test.mybatis.dto;
 
 public class TaskDTO
 {
-	private String task_code, title, content, startDate, endDate, ma_codep, kdate, ma_codea, cp_code;
+	private String task_code, title, content, startDate, endDate, ma_codep, kdate, ma_codea, cp_code, color;
 	
+	
+
+	public String getColor()
+	{
+		return color;
+	}
+
+	public void setColor(String color)
+	{
+		this.color = color;
+	}
+
 	public String getCp_code()
 	{
 		return cp_code;

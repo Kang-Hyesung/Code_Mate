@@ -27,6 +27,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		GROUP BY m.MEM_CODE, M.NICKNAME
 		ORDER BY NUM DESC
 	</select>
+	
+
+	
 </mapper>
 
 

@@ -105,7 +105,8 @@ public class ProjectController
 		{
 			data += "{'title' :'" + dto.getTitle() + "', "; 
 			data += "'start' :'" + dto.getStartDate() + "', ";
-			data += "'end' :'" + dto.getEndDate() + "'},"; 
+			data += "'end' :'" + dto.getEndDate() + "',"; 
+			data += "'color' :'" + dto.getColor() + "'},"; 
 		}
 		
 		data +=  "]";
@@ -167,21 +168,82 @@ public class ProjectController
 		dto.setMa_codea(ma_codea);
 		dto.setMa_codep(ma_codep);
 		dto.setCp_code("CP0002");
-		
-		System.out.println(dto.getTitle());
-		System.out.println(dto.getContent());
-		System.out.println(dto.getStartDate());
-		System.out.println(dto.getEndDate());
-		System.out.println(dto.getMa_codea());
-		System.out.println(dto.getMa_codep());
-		System.out.println(dto.getCp_code());
-		
+		System.out.println(dto.getColor());
 		
 		taskDao.addTask(dto);
 		
 		return "redirect:taskView.action";
 	}
+	
+	@RequestMapping(value = "/myTask.action")
+	public String myTask(TaskDTO dto, ModelMap model)
+	{
+		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
+		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
+		
+		String ma_codep = "MA0012";
+		
+		// 내 task 날짜별로 분류
+		ArrayList<TaskDTO> getMyIng = taskDao.getMyIng("CP0002", "MA0011");
+		ArrayList<TaskDTO> getMyWill = taskDao.getMyWill("CP0002", "MA0011");
+		ArrayList<TaskDTO> getMyEnd = taskDao.getMyEnd("CP0002", "MA0011");
+		
+		
+		System.out.println(getMyIng.size());
+		System.out.println(getMyWill.size());
+		
+		model.addAttribute("getMyIng", getMyIng);
+		model.addAttribute("getMyWill", getMyWill);
+		model.addAttribute("getMyEnd", getMyEnd);
+		
+		return "/WEB-INF/view/project/myTask.jsp";
+	}
+	
+	@RequestMapping(value = "/insertReport.action")
+	public String insertReport(ReportDTO dto, ModelMap model)
+	{
+		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
+		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
+		
+		System.out.println(dto.getSummary());
+		System.out.println(dto.getContent());
+		System.out.println(dto.getTask_code());
+		
+		
+		
+		return "/WEB-INF/view/project/myTask.jsp";
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
