@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">				
+
+<!-- 루트 엘리먼트 -->
+<!-- namespace는 인터페이스 경로를 지정하면 된다.
+인터페이스와 연결되는 무언가를 만들겠다.          
+IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. -->
+<mapper namespace="com.test.mybatis.dao.IAdminDAO">
+
+	<!-- 관리자 전체 회원 조회 -->
+	<select id="list" resultType="com.test.mybatis.dto.AdminDTO">
+		SELECT MEM_CODE, ID, PW, NICKNAME, POST, COMMENTS, TO_CHAR(KDATE, 'YYYY-MM-DD') AS KDATE, MBTI
+		FROM ALL_MEMBER_VIEW
+		WHERE COMMENTS >= 3
+		ORDER BY MEM_CODE
+	</select>
+	
+	<!-- 패널티 회원 전체 조회 -->
+	<select id="list_penalty" resultType="com.test.mybatis.dto.Admin_PenaltyDTO">
+	
+		SELECT MEM_CODE, NICKNAME, TO_CHAR(KDATE, 'YYYY-MM-DD') AS KDATE, TYPE, R_CONTENT
+				, TO_CHAR(R_DATE, 'YYYY-MM-DD') AS R_DATE, PENALTY
+				, REASON, TO_CHAR(PRO_DATE, 'YYYY-MM-DD') AS PRO_DATE, PROCESS
+		FROM PENALTY_ALL_MEMBER
+		ORDER BY MEM_CODE
+	
+	</select>
+	
+	<!-- 탈퇴한 회원 전체 조회 -->
+	<select id="list_close" resultType="com.test.mybatis.dto.Admin_CloseDTO">
+		
+		SELECT MEM_CODE, ID, PW, NICKNAME, KDATE, POST, COMMENTS, MBTI, CLOSE_DATE
+		FROM CLOSE_MEMBER_VIEW
+		ORDER BY MEM_CODE
+	
+	</select>
+	
+	<!-- 개설 신청 게시판 수 -->
+	<select id="app_count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM APP_OPENING
+	</select>
+	
+	<!-- 기술 게시판 수 -->
+	<select id="te_count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM TECH_QNA
+	</select>
+	
+	<!-- 커리어 게시판 수 -->
+	<select id="cq_count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM C_QNA
+	</select>
+	
+	<!-- 포트폴리오 게시판 수 -->
+	<select id="po_count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM PORTFOLIO
+	</select>
+	
+	<!-- 전체 회원 수 -->
+	<select id="all_count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM MEMBER
+	</select>
+	
+	<!-- 진행중인 프로젝트 수 -->
+	<select id="project_count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM C_PROJECT
+	</select>
+	
+	<!-- 전체 들어온 신고 건수 -->
+	<select id="report_count" resultType="java.lang.Integer">
+		SELECT REPORT_COUNT
+		FROM REPORT_COUNT_VIEW
+	</select>
+	
+	<!-- 전체 하루동안 들어온 게시물 신고 개수 -->
+	<select id="post_count" resultType="java.lang.Integer">
+		SELECT COUNT
+		FROM POST_REPORT_VIEW_TODAY
+	</select>
+	
+	<!-- 전체 하루동안 들어온 댓글 신고 개수 -->
+	<select id="comment_count" resultType="java.lang.Integer">
+		SELECT COUNT
+		FROM VIEW_COMMENT_REPORT_TODAY
+	</select>
+	
+	<!-- 전체 하루동안 들어온 대댓글 신고 개수 -->
+	<select id="reply2_count" resultType="java.lang.Integer">
+		SELECT COUNT
+		FROM VIEW_REPLY2_REPORT_TODAY
+	</select>
+
+	<!-- 전체 하루동안 들어온 팀 신고 개수 -->
+	<select id="team_count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM TEAM_REPORT
+		WHERE TO_DATE(TO_CHAR(KDATE,'YYYY-MM-DD'), 'YYYY-MM-DD') = TO_DATE(TO_CHAR(SYSDATE,'YYYY-MM-DD'), 'YYYY-MM-DD')
+	</select>
+	
+	<!-- 일별 전체 프로젝트 조회 구문 -->
+	<select id="prod_list" resultType="com.test.mybatis.dto.Admin_ChartDTO">
+		SELECT ONE,TWO,THREE,FOUR
+		FROM DAY_PRO_VIEW
+	</select>
+	
+	<!-- 주별 전체 프로젝트 조회 구문 -->
+	<select id="prow_list" resultType="com.test.mybatis.dto.Admin_ChartDTO">
+		SELECT ONE,TWO,THREE,FOUR
+		FROM WEEK_PRO_VIEW
+	</select>
+	
+	<!-- 주별 전체 프로젝트 조회 구문 -->
+	<select id="prom_list" resultType="com.test.mybatis.dto.Admin_ChartDTO">
+		SELECT ONE,TWO,THREE,FOUR
+		FROM MONTH_PRO_VIEW
+	</select>
+	
+	<!-- 일별 전체 신고 조회 구문 -->
+	<select id="reportd_list" resultType="com.test.mybatis.dto.Admin_ChartDTO">
+		SELECT ONE,TWO,THREE,FOUR
+		FROM TODAY_REPORT_VIEW
+	</select>
+	
+	<!-- 주별 전체 신고 조회 구문 -->
+	<select id="reportw_list" resultType="com.test.mybatis.dto.Admin_ChartDTO">
+		SELECT ONE,TWO,THREE,FOUR
+		FROM WEEK_REPORT_VIEW
+	</select>
+	
+	<!-- 월별 전체 신고 조회 구문 -->
+	<select id="reportm_list" resultType="com.test.mybatis.dto.Admin_ChartDTO">
+		SELECT ONE,TWO,THREE,FOUR
+		FROM MONTH_REPORT_VIEW
+	</select>
+	
+	<!-- 일별 전체 신고 조회 구문 -->
+	<select id="memd_list" resultType="com.test.mybatis.dto.Admin_ChartDTO">
+		SELECT ONE,TWO,THREE,FOUR
+		FROM TODAY_MEMBER_VIEW
+	</select>
+	
+	<!-- 주별 전체 신고 조회 구문 -->
+	<select id="memw_list" resultType="com.test.mybatis.dto.Admin_ChartDTO">
+		SELECT ONE,TWO,THREE,FOUR
+		FROM WEEK_MEMBER_VIEW
+	</select>
+	
+	<!-- 월별 전체 신고 조회 구문 -->
+	<select id="memm_list" resultType="com.test.mybatis.dto.Admin_ChartDTO">
+		SELECT ONE,TWO,THREE,FOUR
+		FROM MONTH_MEMBER_VIEW
+	</select>
+	
+	<!-- 신고 들어온 기술 조회 -->
+	<select id="mem_penalg" resultType="com.test.mybatis.dto.Member_PenaltyDTO">
+		SELECT MEM_CODE,ID,NICKNAME,CODE, REASON, CONTENT
+			, TO_CHAR(KDATE,'YYYY-MM-DD') AS KDATE, PENALTY
+		FROM TQ_GET_REPORT_VIEW
+		WHERE PENALTY ='-1'
+		ORDER BY MEM_CODE
+	</select>
+	
+	<!-- 신고 들어온 프로젝트 조회 -->
+	<select id="mem_penalpg" resultType="com.test.mybatis.dto.Member_PenaltyDTO">
+		SELECT MEM_CODE,ID,NICKNAME,CODE, REASON, CONTENT, TO_CHAR(KDATE,'YYYY-MM-DD') AS KDATE, PENALTY
+		FROM PRO_GET_REPORT_VIEW
+		WHERE PENALTY ='-1'
+		ORDER BY MEM_CODE
+	</select>
+	
+	<!-- 신고 들어온 커리어 조회 -->
+	<select id="mem_penalcg" resultType="com.test.mybatis.dto.Member_PenaltyDTO">
+		SELECT MEM_CODE, ID, NICKNAME, CODE, REASON, CONTENT, TO_CHAR(KDATE,'YYYY-MM-DD') AS KDATE, PENALTY
+		FROM CQ_GET_REPORT_VIEW
+		WHERE PENALTY = '-1'
+		ORDER BY MEM_CODE
+	</select>
+	
+	<!-- 신고 들어온 포트폴리오 조회 -->
+	<select id="mem_penalpog" resultType="com.test.mybatis.dto.Member_PenaltyDTO">
+		SELECT MEM_CODE, ID, NICKNAME, CODE, REASON, CONTENT, TO_CHAR(KDATE,'YYYY-MM-DD') AS KDATE, PENALTY
+		FROM PT_GET_REPORT_VIEW
+		WHERE PENALTY = '-1'
+		ORDER BY MEM_CODE
+	</select>
+	
+	<!-- 관리자 내용 추출 -->
+	<select id="admin_list" resultType="com.test.mybatis.dto.Admin_listDTO">
+		SELECT A.ADMIN_CODE AS ADMIN_CODE, A.MEM_CODE AS MEM_CODE, M.NICKNAME AS NICKNAME
+		FROM ADMIN A JOIN MEMBER M ON M.MEM_CODE = A.MEM_CODE
+	</select>
+	
+	<!-- 패널티 내용 추출 -->
+	<select id="admin_penalty" resultType="com.test.mybatis.dto.Penalty_listDTO">
+		SELECT PE_CODE, NAME
+		FROM PENALTY
+	</select>
+	
+	<!-- 타깃 내용 추출 -->
+	<select id="admin_target" resultType="com.test.mybatis.dto.Admin_TargetDTO">
+		SELECT PTG_CODE, TARGET
+		FROM P_TARGET
+	</select>
+	
+	<!-- 처리 사유 내용 추출 -->
+	<select id="p_reason" resultType="com.test.mybatis.dto.PreasonDTO">
+		SELECT PRE_CODE, REASON
+		FROM P_REASON
+	</select>
+	
+	<!-- 인서트 구문 -->
+
+	<!-- 패널티 내용 추가(개설 신청 게시판 신고처리) -->
+	<insert id="ao_insert">
+		INSERT INTO AO_PROCESS
+		VALUES (TO_CHAR('AOP' || LPAD(PP_SEQ.NEXTVAL, 4, '0'))
+		, SYSDATE
+		,#{code}
+		,#{admin_code}
+		,#{pe_code}
+		,#{pre_code}
+		,#{ptg_code})		
+	</insert>
+	
+	<!-- 패널티 내용 추가(개설 신청 게시판 댓글 신고처리) -->
+	<insert id="aoc_insert">
+		INSERT INTO AOC_PROCESS
+		VALUES (TO_CHAR('ACP' || LPAD(PP_SEQ.NEXTVAL, 4, '0'))
+		, SYSDATE
+		,#{admin_code}
+		,#{pre_code}
+		,#{code}
+		,#{pe_code}
+		,#{ptg_code})	
+	</insert>
+	
+	<!-- 패널티 내용 추가(개설 신청 게시판 대댓글 신고처리) -->
+	<insert id="ao2_insert">
+		INSERT INTO AO2_PROCESS
+		VALUES (TO_CHAR('A2P' || LPAD(PP_SEQ.NEXTVAL, 4, '0'))
+		, SYSDATE
+		,#{admin_code}
+		,#{pre_code}
+		,#{code}
+		,#{pe_code}
+		,#{ptg_code})	
+	</insert>
+	
+	<!-- 패널티 내용 추가(기술 게시판 신고처리) -->
+	<insert id="tq_insert">
+		INSERT INTO TQ_PROCESS
+		VALUES (TO_CHAR('TQP' || LPAD(TQP_SEQ.NEXTVAL, 4, '0'))
+		,SYSDATE
+		,#{admin_code}
+		,#{pre_code}
+		,#{pe_code}
+		,#{ptg_code}
+		,#{code})		
+	</insert>
+	
+	<!-- 패널티 내용 추가(기술 게시판 댓글 신고처리) -->
+	<insert id="tqc_insert">
+		INSERT INTO TQC_PROCESS
+		VALUES (TO_CHAR('TCP' || LPAD(TCP_SEQ.NEXTVAL, 4, '0'))
+		, SYSDATE
+		,#{admin_code}
+		,#{pre_code}
+		,#{code}
+		,#{pe_code}
+		,#{ptg_code})
+	</insert>
+	
+	<!-- 패널티 내용 추가 (기술 게시판 대댓글 신고처리)-->
+	<insert id="tq2_insert" >
+		INSERT INTO TQ2_PROCESS
+		VALUES (TO_CHAR('T2P' || LPAD(T2P_SEQ.NEXTVAL, 4, '0'))
+		, SYSDATE
+		,#{code}
+		,#{admin_code}
+		,#{pre_code}
+		,#{pe_code}
+		,#{ptg_code})
+	</insert>
+	
+	<!-- 패널티 내용 추가 (커리어 게시판 신고처리)  -->
+	<insert id="cq_insert" >
+		INSERT INTO CQ_PROCESS
+		VALUES(TO_CHAR('QPR' || LPAD(QPR_SEQ.NEXTVAL, 4, '0'))
+		,SYSDATE
+		,#{admin_code}
+		,#{pre_code}
+		,#{code}
+		,#{pe_code}
+		,#{ptg_code})
+	</insert>
+	
+	<!-- 패널티 내용 추가 (커리어 게시판 댓글 신고처리)  -->
+	<insert id="cqc_insert" >
+		INSERT INTO CQC_PROCESS
+		VALUES(TO_CHAR('QPR' || LPAD(QPR_SEQ.NEXTVAL, 4, '0'))
+		,SYSDATE
+		,#{admin_code}
+		,#{pre_code}
+		,#{code}
+		,#{pe_code}
+		,#{ptg_code})
+	</insert>
+	
+	<!-- 패널티 내용 추가 (커리어 게시판 대댓글 신고처리)  -->
+	<insert id="cq2_insert" >
+		INSERT INTO CQ2_PROCESS
+		VALUES(TO_CHAR('Q2P' || LPAD(Q2P_SEQ.NEXTVAL, 4, '0'))
+		,SYSDATE
+		,#{admin_code}
+		,#{pre_code}
+		,#{code}
+		,#{pe_code}
+		,#{ptg_code})
+	</insert>
+	
+	<!-- 패널티 내용 추가 (포트폴리오 게시판 신고처리)  -->
+	<insert id="p_insert" >
+		INSERT INTO P_PROCESS
+		VALUES (TO_CHAR('PP' || LPAD(PP_SEQ.NEXTVAL, 4, '0'))
+		, SYSDATE
+		,#{code}
+		,#{admin_code}
+		,#{pre_code}
+		,#{pe_code}
+		,#{ptg_code})
+	</insert>
+	
+	<!-- 패널티 내용 추가 (포트폴리오 게시판 댓글 신고처리)  -->
+	<insert id="pc_insert" >
+		INSERT INTO PC_PROCESS
+		VALUES (TO_CHAR('PRR' || LPAD(PP_SEQ.NEXTVAL, 4, '0'))
+		, SYSDATE
+		,#{code}
+		,#{admin_code}
+		,#{pre_code}
+		,#{pe_code}
+		,#{ptg_code})
+	</insert>
+	
+	<!-- 패널티 내용 추가 (포트폴리오 게시판 대댓글 신고처리)  -->
+	<insert id="p2_insert" >
+		INSERT INTO P2_PROCESS
+		VALUES (TO_CHAR('P2P' || LPAD(PP_SEQ.NEXTVAL, 4, '0'))
+		, SYSDATE
+		,#{code}
+		,#{pre_code}
+		,#{pe_code}
+		,#{admin_code}
+		,#{ptg_code})
+	</insert>
+
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
