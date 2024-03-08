@@ -1,0 +1,829 @@
+@charset "UTF-8";
+
+
+/* 마일스톤 최상위 부모 영역 div */
+.col-10.milestone-main-Parent-Area 
+{
+    height: 1400px;
+    /* border: 1px solid mediumorchid; */
+}
+
+/* 마일스톤 메인 내용 영역 div */
+.row .milestone-mainBox-Area 
+{
+    /* border: 1px solid purple; */
+    height: 1358px;
+    width: 975px;
+    margin: 22px auto;
+}
+
+/* 마일스톤 하나의 대분류의 최상위 부모 영역 div */
+.col-6.one-milestone-Parent-Area 
+{
+    /* border: 1px solid aquamarine; */
+    height: 610px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+/* 마일스톤 하나의 대분류에 해당하는 메인 영역 div */
+.col-6.one-milestone-main-Area 
+{
+    /* border: 1px solid burlywood; */
+}
+
+
+
+/* 마일스톤 하나의 대분류 사각형을 감싸는 박스 */
+.one-milestone-Parent-Box {
+    border: 1px solid #cbcbcb;
+    height: 505px;
+    box-shadow: 0px 4px 2px #aba4a4;
+    border-radius: 10px;
+}
+
+
+/* 마일스톤 하나의 대분류에 해당하는 박스 영역 div */
+.one-milestone-main-box 
+{
+    /* border: 1px solid red; */
+    width: 450px;
+    height: 575px;
+    display: inline-block;
+    position: absolute;
+    top: 24px;
+}
+
+
+/* 마일스톤 대분류의 완성도 프로그레스바를 감싸는 div 영역 */
+.milestone-progress-Area.plan 
+{
+    margin: 6px 0 6px 0;
+}
+
+
+/* 마일스톤 대분류의 프로그레스바와, 완성도 % 숫자 텍스트를 감싸는 부모 박스 div */
+.progress-bar-percent-Box {
+    display: flex;
+    justify-content: space-around;
+    /* border: 1px solid royalblue; */
+    height: 26px;
+    position: relative;
+    top: 6px;
+}
+
+/* 마일스톤 대분류의 완성도 % 숫자 텍스트에 해당하는 스타일 */
+span.progress-bar-percent-content 
+{
+    font-size: 19px;
+    font-weight: bold;
+    color: rgb(255, 108, 108);
+    text-shadow: rgb(207, 192, 194) 2px 0px 2px;
+}
+
+/* 마일스톤 프로그레스바 하나만을 감싸는 div 박스 영역 */
+.milestone-progress-all-area 
+{
+    /* border: 1px solid darkorange; */
+    display: flex;
+    height: 15px;
+    flex-direction: column;
+    justify-content: inherit;
+    position: relative;
+    top: 7px;
+    right: 7px;
+}
+
+/* 마일스톤 대분류의 프로그레스바 트랙 스타일 */
+.progress.milestone-progress-box.plan-progress-box.plan 
+{
+    height: 8px;
+    border-radius: 4px;
+    width: 360px;
+    box-shadow: 0px 1px 2px #e9adbe;
+    display: flex;
+    position: relative;
+}
+
+/* 마일스톤 대분류의 프로그레스바 컬러 영역 스타일 */
+.progress-bar.milestone-progress-bar.plan.text-dark 
+{
+    background: #ff6c6c;
+	width: 50%;    
+}
+
+/* 마일스톤의 대분류 텍스트를 감싸는 부모 div 영역 */
+.one-milestone-mainCategory-box.plan-category-box.plan 
+{
+    background: #ffa7a7;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: left;
+    padding: 10px 0 5px 20px;
+    height: 80px;
+}
+
+
+
+
+/* 마일스톤 대분류 옆에 있는 숫자 박스에 대한 스타일 */
+.milestone-step-numberBox {
+    display: inline-block;
+    position: absolute;
+    background: white;
+    color: #ffa7a7;
+    text-shadow: -1px 0px 0px #914949;
+    font-weight: bold;
+    width: 102px;
+    height: 45px;
+    text-align: center;
+    line-height: 44px;
+    left: -16px;
+    top: 53px;
+    font-size: 25px;
+    box-shadow: 6px 0px 3px #cf7581;
+    border-radius: 4px;
+}
+
+
+/* 마일스톤의 대분류 텍스트에 해당하는 h3 스타일 */
+h3.milestone-mainCategory-text.plan-category-text.plan {
+    color: white;
+    font-weight: bold;
+    text-shadow: -1px 0px 2px #c14949;
+    font-size: 23px;
+    display: inline-block;
+    padding-left: 15px;
+    position: relative;
+    left: 68px;
+    top: 9px;
+    height: 40px;
+    line-height: 36px;
+    width: 315px;
+}
+
+/* 체크 리스트의 짝수 번째에 해당하는 항목에 대한 스타일 */
+.one-milestone-checkbox.plan-check.plan:nth-child(even)
+{
+  background : #ffc2c2;
+}
+
+
+/* 마일스톤의 모든 체크리스트 영역을 다시 감싸는 영역 div */
+.one-milestone-mainContent-box {
+    /* border: 1px solid darkturquoise; */
+    border-left: 2px solid #f59090;
+    width: 380px;
+    margin: 0 auto;
+    height: 210px;
+    position: relative;
+    top: 38px;
+    overflow-y: scroll;
+    background: #ffe7e7;
+    border-radius: 11px;
+}
+
+/* 마일스톤의 모든 체크리스트를 감싸는 영역 div */
+.milestone-checkList-box
+{
+    /* border: 1px solid springgreen; */
+    height: max-content;
+    width: 350px;
+    position: relative;
+    top: 20px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+}
+
+
+/* 마일스톤 체크박스 목록 하나를 감싸는 박스 영역 div */
+.one-milestone-checkbox 
+{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    background: white;
+    border-radius: 10px;
+    height: 34px;
+    border: 1px solid #efb2b2;
+}
+
+/* 마일스톤 체크박스 네모박스에 해당하는 스타일 */
+input.plan-checkbox 
+{
+    margin-right: 4px;
+    position: relative;
+    margin-left: 7px;
+    
+}
+
+/* 마일스톤 체크박스 내용에 마우스 올렸을 때 보이는 툴팁 스타일 */
+.custom-tooltip 
+{
+  --bs-tooltip-bg:  #1fc1c0;
+  --bs-tooltip-color: var(--bs-white);
+  --bs-tooltip-opacity: 0.88;
+  
+}
+
+
+
+/* 마일스톤 체크박스 내용에 해당하는 텍스트 스타일 */
+span.milestone-checkbox-content 
+{
+    position: relative;
+    top: 5px;
+    font-size: 14px;
+    color: #55585d;
+    display: inline-block;
+    /* border: 1px solid red; */
+    width: 184px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 23px;
+}
+
+/* 전체 마일스톤 내용과 버튼을 감싸는 박스 */
+.all-milestone-Content-and-btn-box 
+{
+    /* border: 1px solid red; */
+    height: 335px;
+    display: inline-block;
+    width: 449px;
+}
+
+
+
+/* 체크박스 타이틀을 감싸는 부모 영역 */
+.checkbox-title-Area {
+    /* border: 1px solid #1a81ff; */
+    position: relative;
+    width: 449px;
+    height: 70px;
+    display: flex;
+}
+
+
+/* 체크박스 타이틀을 감싸는 박스 영역 */
+.checkbox-title 
+{
+    /* border: 1px solid green; */
+    display: inline-block;
+    margin: 0 auto;
+    height: 70px;
+    width: 372px;
+    text-align: left;
+    line-height: 105px;
+    font-size: 23px;
+    border-bottom: 2px solid #ffa7a7;
+    padding: 0 0 10px 10px;
+}
+
+/* 체크박스 타이틀 텍스트에 해당하는 스타일 */
+span.checklist-title-txt.plan-check-title 
+{
+    color: #ff6c6c;
+    font-weight: bold;
+    /* border-bottom: 2px solid red; */
+}
+
+/* 체크박스 타이틀 아이콘에 해당하는 스타일 */
+span.checklist-title-icon.material-symbols-outlined 
+{
+    font-size: 28px;
+    color: #ff6c6c;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    text-shadow: 1px 0px 2px #ff6666;
+}
+
+
+/* 마일스톤의 체크박스 목록 안에 있는 수정, 삭제 버튼을 감싸는 박스 영역 div */
+.checkbox-all-btn-box 
+{
+    /* border: 1px solid #c397ff; */
+    text-align: right;
+    display: flex;
+    width: 115px;
+    height: 24px;
+    position: relative;
+    top: 4px;
+    right: 4px;
+    justify-content: space-between;
+}
+
+
+/* 마일스톤의 체크박스 안에 있는 수정, 삭제 버튼에 해당하는 스타일 */
+button.checkbox-btn 
+{
+    font-size: 11px;
+    height: 22px;
+}
+
+
+/* 마일스톤의 체크박스 내용 수정 버튼 안에 있는 span 텍스트를 감싸는 박스 영역 */
+span.milestone-edit-content 
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 마일스톤의 체크박스 내용 삭제 버튼 안에 있는 span 텍스트를 감싸는 박스 영역 */
+span.milestone-del-content
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 마일스톤의 체크박스 내용 수정 버튼 안에 있는 span 텍스트*/
+span.milestone-edit-btn-text 
+{
+    font-weight: bold;
+    font-size: 10px;
+}
+
+
+/* 마일스톤의 체크박스 내용 수정 아이콘 스타일 */
+span.milestone-edit-btn-icon.material-symbols-outlined 
+{
+    font-size: 14px;
+}
+
+/* 마일스톤 체크박스 내용 삭제 버튼 아이콘 스타일  */
+span.milestone-delete-btn-icon.material-symbols-outlined 
+{
+    font-size: 14px;
+}
+
+/* 마일스톤 체크박스 내용 수정 버튼 텍스트 스타일 */
+span.milestone-edit-btn-text 
+{
+    font-weight: bold;
+    font-size: 10px;
+}
+
+
+/* 마일스톤 체크박스 내용 삭제 버튼 텍스트 스타일 */
+span.milestone-del-btn-text 
+{
+    font-weight: bold;
+    font-size: 10px;
+}
+
+
+/* 마일스톤의 체크박스 내용 수정 버튼 스타일 */
+button.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info 
+{
+    width: 55px;
+    border: none;
+    background: #ffffff80;
+    /* border: 1px solid #e9e9e9; */
+    /* box-shadow: 0px 2px 2px #7171718c; */
+}
+
+
+/* 마일스톤의 체크박스 내용 삭제 버튼 스타일 */
+button.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-danger 
+{
+    width: 55px;
+    border: none;
+    background: #ffffff80;
+    /* border: 1px solid #e9e9e9; */
+}
+
+
+/* 마일스톤의 체크박스 내용 수정 버튼에 마우스 오버시 스타일 */
+button.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info:hover {
+    background: #6cddda;
+    transition: .2s;
+    transform: scale(1.08);
+    /* box-shadow: 0px 2px 2px #34677fbd; */
+}
+
+
+/* 마일스톤의 체크박스 내용 삭제 버튼에 마우스 오버시 스타일 */
+button.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-danger:hover {
+    background: #df5f5f;
+    transition: .2s;
+    transform: scale(1.08);
+    /* box-shadow: 0px 2px 2px #34677fbd; */
+}
+
+
+
+/* 마일스톤의 체크박스 내용 수정 버튼에 마우스 오버시 텍스트 스타일 */
+button.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info:hover > span.milestone-edit-content
+{
+	color: white;
+	text-shadow: 0px 1px 1px #4d90af;
+}
+
+/* 마일스톤의 체크박스 내용 수정 버튼에 마우스 오버시 아이콘 스타일 */
+button.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info:hover > span.milestone-edit-content
+> span.milestone-edit-btn-icon.material-symbols-outlined
+{
+	transition: .4s;
+	transform: rotate(360deg);
+}
+
+
+/* 마일스톤의 체크박스 내용 삭제 버튼에 마우스 오버시 텍스트 스타일 */
+button.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-danger:hover > span.milestone-del-content
+{
+	color: white;
+	text-shadow: 0px 1px 1px #4d90af;
+}
+
+
+/* 마일스톤의 체크박스 내용 삭제 버튼에 마우스 오버시 아이콘 스타일 */
+button.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-danger:hover > span.milestone-del-content
+> span.milestone-delete-btn-icon.material-symbols-outlined
+{
+	transition: 0.4s;
+    transform: rotate(45deg);
+}
+
+/* 마일스톤의 체크박스 내용 수정 버튼 클릭시 스타일 */
+button.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info:active {
+    background: #3b788b;
+    transition: 0.2s;
+    transform: scale(0.93);
+    /* box-shadow: 0 -2px 2px #454545; */
+}
+
+
+/* 마일스톤의 체크박스 내용 삭제 버튼 클릭시 스타일 */
+button.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-danger:active {
+    background: #b94a4a;
+    transition: 0.2s;
+    transform: scale(0.93);
+    /* box-shadow: 0 -2px 2px #454545; */
+}
+
+
+
+/* 마일스톤의 체크박스 내용 수정 버튼 클릭시 텍스트 스타일 */
+button.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info:active > span.milestone-edit-content
+{
+	color: #b1b1b1;
+    text-shadow: 0 -1px 1px #2f3337;
+}
+
+
+/* 마일스톤의 체크박스 내용 삭제 버튼 클릭시 텍스트 스타일 */
+button.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-danger:active > span.milestone-del-content
+{
+	color: #b1b1b1;
+    text-shadow: 0 -1px 1px #2f3337;
+}
+
+
+
+
+/* 마일스톤 항목을 추가하는 버튼의 부모 영역 div */
+.milestone-add-list-btn-Area 
+{
+    /* border: 1px solid red; */
+    display: flex;
+    height: 38px;
+    position: relative;
+    justify-content: end;
+    top: 48px;
+    width: 380px;
+    margin: 0 auto;
+}
+
+
+/* 마일스톤 항목을 추가하는 버튼을 감싸는 박스 영역에 대한 스타일 */
+.milestone-add-list-btn-box 
+{
+    /* border: 1px solid green; */
+    display: inline-block;
+    position: relative;
+    float: right;
+}
+
+/* 마일스톤 항목을 추가하는 버튼에 해당하는 스타일 */
+button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn
+{
+    background: #ffa7a7;
+    box-shadow: 0 3px 2px #8e9dbf;
+    border: 1px solid #f59696;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    right: 5px;
+    transition: 0.3s;
+}
+
+
+/* 마일스톤 항목을 추가하는 버튼에 마우스를 올렸을 때 스타일 */
+button.milestone-add-list-btn.btn.btn-light:hover 
+{
+    background: #ff6c6c;
+    text-shadow: 0 -1px 1px #2f3337;
+}
+
+
+/* 마일스톤 항목을 추가하는 버튼을 클릭했을 때 스타일 */
+button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn:active 
+{
+    background: #bf6464;
+    border: 1px solid #b56c73;
+    transition: 0.3s;
+    transform: scale(0.85);
+}
+
+
+/* 마일스톤 항목을 추가하는 버튼에 마우스를 올렸을 때 아이콘 스타일 */
+button.milestone-add-list-btn.btn.btn-light:hover 
+> span.milestone-add-btn-icon.material-symbols-outlined 
+{
+    transition: 0.4s;
+    transform: rotate(360deg);
+    text-shadow: 0 -1px 1px #2f3337;
+}
+
+/* 마일스톤 항목을 추가하는 버튼을 클릭했을 때 아이콘 스타일 */
+button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn:active 
+> span.milestone-add-btn-icon.material-symbols-outlined 
+{
+	color: #b1b1b1;
+    transition: 0.3s;
+    transform: scale(0.85);
+    text-shadow: 0 -3px 2px #2f3337;
+}
+
+
+/* 마일스톤 항목 추가 버튼 안에 있는 + 텍스트 스타일 */
+span.milestone-add-btn-icon.material-symbols-outlined 
+{
+    font-size: 18px;
+    display: inline-block;
+    position: relative;
+    right: 9px;
+    bottom: 3px;
+    color: white;
+    text-shadow: 0 1px 1px #4a82ae;
+}
+
+/*====================[스크롤바]====================*/
+
+/* 스크롤바 전체 */
+.one-milestone-mainContent-box::-webkit-scrollbar 
+{
+    width: 13px;
+}
+/* 기획 스크롤바 막대 */
+.plan-mainContent-box::-webkit-scrollbar-thumb 
+{
+  background-color: #ffa7a7;
+  border-radius: 10px;
+  background-clip: padding-box;
+  /* box-shadow: 0px 5px 5px #329162; */
+  border: 1px solid transparent;
+}
+/* 스크롤바 트랙 (막대 외부) */
+.one-milestone-mainContent-box::-webkit-scrollbar-track 
+{
+  background-color: #e7e7e7;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+/*===================================================*/
+
+/*=======================================*/
+/*================[설계]=================*/
+/*=======================================*/
+
+/* [설계] 프로그레스바 막대 스타일 */
+.progress-bar.milestone-progress-bar.plan.text-dark.design 
+{
+    background: #08b7b1;
+    width: 50%;
+}
+
+/* [설계] 프로그레스바 트랙 스타일 */
+.progress.milestone-progress-box.plan-progress-box.plan.design 
+{
+    box-shadow: 0px 1px 2px #9ad1db;
+}
+
+/* [설계] 프로그레스바 완료 퍼센트 숫자 텍스트 스타일 */
+span.progress-bar-percent-content.design 
+{
+    color: rgb(8 183 177);
+    text-shadow: rgb(120 177 177) 2px 0px 2px;
+}
+
+/* [설계] 카테고리 헤더에 해당하는 영역 */
+.one-milestone-mainCategory-box.plan-category-box.plan.design 
+{
+    background: #84ebeb;
+}
+
+/* [설계] 스텝 숫자 박스에 해당하는 영역 div */
+.milestone-step-numberBox.design 
+{
+    color: #84ebeb;
+    text-shadow: -1px 0px 0px #427f87;
+    box-shadow: 6px 0px 3px #75b0cf;
+}
+
+/* [설계] 마일스톤 대분류 텍스트 스타일 */
+h3.milestone-mainCategory-text.plan-category-text.plan.design 
+{
+    text-shadow: -1px 0px 2px #2b5861;
+}
+
+/* [설계] 체크리스트 아이콘, 텍스트를 감싸는 div 영역 */
+.checkbox-title.design 
+{
+    border-bottom: 2px solid #08b7b1;
+}
+
+/* [설계] 체크리스트 아이콘 스타일 */
+span.checklist-title-icon.material-symbols-outlined.design 
+{
+    color: #08b7b1;
+    text-shadow: 1px 0px 2px #3f8aad;
+}
+
+/* [설계] 체크리스트 텍스트 스타일 */
+span.checklist-title-txt.plan-check-title.design 
+{
+    color: #08b7b1;
+}
+
+
+/* [설계] 모든 체크리스트 항목들을 감싸는 부모 div 영역 */
+.one-milestone-mainContent-box.plan-mainContent-box.plan.design 
+{
+    background: #e7fdfa;
+    border-left: 2px solid #84ebeb;
+}
+
+/* [설계] 모든 체크리스트 항목에 대한 스타일 */
+.one-milestone-checkbox.plan-check.plan.design 
+{
+    border: 1px solid #9de3d9;
+}
+
+/* [설계] 짝수번째 체크리스트 항목에 대한 스타일 */
+.one-milestone-checkbox.plan-check.plan.design:nth-child(even) 
+{
+    background: #b6f1f1;
+}
+
+/* [설계] 체크리스트 항목 추가 버튼 스타일 */
+button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn.design 
+{
+    background: #84ebeb;
+    border: 1px solid #69ddd8;
+}
+
+/* [설계] 체크리스트 항목 추가 버튼에 마우스를 올렸을 때 스타일 */
+button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn.design:hover 
+{
+    background: #08b7b1;
+    border: 1px solid #0e936e;
+}
+
+/* [설계] 체크리스트 항목 추가 버튼 클릭했을 때 스타일 */
+button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn.design:active 
+{
+    background: #108a91;
+    border: 1px solid #0b6762;
+}
+
+/* [설계] 스크롤바 막대 색상 스타일 */
+.one-milestone-mainContent-box.plan-mainContent-box.plan.design::-webkit-scrollbar-thumb 
+{
+  background-color: #84ebeb;
+  border-radius: 10px;
+  background-clip: padding-box;
+  /* box-shadow: 0px 5px 5px #329162; */
+  border: 1px solid transparent;
+}
+
+
+
+/*=======================================*/
+/*================[구현]=================*/
+/*=======================================*/
+
+/* [구현] 프로그레스바 막대 스타일 */
+.progress-bar.milestone-progress-bar.plan.text-dark.implement 
+{
+    background: #f3c027;
+    width: 50%;
+}
+
+/* [구현] 완료한 마일스톤 체크리스트 퍼센트 숫자 텍스트 스타일 */
+span.progress-bar-percent-content.implement 
+{
+    color: #f3c027;
+	text-shadow: rgb(181 160 135) 2px 0px 2px;
+}
+
+
+/* [구현] 마일스톤 대분류 헤더 div 영역 */
+.one-milestone-mainCategory-box.plan-category-box.plan.implement 
+{
+    background: #f5f272;
+}
+
+/* [구현] 마일스톤 대분류 헤더 h3 텍스트 스타일 */
+h3.milestone-mainCategory-text.plan-category-text.plan.implement 
+{
+    text-shadow: -1px 0px 2px #d75500;
+}
+
+/* [구현] 마일스톤 스텝 숫자에 해당하는 텍스트 박스 스타일 */
+.milestone-step-numberBox.implement 
+{
+    color: #f3c027;
+    text-shadow: -1px 0px 0px #915231;
+    box-shadow: 6px 0px 3px #d79867;
+}
+
+/* [구현] 체크리스트 텍스트, 아이콘을 감싸는 div 영역 */
+.checkbox-title.implement 
+{
+    border-bottom: 2px solid #f3c027;
+}
+
+/* [구현] 체크리스트 텍스트에 해당하는 스타일 */
+span.checklist-title-txt.plan-check-title.implement 
+{
+    color: #f3c027;
+}
+
+
+/* [구현] 체크리스트 아이콘에 해당하는 스타일 */
+span.checklist-title-icon.material-symbols-outlined.implement 
+{
+    color: #f3c027;
+    text-shadow: 1px 0px 2px #9f710c;
+}
+
+/* [구현] 체크리스트 전체 항목을 감싸는 div 영역 */
+.one-milestone-mainContent-box.plan-mainContent-box.plan.implement 
+{
+    background: #fdf7df;
+    border-left: 2px solid #f3c027;
+}
+
+
+/* [구현] 체크리스트 하나의 항목에 대한 스타일 */
+.one-milestone-checkbox.plan-check.plan.implement 
+{
+    border: 1px solid #f5d386;
+}
+
+/* [구현] 체크리스트 짝수번째 항목에 대한 스타일 */
+.one-milestone-checkbox.plan-check.plan.implement:nth-child(even) 
+{
+    background: #fbf496;
+}
+
+
+/* [구현] 스크롤바 막대 색상 스타일 */
+.one-milestone-mainContent-box.plan-mainContent-box.plan.implement::-webkit-scrollbar-thumb 
+{
+  background-color: #f5f272;
+  border-radius: 10px;
+  background-clip: padding-box;
+  /* box-shadow: 0px 5px 5px #329162; */
+  border: 1px solid transparent;
+}
+
+
+/* [구현] 체크리스트 항목 추가 버튼 스타일 */
+button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn.implement
+{
+    background: #f5f272;
+    border: 1px solid #ebcc75;
+}
+
+/* [구현] 체크리스트 항목 추가 버튼에 마우스를 올렸을 때 스타일 */
+button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn.implement:hover 
+{
+    background: #f3c027;
+    border: 1px solid #d9ab65;
+}
+
+/* [구현] 체크리스트 항목 추가 버튼 클릭했을 때 스타일 */
+button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn.implement:active 
+{
+    background: #c77916;
+    border: 1px solid #af5a1e;
+}
