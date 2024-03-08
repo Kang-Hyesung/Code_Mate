@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.test.mybatis.dao.IMemberDAO"%>
 <%@page import="org.apache.ibatis.session.SqlSession"%>
 <%@page import="com.test.mybatis.dto.MemberDTO"%>
@@ -24,7 +26,7 @@
 		login = "display:none;";
 		logout = "";
 	}
-		
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -69,17 +71,18 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 			var id = $(this).val();
 			$("#" + id).show();
 			
+			var params = "task_code=" + id; 
+			
 			$.ajax({
-				url:"getReport.action?task_code=" + id ,
+				url:"getReport.action?task_code=" + id,
 				type:"GET",
-				success: function(data)
-				{
-					alert(data);
-				},
-				error : function()
-				{
-					alert("에러");
-				}
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			    success: function(data) {
+			    	$("#" + id).html(data)
+			    },
+			    error: function() {
+			        alert("에러");
+			    }
 			})
 		})
 		
@@ -606,18 +609,8 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 																<button type="button" class="btn-close" aria-label="Close" value="${item.task_code }"></button>
 															</h4>
 															
-															<table class="table">
-																<tr>
-																	<th>제목</th>
-																	<th>작성일</th>
-																	<th>승인 여부</th>
-																</tr>
-																<tr>
-																	<td>어려워요</td>
-																	<td>2023-10-10</td>
-																	<td>미승인</td>
-																</tr>
-															</table>
+															<div id="${item.task_code }">
+															</div>
 															
 															<button id="task_code" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="${item.task_code }">
 															  작성하기

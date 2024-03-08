@@ -5,11 +5,14 @@
 
 package com.test.mvc;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
@@ -27,6 +30,7 @@ import com.test.mybatis.dao.IMemberDAO;
 import com.test.mybatis.dao.IMyPageDAO;
 import com.test.mybatis.dao.IReportDAO;
 import com.test.mybatis.dao.ITaskDAO;
+import com.test.mybatis.dto.LastDTO;
 import com.test.mybatis.dto.MeetingDTO;
 import com.test.mybatis.dto.MemberDTO;
 import com.test.mybatis.dto.MyPageMethod;
@@ -213,10 +217,47 @@ public class ProjectController
 	
 	@ResponseBody
 	@RequestMapping(value = "/getReport.action", method = RequestMethod.GET)
-	public String getReport(String task_code)
+	public String getReport(String task_code, HttpServletResponse response, ModelMap model) throws UnsupportedEncodingException
 	{
+		response.setCharacterEncoding("UTF-8");
+		
+		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
+		
 		System.out.println(task_code);
-		return task_code;
+		
+		ArrayList<LastDTO> reportList = reportDao.getReport(task_code);
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("<table class='table'>");
+		sb.append("		<tr>");
+		sb.append("			<th>CONTENT</th>");
+		sb.append("			<th>SUMMARY</th>");
+		sb.append("			<th>DATE</th>");
+		sb.append("			<th>RESULT</th>");
+		sb.append("		</tr>");
+		           																
+		for(LastDTO dto:reportList)
+		{
+			sb.append("<tr>");
+			sb.append("		<td>" + dto.getContent() + "</td>");
+			sb.append("		<td>" + dto.getSummary() + "</td>");
+			sb.append("		<td>" + dto.getKdate() + "</td>");
+			sb.append("		<td>" + dto.getState() + "</td>");
+			sb.append("</tr>");
+		}
+		
+		sb.append("</table>");
+		
+		model.addAttribute("data", sb.toString());
+		
+		System.out.println(sb.toString());
+		
+		String str = sb.toString();
+		
+		String query = new String(str.getBytes("8859_1"), "UTF-8");
+		
+		return query;
 	}
 }
 

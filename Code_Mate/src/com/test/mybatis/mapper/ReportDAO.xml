@@ -28,10 +28,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY NUM DESC
 	</select>
 	
-		<!-- 업무보고서 작성시 업무보고서 제출 결과에 기본 상태로 들어가는 프로시저 -->
+	<!-- 업무보고서 작성시 업무보고서 제출 결과에 기본 상태로 들어가는 프로시저 -->
 	<insert id="addReport" statementType="CALLABLE">
 		{CALL WRITE_REPORT (#{task_code}, #{content}, #{summary})}
 	</insert>
+	
+	<!-- task_code 로 업무보고서 목록 가져오기 -->
+	<select id="getReport" resultType="com.test.mybatis.dto.LastDTO">
+		SELECT B.BR_CODE, TO_CHAR(B.KDATE, 'YYYY-MM-DD') AS KDATE, B.CONTENT, B.SUMMARY, B.TASK_CODE, s.STATE 
+		FROM B_REPORT b JOIN BR_RESULT br ON B.BR_CODE  = BR.BR_CODE
+						JOIN STATE s ON br.STATE_CODE = s.STATE_CODE
+		WHERE TASK_CODE = #{arg0}
+	</select>
 	
 </mapper>
 

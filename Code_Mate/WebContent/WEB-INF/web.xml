@@ -40,7 +40,8 @@
 		</init-param>
 		
 	</filter>
-<!-- 	
+	
+	<!-- 	
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>어떤 액션이든 모두 적용
