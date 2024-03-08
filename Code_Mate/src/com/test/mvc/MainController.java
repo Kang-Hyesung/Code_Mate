@@ -6,6 +6,8 @@
 package com.test.mvc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,17 +21,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import com.test.mybatis.dao.IMeetingDAO;
 import com.test.mybatis.dao.IMemberDAO;
 import com.test.mybatis.dao.IMyPageDAO;
+import com.test.mybatis.dao.IProjectListDAO;
+import com.test.mybatis.dao.IProjectPageDAO;
+import com.test.mybatis.dao.IQnaListDAO;
 import com.test.mybatis.dao.IReportDAO;
 import com.test.mybatis.dao.ITaskDAO;
 import com.test.mybatis.dto.MeetingDTO;
 import com.test.mybatis.dto.MemberDTO;
 import com.test.mybatis.dto.MyPageMethod;
+import com.test.mybatis.dto.ProjectPageDTO;
 import com.test.mybatis.dto.ReportDTO;
 import com.test.mybatis.dto.TaskDTO;
 
@@ -42,7 +51,14 @@ public class MainController
 	@RequestMapping(value="/Code_Mate.action", method=RequestMethod.GET)
 	public String hello(Model model, HttpServletRequest request)
 	{	
-		return "/WEB-INF/view/main/Template.jsp";
+		IProjectListDAO pjdao = sqlSession.getMapper(IProjectListDAO.class);
+		IQnaListDAO qnadao = sqlSession.getMapper(IQnaListDAO.class);
+		
+		model.addAttribute("list", pjdao.list());
+		model.addAttribute("qnalist", qnadao.qnalist());
+		
+		
+		return "/WEB-INF/view/main/main.jsp";
 	}
 	
 	@RequestMapping(value="/Login.action", method=RequestMethod.GET)
@@ -154,6 +170,53 @@ public class MainController
 			
 			
 			return "/WEB-INF/view/main/MyPage_DB.jsp";
+		}
+		
+		
+		// TOP 프로젝트 모두보기 클릭시
+		@RequestMapping(value="/ProjectList.action", method=RequestMethod.GET)
+		public String projectlist(ModelMap model, HttpSession session, HttpServletRequest request)
+		{	
+			IProjectPageDAO dao = sqlSession.getMapper(IProjectPageDAO.class);
+			
+			MemberDTO member = (MemberDTO)session.getAttribute("member");
+			
+			if (member == null)
+			{
+				request.setAttribute("member", member);
+				return "/WEB-INF/view/main/projectPage.jsp";
+			}
+			else
+			{
+				request.setAttribute("member", member);
+				
+				String mem_code = member.getMem_code();
+				
+				model.addAttribute("pjdto",dao.pjdto(mem_code));
+				
+				MultiValueMap<String, String> pjtag = new LinkedMultiValueMap<String, String>();
+				
+				for (ProjectPageDTO pjpdto : dao.pjtagap(mem_code))
+				{
+					pjtag.add(pjpdto.getAp_code(), pjpdto.getTag_name());
+				}
+				
+				
+				model.addAttribute("map1", pjtag);
+				
+				
+				return "/WEB-INF/view/main/projectPage.jsp";
+			}
+			
+		}
+		
+		// TOP QNA 모두보기 클릭시
+		@RequestMapping(value="/QnaList.action", method=RequestMethod.GET)
+		public String qnalist(ModelMap model, HttpSession session, HttpServletRequest request)
+		{	
+			
+			
+			return "/WEB-INF/view/main/qnaList.jsp";
 		}
 		
  @Scheduled(fixedDelay = 1000)

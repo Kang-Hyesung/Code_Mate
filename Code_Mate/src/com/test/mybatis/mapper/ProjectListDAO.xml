@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
+
+<mapper namespace="com.test.mybatis.dao.IProjectListDAO">
+
+	<select id="list" resultType="com.test.mybatis.dto.ProjectListDTO">
+		SELECT AP_CODE, TITLE, SUMMARY, TO_CHAR(SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(EDATE,'YYYY-MM-DD') AS EDATE, CONTENT, TO_CHAR(KDATE,'YYYY-MM-DD') AS KDATE, NUMBERS,VIEWS, MEM_CODE, PRJ_NAME
+		FROM APP_OPENING
+		ORDER BY VIEWS
+		
+	</select>
+	
+	
+
+</mapper>
