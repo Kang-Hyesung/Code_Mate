@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mybatis.dao.IPortfolioDAO">
+	
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM PORTFOLIO
+	</select>
+	
+	<select id="getLists" resultType="com.test.mybatis.dto.PortfolioDTO">
+		SELECT P.P_CODE AS P_CODE, A.PRJ_NAME AS PRJ_NAME, P.TITLE AS TITLE, P.CONTENT AS CONTENT, P.VIEWS AS VIEWS
+        ,
+        (
+            SELECT NVL(COUNT(*), 0) AS PORTFOLIO_LIKE
+            FROM POFOL_UP PU2
+                 INNER JOIN PORTFOLIO PF2
+                    ON PU2.P_CODE = PF2.P_CODE
+            WHERE PF2.P_CODE = P.P_CODE
+        ) AS HEARTS
+        
+		FROM PORTFOLIO P, C_PROJECT C, APP_OPENING A, POFOL_UP U
+		WHERE P.CP_CODE = C.CP_CODE
+  		AND C.AP_CODE = A.AP_CODE
+  		AND P.P_CODE = U.P_CODE(+)
+		GROUP BY P.P_CODE, A.PRJ_NAME, P.TITLE, P.CONTENT, P.VIEWS
+	</select>
+	
+	<select id="getReadData" resultType="com.test.mybatis.dto.PortfolioDTO">
+        SELECT P.P_CODE AS P_CODE, A.PRJ_NAME AS PRJ_NAME, P.TITLE AS TITLE, P.CONTENT AS CONTENT, P.VIEWS AS VIEWS
+        ,
+        (
+            SELECT NVL(COUNT(*), 0) AS PORTFOLIO_LIKE
+            FROM POFOL_UP PU2
+                 INNER JOIN PORTFOLIO PF2
+                    ON PU2.P_CODE = PF2.P_CODE
+            WHERE PF2.P_CODE = P.P_CODE
+        ) AS HEARTS
+        
+		FROM PORTFOLIO P, C_PROJECT C, APP_OPENING A, POFOL_UP U
+		WHERE P.CP_CODE = C.CP_CODE
+  		AND C.AP_CODE = A.AP_CODE
+  		AND P.P_CODE = U.P_CODE(+)
+        AND P.P_CODE = #{arg0}
+		GROUP BY P.P_CODE, A.PRJ_NAME, P.TITLE, P.CONTENT, P.VIEWS
+	</select>
+
+	<select id="findLike" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM POFOL_UP WHERE MEM_CODE = #{arg0} AND P_CODE = #{arg1}
+	</select>
+	
+	<insert id="likeUp">
+		INSERT INTO POFOL_UP(PU_CODE, P_CODE, MEM_CODE) VALUES(TO_CHAR('PU'||LPAD(PU_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1})
+	</insert>
+	
+	<delete id="likeDown">
+		DELETE FROM POFOL_UP
+		WHERE P_CODE = #{arg0} AND MEM_CODE = #{arg1}
+	</delete>
+	
+	<select id="getSkillTagList" resultType="hashmap">
+		SELECT TAG_NAME AS SKILL_TAG
+		FROM P_TAG
+		WHERE P_CODE = #{arg0}
+	</select>
+	
+	<select id="likeCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT FROM POFOL_UP WHERE P_CODE = #{arg0}
+	</select>
+	
+	<update id="viewsUp">
+		UPDATE PORTFOLIO
+		SET VIEWS = (SELECT NVL(VIEWS,0) +1 FROM PORTFOLIO WHERE P_CODE = #{arg0})
+		WHERE P_CODE = #{arg0}
+	</update>
+	
+	<select id="findLeader" resultType="java.lang.String">
+		SELECT MEM.NICKNAME
+		FROM PORTFOLIO P, C_PROJECT C, APP_OPENING A, ROLE_COMP R, MEMBER_APPLY M, A_RESULT AR, MEMBER MEM
+		WHERE P.CP_CODE = C.CP_CODE
+  		AND C.AP_CODE = A.AP_CODE
+  		AND A.AP_CODE = R.AP_CODE
+  		AND R.RC_CODE = M.RC_CODE
+  		AND AR.AR_CODE = M.AR_CODE
+  		AND M.MEM_CODE = MEM.MEM_CODE
+  		AND P.P_CODE = #{arg0}
+  		AND AR.RESULT = '합격'
+  		AND MR_CODE = 'MR0001'
+	</select>
+	
+	<select id="findFront" resultType="hashmap">
+		SELECT MEM.NICKNAME
+		FROM PORTFOLIO P, C_PROJECT C, APP_OPENING A, ROLE_COMP R, MEMBER_APPLY M, A_RESULT AR, MEMBER MEM
+		WHERE P.CP_CODE = C.CP_CODE
+  		AND C.AP_CODE = A.AP_CODE
+  		AND A.AP_CODE = R.AP_CODE
+  		AND R.RC_CODE = M.RC_CODE
+  		AND AR.AR_CODE = M.AR_CODE
+  		AND M.MEM_CODE = MEM.MEM_CODE
+  		AND P.P_CODE = #{arg0}
+  		AND AR.RESULT = '합격'
+  		AND MR_CODE = 'MR0002'
+	</select>
+	
+	<select id="findBack" resultType="hashmap">
+		SELECT MEM.NICKNAME
+		FROM PORTFOLIO P, C_PROJECT C, APP_OPENING A, ROLE_COMP R, MEMBER_APPLY M, A_RESULT AR, MEMBER MEM
+		WHERE P.CP_CODE = C.CP_CODE
+  		AND C.AP_CODE = A.AP_CODE
+  		AND A.AP_CODE = R.AP_CODE
+  		AND R.RC_CODE = M.RC_CODE
+  		AND AR.AR_CODE = M.AR_CODE
+  		AND M.MEM_CODE = MEM.MEM_CODE
+  		AND P.P_CODE = #{arg0}
+  		AND AR.RESULT = '합격'
+  		AND MR_CODE = 'MR0003'
+	</select>
+
+</mapper>

@@ -316,6 +316,65 @@ h3.project-all__title {
 }
 </style>
 
+<style type="text/css">
+@import url("https://fonts.googleapis.com/css?family=Montserrat:600&display=swap");
+.contentA {
+  margin-left: 90px;
+  display: flex;
+  cursor: pointer;
+}
+
+.heart {
+  position: absolute;
+  background: url("img/heart.png") no-repeat;
+  background-position: left;
+  background-size: 2900%;
+  height: 90px;
+  width: 90px;
+  transform: translate(-50%, -50%);
+  margin-top: 15px;
+  margin-left: 10px;
+}
+
+.text {
+  font-size: 21px;
+  margin-left: 30px;
+  color: grey;
+  font-family: "Montserrat", sans-serif;
+}
+
+.numb:before {
+  font-size: 21px;
+  margin-left: 7px;
+  font-weight: 600;
+  color: #9C9496;
+  font-family: sans-serif;
+}
+
+.numb.heart-active:before {
+  color: #000;
+}
+
+.text.heart-active {
+  color: #000;
+}
+
+.heart.heart-active {
+  animation: animate 0.8s steps(28) 1;
+  background-position: right;
+}
+
+@keyframes animate {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+
+</style>
+
 <script src="script.js" defer></script>
 
 <script type="text/javascript">
@@ -328,34 +387,17 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 </script>
 
 <script type="text/javascript">
-	$(document).ready(function()
+	function test()
 	{
-		
-		
-		//alert(docHeight);
-	})
-	
-	$(window).scroll(function(	)
-	{
-		var docHeight = $(document).height();
-		var scrollHeight = $(window).scrollTop() + $(window).height();
-		
-		if(docHeight == scrollHeight)
-		{
-			for (var i = 0; i < 10; i++)
-			{
-				$("<h3>기존의 읽어온 게시물"
-						+ $(document).height() + "/"
-						+ $(window).scrollTop() + "/"
-						+ $(window).height() + "/"
-						+ "</h3>").appendTo("body");
-			}
-		}
-	})
+		$('.contentA').toggleClass("heart-active")
+        $('.text').toggleClass("heart-active")
+        $('.numb').toggleClass("heart-active")
+        $('.heart').toggleClass("heart-active")
+	}
 </script>
 
 </head>
-<body>
+<body onload="test()">
 
 <div class="row mainArea">
 
@@ -395,7 +437,7 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 						<div id="profile" style="<%=login%>">
 							<img class="memberImg" src="img/profileImg_1.png">
 						</div>
-						<span class="nickname" id="mem1" style="<%=login%>">${member.nickname }</span>
+						<span class="nickname" id="mem1" style="<%=login%>">${member.nickname}</span>
 						<div class="gradeIcon" style="<%=login%>">
 							🌱
 						</div>
@@ -545,6 +587,37 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 						<div class="project-all__content">
 							<div class="q-infinite-scroll">
 								<ul class="project-all__list">
+									
+									<c:forEach var="item" items="${list}">
+										<li class="list__item">
+										 	<div class="project-card">
+										 		<a href="portfolioview.action?article=${item.p_code}">
+										 			<img alt="" src="img/portfolio01.png" class="project-card__image">
+										 		</a>
+										 		
+										 		<div class="project-card__content">
+										 			<a href="portfolioview.action?article=${item.p_code}" style="color: black;">
+										 				<strong class="project-card__name">${item.prj_name}</strong>
+										 			</a>
+										 			
+										 				<p class="project-card__desc">
+										 					${item.title}
+										 				</p>
+										 					
+									 					<div class="heart-btn">
+													      <div class="contentA">
+													        <span class="heart"></span>
+													        <span class="text">Like ${item.hearts}</span>
+													        <span class="numb"></span>
+													      </div>
+														</div>
+										 		</div>
+										 	</div>
+										 	
+									 	</li>
+									</c:forEach>
+									
+									<!-- 
 									 <li class="list__item">
 									 	<a href="" class="list__link">
 									 	</a>
@@ -672,6 +745,7 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 									 		</div>
 									 	</div>
 									 </li>
+									  -->
 								</ul>
 							</div>
 						</div>
