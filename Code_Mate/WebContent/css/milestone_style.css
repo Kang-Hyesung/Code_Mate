@@ -164,7 +164,7 @@ h3.milestone-mainCategory-text.plan-category-text.plan {
 }
 
 /* 체크 리스트의 짝수 번째에 해당하는 항목에 대한 스타일 */
-.one-milestone-checkbox.plan-check.plan:nth-child(even)
+.one-milestone-checkbox.plan-check.plan:not(.add-checklist-box):nth-child(even)
 {
   background : #ffc2c2;
 }
@@ -312,7 +312,7 @@ span.checklist-title-icon.material-symbols-outlined
     width: 115px;
     height: 24px;
     position: relative;
-    top: 4px;
+    top: 5px;
     right: 4px;
     justify-content: space-between;
 }
@@ -678,7 +678,7 @@ span.checklist-title-txt.plan-check-title.design
 }
 
 /* [설계] 짝수번째 체크리스트 항목에 대한 스타일 */
-.one-milestone-checkbox.plan-check.plan.design:nth-child(even) 
+.one-milestone-checkbox.plan-check.plan.design:not(.add-checklist-box):nth-child(even) 
 {
     background: #b6f1f1;
 }
@@ -790,7 +790,7 @@ span.checklist-title-icon.material-symbols-outlined.implement
 }
 
 /* [구현] 체크리스트 짝수번째 항목에 대한 스타일 */
-.one-milestone-checkbox.plan-check.plan.implement:nth-child(even) 
+.one-milestone-checkbox.plan-check.plan.implement:not(.add-checklist-box):nth-child(even) 
 {
     background: #fbf496;
 }
@@ -827,3 +827,182 @@ button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn.implement:active
     background: #c77916;
     border: 1px solid #af5a1e;
 }
+
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩[ 마일스톤 항목 추가 액션 스타일 ]▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+
+
+/*◎ [설계] 항목 추가 입력창 박스 div */
+.one-milestone-checkbox.plan-check.plan.design.add-checklist-box
+{
+	display: none;
+}
+
+
+/* 체크리스트 추가 버튼 클릭시 보이는 영역 전체를 감싸는 div 영역 */
+.add-checklist-box 
+{
+    background: #baa9fd;
+    border: 1px solid #a76ce7;
+    box-shadow: 0px 1px 3px #4477f1;
+    display: none;
+}
+
+
+/* 체크리스트 추가 버튼 클릭시 보이는 입력창을 감싸는 div 영역 */
+.add-checklist-content-box 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 5px;
+}
+
+/* 체크리스트 추가 버튼 클릭시 보이는 입력창 스타일 */
+input.add-checklist-content 
+{
+    border: 1px solid #00000045;
+    padding: 2px 7px 2px 7px;
+    outline: none;
+    background: #ffffffc4;
+    height: 25px;
+    border-radius: 10px;
+    font-size: 14px;
+    width: 205px;
+    /* 글자 파랑색 */
+    color: #4d36ff;
+	/* 글자 검회색 */
+    /* color: #55585d; */
+}
+
+/* 체크리스트 추가 버튼 클릭시 보이는 입력창의 플레이스 홀더 텍스트 스타일 */
+input.add-checklist-content::placeholder 
+{
+    color: #4756cf99;
+    font-size: 12px;
+}
+
+/* 체크리스트 항목 추가 입력창 옆의 submit 버튼 스타일 */
+button.milestone-add-list-btn.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info 
+{
+    padding: 4px 3px 4px 4px;
+    background: #ffffffab;
+    color: #786f83;
+}
+
+/* 체크리스트 항목 추가 입력창 옆의 cancel 버튼 스타일 */
+button.milestone-del-btn.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-danger 
+{
+    padding: 4px 3px 4px 4px;
+    background: #ffffffab;
+    color: #d716c7;
+}
+
+
+/* 체크리스트 항목 추가 입력창 옆의 submit 버튼에 마우스를 올렸을 때 스타일 */
+button.milestone-add-list-btn.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info:hover
+{
+    background: #fdd358;
+}
+
+/* 체크리스트 항목 추가 입력창 옆의 submit 버튼에 마우스를 올렸을 때 아이콘 스타일 */
+button.milestone-add-list-btn.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info:hover
+> span.milestone-add-list-content.milestone-edit-content
+> span.milestone-add-list-btn-icon.milestone-edit-btn-icon.material-symbols-outlined
+{
+    
+	animation-name : up_and_down;
+	animation-duration : 0.4s;    
+    
+}
+
+/* 체크리스트 항목 추가 입력창 옆의 submit 버튼에 마우스를 올렸을 때 텍스트 스타일 */
+button.milestone-add-list-btn.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info:hover
+> span.milestone-add-list-content.milestone-edit-content
+{
+    text-shadow: 0px 2px 2px #595959;
+}
+
+
+
+/* 체크리스트 항목 추가 입력창 옆의 cancel 버튼에 마우스를 올렸을 때 스타일 */
+button.milestone-del-btn.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-danger:hover 
+{
+    background: #eb29e4;
+    
+}
+
+/* 체크리스트 항목 추가 입력창 옆의 cancel 버튼에 마우스를 올렸을 때 아이콘 스타일 */
+button.milestone-del-btn.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-danger:hover 
+> span.milestone-del-content.milestone-add-cancel-content
+> span.milestone-add-cancel-icon.milestone-delete-btn-icon.material-symbols-outlined
+{
+    transform: none;
+	animation-name : small_to_big;
+	animation-duration : 0.4s;    
+    
+}
+
+
+
+
+/* 체크리스트 항목 추가 입력창 옆의 submit 버튼을 클릭했을 때 스타일 */
+button.milestone-add-list-btn.checkbox-btn.edit-check-btn.btn.btn-sm.btn-outline-info:active 
+{
+    background: #b38b2e;
+}
+
+
+
+/* 체크리스트 항목 추가 입력창 옆의 cancel 버튼을 클릭했을 때 스타일 */
+button.milestone-del-btn.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-danger:active 
+{
+    background: #a530a1;
+}
+
+
+
+/*====[앤애ㅣㅣ멩메ㅣㅣ션션]]====*//
+
+
+/* 뚀잉 하는 애니메이션 */
+@keyframes up_and_down
+{
+	0%
+	{
+		transform: scale3d(1.4, 0.7, 1);
+	}
+	
+	50%
+	{
+		transform: scale3d(0.7, 1.4, 1);
+	}
+	
+	100%
+	{
+		transform: scale3d(1, 1, 1);
+	}
+	
+}
+
+/* 줄어들었다가 커지는 애니메이션 */
+@keyframes small_to_big
+{
+	0%
+	{
+	    transform: scale3d(0.3, 0.3, 0.3);
+	}
+	
+	50%
+	{
+	    transform: scale3d(0.7, 0.7, 0.7);
+	}
+	
+	100%
+	{
+	    transform: scale3d(1.2, 1.2, 1.2);
+	}
+	
+}
+
