@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
+
+<mapper namespace="com.test.mybatis.dao.IMilestoneDAO">
+
+	<select id="milestone_checkList" resultType="com.test.mybatis.dto.Milestone_CheckListDTO">
+		SELECT M.MEM_CODE       AS "MEM_CODE"
+		     , MA.MA_CODE       AS "MA_CODE"
+		     , M.NICKNAME       AS "NICKNAME"
+		     , MR.ROLE          AS "MEMBER_ROLE"
+		     , MR.MR_CODE       AS "MEMBER_ROLE_CODE"
+		     , MS.MS_CODE       AS "MILESTONE_CODE"
+		     , ST.STEP          AS "STEP"
+		     , ST.ST_CODE       AS "STEP_CODE"
+		     , CK.CK_CODE       AS "CHECKLIST_CODE"
+		     , CK.CONTENT       AS "CHECKLIST_CONTENT"
+		     , CC.CHECKS        AS "IS_CHECKED" 
+		     , CC.CC_CODE       AS "IS_CHECKED_CODE"
+		     , AP.PRJ_NAME      AS "PRJ_NAME"
+		     , CP.CP_CODE       AS "PRJ_CP_CODE"
+		FROM MEMBER M
+		     INNER JOIN MEMBER_APPLY MA
+		        ON M.MEM_CODE = MA.MEM_CODE
+		     INNER JOIN ROLE_COMP RC
+		        ON MA.RC_CODE = RC.RC_CODE
+		     INNER JOIN APP_OPENING AP
+		        ON RC.AP_CODE = AP.AP_CODE
+		     INNER JOIN C_PROJECT CP
+		        ON AP.AP_CODE = CP.AP_CODE
+		     INNER JOIN MILESTONE MS
+		        ON CP.CP_CODE = MS.CP_CODE
+		     INNER JOIN CHECKLIST CK
+		        ON MS.MS_CODE = CK.MS_CODE
+		       AND MA.MA_CODE = CK.MA_CODE
+		     INNER JOIN CHECKLIST_CHECK CC
+		        ON CK.CC_CODE = CC.CC_CODE
+		     INNER JOIN STEP ST
+		        ON CK.ST_CODE = ST.ST_CODE
+		     INNER JOIN MEMBER_ROLE MR
+		        ON RC.MR_CODE = MR.MR_CODE
+		WHERE CP.CP_CODE = #{arg0}
+		  AND ST.STEP = #{arg1}
+		ORDER BY CHECKLIST_CODE ASC
+	</select>
+	
+	
+	<!-- 마일스톤 체크리스트 체크여부 확인 -->
+	<!-- public int isChecked(String checklist_code); -->
+	
+	<select id="isChecked" resultType="java.lang.Integer">
+		SELECT IS_CHECKED
+		FROM PJ_MILE_VIEW
+		WHERE CHECKLIST_CODE = #{arg0}
+	</select>
+	
+	<!-- 마일스톤 체크리스트 체크 혹은 체크 해제 액션 -->
+	<!-- public void checkingAction(String checklist_code, String is_checked_code); -->
+	
+	<update id="checkingAction">
+		UPDATE
+		(
+		    SELECT CK.CC_CODE, CK.CK_CODE
+		    FROM CHECKLIST CK
+		     INNER JOIN CHECKLIST_CHECK CC
+		        ON CK.CC_CODE = CC.CC_CODE
+		)
+		SET CC_CODE = #{arg1}
+		WHERE CK_CODE = #{arg0}
+	</update>
+
+	<!-- 마일스톤 항목 추가 입력 액션 -->
+	<!-- public void checkListInserting(String prj_cp_code, String ma_code, String step, String checklist_content); -->
+	<insert id="checkListInserting">
+	{
+		call PRC_MILE_INSERTING(#{arg0}, #{arg1}, #{arg2}, #{arg3})
+	}
+	</insert>
+
+
+
+</mapper>

@@ -15,7 +15,7 @@
 		logout = "display:none;";
 		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
 		
-		name = member.getNickname();
+		name = member.getNickname();                                                                                                                                                                                                                                                                        
 	}
 	else
 	{
@@ -23,16 +23,12 @@
 		logout = "";
 	}
 		
-	
-	
-
-		
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Template.jsp</title>
+<title>${planCheckList[0].prj_name }의 마일스톤 페이지</title>
 
 <!-- BootStrap -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -82,6 +78,270 @@
 	});
  	
  	
+</script>
+
+<!--========[마일스톤 페이지 스크립트 처리 시작]=========-->
+<script type="text/javascript">
+
+	$(document).ready(function()
+	{
+		//=======[체크박스 체크 여부 Ajax 처리로 갱신]==========
+		$(".checkList-checkbox").click(function()
+		{
+			// 테스트
+			//alert("체크 확인");
+			
+			//alert("체크 코드 : " + $(this).val());
+			//--==>> 체크 코드 : CK0014
+			
+			var checklist_code = $(this).val();
+			
+			//*******************************************************
+			// POST 방식으로 체크리스트 갱신 컨트롤러 동작 url 요청
+			//*******************************************************
+			$.ajax(
+			{
+				type: "POST"
+				, url: "check.action"
+				, data: "checklist_code=" + checklist_code
+				
+			});
+			
+		});
+		//=======================================================
+			
+		$("#plan-add-btn").click(function()
+		{
+			// 테스트
+			//alert("클릭 확인");
+			
+		});
+		
+		
+		
+		//=======[마일스톤 체크리스트 항목 추가 Ajax 이후 리다이렉트로 갱신]==========
+		$(".new-content-submit").click(function()
+		{
+			// 테스트
+			//alert("Submit 버튼 클릭 확인");
+			
+			//----------------------------------------------------------
+			// [사용자가 새롭게 입력한 체크리스트 항목 내용 확인]
+			//----------------------------------------------------------
+			//alert("체크리스트 내용 : " + $("#design-new-list-content").val());
+			//----------------------------------------------------------
+			
+			//----------------------------------------------------------
+			// [사용자가 추가하려고 하는 마일스톤 단계 대분류명 확인]
+			//----------------------------------------------------------
+			//alert("단계명 : " + $(this).val());
+			//----------------------------------------------------------
+			
+			
+			//-----------------------------------------------------------------------------
+			// [클릭된 submit 버튼이 포함된 마일스톤 대분류의 input 엘리먼트 id 가져오기]
+			//-----------------------------------------------------------------------------
+			// alert($(this).parent(".checkbox-all-btn-box").siblings(".add-checklist-content-box")
+			//			 .children(".add-checklist-content").attr("id"));
+			//-----------------------------------------------------------------------------
+			
+			var new_inputCheckBox_id = "#" + $(this).parent(".checkbox-all-btn-box")
+											  .siblings(".add-checklist-content-box")
+			 								  .children(".add-checklist-content").attr("id");
+			
+			/*  
+			(String v_cp_code, String v_ma_code, String v_step, String v_content)
+			*/
+			var v_cp_code = "CP0001";
+			var v_ma_code = "MA0001";
+			var v_step = $(this).val();
+			var v_content = $(new_inputCheckBox_id).val();
+			
+
+			
+			$.ajax(
+			{
+				type: "POST"
+				, url: "checklist_insert.action"
+				, data: "v_cp_code="	+ v_cp_code
+					  + "&v_ma_code="	+ v_ma_code
+					  + "&v_step="		+ v_step
+					  + "&v_content="	+ v_content
+				, success: function()
+				{
+					$(location).attr("href", "Milestone.action");
+				}
+				, error: function()
+				{
+					//$(location).attr("href", "Milestone.action");
+					
+				}
+			});
+			 
+		});
+		
+		
+		/*
+		【[+] 항목 추가 버튼 로직 정리】▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩
+
+		[+] 버튼 클릭 (클래스 : [.new-checklist-item-btn]
+
+		부모 선택 .parent (클래스 : [.new-checklist-item-btn-box])
+
+		부모 선택 .parent (클래스 : [.new-checklist-item-btn-Area])
+
+		형제 선택 .siblings (클래스 : [.one-milestone-mainContent-box])
+
+		자식 선택 .children (클래스 : [.milestone-checkList-box])
+
+		자식 선택 .children (클래스 : [.add-checklist-box])
+
+		**********************************************
+		① 스타일 변경 → display : flex
+		**********************************************
+		
+		▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩
+		*/
+		
+		/*[항목 추가버튼 클릭시, 입력창이 보여지도록 처리.]*/
+		$(".new-checklist-item-btn").click(function()
+		{
+			// 테스트
+			//alert("항목 추가버튼 클릭 확인");
+			
+			// [버튼의 css 를 변경하기 위한 엘리먼트 변수 선언]========================
+			
+			// ↓ (버튼 엘리먼트)
+			var add_list_btn_ele = $(this);
+			// ↓ (버튼의 아이콘 엘리먼트)
+			var add_list_plus_icon_ele = $(this).children(".milestone-add-btn-icon");
+			//=========================================================================
+			
+			var add_ckList_box = $(this).parent(".new-checklist-item-btn-box").parent(".new-checklist-item-btn-Area")
+				   						.siblings(".one-milestone-mainContent-box").children(".milestone-checkList-box")
+				   						.children(".add-checklist-box");
+			
+			// [제대로 선택했는지 확인]
+			//alert("선택한 요소 확인 : " + add_ckList_box.html());
+			
+			/**********************************************
+			 ① 스타일 변경 → display : flex
+			**********************************************/
+			
+			//alert("스타일 확인 : " + add_ckList_box.css("display"));
+			//--==>> 스타일 확인 : none
+			//--==>> 스타일 확인 : flex
+			
+			
+			// [추가 입력항목창이 숨겨진 상태라면, 보이도록 설정]
+			if (add_ckList_box.css("display") == "none")
+			{
+				//alert("숨겨진 상태이므로 보이도록 설정한다.");
+				add_ckList_box.css("display", "flex");
+				
+				//=====================================================================================
+				// 항목을 새롭게 추가하는 경우, [+] 버튼이 취소 버튼으로 변경되기 위해
+				// 클릭한 항목 추가버튼의 아이콘이 [Ⅹ] 모양으로 변경되고, 버튼 색이 변경되도록 변경.
+				//=====================================================================================
+				
+				add_list_btn_ele.css({"background":"#eb6f6f", "border":"1px solid #d56363"});
+				add_list_plus_icon_ele.css("transform", "rotate(50deg)");
+
+				//=====================================================================================
+				
+				
+			}
+			else if (add_ckList_box.css("display") == "flex")
+			{
+				var input_add_ckList_ele = add_ckList_box.children(".add-checklist-content-box")
+														 .children(".add-checklist-content");
+				
+				// ① 입력창 항목 전부 삭제
+				input_add_ckList_ele.val("");
+				
+				// ② 스타일 변경 → display : none
+				add_ckList_box.css("display", "none");
+				
+				//=====================================================================
+				// ★★[위에서 제이쿼리로 변경했던 스타일을 삭제하여 스타일 초기화]
+				//=====================================================================
+				add_list_btn_ele.removeAttr("style");
+				add_list_plus_icon_ele.removeAttr("style");
+				//=====================================================================
+				
+				
+			}
+					
+		});
+		
+		
+		
+		
+		
+		/*
+		【cancel 버튼 로직 정리】▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩
+
+		cancel 버튼 클릭 (클래스 : [.milestone-del-btn])
+
+		부모 선택 .parent (클래스 : [.checkbox-all-btn-box])
+		
+		부모 선택 .parent (클래스 : [.add-checklist-box])
+		
+		********************************************************************
+		① 입력창 항목 전부 삭제
+		$(".add-checklist-box").children(".add-checklist-content-box")
+							   .children(".add-checklist-content").val("");
+		********************************************************************
+		
+		********************************************************************
+		② 스타일 변경 → display : none
+		********************************************************************
+		
+		▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩
+		
+		*/
+		
+		
+		
+		$(".milestone-add-cancel-btn").click(function()
+		{
+			// 테스트
+			// alert("cancel 버튼 클릭 확인.");
+			
+			
+			// [새로운 항목 추가 입력창 전체를 감싸는 div 엘리먼트]
+			var add_ckList_box = obj.parent(".checkbox-all-btn-box").parent(".add-checklist-box");
+			
+			// [새로운 항목 추가 입력창 input 엘리먼트]
+			var input_content_box = add_ckList_box.children(".add-checklist-content-box").children(".add-checklist-content");
+			
+			
+			//********************************************************************
+			/* 	① 입력창 항목 전부 삭제
+				$(".add-checklist-box").children(".add-checklist-content-box")
+									   .children(".add-checklist-content").val("");
+			*/
+			//********************************************************************
+			
+			// 입력값 모두 초기화
+			input_content_box.val("");
+			
+		   /*********************************************************************
+			② 스타일 변경 → display : none
+			*********************************************************************/
+			
+			add_ckList_box.css("display", "none");
+			
+			
+		});
+		
+		
+		
+		
+	});// end $(document).ready(function(){ });
+
+	
+	
 </script>
 
 
@@ -311,8 +571,86 @@
 											
 											
 											
+											<c:forEach var="planItem" items="${planCheckList }">
+												<%-- CheckBox 목록 하나 --%>
+												<div class="one-milestone-checkbox plan-check plan">
+													
+														<input type="checkbox" value="${planItem.checklist_code }" class="plan-checkbox checkList-checkbox"
+														${planItem.is_checked == 1 ? "checked='on'" : "" }
+														>
+														<span class="milestone-checkbox-content">${planItem.checklist_content }</span>
+													
+													<div class="checkbox-all-btn-box plan">
+														<%-- Edit --%>
+														<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" 
+																value="${planItem.checklist_code }">
+															
+															<span class="milestone-edit-content">
+																<span class="milestone-edit-btn-text">edit</span>
+																<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
+															</span>
+															
+														</button>
+														
+														
+														<%-- Delete --%>
+														<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger"
+																value="${planItem.checklist_code }">
+															<span class="milestone-del-content">
+																<span class="milestone-del-btn-text">delete</span>
+																<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
+															</span>
+														</button>
+														
+														
+													</div><!-- close .checkbox-all-btn-box .plan -->
+													
+												</div><!-- close .one-milestone-checkbox .plan-check .plan -->
+											</c:forEach>
 											
-											<%-- CheckBox 목록 하나 --%>
+											<%--[ 「+」 버튼 클릭시, 기획 체크리스트 목록 추가 입력창 ]--%>
+												<div class="add-checklist-box one-milestone-checkbox plan-check plan" id="plan-add-divBox">
+													
+													<div class="add-checklist-content-box">
+														<input type="text" class="add-checklist-content" id="plan-new-list-content" placeholder="새로운 항목을 입력하세요!">
+													</div>
+													
+													<div class="checkbox-all-btn-box plan">
+													
+														<%-- submit 버튼 --%>
+														<button type="button" id="plan-add-submit" class="new-content-submit milestone-add-list-btn checkbox-btn edit-check-btn btn btn-sm btn-outline-info"
+														value="기획" >
+															
+															<span class="milestone-add-list-content milestone-edit-content">
+																<span class="milestone-add-list-text milestone-edit-btn-text">submit!</span>
+																<span class="milestone-add-list-btn-icon milestone-edit-btn-icon material-symbols-outlined">task_alt</span>
+															</span>
+															
+														</button>
+														
+														
+														<%-- cancel 버튼  --%>
+														<button type="button" id="plan-add-cancel" class="milestone-add-cancel-btn milestone-del-btn checkbox-btn delete-check-btn btn btn-sm btn-outline-danger">
+
+															<span class="milestone-add-cancel-content milestone-del-content">
+																<span class="milestone-add-cancel-text milestone-del-btn-text">cancel</span>
+																<span class="milestone-add-cancel-icon milestone-delete-btn-icon material-symbols-outlined">cancel</span>
+															</span>
+															
+														</button>
+														
+														
+													</div><!-- close .checkbox-all-btn-box .plan -->
+												</div><!-- close .one-milestone-checkbox .plan-check .plan -->
+												
+											
+											
+											
+											
+<%-- 											
+											
+											
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -321,7 +659,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -332,7 +670,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -345,7 +683,7 @@
 												
 											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -354,7 +692,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -365,40 +703,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
-													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
-														<span class="milestone-del-content">
-															<span class="milestone-del-btn-text">delete</span>
-															<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
-														</span>
-													</button>
-													
-													
-												</div><!-- close .checkbox-all-btn-box .plan -->
-												
-											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
-											
-											<%-- CheckBox 목록 하나 --%>
-											<div class="one-milestone-checkbox plan-check plan">
-												
-												<form name="checkform" action="/check.action" method="get">
-													<input type="checkbox" val="CK0001"  class="plan-checkbox">
-													<span class="milestone-checkbox-content">무엇무엇을 해야함!</span>
-												</form>
-												
-												<div class="checkbox-all-btn-box plan">
-													<%-- Edit --%>
-													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
-														
-														<span class="milestone-edit-content">
-															<span class="milestone-edit-btn-text">edit</span>
-															<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
-														</span>
-														
-													</button>
-													
-													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -413,7 +718,7 @@
 											
 											
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan">
 
 												<form name="checkform" action="/check.action" method="get">
@@ -425,7 +730,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -436,7 +741,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -449,7 +754,7 @@
 												
 											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -460,7 +765,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -471,7 +776,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -484,7 +789,7 @@
 												
 											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -497,7 +802,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -508,7 +813,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -521,18 +826,22 @@
 												
 											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
 
+ --%>
 
-
+											
+											
+											
+											
 											
 		
 										</div><!-- close .milestone-checkList-box .plan-checkList .plan -->
 									</div><!-- close .one-milestone-mainContent-box .plan-mainContent-box .plan -->
 									
 									
-									<div class="milestone-add-list-btn-Area">
+									<div class="new-checklist-item-btn-Area milestone-add-list-btn-Area">
 										
-										<div class="milestone-add-list-btn-box">
-											<button type="button" class="milestone-add-list-btn btn btn-light plan-list-add-btn">
+										<div class="new-checklist-item-btn-box milestone-add-list-btn-box">
+											<button type="button" id="plan-add-btn" class="new-checklist-item-btn milestone-add-list-btn btn btn-light plan-list-add-btn">
 												<span class="milestone-add-btn-icon material-symbols-outlined">add</span>
 											</button>
 										</div><!-- close .milestone-add-list-btn-box -->
@@ -540,6 +849,11 @@
 									</div><!-- close .milestone-add-list-btn-Area -->
 									
 								</div><!-- close .all-milestone-Content-and-btn-box -->
+								
+								
+								
+								
+								
 								
 								
 							</div><!-- close .one-milestone-Parent-Box -->
@@ -601,8 +915,83 @@
 											
 											
 											
+											<c:forEach var="designItem" items="${designCheckList }">
+												<%-- CheckBox 목록 하나 --%>
+												<div class="one-milestone-checkbox plan-check plan design">
+													
+													<form name="checkform" action="/check.action" method="get">
+														<input type="checkbox" value="${designItem.checklist_code }"  class="plan-checkbox design checkList-checkbox"
+														${designItem.is_checked == 1 ? "checked='on'" : "" }>
+														<span class="milestone-checkbox-content">${designItem.checklist_content }</span>
+													</form>
+													
+													<div class="checkbox-all-btn-box plan">
+														<%-- Edit --%>
+														<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="${designItem.checklist_code }">
+															
+															<span class="milestone-edit-content">
+																<span class="milestone-edit-btn-text">edit</span>
+																<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
+															</span>
+															
+														</button>
+														
+														
+														<%-- Delete --%>
+														<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="${designItem.checklist_code }">
+															<span class="milestone-del-content">
+																<span class="milestone-del-btn-text">delete</span>
+																<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
+															</span>
+														</button>
+														
+														
+													</div><!-- close .checkbox-all-btn-box .plan -->
+													
+												</div><!-- close .one-milestone-checkbox .plan-check .plan -->
+												
+												
+												
+											</c:forEach>
 											
-											<%-- CheckBox 목록 하나 --%>
+												<%--[ 「+」 버튼 클릭시, 설계 체크리스트 목록 추가 입력창 ]--%>
+												<div class="one-milestone-checkbox plan-check plan design add-checklist-box">
+													
+													<div class="add-checklist-content-box">
+														<input type="text" class="add-checklist-content" id="design-new-list-content" placeholder="새로운 항목을 입력하세요!">
+													</div>
+													
+													<div class="checkbox-all-btn-box plan">
+													
+														<%-- submit 버튼 --%>
+														<button type="button" class="new-content-submit milestone-add-list-btn checkbox-btn edit-check-btn btn btn-sm btn-outline-info"
+														value="설계" >
+															
+															<span class="milestone-add-list-content milestone-edit-content">
+																<span class="milestone-add-list-text milestone-edit-btn-text">submit!</span>
+																<span class="milestone-add-list-btn-icon milestone-edit-btn-icon material-symbols-outlined">task_alt</span>
+															</span>
+															
+														</button>
+														
+														
+														<%-- cancel 버튼  --%>
+														<button type="button" class="milestone-add-cancel-btn milestone-del-btn checkbox-btn delete-check-btn btn btn-sm btn-outline-danger">
+
+															<span class="milestone-del-content milestone-add-cancel-content">
+																<span class="milestone-add-cancel-text milestone-del-btn-text">cancel</span>
+																<span class="milestone-add-cancel-icon milestone-delete-btn-icon material-symbols-outlined">cancel</span>
+															</span>
+															
+														</button>
+														
+														
+													</div><!-- close .checkbox-all-btn-box .plan -->
+												</div><!-- close .one-milestone-checkbox .plan-check .plan -->
+												
+											
+<%-- 											
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan design">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -611,7 +1000,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -622,7 +1011,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -636,7 +1025,7 @@
 											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
 
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan design">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -645,7 +1034,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan design">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info design" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -656,7 +1045,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -670,7 +1059,7 @@
 											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
 											
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan design">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -679,7 +1068,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan design">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info design" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -690,7 +1079,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -704,7 +1093,7 @@
 											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
 											
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan design">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -713,7 +1102,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan design">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info design" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -724,7 +1113,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -738,7 +1127,7 @@
 											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
 											
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan design">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -747,7 +1136,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan design">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info design" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -758,75 +1147,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
-													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
-														<span class="milestone-del-content">
-															<span class="milestone-del-btn-text">delete</span>
-															<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
-														</span>
-													</button>
-													
-													
-												</div><!-- close .checkbox-all-btn-box .plan -->
-												
-											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
-											
-											
-											<%-- CheckBox 목록 하나 --%>
-											<div class="one-milestone-checkbox plan-check plan design">
-												
-												<form name="checkform" action="/check.action" method="get">
-													<input type="checkbox" val="CK0001"  class="plan-checkbox design">
-													<span class="milestone-checkbox-content">무엇무엇을 해야함!</span>
-												</form>
-												
-												<div class="checkbox-all-btn-box plan design">
-													<%-- Edit --%>
-													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info design" value="CK0001">
-														
-														<span class="milestone-edit-content">
-															<span class="milestone-edit-btn-text">edit</span>
-															<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
-														</span>
-														
-													</button>
-													
-													
-													<%-- Delete --%>
-													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
-														<span class="milestone-del-content">
-															<span class="milestone-del-btn-text">delete</span>
-															<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
-														</span>
-													</button>
-													
-													
-												</div><!-- close .checkbox-all-btn-box .plan -->
-												
-											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
-											
-											
-											<%-- CheckBox 목록 하나 --%>
-											<div class="one-milestone-checkbox plan-check plan design">
-												
-												<form name="checkform" action="/check.action" method="get">
-													<input type="checkbox" val="CK0001"  class="plan-checkbox design">
-													<span class="milestone-checkbox-content">무엇무엇을 해야함!</span>
-												</form>
-												
-												<div class="checkbox-all-btn-box plan design">
-													<%-- Edit --%>
-													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info design" value="CK0001">
-														
-														<span class="milestone-edit-content">
-															<span class="milestone-edit-btn-text">edit</span>
-															<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
-														</span>
-														
-													</button>
-													
-													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -841,8 +1162,8 @@
 											
 											
 											
+ --%>											
 											
-
 
 
 											
@@ -851,10 +1172,10 @@
 									</div><!-- close .one-milestone-mainContent-box .plan-mainContent-box .plan -->
 									
 									
-									<div class="milestone-add-list-btn-Area">
+									<div class="new-checklist-item-btn-Area milestone-add-list-btn-Area">
 										
-										<div class="milestone-add-list-btn-box design">
-											<button type="button" class="milestone-add-list-btn btn btn-light plan-list-add-btn design">
+										<div class="new-checklist-item-btn-box milestone-add-list-btn-box design">
+											<button type="button" class="new-checklist-item-btn milestone-add-list-btn btn btn-light plan-list-add-btn design">
 												<span class="milestone-add-btn-icon material-symbols-outlined design">add</span>
 											</button>
 										</div><!-- close .milestone-add-list-btn-box -->
@@ -922,8 +1243,83 @@
 											
 											
 											
+											<c:forEach var="implementItem" items="${implementCheckList }">
+												<%-- CheckBox 목록 하나 --%>
+												<div class="one-milestone-checkbox plan-check plan implement">
+													
+													<form name="checkform" action="/check.action" method="get">
+														<input type="checkbox" val="${implementItem.checklist_code }"  class="plan-checkbox implement checkList-checkbox"
+														${implementItem.is_checked == 1 ? "checked='on'" : "" }>
+														<span class="milestone-checkbox-content">${implementItem.checklist_content }</span>
+													</form>
+													
+													<div class="checkbox-all-btn-box plan implement">
+														<%-- Edit --%>
+														<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info"
+																value="${implementItem.checklist_code }">
+															
+															<span class="milestone-edit-content">
+																<span class="milestone-edit-btn-text">edit</span>
+																<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
+															</span>
+															
+														</button>
+														
+														
+														<%-- Delete --%>
+														<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" 
+																value="${implementItem.checklist_code }">
+															<span class="milestone-del-content">
+																<span class="milestone-del-btn-text">delete</span>
+																<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
+															</span>
+														</button>
+														
+														
+													</div><!-- close .checkbox-all-btn-box .plan -->
+													
+												</div><!-- close .one-milestone-checkbox .plan-check .plan -->
+											</c:forEach>
 											
-											<%-- CheckBox 목록 하나 --%>
+											<%--[ 「+」 버튼 클릭시, 『구현』 체크리스트 목록 추가 입력창 ]--%>
+												<div class="one-milestone-checkbox plan-check plan implement add-checklist-box">
+													
+													<div class="add-checklist-content-box">
+														<input type="text" class="add-checklist-content" id="implement-new-list-content" placeholder="새로운 항목을 입력하세요!">
+													</div>
+													
+													<div class="checkbox-all-btn-box implement">
+													
+														<%-- submit 버튼 --%>
+														<button type="button" class="new-content-submit milestone-add-list-btn checkbox-btn edit-check-btn btn btn-sm btn-outline-info"
+														value="구현" >
+															
+															<span class="milestone-add-list-content milestone-edit-content">
+																<span class="milestone-add-list-text milestone-edit-btn-text">submit!</span>
+																<span class="milestone-add-list-btn-icon milestone-edit-btn-icon material-symbols-outlined">task_alt</span>
+															</span>
+															
+														</button>
+														
+														
+														<%-- cancel 버튼  --%>
+														<button type="button" class="milestone-add-cancel-btn milestone-del-btn checkbox-btn delete-check-btn btn btn-sm btn-outline-danger">
+
+															<span class="milestone-del-content milestone-add-cancel-content">
+																<span class="milestone-add-cancel-text milestone-del-btn-text">cancel</span>
+																<span class="milestone-add-cancel-icon milestone-delete-btn-icon material-symbols-outlined">cancel</span>
+															</span>
+															
+														</button>
+														
+														
+													</div><!-- close .checkbox-all-btn-box .plan -->
+												</div><!-- close .one-milestone-checkbox .plan-check .plan -->
+												
+												
+											
+<%-- 											
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan implement">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -932,7 +1328,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan implement">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -943,108 +1339,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
-													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
-														<span class="milestone-del-content">
-															<span class="milestone-del-btn-text">delete</span>
-															<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
-														</span>
-													</button>
-													
-													
-												</div><!-- close .checkbox-all-btn-box .plan -->
-												
-											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
-											
-											<%-- CheckBox 목록 하나 --%>
-											<div class="one-milestone-checkbox plan-check plan implement">
-												
-												<form name="checkform" action="/check.action" method="get">
-													<input type="checkbox" val="CK0001"  class="plan-checkbox implement">
-													<span class="milestone-checkbox-content">무엇무엇을 해야함!</span>
-												</form>
-												
-												<div class="checkbox-all-btn-box plan implement">
-													<%-- Edit --%>
-													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
-														
-														<span class="milestone-edit-content">
-															<span class="milestone-edit-btn-text">edit</span>
-															<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
-														</span>
-														
-													</button>
-													
-													
-													<%-- Delete --%>
-													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
-														<span class="milestone-del-content">
-															<span class="milestone-del-btn-text">delete</span>
-															<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
-														</span>
-													</button>
-													
-													
-												</div><!-- close .checkbox-all-btn-box .plan -->
-												
-											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
-											
-											<%-- CheckBox 목록 하나 --%>
-											<div class="one-milestone-checkbox plan-check plan implement">
-												
-												<form name="checkform" action="/check.action" method="get">
-													<input type="checkbox" val="CK0001"  class="plan-checkbox implement">
-													<span class="milestone-checkbox-content">무엇무엇을 해야함!</span>
-												</form>
-												
-												<div class="checkbox-all-btn-box plan implement">
-													<%-- Edit --%>
-													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
-														
-														<span class="milestone-edit-content">
-															<span class="milestone-edit-btn-text">edit</span>
-															<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
-														</span>
-														
-													</button>
-													
-													
-													<%-- Delete --%>
-													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
-														<span class="milestone-del-content">
-															<span class="milestone-del-btn-text">delete</span>
-															<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
-														</span>
-													</button>
-													
-													
-												</div><!-- close .checkbox-all-btn-box .plan -->
-												
-											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
-											
-											
-											
-											<%-- CheckBox 목록 하나 --%>
-											<div class="one-milestone-checkbox plan-check plan implement">
-												
-												<form name="checkform" action="/check.action" method="get">
-													<input type="checkbox" val="CK0001"  class="plan-checkbox implement">
-													<span class="milestone-checkbox-content">무엇무엇을 해야함!</span>
-												</form>
-												
-												<div class="checkbox-all-btn-box plan implement">
-													<%-- Edit --%>
-													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
-														
-														<span class="milestone-edit-content">
-															<span class="milestone-edit-btn-text">edit</span>
-															<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
-														</span>
-														
-													</button>
-													
-													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -1059,7 +1354,8 @@
 											
 											
 											
-											<%-- CheckBox 목록 하나 --%>
+											
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan implement">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -1068,7 +1364,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan implement">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -1079,7 +1375,40 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
+													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
+														<span class="milestone-del-content">
+															<span class="milestone-del-btn-text">delete</span>
+															<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
+														</span>
+													</button>
+													
+													
+												</div><!-- close .checkbox-all-btn-box .plan -->
+												
+											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
+											
+											CheckBox 목록 하나
+											<div class="one-milestone-checkbox plan-check plan implement">
+												
+												<form name="checkform" action="/check.action" method="get">
+													<input type="checkbox" val="CK0001"  class="plan-checkbox implement">
+													<span class="milestone-checkbox-content">무엇무엇을 해야함!</span>
+												</form>
+												
+												<div class="checkbox-all-btn-box plan implement">
+													Edit
+													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
+														
+														<span class="milestone-edit-content">
+															<span class="milestone-edit-btn-text">edit</span>
+															<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
+														</span>
+														
+													</button>
+													
+													
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -1094,7 +1423,7 @@
 											
 											
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan implement">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -1103,7 +1432,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan implement">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -1114,7 +1443,77 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
+													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
+														<span class="milestone-del-content">
+															<span class="milestone-del-btn-text">delete</span>
+															<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
+														</span>
+													</button>
+													
+													
+												</div><!-- close .checkbox-all-btn-box .plan -->
+												
+											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
+											
+											
+											
+											CheckBox 목록 하나
+											<div class="one-milestone-checkbox plan-check plan implement">
+												
+												<form name="checkform" action="/check.action" method="get">
+													<input type="checkbox" val="CK0001"  class="plan-checkbox implement">
+													<span class="milestone-checkbox-content">무엇무엇을 해야함!</span>
+												</form>
+												
+												<div class="checkbox-all-btn-box plan implement">
+													Edit
+													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
+														
+														<span class="milestone-edit-content">
+															<span class="milestone-edit-btn-text">edit</span>
+															<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
+														</span>
+														
+													</button>
+													
+													
+													Delete
+													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
+														<span class="milestone-del-content">
+															<span class="milestone-del-btn-text">delete</span>
+															<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
+														</span>
+													</button>
+													
+													
+												</div><!-- close .checkbox-all-btn-box .plan -->
+												
+											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
+											
+											
+											
+											CheckBox 목록 하나
+											<div class="one-milestone-checkbox plan-check plan implement">
+												
+												<form name="checkform" action="/check.action" method="get">
+													<input type="checkbox" val="CK0001"  class="plan-checkbox implement">
+													<span class="milestone-checkbox-content">무엇무엇을 해야함!</span>
+												</form>
+												
+												<div class="checkbox-all-btn-box plan implement">
+													Edit
+													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
+														
+														<span class="milestone-edit-content">
+															<span class="milestone-edit-btn-text">edit</span>
+															<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
+														</span>
+														
+													</button>
+													
+													
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -1128,20 +1527,21 @@
 											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
 											
 
-
+ --%>
 											
 		
 										</div><!-- close .milestone-checkList-box .plan-checkList .plan -->
 									</div><!-- close .one-milestone-mainContent-box .plan-mainContent-box .plan -->
 									
 									
-									<div class="milestone-add-list-btn-Area">
-										
-										<div class="milestone-add-list-btn-box implement">
-											<button type="button" class="milestone-add-list-btn btn btn-light plan-list-add-btn implement">
+									<div class="new-checklist-item-btn-Area milestone-add-list-btn-Area">
+							
+										<div class="new-checklist-item-btn-box milestone-add-list-btn-box implement">
+											<button type="button"  class="new-checklist-item-btn milestone-add-list-btn btn btn-light plan-list-add-btn implement">
 												<span class="milestone-add-btn-icon material-symbols-outlined implement">add</span>
 											</button>
 										</div><!-- close .milestone-add-list-btn-box -->
+								
 									
 									</div><!-- close .milestone-add-list-btn-Area -->
 									
@@ -1208,8 +1608,86 @@
 											
 											
 											
+											<c:forEach var="settlementItem" items="${settlementCheckList }">
+												<%-- CheckBox 목록 하나 --%>
+												<div class="one-milestone-checkbox plan-check plan settlement">
+													
+													<form name="checkform" action="/check.action" method="get">
+														<input type="checkbox" val="${settlementItem.checklist_code }"  class="plan-checkbox settlement checkList-checkbox"
+														${settlementItem.is_checked == 1 ? "checked='on'" : "" }>
+														
+														<span class="milestone-checkbox-content">${settlementItem.checklist_content }</span>
+													</form>
+													
+													<div class="checkbox-all-btn-box plan settlement">
+														<%-- Edit --%>
+														<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" 
+																value="${settlementItem.checklist_code }">
+															
+															<span class="milestone-edit-content">
+																<span class="milestone-edit-btn-text">edit</span>
+																<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
+															</span>
+															
+														</button>
+														
+														
+														<%-- Delete --%>
+														<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" 
+																value="${settlementItem.checklist_code }">
+															<span class="milestone-del-content">
+																<span class="milestone-del-btn-text">delete</span>
+																<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
+															</span>
+														</button>
+														
+														
+													</div><!-- close .checkbox-all-btn-box .plan -->
+													
+												</div><!-- close .one-milestone-checkbox .plan-check .plan -->
 											
-											<%-- CheckBox 목록 하나 --%>
+											</c:forEach>
+											
+											<%--[ 「+」 버튼 클릭시, 『결산』 체크리스트 목록 추가 입력창 ]--%>
+												<div class="one-milestone-checkbox plan-check plan settlement add-checklist-box">
+													
+													<div class="add-checklist-content-box">
+														<input type="text" class="add-checklist-content" id="settlement-new-list-content" placeholder="새로운 항목을 입력하세요!">
+													</div>
+													
+													<div class="checkbox-all-btn-box plan">
+													
+														<%-- submit 버튼 --%>
+														<button type="button" class="new-content-submit milestone-add-list-btn checkbox-btn edit-check-btn btn btn-sm btn-outline-info"
+														value="결산" >
+															
+															<span class="milestone-add-list-content milestone-edit-content">
+																<span class="milestone-add-list-text milestone-edit-btn-text">submit!</span>
+																<span class="milestone-add-list-btn-icon milestone-edit-btn-icon material-symbols-outlined">task_alt</span>
+															</span>
+															
+														</button>
+														
+														
+														<%-- cancel 버튼  --%>
+														<button type="button" class="milestone-add-cancel-btn milestone-del-btn checkbox-btn delete-check-btn btn btn-sm btn-outline-danger">
+
+															<span class="milestone-del-content milestone-add-cancel-content">
+																<span class="milestone-add-cancel-text milestone-del-btn-text">cancel</span>
+																<span class="milestone-add-cancel-icon milestone-delete-btn-icon material-symbols-outlined">cancel</span>
+															</span>
+															
+														</button>
+														
+														
+													</div><!-- close .checkbox-all-btn-box .plan -->
+												</div><!-- close .one-milestone-checkbox .plan-check .plan -->
+												
+											
+	<%-- 										
+											
+											
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan settlement">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -1218,7 +1696,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan settlement">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -1229,7 +1707,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -1245,7 +1723,7 @@
 											
 											
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan settlement">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -1254,7 +1732,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan settlement">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -1265,7 +1743,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -1281,7 +1759,7 @@
 											
 											
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan settlement">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -1290,7 +1768,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan settlement">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -1301,7 +1779,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -1317,7 +1795,7 @@
 											
 											
 											
-											<%-- CheckBox 목록 하나 --%>
+											CheckBox 목록 하나
 											<div class="one-milestone-checkbox plan-check plan settlement">
 												
 												<form name="checkform" action="/check.action" method="get">
@@ -1326,7 +1804,7 @@
 												</form>
 												
 												<div class="checkbox-all-btn-box plan settlement">
-													<%-- Edit --%>
+													Edit
 													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
 														
 														<span class="milestone-edit-content">
@@ -1337,7 +1815,7 @@
 													</button>
 													
 													
-													<%-- Delete --%>
+													Delete
 													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
 														<span class="milestone-del-content">
 															<span class="milestone-del-btn-text">delete</span>
@@ -1349,43 +1827,7 @@
 												</div><!-- close .checkbox-all-btn-box .plan -->
 												
 											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
-											
-											
-											
-											
-											<%-- CheckBox 목록 하나 --%>
-											<div class="one-milestone-checkbox plan-check plan settlement">
-												
-												<form name="checkform" action="/check.action" method="get">
-													<input type="checkbox" val="CK0001"  class="plan-checkbox settlement">
-													<span class="milestone-checkbox-content">무엇무엇을 해야함!</span>
-												</form>
-												
-												<div class="checkbox-all-btn-box plan settlement">
-													<%-- Edit --%>
-													<button type="button" class="checkbox-btn edit-check-btn btn btn-sm btn-outline-info" value="CK0001">
-														
-														<span class="milestone-edit-content">
-															<span class="milestone-edit-btn-text">edit</span>
-															<span class="milestone-edit-btn-icon material-symbols-outlined">edit</span>
-														</span>
-														
-													</button>
-													
-													
-													<%-- Delete --%>
-													<button type="button" class="checkbox-btn delete-check-btn btn btn-sm btn-outline-danger" value="CK0001">
-														<span class="milestone-del-content">
-															<span class="milestone-del-btn-text">delete</span>
-															<span class="milestone-delete-btn-icon material-symbols-outlined">delete</span>
-														</span>
-													</button>
-													
-													
-												</div><!-- close .checkbox-all-btn-box .plan -->
-												
-											</div><!-- close .one-milestone-checkbox .plan-check .plan -->
-											
+			 --%>								
 											
 											
 		
@@ -1393,10 +1835,10 @@
 									</div><!-- close .one-milestone-mainContent-box .plan-mainContent-box .plan -->
 									
 									
-									<div class="milestone-add-list-btn-Area">
+									<div class="new-checklist-item-btn-Area milestone-add-list-btn-Area">
 										
-										<div class="milestone-add-list-btn-box">
-											<button type="button" class="milestone-add-list-btn btn btn-light plan-list-add-btn">
+										<div class="new-checklist-item-btn-box milestone-add-list-btn-box">
+											<button type="button" class="new-checklist-item-btn milestone-add-list-btn btn btn-light plan-list-add-btn">
 												<span class="milestone-add-btn-icon material-symbols-outlined">add</span>
 											</button>
 										</div><!-- close .milestone-add-list-btn-box -->
