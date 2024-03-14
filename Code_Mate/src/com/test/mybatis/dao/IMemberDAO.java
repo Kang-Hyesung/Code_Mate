@@ -23,5 +23,5 @@ public interface IMemberDAO
 	public String getMacode(String mem_code, String cp_code);
 	public String getLeader_ma(String ap_code);
 	
-	
+	public ArrayList<MemberDTO> getMember(String ap_code);
 }

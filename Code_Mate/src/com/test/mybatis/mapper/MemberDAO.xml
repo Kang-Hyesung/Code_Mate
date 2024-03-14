@@ -93,6 +93,15 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 		WHERE ao.AP_CODE = #{arg0} AND MA.AR_CODE = 'AR0001' AND RC.MR_CODE = 'MR0001'
 	 </select>
 	 
+	 <!-- 개설 신청 코드로 팀장제외 팀원 뽑아내는 쿼리문 -->
+	<select id="getMember" resultType="com.test.mybatis.dto.MemberDTO" >
+		SELECT ma.MA_CODE, m.mem_code, m.nickname
+		FROM APP_OPENING ao JOIN ROLE_COMP rc ON ao.AP_CODE = rc.AP_CODE
+							JOIN MEMBER_APPLY ma ON rc.RC_CODE = MA.RC_CODE 
+							JOIN "MEMBER" m ON MA.MEM_CODE = M.MEM_CODE
+		WHERE ao.AP_CODE = #{arg0} AND MA.AR_CODE = 'AR0001' AND RC.MR_CODE != 'MR0001'
+	</select>
+	 
 </mapper>
 
 

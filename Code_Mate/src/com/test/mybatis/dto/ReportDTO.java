@@ -2,7 +2,15 @@ package com.test.mybatis.dto;
 
 public class ReportDTO
 {
-	private String title, summary, state, kdate, mem_code, nickname, content, task_code, br_code;
+	private String title, summary, state, kdate, mem_code, nickname, content, task_code, br_code, ma_code;
+	public String getMa_code()
+	{
+		return ma_code;
+	}
+	public void setMa_code(String ma_code)
+	{
+		this.ma_code = ma_code;
+	}
 	private int num;
 	
 	public String getTitle()

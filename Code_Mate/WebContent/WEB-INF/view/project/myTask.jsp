@@ -71,19 +71,6 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 			var id = $(this).val();
 			$("#" + id).show();
 			
-			var params = "task_code=" + id; 
-			
-			$.ajax({
-				url:"getReport.action?task_code=" + id,
-				type:"GET",
-				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			    success: function(data) {
-			    	$("#" + id).html(data)
-			    },
-			    error: function() {
-			        alert("에러");
-			    }
-			})
 		})
 		
 		$(".btn-close").click(function()
@@ -388,7 +375,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	.open{border: 0px; background: white; float: right;}
 	/* 업무보고서 div */
 	.report {
-    width: 500px;
+    width: 630px;
     height: 300px;
     position: absolute;
     left: 700px;
@@ -403,6 +390,10 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 }
 	.form-control{border: 1px solid #d5d5d5;}
 	.modal-content {top: 150px;}
+	td{ text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
+	.text1, .text2{width: 100px; min-width: 100px; max-width: 100px;}
+	th { 		vertical-align: middle; 		padding:5px;	overflow:hidden;		white-space : nowrap;		text-overflow: ellipsis;	 }
+
 </style>
 
 </head>
@@ -602,21 +593,42 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
 													<span class="member-name">${item.nickname }</span>
 													<button class="open" value="${item.task_code }" name="taskCode">업무보고서 열기</button>
-													<div class="report" id="${item.task_code }">
-														<div class="reportAll">
-															<h4>
-																${item.title }의 업무보고서
-																<button type="button" class="btn-close" aria-label="Close" value="${item.task_code }"></button>
-															</h4>
-															
-															<div id="${item.task_code }">
-															</div>
-															
-															<button id="task_code" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="${item.task_code }">
-															  작성하기
-															</button>
+													
+														<div class="report" id="${item.task_code }">
+																<h4>
+																	${item.title }의 업무보고서
+																	<button type="button" class="btn-close" aria-label="Close" value="${item.task_code }"></button>
+																</h4>
+																<div class="reportAll">
+																	
+																	<table class="table">
+																		<tr>
+																			<th class="text1">업무명</th>
+																			<th class="text2">보고서 내용</th>
+																			<th>보고서 요약</th>
+																			<th>작성일자</th>
+																			<th>제출 결과</th>
+																		</tr>
+																		
+																		<c:forEach items="${reportList }" var="report">
+																				<c:if test="${item.task_code eq report.task_code }">
+																					<tr>
+																						<td>${report.title }</td>
+																						<td>${report.content }</td>
+																						<td>${report.summary }</td>
+																						<td>${report.kdate }</td>
+																						<td>${report.state }</td>
+																					</tr>
+																				</c:if>
+																		</c:forEach>
+																	
+																	</table>
+																	
+																	<button id="task_code" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="${report.task_code }">
+																	  작성하기
+																	</button>
+																</div>
 														</div>
-													</div>
 											</div>
 										</div>
 									</div><!-- close. task high / last -->
@@ -647,8 +659,6 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 											<div class="membername">
 													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
 													<span class="member-name">${item.nickname }</span>
-													<button class="open" value="${item.task_code }">업무보고서 열기</button>
-													<div class="report" id="${item.task_code }"> 업무보고서 </div>
 											</div>
 										</div>
 									</div><!-- close. task medium / last -->
@@ -670,6 +680,43 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 											<div class="membername">
 													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
 													<span class="member-name">${item.nickname }</span>
+													<button class="open" value="${item.task_code }" name="taskCode">업무보고서 열기</button>
+													
+														<div class="report" id="${item.task_code }">
+																<h4>
+																	${item.title }의 업무보고서
+																	<button type="button" class="btn-close" aria-label="Close" value="${item.task_code }"></button>
+																</h4>
+																<div class="reportAll">
+																	
+																	<table class="table">
+																		<tr>
+																			<th class="text1">업무명</th>
+																			<th class="text2">보고서 내용</th>
+																			<th>보고서 요약</th>
+																			<th>작성일자</th>
+																			<th>제출 결과</th>
+																		</tr>
+																		
+																		<c:forEach items="${reportList }" var="report">
+																				<c:if test="${item.task_code eq report.task_code }">
+																					<tr>
+																						<td>${report.title }</td>
+																						<td>${report.content }</td>
+																						<td>${report.summary }</td>
+																						<td>${report.kdate }</td>
+																						<td>${report.state }</td>
+																					</tr>
+																				</c:if>
+																		</c:forEach>
+																	
+																	</table>
+																	
+																	<button id="task_code" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="${report.task_code }">
+																	  작성하기
+																	</button>
+																</div>
+														</div>
 											</div>
 										</div>
 									</div>
@@ -710,6 +757,9 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
     </div>
   </div>
 </div>
+
+
+
 
 </body>
 </html>

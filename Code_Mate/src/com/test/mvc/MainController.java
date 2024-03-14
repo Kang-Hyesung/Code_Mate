@@ -4,21 +4,13 @@
  ===================*/
 
 package com.test.mvc;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,21 +18,14 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-import com.test.mybatis.dao.IMeetingDAO;
 import com.test.mybatis.dao.IMemberDAO;
 import com.test.mybatis.dao.IMyPageDAO;
 import com.test.mybatis.dao.IProjectListDAO;
 import com.test.mybatis.dao.IProjectPageDAO;
 import com.test.mybatis.dao.IQnaListDAO;
-import com.test.mybatis.dao.IReportDAO;
-import com.test.mybatis.dao.ITaskDAO;
-import com.test.mybatis.dto.MeetingDTO;
 import com.test.mybatis.dto.MemberDTO;
 import com.test.mybatis.dto.MyPageMethod;
 import com.test.mybatis.dto.ProjectPageDTO;
-import com.test.mybatis.dto.ReportDTO;
-import com.test.mybatis.dto.TaskDTO;
 
 @Controller
 public class MainController
@@ -56,7 +41,6 @@ public class MainController
 		
 		model.addAttribute("list", pjdao.list());
 		model.addAttribute("qnalist", qnadao.qnalist());
-		
 		
 		return "/WEB-INF/view/main/main.jsp";
 	}
