@@ -205,7 +205,9 @@ public class ProjectController
 	{
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
 		
-		reportDao.addReport(dto.getTask_code(), dto.getContent(), dto.getSummary());
+		
+		
+		//reportDao.addReport(dto.getTask_code(), dto.getContent(), dto.getSummary());
 		
 		return "redirect:myTask.action";
 	}
