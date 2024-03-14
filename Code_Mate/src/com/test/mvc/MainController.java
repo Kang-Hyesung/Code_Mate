@@ -4,6 +4,8 @@
  ===================*/
 
 package com.test.mvc;
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -158,50 +160,155 @@ public class MainController
 		
 		
 		// TOP 프로젝트 모두보기 클릭시
-		@RequestMapping(value="/ProjectList.action", method=RequestMethod.GET)
-		public String projectlist(ModelMap model, HttpSession session, HttpServletRequest request)
-		{	
-			IProjectPageDAO dao = sqlSession.getMapper(IProjectPageDAO.class);
-			
-			MemberDTO member = (MemberDTO)session.getAttribute("member");
-			
-			if (member == null)
-			{
-				request.setAttribute("member", member);
-				return "/WEB-INF/view/main/projectPage.jsp";
-			}
-			else
-			{
-				request.setAttribute("member", member);
-				
-				String mem_code = member.getMem_code();
-				
-				model.addAttribute("pjdto",dao.pjdto(mem_code));
-				
-				MultiValueMap<String, String> pjtag = new LinkedMultiValueMap<String, String>();
-				
-				for (ProjectPageDTO pjpdto : dao.pjtagap(mem_code))
-				{
-					pjtag.add(pjpdto.getAp_code(), pjpdto.getTag_name());
+				@RequestMapping(value="/ProjectList.action", method=RequestMethod.GET)
+				public String projectlist(ModelMap model, HttpSession session, HttpServletRequest request)
+				{	
+					IProjectPageDAO dao = sqlSession.getMapper(IProjectPageDAO.class);
+					
+					MemberDTO member = (MemberDTO)session.getAttribute("member");
+					
+					LocalDate now = LocalDate.now();
+					//System.out.println(now);
+					
+					
+					if (member == null)
+					{
+						request.setAttribute("member", member);
+						
+						// 전체 프로젝트 정보
+						
+						model.addAttribute("pjall",dao.allpjlist());
+						
+						
+						// 모집중 정보
+						
+						model.addAttribute("pjing",dao.ingpjlist());
+						
+						
+						// 모집 완료 정보
+						
+						model.addAttribute("pjend",dao.endpjlist());
+						
+						
+						// 태그
+						
+						model.addAttribute("tag",dao.tag());
+						
+						
+						// 댓글
+						
+						model.addAttribute("comment",dao.comment());
+						
+						
+						// 핫한 프로젝트
+						
+						model.addAttribute("hotpj",dao.hotpj());
+						
+						// 새로운 프젝
+						
+						model.addAttribute("newpj",dao.newpj());
+						
+						
+						// 왼쪽 태그들
+						model.addAttribute("lefttag",dao.lefttag());
+						
+						
+						// 전체 카운트
+						model.addAttribute("allcount",dao.allcount());
+						
+						
+						// 진행중 카운트
+						model.addAttribute("ingcount",dao.ingcount());
+						
+						
+						// 진행완료 카운트
+						model.addAttribute("endcount",dao.endcount());
+						
+						
+						
+						return "/WEB-INF/view/main/projectPage.jsp";
+					}
+					else
+					{
+						request.setAttribute("member", member);
+						
+						String mem_code = member.getMem_code();
+						
+						// 회원일때 참여 프로젝트 정보
+						model.addAttribute("pjdto",dao.pjdto(mem_code));
+						
+						
+						// 전체 프로젝트 정보
+						
+						model.addAttribute("pjall",dao.allpjlist());
+						
+						
+						
+						// 모집중 정보
+						
+						model.addAttribute("pjing",dao.ingpjlist());
+						
+						
+						
+						// 모집 완료 정보
+						
+						model.addAttribute("pjend",dao.endpjlist());
+						
+						
+						// 태그
+						
+						model.addAttribute("tag",dao.tag());
+						
+						
+						// 댓글
+						
+						model.addAttribute("comment",dao.comment());
+						
+						
+						// 핫한 프로젝트
+						
+						model.addAttribute("hotpj",dao.hotpj());
+						
+						
+						// 새로운 프젝
+						
+						model.addAttribute("newpj",dao.newpj());
+						
+						
+						// 왼쪽 태그들
+						model.addAttribute("lefttag",dao.lefttag());
+						
+						
+						// 전체 카운트
+						model.addAttribute("allcount",dao.allcount());
+						
+						
+						// 진행중 카운트
+						model.addAttribute("ingcount",dao.ingcount());
+						
+						
+						// 진행완료 카운트
+						model.addAttribute("endcount",dao.endcount());
+						
+						
+						// 내가진행중 카운트
+						model.addAttribute("mycount",dao.mycount(mem_code));
+						
+						
+						return "/WEB-INF/view/main/projectPage.jsp";
+						
+					}
+					
 				}
 				
-				
-				model.addAttribute("map1", pjtag);
-				
-				
-				return "/WEB-INF/view/main/projectPage.jsp";
-			}
-			
-		}
-		
-		// TOP QNA 모두보기 클릭시
-		@RequestMapping(value="/QnaList.action", method=RequestMethod.GET)
-		public String qnalist(ModelMap model, HttpSession session, HttpServletRequest request)
-		{	
-			
-			
-			return "/WEB-INF/view/main/qnaList.jsp";
-		}
+				// TOP QNA 모두보기 클릭시
+				@RequestMapping(value="/QnaList.action", method=RequestMethod.GET)
+				public String qnalist(ModelMap model, HttpSession session, HttpServletRequest request)
+				{	
+					
+					
+					return "/WEB-INF/view/main/qnaList.jsp";
+				}
 		
  @Scheduled(fixedDelay = 1000)
  public void hello() {

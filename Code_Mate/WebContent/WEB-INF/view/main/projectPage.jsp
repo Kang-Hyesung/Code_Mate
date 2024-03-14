@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.test.mybatis.dto.ProjectPageDTO"%>
 <%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -8,21 +10,33 @@
 	String login = "";
 	String logout = "";
 	String name = "";
+	String view = "";
+	
+	
+		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
 	
 	if(request.getSession().getAttribute("member") != null)
-	{
+	{ 
 		login = "";
 		logout = "display:none;";
-		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
 		
 		name = member.getNickname();
+		
+		
 	}
 	else
 	{
 		login = "display:none;";
 		logout = "";
-	}
 		
+		if(request.getAttribute("pjdto") == null)
+		{
+			view = "display:none;";
+		}
+		
+	}
+	
+	
 	
 		
 %>
@@ -50,7 +64,7 @@
 	@font-face {
     font-family: 'Pretendard-Regular';
     src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400; 
+    font-weight: 400;
     font-style: normal;
 	}
 	
@@ -257,6 +271,12 @@ list-style-type: none;
 		font-weight: bold;
 		font-size: 30px;
 	}
+	.mojipend
+	{
+		color: gray;
+		font-weight: bold;
+		font-size: 30px;
+	}
 	.mojipTitle
 	{
 		font-weight: bold;
@@ -370,10 +390,12 @@ list-style-type: none;
 		font-weight: bold;
 		border-bottom: 1px solid #e9ecef;
 		font-size: 20px;
+		cursor: pointer;
 	}
 	.anav-item
 	{
 		font-size: 20px;
+		cursor: pointer;
 	}
 	.wd_title
 	{
@@ -389,6 +411,7 @@ list-style-type: none;
 		border-radius: 15px;
 		height: fit-content;
 		width: auto;
+		border: 1px solid #f1f3f5;
 	}
 	.ingproject:hover
 	{
@@ -401,7 +424,7 @@ list-style-type: none;
 		padding: 20px 0 20px;
 		border-bottom: 1px solid #f1f3f5;
 		margin-left: 50px;
-	}
+	} 
 	.jptitle2
 	{
 		font-size: 50px;
@@ -409,6 +432,28 @@ list-style-type: none;
 		padding: 20px 0 20px;
 		border-bottom: 1px solid black;
 	}
+	.jptitle3
+	{
+		font-size: 50px;
+		font-weight: bold;
+		padding: 20px 0 20px;
+		border-bottom: 1px solid black;
+	}
+	.jptitle4
+	{
+		font-size: 50px;
+		font-weight: bold;
+		padding: 20px 0 20px;
+		border-bottom: 1px solid black;
+	}
+	.jptitle5
+	{
+		font-size: 50px;
+		font-weight: bold;
+		padding: 20px 0 20px;
+		border-bottom: 1px solid black;
+	}
+	
 	div
 	{
 		/* border: 1px solid gray; */
@@ -422,6 +467,165 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	  $( function () {
 	    $( '[data-bs-toggle="popover"]' ).popover()
 	  } );
+</script>
+
+<script type="text/javascript">
+	
+		
+	$(document).ready(function()
+	{
+		
+		
+		
+		
+		$("#side1").click(function()
+		{
+			$(this).removeClass();
+			$(this).addClass("activenav-item");
+			
+			$("#side2").removeClass();
+			$("#side2").addClass("nav-item");
+			$("#side3").removeClass();
+			$("#side3").addClass("nav-item");
+			$("#side4").removeClass();
+			$("#side4").addClass("nav-item");
+			$("#side5").removeClass();
+			$("#side5").addClass("nav-item");
+			
+			// 프젝 목록
+			$(".jptitle2").css("display","");
+			$(".jptitle3").css("display","");
+			$(".jptitle4").css("display","none");
+			$(".jptitle5").css("display","none");
+			
+			//카운트
+			$(".total1").css("display","");
+			$(".total2").css("display","none");
+			$(".total3").css("display","none");
+			$(".total5").css("display","none");
+			
+		});
+		
+		// 모집중
+		$("#side2").click(function()
+		{
+			
+			$(this).removeClass();
+			$(this).addClass("activenav-item");
+			
+			$("#side1").removeClass();
+			$("#side1").addClass("nav-item");
+			$("#side3").removeClass();
+			$("#side3").addClass("nav-item");
+			$("#side4").removeClass();
+			$("#side4").addClass("nav-item");
+			$("#side5").removeClass();
+			$("#side5").addClass("nav-item");
+			
+			$(".jptitle2").css("display","none");
+			$(".jptitle4").css("display","");
+			$(".jptitle5").css("display","none");
+			$(".jptitle3").css("display","none");
+			
+			//카운트
+			$(".total1").css("display","none");
+			$(".total2").css("display","");
+			$(".total3").css("display","none");
+			$(".total5").css("display","none");
+			
+		});
+		
+		// 모집완료
+		$("#side3").click(function()
+		{
+			
+			$(this).removeClass();
+			$(this).addClass("activenav-item");
+			
+			$("#side1").removeClass();
+			$("#side1").addClass("nav-item");
+			$("#side2").removeClass();
+			$("#side2").addClass("nav-item");
+			$("#side4").removeClass();
+			$("#side4").addClass("nav-item");
+			$("#side5").removeClass();
+			$("#side5").addClass("nav-item");
+			
+			$(".jptitle2").css("display","none");
+			$(".jptitle3").css("display","none");
+			$(".jptitle4").css("display","none");
+			$(".jptitle5").css("display","");
+			
+			//카운트
+			$(".total1").css("display","none");
+			$(".total2").css("display","none");
+			$(".total3").css("display","");
+			$(".total5").css("display","none");
+			
+		});
+		
+		// 추가 모집
+		$("#side4").click(function()
+		{
+			
+			$(this).removeClass();
+			$(this).addClass("activenav-item");
+			
+			$("#side1").removeClass();
+			$("#side1").addClass("nav-item");
+			$("#side3").removeClass();
+			$("#side3").addClass("nav-item");
+			$("#side2").removeClass();
+			$("#side2").addClass("nav-item");
+			$("#side5").removeClass();
+			$("#side5").addClass("nav-item");
+			
+			$(".jptitle2").css("display","none");
+			$(".jptitle3").css("display","none");
+			$(".jptitle4").css("display","none");
+			$(".jptitle5").css("display","none");
+			
+			//카운트
+			$(".total1").css("display","none");
+			$(".total2").css("display","none");
+			$(".total3").css("display","none");
+			$(".total5").css("display","none");
+		});
+		
+		// 내가 진행중인 프로젝트
+		$("#side5").click(function()
+		{
+			
+			$(this).removeClass();
+			$(this).addClass("activenav-item");
+			
+			$("#side1").removeClass();
+			$("#side1").addClass("nav-item");
+			$("#side3").removeClass();
+			$("#side3").addClass("nav-item");
+			$("#side4").removeClass();
+			$("#side4").addClass("nav-item");
+			$("#side2").removeClass();
+			$("#side2").addClass("nav-item");
+			
+			$(".jptitle3").css("display","none");	
+			$(".jptitle4").css("display","none");	
+			$(".jptitle5").css("display","none");	
+			$(".jptitle2").css("display","");	
+			
+			//카운트
+			$(".total1").css("display","none");
+			$(".total2").css("display","none");
+			$(".total3").css("display","none");
+			$(".total5").css("display","");
+		});
+		
+		
+		
+		
+		
+	});
+	
 </script>
 
 
@@ -522,20 +726,20 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 				<aside class="l_widget forum_list">
                                <h3 class="wd_title">프로젝트 게시판</h3>
                                <ul class="navbar-nav ">
-                                   <li class="nav-item">
-                                       <a class="anav-item" href="#"><i class="social_tumbleupon"></i>전체 보기</a>
+                                   <li class="activenav-item" id="side1">
+                                       <a class="anav-item"><i class="social_tumbleupon"></i>전체 보기</a>
                                    </li>
-                                   <li class="activenav-item">
-                                       <a class="anav-item" href="#"><i class="icon_lightbulb_alt"></i>모집 중</a>
+                                   <li class="nav-item" id="side2">
+                                       <a class="anav-item"><i class="icon_lightbulb_alt"></i>모집 중</a>
                                    </li>
-                                   <li class="nav-item">
-                                       <a class="anav-item" href="#"><i class="icon_lightbulb_alt"></i>모집 완료</a>
+                                   <li class="nav-item"  id="side3">
+                                       <a class="anav-item"><i class="icon_lightbulb_alt"></i>모집 완료</a>
                                    </li>
-                                   <li class="nav-item">
-                                       <a class="anav-item" href="#"><i class="icon_lightbulb_alt"></i>추가 모집</a>
+                                   <li class="nav-item"  id="side4">
+                                       <a class="anav-item"><i class="icon_lightbulb_alt"></i>추가 모집</a>
                                    </li>
-                                   <li class="nav-item">
-                                       <a class="anav-item" href="#"><i class="icon_lightbulb_alt"></i>내가 진행중인 프로젝트</a>
+                                   <li class="nav-item"  id="side5">
+                                       <a class="anav-item" style="<%=view %>"><i class="icon_lightbulb_alt"></i>내가 진행중인 프로젝트</a>
                                    </li>
                                </ul>
                 </aside>
@@ -543,17 +747,17 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
                 <aside class="l_widget l_tags_wd">
                                 <h3 class="wd_title">태그</h3>
                                 <ul class="list-unstyled w_tag_list style-light">
-                                    <li><a href="#" class="tag">자바</a></li>
-                                    <li><a href="#" class="tag">오라클</a></li>
-                                    <li><a href="#" class="tag">금융</a></li>
-                                    <li><a href="#" class="tag">중고거래</a></li>
-                                    <li><a href="#" class="tag">쇼핑몰</a></li>
-                                    <li><a href="#" class="tag">리액트</a></li>
+                                	<c:forEach var="lefttag" items="${lefttag }">
+                                    <li><a href="#" class="tag">${lefttag.tag_name }</a></li>
+                                    
+                                	</c:forEach>
                                 </ul>
                </aside>
                <aside class="l_widget comment_list">
                                 <h3 class="wd_title">최근 올라온 글</h3>
                                 <ul class="navbar-nav">
+                                	<c:forEach var="newpj" items="${newpj }">
+                                	
                                     <li>
                                         <div class="media">
                                             <div class="d-flex">
@@ -561,31 +765,17 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
                                             </div>
                                             <div class="media-body">
                                                 <a href="#">
-                                                    A프로젝트모집 by
+                                                    ${newpj.title } by
                                                 </a>
                                                 <a href="#">
-                                                    <img class="rounded-circle" src="img/poby.png" alt="" style="width: 21px; height: 20px;"> 정한울
+                                                    <img class="rounded-circle" src="img/poby.png" alt="" style="width: 21px; height: 20px;"> ${newpj.nickname }
                                                 </a>
-                                                <p>4일전</p>
+                                                <p>${newpj.kdate }</p>
                                             </div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div class="media">
-                                            <div class="d-flex">
-                                                <ion-icon name="chatbubbles-outline"></ion-icon>
-                                            </div>
-                                            <div class="media-body">
-                                                <a href="#">
-                                                    B프로젝트 모집 by
-                                                </a>
-                                                <a href="#">
-                                                    <img class="rounded-circle" src="img/poby.png" alt="" style="width: 21px; height: 20px;"> 이윤수
-                                                </a>
-                                                <p>1주일 전</p>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    </c:forEach>
+                                                                        
                                 </ul>
                             </aside>
 			</div>
@@ -597,322 +787,301 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                                        <li></li>
 	                                    </ul>
 	                                    
-                                        <div class="dropdown right_dir">
-                                            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                정렬 <i class="arrow_carrot-down"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <h3 class="title">Filter by author</h3>
-                                                <form action="#" class="cate-search-form">
-                                                    <input type="text" placeholder="Search users">
-                                                </form>
-                                                <div class="all_users short-by scroll">
-                                                    <a class="dropdown-item active-short" href="#">
-                                                        <ion-icon name="checkmark-outline" role="img" class="md hydrated" aria-label="checkmark outline"></ion-icon> Newest
-                                                    </a>
-                                                    <a class="dropdown-item" href="#"> Oldest </a>
-                                                    <a class="dropdown-item" href="#"> Most commented </a>
-                                                    <a class="dropdown-item" href="#"> Least commented </a>
-                                                    <a class="dropdown-item" href="#"> Recently updated </a>
-                                                    <a class="dropdown-item" href="#"> Recently updated </a>
-                                                </div>
-                                            </div>
-                                        </div>
+	                                            <div class="dropdown right_dir">
+	                                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                                                    정렬 <i class="arrow_carrot-down"></i>
+	                                                </button>
+	                                                <div class="dropdown-menu">
+	                                                    <h3 class="title">Filter by author</h3>
+	                                                    <form action="#" class="cate-search-form">
+	                                                        <input type="text" placeholder="Search users">
+	                                                    </form>
+	                                                    <div class="all_users short-by scroll">
+	                                                        <a class="dropdown-item active-short" href="#">
+	                                                            <ion-icon name="checkmark-outline" role="img" class="md hydrated" aria-label="checkmark outline"></ion-icon> Newest
+	                                                        </a>
+	                                                        <a class="dropdown-item" href="#"> Oldest </a>
+	                                                        <a class="dropdown-item" href="#"> Most commented </a>
+	                                                        <a class="dropdown-item" href="#"> Least commented </a>
+	                                                        <a class="dropdown-item" href="#"> Recently updated </a>
+	                                                        <a class="dropdown-item" href="#"> Recently updated </a>
+	                                                    </div>
+	                                                </div>
+	                                            </div>
 	                                        
 	                                    
 	                                </div>
 	                                <div class="forum_body">
 	                                <!-- 게시판 내용 -->
-	                                	<div class="jptitle2" style="<%=login %>">
+	                                  
+	                                	<div class="jptitle2" style="<%=view %>">
 	                                		<div class="jptitle1" >·내가 참여하고 있는 프로젝트</div>
-	                                    <div class="ingproject"><a href="" class="aa">
-											<div class="col-12">
-											
+												
 											<c:forEach var="dto" items="${pjdto }">
-												<div>
-													<p class="ptag">📁프로젝트</p>
-												</div>
-												<div class="" style="display: flex; flex-wrap: wrap;">
-													<p class="mojipTitle">${dto.title }</p>
-												</div>
-												<div>
-													<p class="mojipContent">${dto.content }</p>
-												</div>
-												<div style="margin-top: 30px;">
-													<ul style="display: flex; height: 22px;">
-													
-														<c:forEach var="i" begin="0" end="${map1.size() }" step="1">
+		                                    <div class="ingproject"><a href="" class="aa">
+												<div class="col-12">
+													<div>
+														<p class="ptag">📁프로젝트</p>
+													</div>
+													<div class="" style="display: flex; flex-wrap: wrap;">
+														<p class="mojipTitle">${dto.title }</p>
+													</div>
+													<div>
+														<p class="mojipContent">${dto.content }</p>
+													</div>
+													<div style="margin-top: 30px;">
+														<ul style="display: flex; height: 22px;">
 														
-															<li class="litag"> ${map1.get(dto.ap_code).get(i)} </li>
+															
+															<c:forEach var="tag" items="${tag }">
+	
+																<c:if test="${dto.ap_code == tag.ap_code}">
+																	
+																	<li class="litag">${tag.tag_name }</li>
+																	
+																</c:if>
+															
+															</c:forEach>
+															
+															
+														</ul>
+													</div>
+													<div>
+													<p class="good" style="margin-top: 30px;">시작일 : ${dto.sdate }</p>
+													<p class="good">작성자😊 : ${dto.nickname }</p>
+													</div>
+													<div style="display: flex; justify-content: space-between;">
+														<div style="display: flex;">
+														<%-- <p class="good">댓글💬 : ${dto.count }</p> --%>
+														<p class="good">댓글💬 :
+														<c:forEach var="comment" items="${comment }">
+	
+															<c:if test="${dto.ap_code == comment.ap_code}">
+																
+																${comment.count }
+																
+															</c:if>
 														
 														</c:forEach>
-														
-													</ul>
-												</div>
-												<div>
-												<p class="good" style="margin-top: 30px;">시작일 : ${dto.sdate }</p>
-												<p class="good">작성자😊 : ${dto.nickname }</p>
-												</div>
-												<div style="display: flex; justify-content: space-between;">
-													<div style="display: flex;">
-													<p class="good">댓글💬 : ${dto.count }</p>
-													<p class="comment">조회수👁️ : ${dto.views }</p>
+														</p>
+														<p class="comment">조회수👁️ : ${dto.views }</p>
+														</div>
+														<p class="comment">작성일 : ${dto.kdate }</p> 
 													</div>
-													<p class="comment">작성일 : ${dto.kdate }</p>
 												</div>
-											</c:forEach>
-												
+												</a></div>
+												</c:forEach>
+													
 											</div>
-										</a></div>
+	                                	
+	                                	
+	                                	 
+	                                	<!-- 전체 프로젝트 -->
+	                                  
+	                                	<div class="jptitle3" style="">
+												
+											<c:forEach var="dto" items="${pjall }">
+		                                    <div class="ingproject"><a href="" class="aa">
+												<div class="col-12">
+												
+													<div>
+														<p class="ptag">📁프로젝트</p>
+													</div>
+													<div class="" style="display: flex; flex-wrap: wrap;">
+													<c:if test="${dto.status eq '모집완료' }">
+													
+														<span class="mojipend" id="${dto.ap_code }">${dto.status }</span><span style="color: black; font-size: 30px;">｜</span>
+														
+														
+													</c:if>	
+													<c:if test="${dto.status ne '모집완료' }">
+													
+														<span class="mojip" id="${dto.ap_code }">${dto.status }</span><span style="color: black; font-size: 30px;">｜</span>
+														
+														
+													</c:if>	
+														<p class="mojipTitle">${dto.title }</p>
+													</div>
+													<div>
+														<p class="mojipContent">${dto.content }</p>
+													</div>
+													<div style="margin-top: 30px;">
+														<ul style="display: flex; height: 22px;">
+														
+															<c:forEach var="tag" items="${tag }">
+	
+																<c:if test="${dto.ap_code == tag.ap_code}">
+																	
+																	<li class="litag">${tag.tag_name }</li>
+																	
+																</c:if>
+															
+															</c:forEach>
+															
+														</ul>
+													</div>
+													<div>
+													<p class="good" style="margin-top: 30px;">시작일 : ${dto.sdate }</p>
+													<p class="good">작성자😊 : ${dto.nickname }</p>
+													</div>
+													<div style="display: flex; justify-content: space-between;">
+														<div style="display: flex;">
+														<p class="good">댓글💬 :
+														<c:forEach var="comment" items="${comment }">
+	
+															<c:if test="${dto.ap_code == comment.ap_code}">
+																
+																${comment.count }
+																
+															</c:if>
+														
+														</c:forEach>
+														</p>
+														<p class="comment">조회수👁️ : ${dto.views }</p>
+														</div>
+														<p class="comment kdate">작성일 :${dto.kdate }</p>
+													</div>
+												</div>
+											</a></div>
+												</c:forEach>
+													
 	                                	</div>
 	                                	
-										<div class="aadiv"><a href="" class="aa">
-											<div class="col-12">
-												<div>
-													<p class="ptag">📁프로젝트</p>
-												</div>
-												<div class="" style="display: flex; flex-wrap: wrap;">
-													<span class="mojip" >모집중</span><span style="color: black; font-size: 30px;">｜</span>
-													<p class="mojipTitle">프로젝트 모집중~!!프로젝트 모집중~!!프로젝트 모집중~!!</p>
-													<span class="new">new</span>
-												</div>
-												<div>
-													<p class="mojipContent">프로젝트 내용내용프로젝트 내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용</p>
-												</div>
-												<div style="margin-top: 30px;">
-													<ul style="display: flex; height: 22px;">
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-													</ul>
-												</div>
-												<div>
-												<p class="good" style="margin-top: 30px;">마감일 : 2024.02.29</p>
-												<p class="good">작성자😊 : 치약</p>
-												</div>
-												<div style="display: flex; justify-content: space-between;">
-													<div style="display: flex;">
-													<p class="good">댓글💬 : 5</p>
-													<p class="comment">조회수👁️ : 1000</p>
+	                                	
+	                                	<!-- 모집중 프로젝트 -->
+	                                   
+	                                	<div class="jptitle4" style="display:none;">
+												
+											<c:forEach var="dto" items="${pjing }">
+		                                    <div class="ingproject"><a href="" class="aa">
+												<div class="col-12">
+												
+													<div>
+														<p class="ptag">📁프로젝트</p>
 													</div>
-													<p class="comment">작성일 : 2024.02.28</p>
-												</div>
-											</div>
-										</a></div>
-										<div class="aadiv"><a href="" class="aa">
-										
-										<!-- 
-											<div class="col-12">
-												<div>
-													<p class="ptag">📁프로젝트</p>
-												</div>
-												<div class="" style="display: flex; flex-wrap: wrap;">
-													<span class="mojip">모집중</span><span style="color: black; font-size: 30px;">｜</span>
-													<p class="mojipTitle">프로젝트 모집중~!!프로젝트 모집중~!!프로젝트 모집중~!!</p>
-													<span class="new">new</span>
-												</div>
-												<div>
-													<p class="mojipContent">프로젝트 내용내용프로젝트 내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용</p>
-												</div>
-												<div style="margin-top: 30px;">
-													<ul style="display: flex; height: 22px;">
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-													</ul>
-												</div>
-												<div>
-												<p class="good" style="margin-top: 30px;">마감일 : 2024.02.29</p>
-												<p class="good">작성자😊 : 치약</p>
-												</div>
-												<div style="display: flex; justify-content: space-between;">
-													<div style="display: flex;">
-													<p class="good">댓글💬 : 5</p>
-													<p class="comment">조회수👁️ : 1000</p>
+													<div class="" style="display: flex; flex-wrap: wrap;">
+														<span class="mojip" >모집중</span><span style="color: black; font-size: 30px;">｜</span>
+														<p class="mojipTitle">${dto.title }</p>
 													</div>
-													<p class="comment">작성일 : 2024.02.28</p>
-												</div>
-											</div>
-										</a></div>
-										<div class="aadiv"><a href="" class="aa">
-											<div class="col-12">
-												<div>
-													<p class="ptag">📁프로젝트</p>
-												</div>
-												<div class="" style="display: flex; flex-wrap: wrap;">
-													<span class="mojip">모집중</span><span style="color: black; font-size: 30px;">｜</span>
-													<p class="mojipTitle">프로젝트 모집중~!!프로젝트 모집중~!!프로젝트 모집중~!!</p>
-													<span class="new">new</span>
-												</div>
-												<div>
-													<p class="mojipContent">프로젝트 내용내용프로젝트 내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용</p>
-												</div>
-												<div style="margin-top: 30px;">
-													<ul style="display: flex; height: 22px;">
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-													</ul>
-												</div>
-												<div>
-												<p class="good" style="margin-top: 30px;">마감일 : 2024.02.29</p>
-												<p class="good">작성자😊 : 치약</p>
-												</div>
-												<div style="display: flex; justify-content: space-between;">
-													<div style="display: flex;">
-													<p class="good">댓글💬 : 5</p>
-													<p class="comment">조회수👁️ : 1000</p>
+													<div>
+														<p class="mojipContent">${dto.content }</p>
 													</div>
-													<p class="comment">작성일 : 2024.02.28</p>
-												</div>
-											</div>
-										</a></div>
-										<div class="aadiv"><a href="" class="aa">
-											<div class="col-12">
-												<div>
-													<p class="ptag">📁프로젝트</p>
-												</div>
-												<div class="" style="display: flex; flex-wrap: wrap;">
-													<span class="mojip">모집중</span><span style="color: black; font-size: 30px;">｜</span>
-													<p class="mojipTitle">프로젝트 모집중~!!프로젝트 모집중~!!프로젝트 모집중~!!</p>
-													<span class="new">new</span>
-												</div>
-												<div>
-													<p class="mojipContent">프로젝트 내용내용프로젝트 내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용</p>
-												</div>
-												<div style="margin-top: 30px;">
-													<ul style="display: flex; height: 22px;">
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-													</ul>
-												</div>
-												<div>
-												<p class="good" style="margin-top: 30px;">마감일 : 2024.02.29</p>
-												<p class="good">작성자😊 : 치약</p>
-												</div>
-												<div style="display: flex; justify-content: space-between;">
-													<div style="display: flex;">
-													<p class="good">댓글💬 : 5</p>
-													<p class="comment">조회수👁️ : 1000</p>
+													<div style="margin-top: 30px;">
+														<ul style="display: flex; height: 22px;">
+														
+															<c:forEach var="tag" items="${tag }">
+	
+																<c:if test="${dto.ap_code == tag.ap_code}">
+																	
+																	<li class="litag">${tag.tag_name }</li>
+																	
+																</c:if>
+															
+															</c:forEach>
+															
+														</ul>
 													</div>
-													<p class="comment">작성일 : 2024.02.28</p>
-												</div>
-											</div>
-										</a></div>
-										<div class="aadiv"><a href="" class="aa">
-											<div class="col-12">
-												<div>
-													<p class="ptag">📁프로젝트</p>
-												</div>
-												<div class="" style="display: flex; flex-wrap: wrap;">
-													<span class="mojip">모집중</span><span style="color: black; font-size: 30px;">｜</span>
-													<p class="mojipTitle">프로젝트 모집중~!!프로젝트 모집중~!!프로젝트 모집중~!!</p>
-													<span class="new">new</span>
-												</div>
-												<div>
-													<p class="mojipContent">프로젝트 내용내용프로젝트 내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용</p>
-												</div>
-												<div style="margin-top: 30px;">
-													<ul style="display: flex; height: 22px;">
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-													</ul>
-												</div>
-												<div>
-												<p class="good" style="margin-top: 30px;">마감일 : 2024.02.29</p>
-												<p class="good">작성자😊 : 치약</p>
-												</div>
-												<div style="display: flex; justify-content: space-between;">
-													<div style="display: flex;">
-													<p class="good">댓글💬 : 5</p>
-													<p class="comment">조회수👁️ : 1000</p>
+													<div>
+													<p class="good" style="margin-top: 30px;">시작일 : ${dto.sdate }</p>
+													<p class="good">작성자😊 : ${dto.nickname }</p>
 													</div>
-													<p class="comment">작성일 : 2024.02.28</p>
-												</div>
-											</div>
-										</a></div>
-										<div class="aadiv"><a href="" class="aa">
-											<div class="col-12">
-												<div>
-													<p class="ptag">📁프로젝트</p>
-												</div>
-												<div class="" style="display: flex; flex-wrap: wrap;">
-													<span class="mojip">모집중</span><span style="color: black; font-size: 30px;">｜</span>
-													<p class="mojipTitle">프로젝트 모집중~!!프로젝트 모집중~!!프로젝트 모집중~!!</p>
-													<span class="new">new</span>
-												</div>
-												<div>
-													<p class="mojipContent">프로젝트 내용내용프로젝트 내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용</p>
-												</div>
-												<div style="margin-top: 30px;">
-													<ul style="display: flex; height: 22px;">
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-													</ul>
-												</div>
-												<div>
-												<p class="good" style="margin-top: 30px;">마감일 : 2024.02.29</p>
-												<p class="good">작성자😊 : 치약</p>
-												</div>
-												<div style="display: flex; justify-content: space-between;">
-													<div style="display: flex;">
-													<p class="good">댓글💬 : 5</p>
-													<p class="comment">조회수👁️ : 1000</p>
+													<div style="display: flex; justify-content: space-between;">
+														<div style="display: flex;">
+														<p class="good">댓글💬 :
+														<c:forEach var="comment" items="${comment }">
+	
+															<c:if test="${dto.ap_code == comment.ap_code}">
+																
+																${comment.count }
+																
+															</c:if>
+														
+														</c:forEach>
+														</p>
+														<p class="comment">조회수👁️ : ${dto.views }</p>
+														</div>
+														<p class="comment">작성일 : ${dto.kdate }</p>
 													</div>
-													<p class="comment">작성일 : 2024.02.28</p>
 												</div>
-											</div>
-										</a></div>
-										<div class="aadiv"><a href="" class="aa">
-											<div class="col-12">
-												<div>
-													<p class="ptag">📁프로젝트</p>
-												</div>
-												<div class="" style="display: flex; flex-wrap: wrap;">
-													<span class="mojip">모집중</span><span style="color: black; font-size: 30px;">｜</span>
-													<p class="mojipTitle">프로젝트 모집중~!!프로젝트 모집중~!!프로젝트 모집중~!!</p>
-													<span class="new">new</span>
-												</div>
-												<div>
-													<p class="mojipContent">프로젝트 내용내용프로젝트 내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용프로젝트 내용내용</p>
-												</div>
-												<div style="margin-top: 30px;">
-													<ul style="display: flex; height: 22px;">
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-														<li class="litag">java</li>
-													</ul>
-												</div>
-												<div>
-												<p class="good" style="margin-top: 30px;">마감일 : 2024.02.29</p>
-												<p class="good">작성자😊 : 치약</p>
-												</div>
-												<div style="display: flex; justify-content: space-between;">
-													<div style="display: flex;">
-													<p class="good">댓글💬 : 5</p>
-													<p class="comment">조회수👁️ : 1000</p>
+											</a></div>
+												</c:forEach>
+													
+	                                	</div>
+	                                	
+	                                	
+	                                	<!-- 모집완료 프로젝트 -->
+	                                	
+	                                	<div class="jptitle5" style="display: none;">
+												
+											<c:forEach var="dto" items="${pjend }">
+		                                    <div class="ingproject"><a href="" class="aa">
+												<div class="col-12">
+												
+													<div>
+														<p class="ptag">📁프로젝트</p>
 													</div>
-													<p class="comment">작성일 : 2024.02.28</p>
+													<div class="" style="display: flex; flex-wrap: wrap;">
+														<span class="mojipend" >모집 완료</span><span style="color: black; font-size: 30px;">｜</span>
+														<p class="mojipTitle">${dto.title }</p>
+													</div>
+													<div>
+														<p class="mojipContent">${dto.content }</p>
+													</div>
+													<div style="margin-top: 30px;">
+														<ul style="display: flex; height: 22px;">
+														
+															<c:forEach var="tag" items="${tag }">
+	
+																<c:if test="${dto.ap_code == tag.ap_code}">
+																	
+																	<li class="litag">${tag.tag_name }</li>
+																	
+																</c:if>
+															
+															</c:forEach>
+															
+														</ul>
+													</div>
+													<div>
+													<p class="good" style="margin-top: 30px;">시작일 : ${dto.sdate }</p>
+													<p class="good">작성자😊 : ${dto.nickname }</p>
+													</div>
+													<div style="display: flex; justify-content: space-between;">
+														<div style="display: flex;">
+														<p class="good">댓글💬 :
+														<c:forEach var="comment" items="${comment }">
+	
+															<c:if test="${dto.ap_code == comment.ap_code}">
+																
+																${comment.count }
+																
+															</c:if>
+														
+														</c:forEach>
+														</p>
+														<p class="comment">조회수👁️ : ${dto.views }</p>
+														</div>
+														<p class="comment">작성일 : ${dto.kdate }</p>
+													</div>
 												</div>
-											</div>
-										</a></div>
-										 -->
+											</a></div>
+												</c:forEach>
+													
+	                                	</div>
+	                                	
+	                                
+	                                	
+	                                	
+	                                	
 										<!-- 내용 끝 -->
 	                                </div>
 	                            </div>
 	                            <div class="row pagination_inner">
 	                                <div class="col-lg-2">
-	                                    <h6>Total: <span> 225 </span></h6>
+	                                    <h6 class="total1" style="">Total: <span> ${allcount } </span></h6>
+	                                    <h6 class="total2" style="display: none;">Total: <span> ${ingcount } </span></h6>
+	                                    <h6 class="total3" style="display: none;">Total: <span> ${endcount } </span></h6>
+	                                    <h6 class="total5" style="display: none;">Total: <span> ${mycount } </span></h6>
 	                                </div>
 	                                <div class="col-lg-8">
 	                                    <nav aria-label="Page navigation example">
@@ -939,35 +1108,35 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                        </div>
 				</div>
 		
-			</div>
+			
 			<div class="col-md-3" style="padding-left: 50px; padding-right: 70px;">
 				<aside class="r_widget qustion_wd">
-	                      	<button class="btn" type="button"><img src="img/question-1.png" alt=""> 개설 신청하기<ion-icon name="chevron-forward-outline" class="arrow"></ion-icon></i></button>
-	               </aside>
-	               
-	               <aside class="r_widget user_list_wd">
-	                     <div class="r_heading d-flex justify-content-between">
-	                         <h3 style="margin-top: 5px;">뜨거운 프로젝트🔥</h3>
-	                         <h5 style="font-size: 15px; margin-top: 10px;">지난 30일</h5>
+	                      	<button class="btn applybtn" type="button" id="applybtn" onclick="location.href='projectapplyform.action'"><img src="img/question-1.png" alt=""> 개설 신청하기<ion-icon name="chevron-forward-outline" class="arrow"></ion-icon></i></button>
+	                      	
+               </aside>
+               
+               <aside class="r_widget user_list_wd">
+                     <div class="r_heading d-flex justify-content-between">
+                         <h3 style="margin-top: 5px;">뜨거운 프로젝트🔥</h3>
+                         <h5 style="font-size: 15px; margin-top: 10px;">지난 30일</h5>
+                     </div>
+                     <!-- 랭킹 -->
+                     <aside class="r_widget question_list_wd">
+	                     <div class="tab-content" id="myTabContent">
+	                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+	                             <ul class="navbar-nav">
+	                             <c:forEach var="hotpj" items="${hotpj }"  varStatus="status">
+	                                 <li><a href="#"><span>${status.count}</span>${hotpj.title }</a></li>
+	                                
+	                             </c:forEach>
+	                             </ul>
+	                         </div>
 	                     </div>
-	                     <!-- 랭킹 -->
-	                     <aside class="r_widget question_list_wd">
-		                     <div class="tab-content" id="myTabContent">
-		                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-		                             <ul class="navbar-nav">
-		                                 <li><a href="#"><span>01</span>A프로젝트</a></li>
-		                                 <li><a href="#"><span>02</span>B프로젝트</a></li>
-		                                 <li><a href="#"><span>03</span>C프로젝트</a></li>
-		                                 <li><a href="#"><span>04</span>D프로젝트</a></li>
-		                                 <li><a href="#"><span>05</span>E프로젝트</a></li>
-		                                 <li><a href="#"><span>06</span>F프로젝트</a></li>
-		                             </ul>
-		                         </div>
-		                     </div>
-	                	 </aside>
-	                     <!-- 랭킹 끝 -->
-	               </aside>
-				</div>
+                	 </aside>
+                     <!-- 랭킹 끝 -->
+               </aside>
+			</div>
+		</div>
 	</div>
 	
 	

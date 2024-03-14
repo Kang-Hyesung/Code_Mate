@@ -2,9 +2,17 @@ package com.test.mybatis.dto;
 
 public class ProjectPageDTO
 {
-	private String ap_code, title, summary, sdate, edate, content, kdate, mem_code, nickname, tag_name;
+	private String ap_code, title, summary, sdate, edate, content, kdate, mem_code, nickname, tag_name, status;
 	private int numbers, views, count;
 	
+	public String getStatus()
+	{
+		return status;
+	}
+	public void setStatus(String status)
+	{
+		this.status = status;
+	}
 	public String getTag_name()
 	{
 		return tag_name;
