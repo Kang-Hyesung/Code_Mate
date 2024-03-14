@@ -6,36 +6,131 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.test.mybatis.dao.IProjectPageDAO">
 
 	<select id="pjdto" resultType="com.test.mybatis.dto.ProjectPageDTO">
-		SELECT  AP.AP_CODE, AP.TITLE, AP.SUMMARY, TO_CHAR(AP.SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(AP.EDATE,'YYYY-MM-DD') AS EDATE, AP.CONTENT, TO_CHAR(AP.KDATE,'YYYY-MM-DD') AS KDATE, AP.NUMBERS, AP.VIEWS, AP.MEM_CODE, COUNT(*) AS COUNT, M.NICKNAME
-		FROM AO_COMMENT AC JOIN  AO_REPLY2 A2 ON AC.AC_CODE=A2.AC_CODE
-		                    JOIN APP_OPENING AP ON AC.AP_CODE = AP.AP_CODE
-		                    JOIN MEMBER M ON AC.MEM_CODE = M.MEM_CODE
-		WHERE AC.AP_CODE IN (SELECT CP.AP_CODE
+		
+		SELECT  AP.AP_CODE, AP.TITLE, AP.SUMMARY, TO_CHAR(AP.SDATE, 'YYYY-MM-DD'), TO_CHAR(AP.EDATE, 'YYYY-MM-DD'), AP.CONTENT, TO_CHAR(AP.KDATE, 'YYYY-MM-DD'), AP.NUMBERS, NVL(AP.VIEWS,0), M.MEM_CODE, M.NICKNAME
+		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+		WHERE AP_CODE IN (SELECT CP.AP_CODE
 		                FROM ROLE_COMP RC JOIN MEMBER_APPLY MA ON MA.RC_CODE = RC.RC_CODE
 		                                    JOIN C_PROJECT CP ON RC.AP_CODE = CP.AP_CODE
-		                WHERE AR_CODE = 'AR0001'AND MEM_CODE = #{mem_code}) AND SYSDATE >= AP.SDATE AND AP.EDATE >= SYSDATE
-		GROUP BY AP.AP_CODE, AP.TITLE, AP.SUMMARY, AP.SDATE, AP.EDATE, AP.CONTENT, AP.KDATE, AP.NUMBERS, AP.VIEWS, AP.MEM_CODE, M.NICKNAME
+		                WHERE AR_CODE = 'AR0001' AND MEM_CODE = #{mem_code}) AND SYSDATE >= AP.SDATE AND AP.EDATE >= SYSDATE
+	</select>
+	 
+	
+	 
+	<!-- 전체 보기 -->
+	
+	 
+	<select id="allpjlist" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT AP.AP_CODE, AP.TITLE, AP.SUMMARY, AP.SDATE, AP.EDATE, AP.CONTENT, AP.KDATE
+        , AP.NUMBERS, AP.VIEWS, M.MEM_CODE, M.NICKNAME, SYSDATE
+        , CASE
+            WHEN AP.SDATE > SYSDATE THEN '모집중'
+            WHEN SYSDATE >= AP.SDATE THEN '모집완료'
+            ELSE ' ' END AS STATUS
+		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+		
+		  
+	</select>
+	
+	
+
+	
+	<!-- 모집중 -->
+	 
+	<select id="ingpjlist" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT AP.AP_CODE, AP.TITLE, AP.SUMMARY, TO_CHAR(AP.SDATE, 'YYYY-MM-DD'), TO_CHAR(AP.EDATE, 'YYYY-MM-DD'), AP.CONTENT, TO_CHAR(AP.KDATE, 'YYYY-MM-DD'), AP.NUMBERS, AP.VIEWS, M.MEM_CODE, M.NICKNAME
+		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+        WHERE AP.SDATE > SYSDATE
+
+		  
+	</select>
+	
+	
+	
+	<!-- 모집 완료 -->
+
+	<select id="endpjlist" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT AP.AP_CODE, AP.TITLE, AP.SUMMARY, TO_CHAR(AP.SDATE, 'YYYY-MM-DD'), TO_CHAR(AP.EDATE, 'YYYY-MM-DD'), AP.CONTENT, TO_CHAR(AP.KDATE, 'YYYY-MM-DD'), AP.NUMBERS, AP.VIEWS, M.MEM_CODE, M.NICKNAME
+		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+        WHERE SYSDATE >= AP.SDATE AND AP.EDATE >= SYSDATE
+		  
+	</select>
+	
+	<!-- 태그 -->
+	
+	<select id="tag" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT AP_CODE, TAG_NAME
+		FROM OPEN_TAG
+	</select>
+	
+	<!-- 전체 댓글 -->
+	
+	<select id="comment" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT AP.AP_CODE, NVL(COUNT(*),0) AS COUNT
+		FROM AO_COMMENT AO LEFT JOIN AO_REPLY2 A2 ON AO.AC_CODE = A2.AC_CODE
+		                   LEFT JOIN APP_OPENING AP ON AO.AP_CODE = AP.AP_CODE
+		GROUP BY AP.AP_CODE
+	</select>
+	
+	<!-- 핫한 10위 -->
+	<select id="hotpj" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT TITLE, AP_CODE
+		FROM (
+		    SELECT TITLE, AP_CODE
+		    FROM APP_OPENING
+		    WHERE 30 >= (SYSDATE - KDATE)
+		    ORDER BY VIEWS DESC
+		    )
+		WHERE 10 >= ROWNUM
+	</select>
+	
+	<!-- 새로운 프젝 -->
+	<select id="newpj" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT TITLE, NICKNAME, TO_CHAR(KDATE, 'YYYY-MM-DD') AS KDATE
+		FROM (
+		    SELECT AP.TITLE, M.NICKNAME, AP.KDATE
+		    FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+		    ORDER BY KDATE DESC
+		    )
+		WHERE 2 >= ROWNUM
+	</select>
+	
+	<!-- 왼쪽 태그들 -->
+	<select id="lefttag" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT TAG_NAME
+		FROM OPEN_TAG
+		WHERE 8 >= ROWNUM
+	</select>
+	
+	<!-- 전체 count -->
+	<select id="allcount" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+	</select>
+	
+	<!-- 진행중 count -->
+	<select id="ingcount" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+		WHERE AP.SDATE > SYSDATE
 		
 	</select>
 	
-	<select id="pjtagap" resultType="com.test.mybatis.dto.ProjectPageDTO">
-		SELECT AP_CODE, TAG_NAME
-		FROM OPEN_TAG
-		WHERE AP_CODE = (SELECT CP.AP_CODE
-		                FROM ROLE_COMP RC JOIN MEMBER_APPLY MA ON MA.RC_CODE = RC.RC_CODE
-		                                    JOIN C_PROJECT CP ON RC.AP_CODE = CP.AP_CODE
-		                WHERE AR_CODE = 'AR0001' AND MEM_CODE = #{mem_code})
-		  
+	<!-- 진행완료 count -->
+	<select id="endcount" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+		WHERE SYSDATE >= AP.SDATE AND AP.EDATE >= SYSDATE
 	</select>
 	
-	<select id="allpjlist" resultType="com.test.mybatis.dto.ProjectPageDTO">
-		SELECT AP_CODE, TAG_NAME
-		FROM OPEN_TAG
-		WHERE AP_CODE = (SELECT CP.AP_CODE
+	<!-- 내가진행중 count -->
+	<select id="mycount" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+		WHERE AP_CODE IN (SELECT CP.AP_CODE
 		                FROM ROLE_COMP RC JOIN MEMBER_APPLY MA ON MA.RC_CODE = RC.RC_CODE
 		                                    JOIN C_PROJECT CP ON RC.AP_CODE = CP.AP_CODE
-		                WHERE AR_CODE = 'AR0001' AND MEM_CODE = #{mem_code})
-		  
+		                WHERE AR_CODE = 'AR0001'AND MEM_CODE = #{mem_code}) AND SYSDATE >= AP.SDATE AND AP.EDATE >= SYSDATE
 	</select>
-
+	 
 </mapper>

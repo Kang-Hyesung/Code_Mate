@@ -120,6 +120,11 @@
 		/* background-color: #f8f9fa; */
 		 flex-shrink: 0;
 	}
+	.a1
+	{
+		color: black;
+		text-decoration-line: none;
+	}
 	.container > .aa
 	{
 		color: black;
@@ -712,7 +717,7 @@
 					<ul class="proslide proslide1">
 					<c:forEach var="list" items="${list }" begin="0" end="11" step="1" varStatus="status">
 						
-						
+						<a href="" class="a1">
 						<li href="" class="aa" id="aa1">
 							<div class="litop">
 								<div class="menu"><span>📁프로젝트</span></div>
@@ -729,7 +734,7 @@
 								<div class="view">👁️조회수 : ${list.views }</div>
 							</div>
 						</li>
-						
+						</a>
 						
 					</c:forEach>
 					
@@ -762,8 +767,8 @@
 				<div class="container" id="container">
 					<ul class="proslide proslide2">
 					<c:forEach var="list" items="${qnalist }" begin="0" end="11" step="1" varStatus="status">
-						
-						<li href="" class="aa" id="aa1">
+						<a href="article.action?code=${list.tq_code }" class="a1">
+						<li class="aa" id="aa1">
 							<div class="litop">
 								<div class="menu"><span>🔍Q&A</span></div>
 							</div>
@@ -776,7 +781,7 @@
 								<div class="view">👁️조회수 : ${list.views }</div>
 							</div>
 						</li>
-						
+						</a>
 						
 					</c:forEach>
 					

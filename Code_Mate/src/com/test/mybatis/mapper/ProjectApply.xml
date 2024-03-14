@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
+
+<mapper namespace="com.test.mybatis.dao.IProjectApplyDAO">
+	
+	<!-- 개설 신청 추가 -->
+	<insert id="apinsert">
+		INSERT INTO APP_OPENING(AP_CODE, TITLE, SUMMARY, SDATE, EDATE, CONTENT, KDATE, NUMBERS, VIEWS, MEM_CODE, PRJ_NAME)
+		VALUES (TO_CHAR('AP'||LPAD(AP_SEQ.NEXTVAL,4,0)),#{title}, #{summary}, TO_DATE(#{sdate}, 'YYYY-MM-DD'), TO_DATE(#{edate}, 'YYYY-MM-DD'), #{content}, SYSDATE, #{numbers}, 0, #{mem_code}, #{prj_name})
+	</insert>
+	
+	<!-- AP코드 찾기  -->
+	<select id="apselect" resultType="java.lang.String">
+		SELECT AP_CODE
+		FROM APP_OPENING
+		WHERE MEM_CODE = #{mem_code} AND TITLE = #{title} AND SUMMARY = #{summary}
+	
+	</select>
+	 
+	<!-- 태그 추가 --> 
+	<insert id="taginsert">
+		INSERT INTO OPEN_TAG(OT_CODE, APCODE, TAG_NAME)
+		VALUES (TO_CHAR('OT'||LPAD(OT_SEQ.NEXTVAL,4,0)), #{ap_code}, #{tag_name})
+		
+	</insert>
+	
+	<!-- 성별 필터 추가 -->
+	<insert id="genderinsert">
+		INSERT INTO S_FILTER(SF_CODE, GENDER_CODE, AP_CODE)
+		VALUES(TO_CHAR('SF'||LPAD(SF_SEQ.NEXTVAL,4,0)), #{gender_code}, #{ap_code})
+
+	</insert>
+	 
+	<!-- 연령 필터 추가 -->
+	<insert id="ageinsert">
+		INSERT INTO A_FILTER(SF_CODE, AP_CODE, AA_CODE)
+		VALUES(TO_CHAR('AF'||LPAD(AF_SEQ.NEXTVAL,4,0)), #{ap_code}, #{aa_code})
+
+	</insert>
+	 
+	<!-- 등급 필터 추가 -->
+	<insert id="gradeinsert">
+		INSERT INTO G_FILTER(SF_CODE, GRADE_CODE, MR_CODE, AP_CODE)
+		VALUES(TO_CHAR('GF'||LPAD(GF_SEQ.NEXTVAL,4,0)), #{grade_code}, MR_CODE, #{ap_code})
+
+	</insert>
+	 
+	<!-- 매너 필터 추가 --> 
+	<insert id="mannerinsert">
+		INSERT INTO MS_FILTER(SF_CODE, MIN, AP_CODE)
+		VALUES(TO_CHAR('MSF'||LPAD(MSF_SEQ.NEXTVAL,4,0)), #{min}, #{ap_code})
+
+	</insert>
+	 
+</mapper>
