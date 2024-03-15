@@ -1,9 +1,38 @@
+<%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 	
+	String login = "";
+	String logout = "";
+	String name = "";
+	String view = "";
+	
+	
+		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
+	
+	if(request.getSession().getAttribute("member") != null)
+	{ 
+		login = "";
+		logout = "display:none;";
+		
+		name = member.getNickname();
+		
+		
+	}
+	else
+	{
+		login = "display:none;";
+		logout = "";
+		
+		if(request.getAttribute("pjdto") == null)
+		{
+			view = "display:none;";
+		}
+		
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -291,8 +320,8 @@
 			  <div class="container-fluid nav nav-underline bannerMainBox">
 			    
 			 	<!--===========[Logo]===========-->
-				<a class="navbar-brand bannerLogo link" href="#">
-					<img alt="Logo" class="bannerLogoImage d-inline-block align-text-top lastchange" src="img/TestLogo.png" >
+				<a class="navbar-brand bannerLogo link" href="Code_Mate.action">
+					<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 				</a>
 				<!--===========[Logo]===========-->
 				
@@ -305,28 +334,29 @@
 			    <div class="oneMember">
 					<div class="buttonBox">
 						<!--======[ search Button ]======-->
-						<button id="searchButton" class="btn banner-btn search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="search-outline"></ion-icon>
+						<button id="searchButton" class="btn banner-btn search-btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+							<ion-icon name="search-outline" class="banner-btn-icon"></ion-icon>
 						</button>
 						<!--======[ search Button ]======-->
 		
 						<!--======[ alarmButton ]======-->
-						<button id="alarmButton" class="btn banner-btn alarm-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="notifications"></ion-icon>
-						</button>				
+						<button type="button" class="btn btn-secondary alarm-btn" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Bottom popover" style="<%=login%>">
+						  <ion-icon name="notifications" class="banner-btn-icon"></ion-icon>
+						</button>			
 						<!--======[ alarmButton ]======-->
+
 				    </div><!-- end .buttonBox -->
-				    <!-- 
-					<div id="profile">
-						<img class="memberImg" src="img/profileImg_1.png">
-					</div>
-					<span class="nickname" id="mem1">강구가구가구가</span>
-					<div class="gradeIcon">
-						🌱
-					</div>
-					 -->
+				    <a href="mypage.action" class="myinfo">
+						<div id="profile" style="<%=login%>">
+							<img class="memberImg" src="img/profileImg_1.png">
+						</div>
+						<span class="nickname" id="mem1" style="<%=login%>">${member.nickname }</span>
+						<div class="gradeIcon" style="<%=login%>">
+							🌱
+						</div>
+					</a>
 					 <!-- 로그인/회원가입으로 이동 -->
-					<span class="nav-link log" ><a href="Login.action" class="link">로그인/회원가입</a></span>
+					<span class="nav-link log" ><a href="Login.action" class="link upside" style="<%=logout%>">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
 			    <!--=======[ member Icon ]=======-->
 			    </div>
@@ -384,10 +414,10 @@
 					
 					<div class="menuOptions nav nav-underline" id="nav">
 						<ul class="nav-item">
-							<a href="projectProgress.action" class="majorTopic nav-link link">프로젝트 메인<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
+							<a href="projectProgress.action?cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">프로젝트 메인<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
 						</ul>
 						<ul class="nav-item ">
-							<a href="Milestone.action" class="majorTopic nav-link link">마일스톤<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
+							<a href="Milestone.action?cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">마일스톤<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
 							<li  class="miniMenuOption">
 								<ul>
 									<li class="miniMenuOption"><a href="#" class="nav-link link">결산보고서 작성</a></li>
@@ -395,12 +425,12 @@
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="taskCal.action" class="majorTopic nav-link link">업무<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<a href="taskCal.action?cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">업무<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="taskView.action" class="nav-link link">업무목록 조회</a></li>
-									<li class="miniMenuOption"><a href="myTask.action" class="nav-link link">내 업무 보기</a></li>
-									<li class="miniMenuOption"><a href="reportView.action" class="nav-link link">업무보고서 조회</a></li>
+									<li class="miniMenuOption"><a href="taskView.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">업무목록 조회</a></li>
+									<li class="miniMenuOption"><a href="myTask.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">내 업무 보기</a></li>
+									<li class="miniMenuOption"><a href="reportView.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">업무보고서 조회</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -409,9 +439,6 @@
 							<li class="miniMenuOption">
 								<ul>
 									<li class="miniMenuOption"><a href="#" class="nav-link link">팀원 관리</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -428,13 +455,13 @@
 				<!-- 프로젝트 설명 -->
 				<div class="row prjtitle">
 					<div class="col-4">
-						<h2>러블리볶이</h2>
+						<%-- <h2>${project.prj_name} }</h2> --%>
 					</div>
 					<div class="col-4" style="padding-top: 5px;">
-						<h3>떡볶이 맛집 추천 프로젝트</h3>
+						<%-- <h3>${project.summary }</h3> --%>
 					</div>
 					<div class="col-3" style="padding-top: 12px;">
-						<h5>2023년 1월 15일 ~ 2027년 4월 12일</h5>
+						<%-- <h5>${project.sdate } ~ ${project.edate }</h5> --%>
 					</div>
 					
 					<hr>

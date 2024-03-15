@@ -236,7 +236,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 						<!--======[ alarmButton ]======-->
 
 				    </div><!-- end .buttonBox -->
-				    <a href="mypage.action">
+				    <a href="mypage.action" class="myinfo">
 						<div id="profile" style="<%=login%>">
 							<img class="memberImg" src="img/profileImg_1.png">
 						</div>
@@ -297,67 +297,42 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 				
 					<!--===========[Logo]===========-->
 					<a class="navbar-brand mainLogo link" href="#">
-						<img alt="Logo" class="LogoImageBanner d-inline-block align-text-top lastchange" src="img/TestLogo.png" >
+						<img alt="Logo" class="LogoImageBanner d-inline-block align-text-top" src="img/TestLogo.png" >
 					</a>
 					<!--===========[Logo]===========-->
 					
 					
 					<div class="menuOptions nav nav-underline" id="nav">
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">프로젝트12345123<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
-							<li class="miniMenuOption">
-								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-								</ul>
-							</li>
+							<a href="projectProgress.action" class="majorTopic nav-link link">프로젝트 메인<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
 						</ul>
 						<ul class="nav-item ">
-							<a href="#" class="majorTopic nav-link link">프로젝345<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
+							<a href="Milestone.action" class="majorTopic nav-link link">마일스톤<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
 							<li  class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">결산보고서 작성</a></li>
 								</ul>
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">프로젝트123415<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<a href="taskCal.action" class="majorTopic nav-link link">업무<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
+									<li class="miniMenuOption"><a href="taskView.action" class="nav-link link">업무목록 조회</a></li>
+									<li class="miniMenuOption"><a href="myTask.action" class="nav-link link">내 업무 보기</a></li>
+									<li class="miniMenuOption"><a href="reportView.action" class="nav-link link">업무보고서 조회</a></li>
 								</ul>
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">프로젝2345<ion-icon class="menuIcon" name="person-outline"></ion-icon></a>
+							<a href="#" class="majorTopic nav-link link">프로젝트 관리 페이지<ion-icon class="menuIcon" name="person-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">팀원 관리</a></li>
 								</ul>
 							</li>
 						</ul>
-						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">프로젝2345<ion-icon class="menuIcon" name="person-outline"></ion-icon></a>
-							<li class="miniMenuOption">
-								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트121231345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-								</ul>
-							</li>
-						</ul>
+			
 						
 					</div><!-- end .menuOptions -->
 				</div><!-- end .leftmenuBar -->

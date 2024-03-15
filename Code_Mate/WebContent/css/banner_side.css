@@ -314,7 +314,7 @@ ion-icon[name="search-circle"]
 {
 	display: flex;
 	height: 40px;
-	width: 350px;
+	width: 380px;
 }
 
 /* 회원 프로필이 들어갈 영역 지정 */
@@ -355,7 +355,7 @@ ion-icon[name="search-circle"]
 	font-weight: bold;
 	line-height: 33px;
 	color: #2f4047;
-	margin: 0 5px 0 5px;
+	margin: 0 20px 0 20px;
 	
 }
 
@@ -601,3 +601,5 @@ ion-icon[name="search-circle"]
     color: var(--bs-btn-hover-color);
     background-color: #4f59ca;
     }
+    
+    .myinfo{display: flex;}

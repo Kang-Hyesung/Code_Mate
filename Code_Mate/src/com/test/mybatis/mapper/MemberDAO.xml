@@ -102,6 +102,13 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 		WHERE ao.AP_CODE = #{arg0} AND MA.AR_CODE = 'AR0001' AND RC.MR_CODE != 'MR0001'
 	</select>
 	 
+	 <!-- ap_code 로 cp_code 가져오기 public String getCp_code(String ap_code); -->
+	 <select id="getCp_code" resultType="java.lang.String">
+		SELECT CP_code
+		FROM APP_OPENING ao JOIN C_PROJECT cp ON ao.AP_CODE = cp.AP_CODE
+		WHERE ao.AP_CODE = #{arg0}
+	 </select>
+	 
 </mapper>
 
 

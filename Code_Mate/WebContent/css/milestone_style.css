@@ -561,7 +561,8 @@ button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn:active
     text-shadow: 0 -3px 2px #2f3337;
 }
 
-
+a
+{display: flex;}
 /* 마일스톤 항목 추가 버튼 안에 있는 + 텍스트 스타일 */
 span.milestone-add-btn-icon.material-symbols-outlined 
 {

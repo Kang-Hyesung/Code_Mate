@@ -8,19 +8,23 @@ package com.test.mvc;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.test.mybatis.dao.IMeetingDAO;
 import com.test.mybatis.dao.IMemberDAO;
+import com.test.mybatis.dao.IProjectDAO;
 import com.test.mybatis.dao.IReportDAO;
 import com.test.mybatis.dao.ITaskDAO;
 import com.test.mybatis.dto.MeetingDTO;
 import com.test.mybatis.dto.MemberDTO;
+import com.test.mybatis.dto.ProjectDTO;
 import com.test.mybatis.dto.ReportDTO;
 import com.test.mybatis.dto.TaskDTO;
 
@@ -30,38 +34,48 @@ public class ProjectController
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@RequestMapping(value = "/projectProgress.action")
-	public String projectProgress(HttpServletRequest request, ModelMap model)
+	@RequestMapping(value = "/projectProgress.action", method = RequestMethod.GET )
+	public String projectProgress(HttpServletRequest request, ModelMap model, HttpSession session, String ap_code)
 	{
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 		IMeetingDAO meetingDao = sqlSession.getMapper(IMeetingDAO.class);
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
+		IProjectDAO projectDao = sqlSession.getMapper(IProjectDAO.class);
+		
+		String cp_code = memberDao.getCp_code(ap_code);
+		
+		request.setAttribute("ap_code", ap_code);
+		request.setAttribute("cp_code", cp_code);
+		
+		ProjectDTO project = projectDao.getProject(ap_code);
+		request.setAttribute("project", project);
 		
 		// 멤버리스트
-		ArrayList<MemberDTO> leader = memberDao.getLeader("AP0006", "MR0001");
-		ArrayList<MemberDTO> frontList = memberDao.getFront("AP0006", "MR0001");
-		ArrayList<MemberDTO> backList = memberDao.getBack("AP0006", "MR0001");
+		ArrayList<MemberDTO> leader = memberDao.getLeader(ap_code, "MR0001");
+		ArrayList<MemberDTO> frontList = memberDao.getFront(ap_code, "MR0001");
+		ArrayList<MemberDTO> backList = memberDao.getBack(ap_code, "MR0001");
 		
 		request.setAttribute("leader", leader);
 		request.setAttribute("frontList", frontList);
 		request.setAttribute("backList", backList);
 		
 		// Task
-		ArrayList<TaskDTO> taskList = taskDao.list("CP0002");
+		ArrayList<TaskDTO> taskList = taskDao.list(cp_code);
 		request.setAttribute("taskList", taskList);
 		
 		// 회의록
-		ArrayList<MeetingDTO> meetingList = meetingDao.list("AP0006");
+		ArrayList<MeetingDTO> meetingList = meetingDao.list(ap_code);
 		request.setAttribute("meetingList", meetingList);
 		
 		// 업무보고글
-		ArrayList<ReportDTO> reportList = reportDao.list("CP0002");
+		ArrayList<ReportDTO> reportList = reportDao.list(cp_code);
 		request.setAttribute("reportList", reportList);
 		
 		// 활동량
-		ArrayList<ReportDTO> rank = reportDao.rank("CP0002");
+		ArrayList<ReportDTO> rank = reportDao.rank(cp_code);
 		request.setAttribute("rank", rank);
 		
 		String data = "" + "[";
@@ -212,7 +226,7 @@ public class ProjectController
 		return "redirect:myTask.action";
 	}
 	
-	@RequestMapping(value = "/Report.action")
+	@RequestMapping(value = "/reportView.action")
 	public String Report(ReportDTO dto, ModelMap model)
 	{
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);

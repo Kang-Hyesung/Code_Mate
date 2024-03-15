@@ -65,7 +65,7 @@ public class MainController
 		
 		HttpSession session = request.getSession();
 	    session.setAttribute("member", member);
-	    session.setMaxInactiveInterval(5 * 60);
+	    session.setMaxInactiveInterval(60 * 60);
 	    
 		return "redirect:Code_Mate.action";
 	}
@@ -87,7 +87,7 @@ public class MainController
 			//member 란 이름으로 member 객체 set 해줌
 		    session.setAttribute("member", member);
 		    // 세션 유지시간 5분
-		    session.setMaxInactiveInterval(5 * 60);
+		    session.setMaxInactiveInterval(60 * 60);
 		}
 			
 		return "redirect:Code_Mate.action";

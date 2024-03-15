@@ -606,7 +606,7 @@
 						<!--======[ alarmButton ]======-->
 
 				    </div><!-- end .buttonBox -->
-				    <a href="mypage.action">
+				    <a href="mypage.action" class="myinfo">
 						<div id="profile" style="<%=login%>">
 							<img class="memberImg" src="img/profileImg_1.png">
 						</div>

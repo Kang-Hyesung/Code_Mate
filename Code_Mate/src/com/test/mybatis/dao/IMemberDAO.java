@@ -24,4 +24,7 @@ public interface IMemberDAO
 	public String getLeader_ma(String ap_code);
 	
 	public ArrayList<MemberDTO> getMember(String ap_code);
+	
+	//ap_code 로 cp_code 가져오기
+	public String getCp_code(String ap_code);
 }
