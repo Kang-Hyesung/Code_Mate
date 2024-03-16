@@ -455,13 +455,13 @@
 				<!-- 프로젝트 설명 -->
 				<div class="row prjtitle">
 					<div class="col-4">
-						<%-- <h2>${project.prj_name} }</h2> --%>
+						<h2>${project.prj_name}</h2>
 					</div>
 					<div class="col-4" style="padding-top: 5px;">
-						<%-- <h3>${project.summary }</h3> --%>
+						<h3>${project.summary }</h3>
 					</div>
 					<div class="col-3" style="padding-top: 12px;">
-						<%-- <h5>${project.sdate } ~ ${project.edate }</h5> --%>
+						<h5>${project.sdate } ~ ${project.edate }</h5>
 					</div>
 					
 					<hr>

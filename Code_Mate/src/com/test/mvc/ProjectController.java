@@ -5,17 +5,31 @@
 
 package com.test.mvc;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+import org.apache.catalina.connector.Request;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.test.mybatis.dao.IMeetingDAO;
 import com.test.mybatis.dao.IMemberDAO;
@@ -27,9 +41,14 @@ import com.test.mybatis.dto.MemberDTO;
 import com.test.mybatis.dto.ProjectDTO;
 import com.test.mybatis.dto.ReportDTO;
 import com.test.mybatis.dto.TaskDTO;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.oreilly.servlet.MultipartRequest;
+
+
+
 
 @Controller
-public class ProjectController
+public class ProjectController  extends HttpServlet
 {	
 	@Autowired
 	private SqlSession sqlSession;
@@ -98,14 +117,14 @@ public class ProjectController
 	}
 		
 	@RequestMapping(value = "/taskCal.action")
-	public String taskCal(HttpServletRequest request, ModelMap model)
+	public String taskCal(HttpServletRequest request, ModelMap model, String ap_code, String cp_code)
 	{
 		
 		
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 		
-		ArrayList<TaskDTO> taskList = taskDao.list("CP0002");
+		ArrayList<TaskDTO> taskList = taskDao.list(cp_code);
 		request.setAttribute("taskList", taskList);
 		
 		String data = "" + "[";
@@ -122,9 +141,9 @@ public class ProjectController
 		data +=  "]";
 		
 		// 멤버리스트
-		ArrayList<MemberDTO> leader = memberDao.getLeader("AP0006", "MR0001");
-		ArrayList<MemberDTO> frontList = memberDao.getFront("AP0006", "MR0001");
-		ArrayList<MemberDTO> backList = memberDao.getBack("AP0006", "MR0001");
+		ArrayList<MemberDTO> leader = memberDao.getLeader(ap_code, "MR0001");
+		ArrayList<MemberDTO> frontList = memberDao.getFront(ap_code, "MR0001");
+		ArrayList<MemberDTO> backList = memberDao.getBack(ap_code, "MR0001");
 		
 		request.setAttribute("leader", leader);
 		request.setAttribute("frontList", frontList);
@@ -132,21 +151,19 @@ public class ProjectController
 		
 		model.addAttribute("data", data);
 		
-		System.out.println(data);
-		
 		return "/WEB-INF/view/project/taskCal.jsp";
 	}
 	
 	@RequestMapping(value = "/taskView.action")
-	public String task(HttpServletRequest request, ModelMap model)
+	public String task(HttpServletRequest request, ModelMap model, String ap_code, String cp_code)
 	{
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 		
 		// task 날짜별로 분류
-		ArrayList<TaskDTO> getWeek = taskDao.getWeek("CP0002");
-		ArrayList<TaskDTO> getIng = taskDao.getIng("CP0002");
-		ArrayList<TaskDTO> getWill = taskDao.getWill("CP0002");
+		ArrayList<TaskDTO> getWeek = taskDao.getWeek(cp_code);
+		ArrayList<TaskDTO> getIng = taskDao.getIng(cp_code);
+		ArrayList<TaskDTO> getWill = taskDao.getWill(cp_code);
 		
 		model.addAttribute("getWeek", getWeek);
 		model.addAttribute("getIng", getIng);
@@ -155,9 +172,9 @@ public class ProjectController
 		
 		
 		// 멤버리스트
-		ArrayList<MemberDTO> leader = memberDao.getLeader("AP0006", "MR0001");
-		ArrayList<MemberDTO> frontList = memberDao.getFront("AP0006", "MR0001");
-		ArrayList<MemberDTO> backList = memberDao.getBack("AP0006", "MR0001");
+		ArrayList<MemberDTO> leader = memberDao.getLeader(ap_code, "MR0001");
+		ArrayList<MemberDTO> frontList = memberDao.getFront(ap_code, "MR0001");
+		ArrayList<MemberDTO> backList = memberDao.getBack(ap_code, "MR0001");
 		
 		request.setAttribute("leader", leader);
 		request.setAttribute("frontList", frontList);
@@ -167,17 +184,17 @@ public class ProjectController
 	}
 	
 	@RequestMapping(value = "/taskInsert.action")
-	public String taskInsert(TaskDTO dto, ModelMap model)
+	public String taskInsert(TaskDTO dto, ModelMap model, String ap_code, String cp_code)
 	{
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 		
-		String ma_codep = memberDao.getMacode(dto.getMa_codep(), "CP0002");
-		String ma_codea = memberDao.getLeader_ma("AP0006");
+		String ma_codep = memberDao.getMacode(dto.getMa_codep(), cp_code);
+		String ma_codea = memberDao.getLeader_ma(ap_code);
 		
 		dto.setMa_codea(ma_codea);
 		dto.setMa_codep(ma_codep);
-		dto.setCp_code("CP0002");
+		dto.setCp_code(cp_code);
 		System.out.println(dto.getColor());
 		
 		taskDao.addTask(dto);
@@ -191,6 +208,8 @@ public class ProjectController
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
+		
+		
 		
 		String ma_codep = "MA0011";
 		
@@ -214,10 +233,39 @@ public class ProjectController
 		return "/WEB-INF/view/project/myTask.jsp";
 	}
 	
-	@RequestMapping(value = "/insertReport.action")
-	public String insertReport(ReportDTO dto, ModelMap model)
+	@RequestMapping(value = "/insertReport.action" , method = RequestMethod.POST)
+	public String insertReport(HttpServletRequest request, HttpServletResponse response, ReportDTO dto, ModelMap model) 
 	{
+		String uploadPath = "C:\\Downloads";
+		int maxFileSize = 1024 * 1024 * 2;
+		String encType = "utf-8";
+		
+		MultipartRequest multi = null;
+		
+			try{
+				System.out.println("업로드 시도");
+				multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
+				System.out.println("업로드 완료");
+				
+				System.out.println("이름 출력 시도");
+				String please = multi.getFilesystemName("file");
+				System.out.println(please);
+				
+				System.out.println("서버에 저장된 파일명 : " + multi.getFilesystemName("file"));
+				System.out.println("업로드한 파일명 : " + multi.getOriginalFileName("file"));
+				System.out.println("파일 타입 : " + multi.getContentType("file"));
+				
+				
+			}
+			catch(Exception e)
+			{
+				System.out.println("업로드 실패");
+				System.out.println(e.toString());
+			}
+		
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
+		
+		String savePath = "C://Downloads";
 		
 		
 		

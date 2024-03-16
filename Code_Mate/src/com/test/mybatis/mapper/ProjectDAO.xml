@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">				
+
+<mapper namespace="com.test.mybatis.dao.IProjectDAO">
+	<select id="getProject" resultType="com.test.mybatis.dto.ProjectDTO">
+		SELECT PRJ_NAME, SUMMARY, TO_CHAR(SDATE, 'YYYY-MM-DD') AS SDATE, TO_CHAR(EDATE, 'YYYY-MM-DD') AS EDATE 
+		FROM APP_OPENING
+		WHERE AP_CODE = #{arg0}
+	</select>
+</mapper>

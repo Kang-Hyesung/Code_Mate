@@ -1,3 +1,5 @@
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
+<%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.test.mybatis.dao.IMemberDAO"%>
@@ -26,6 +28,7 @@
 		login = "display:none;";
 		logout = "";
 	}
+	
 	
 %>
 <!DOCTYPE html>
@@ -723,7 +726,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 			</div>
 		    <div class="mb-3">
 			  <label for="formFile" class="form-label">첨부 파일</label>
-			  <input class="form-control" type="file" id="formFile" >
+			  <input class="form-control" type="file" id="file"  name="file">
 		    </div>
 	      </div>
 	      <div class="modal-footer">
