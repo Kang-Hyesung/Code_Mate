@@ -1,38 +1,67 @@
+<%@page import="com.test.mybatis.MyPageMethod"%>
 <%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
-	
+
 	String login = "";
 	String logout = "";
 	String name = "";
-	String view = "";
-	
-	
-		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
 	
 	if(request.getSession().getAttribute("member") != null)
-	{ 
+	{
 		login = "";
 		logout = "display:none;";
+		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
 		
-		name = member.getNickname();
-		
-		
+		name = member.getNickname();                                                                                                                                                                                                                                                                        
 	}
 	else
 	{
 		login = "display:none;";
 		logout = "";
-		
-		if(request.getAttribute("pjdto") == null)
-		{
-			view = "display:none;";
-		}
-		
 	}
+
+	
+	MyPageMethod mpm = new MyPageMethod();
+	
+	String[] gradeIconUrlTxtArr;
+	String iconUrlStr = "";
+	
+	/*[배너에 뿌려질 닉네임 옆 아이콘 변경하기]*/
+	if (request.getAttribute("backendScore") != null && request.getAttribute("frontendScore") != null)
+	{
+		int backScore = (Integer)request.getAttribute("backendScore");
+		int frontScore = (Integer)request.getAttribute("frontendScore");
+		System.out.println("백엔드 점수 수신 : " + backScore);
+		System.out.println("프론트엔드 점수 수신 : " + frontScore);
+		
+		if (backScore >= frontScore)
+		{
+			System.out.println("백엔드 점수가 더 높거나 같습니다.");
+			
+			//===================================================================================
+			// 『skillGradeIcon』 - String[] 반환
+			//===================================================================================
+			//  String[0] : 스킬 등급 아이콘 Url	(*ex : "/CodeMate/img/grade_icon/1_seed.png")
+			//  String[1] : 스킬 등급 텍스트 반환	(*ex : "씨앗")
+			//===================================================================================
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, backScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+			
+		}
+		else if (backScore < frontScore)
+		{
+			System.out.println("프론트엔드 점수가 더 높습니다.");
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, frontScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+		}
+	}
+	
 %>
 <!DOCTYPE html>
 <html>

@@ -10,7 +10,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
-	
+
 	String login = "";
 	String logout = "";
 	String name = "";
@@ -21,13 +21,52 @@
 		logout = "display:none;";
 		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
 		
-		name = member.getNickname();
+		name = member.getNickname();                                                                                                                                                                                                                                                                        
 	}
 	else
 	{
 		login = "display:none;";
 		logout = "";
 	}
+
+	
+	MyPageMethod mpmn = new MyPageMethod();
+	
+	String[] gradeIconUrlTxtArr;
+	String iconUrlStr = "";
+	
+	/*[배너에 뿌려질 닉네임 옆 아이콘 변경하기]*/
+	if (request.getAttribute("backendScore") != null && request.getAttribute("frontendScore") != null)
+	{
+		int backScore = (Integer)request.getAttribute("backendScore");
+		int frontScore = (Integer)request.getAttribute("frontendScore");
+		System.out.println("백엔드 점수 수신 : " + backScore);
+		System.out.println("프론트엔드 점수 수신 : " + frontScore);
+		
+		if (backScore >= frontScore)
+		{
+			System.out.println("백엔드 점수가 더 높거나 같습니다.");
+			
+			//===================================================================================
+			// 『skillGradeIcon』 - String[] 반환
+			//===================================================================================
+			//  String[0] : 스킬 등급 아이콘 Url	(*ex : "/CodeMate/img/grade_icon/1_seed.png")
+			//  String[1] : 스킬 등급 텍스트 반환	(*ex : "씨앗")
+			//===================================================================================
+			
+			gradeIconUrlTxtArr = mpmn.skillGradeIcon(cp, backScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+			
+		}
+		else if (backScore < frontScore)
+		{
+			System.out.println("프론트엔드 점수가 더 높습니다.");
+			
+			gradeIconUrlTxtArr = mpmn.skillGradeIcon(cp, frontScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+		}
+	}
+	
 %>
 <%
 
@@ -184,27 +223,29 @@
     height: 77px;
 }
 	
-	 .alarm-btn {
-    background-color: #f8f9fa;
-    border: #f8f9fa;
-    color: #4f59ca;
-    padding: 0 5px 0 5px;
-	transition-property: all;
-	transition-duration:0.5s;
-	border-radius: 50%;
-	font-size: 20px;
-	line-height: 30px;
-	
+.org_img{width: 200px; height: 200px;}
+.mb-3 {
+    margin-left: 29px;
+    margin-top: 63px;
 }
-	.alarm-btn:hover {
-    color: var(--bs-btn-hover-color);
-    background-color: #4f59ca;
-    }
-
 
 </style>
 
-
+<script type="text/javascript">
+		$(function()
+		{
+			  $(".memberImg").click(function()
+			{
+				$(".logout").show();
+			})
+			
+			$(".logout").click(function()
+			{
+				$(location).attr("href", "logout.action");
+			});
+			
+		})
+</script>
 
 <script type="text/javascript">
 
@@ -316,9 +357,9 @@
 				</a>
 				<!--===========[Logo]===========-->
 				
-				<span class="nav-link"><a href="#" class="link">프로젝트 게시판</a></span>
-				<span class="nav-link"><a href="#" class="link">커리어 게시판</a></span>
-				<span class="nav-link"><a href="#" class="link">포트폴리오 게시판</a></span>
+				<span class="nav-link"><a href="ProjectList.action" class="link">프로젝트 게시판</a></span>
+				<span class="nav-link"><a href="boardlist.action" class="link">Q&A 게시판</a></span>
+				<span class="nav-link"><a href="portfoliolist.action" class="link">포트폴리오 게시판</a></span>
 			
 			    
 			    <!--=======[ member Icon ]=======-->
@@ -338,15 +379,17 @@
 
 				    </div><!-- end .buttonBox -->
 				    
-					<a href="mypage.action" class="myinfo">
-						<div id="profile" style="<%=login%>">
-							<img class="memberImg" src="img/profileImg_1.png">
-						</div>
-						<span class="nickname" id="mem1" style="<%=login%>">${member.nickname }</span>
-						<div class="gradeIcon" style="<%=login%>">
-							🌱
-						</div>
-					</a>
+					<div id="profile" style="<%=login%>">
+						<img class="memberImg" src="img/profileImg_1.png">
+					</div>
+					<span class="nickname" id="mem1" style="<%=login%>"><a href="mypage.action" class="nicknamelink">${member.nickname }</a></span>
+					<div class="gradeIcon" style="<%=login%>">
+						<img src="<%=iconUrlStr %>"  class="skillGradeIconImg" />
+					</div>
+					 
+					 <div class="logout">
+					 	<span class="logouttext">로그아웃</span>
+					 </div>
 					 
 					 <!-- 로그인/회원가입으로 이동 -->
 					<span class="nav-link log" ><a href="Login.action" class="link upside" style="<%=logout%>">로그인/회원가입</a></span>
@@ -442,7 +485,7 @@
 
 							<div class="col col-3 profileImageBox">
 								<!-- 혜성강~ -->
-								<img class="profileImage" src="<%=cp %>/img/profileImg_1.png">
+								<img class="profileImage" src="<%=cp %>/img/profileImg_1.png" data-bs-toggle="modal" data-bs-target="#exampleModal">
 								<!-- <img class="profileImage" src="img/pompomLove.png"> -->
 							</div>
 							<!--  -->
@@ -2175,6 +2218,37 @@
 		</div><!-- close . -->
 	</div>
 	<!-- end .row -->
+	<!--  첨부파일 올리는 모달 -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">프로필 사진 변경하기</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      
+      <form action="insertProfileImgt.action" id="insertProfileImgt" method="post" enctype="multipart/form-data">
+      <div class="modal-body">
+      	<div style="display: flex;">
+        <img src="<%=cp %>/img/보리.jpg" class="org_img" />
+        	<div>
+        		<div class="mb-3">
+				  <label for="formFile" class="form-label">사진 불러오기</label>
+				  <input class="form-control" type="file" id="file" name="file">
+				</div>
+        	</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">사진 변경하기</button>
+      </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
