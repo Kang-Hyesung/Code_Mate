@@ -141,7 +141,21 @@
 <!-- Google Fonts Icons -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
-
+<script type="text/javascript">
+		$(function()
+		{
+			  $(".memberImg").click(function()
+			{
+				$(".logout").show();
+			})
+			
+			$(".logout").click(function()
+			{
+				$(location).attr("href", "logout.action");
+			});
+			
+		})
+</script>
 
 <script type="text/javascript">
 

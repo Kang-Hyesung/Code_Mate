@@ -293,6 +293,22 @@
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
 
+<script type="text/javascript">
+		$(function()
+		{
+			  $(".memberImg").click(function()
+			{
+				$(".logout").show();
+			})
+			
+			$(".logout").click(function()
+			{
+				$(location).attr("href", "logout.action");
+			});
+			
+		})
+</script>
+
  <script>
 	  /* task 리스트를 자바스크립트로 가져온다. */	  
 	  
