@@ -29,7 +29,7 @@ public interface IAdminDAO
 	
 // --------------------------------------------------------------
 	
-	public int app_count();		// 개설 신청 게시글 수 
+	public int app_count(); 		// 개설 신청 게시글 수 
 	public int te_count();		// 기술 게시판 게시글 수 
 	public int cq_count();		// 커리어 게시판 게시글 수 
 	public int po_count();		// 포트폴리오 게시판 수
