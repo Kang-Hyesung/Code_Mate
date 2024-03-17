@@ -63,6 +63,9 @@ public class PortfolioController
 		List<HashMap<String, String>> backList = dao.findBack(p_code);
 		request.setAttribute("backList", backList);
 		
+		List<HashMap<String, String>> subjectTagList = dao.getSubjectTagList(p_code);
+		request.setAttribute("subjectTagList", subjectTagList);
+		
 		dao.viewsUp(p_code);
 		
 		
