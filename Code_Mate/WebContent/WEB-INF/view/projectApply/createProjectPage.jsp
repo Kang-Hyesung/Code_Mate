@@ -1,9 +1,32 @@
+<%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
-	System.out.println(cp);
+
+	String login = "";
+	String logout = "";
+	String name = "";
+	String mem_code="";
+	
+	if(request.getSession().getAttribute("member") != null)
+	{
+		login = "";
+		logout = "display:none;";
+		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
+		
+		mem_code = member.getMem_code();
+		name = member.getNickname();
+	}
+	else
+	{
+		login = "display:none;";
+		logout = "";
+	}
+		
+	
+		
 %>
 <!DOCTYPE html>
 <html>
@@ -274,7 +297,7 @@
 	    width: 200px;
 	    height: 100px;
 	    background-color: #f1f3f5;
-	    margin-top: 900px;
+	    margin-top: 600%;
 	    font-size: 15px;
 	    font-weight: bold;
     }
@@ -283,7 +306,7 @@
 	    width: 200px;
 	    height: 100px;
 	    background-color: #f1f3f5;
-	    margin-top: 175px;
+	    margin-top: 260px;
 	    font-size: 15px;
 	    font-weight: bold;
     }
@@ -345,10 +368,10 @@
             if ($(".selecthang").is(":visible"))
             {
             	
-            	
             	$(".selecthang").hide();
             	
-            	$("input[name=skillscore]").attr("disabled", true);
+            	$("input[name=skillscore1]").attr("disabled", true);
+            	$("input[name=skillscore2]").attr("disabled", true);
             	$("input[name=gender]").attr("disabled", true);
             	$("#age").attr("disabled", true);
             	$("#inpnum").attr("disabled", true);
@@ -358,7 +381,8 @@
             {
             	$(".selecthang").show();
             	
-            	$("input[name=skillscore]").attr("disabled", false);
+            	$("input[name=skillscore1]").attr("disabled", false);
+            	$("input[name=skillscore2]").attr("disabled", false);
             	$("input[name=gender]").attr("disabled", false);
             	$("#age").attr("disabled", false);
             	$("#inpnum").attr("disabled", false);
@@ -384,7 +408,7 @@
 	    $('.input-daterange').datepicker({
 	        format: 'yyyy-mm-dd',
 	        todayHighlight: true,
-	        startDate: '0d',
+	        startDate: '2d',
 	        minDate: $("#sdate").val(),
 	        language: 'ko' // 한국어 설정 추가
        	
@@ -397,16 +421,11 @@
 	
 	
 	
-	function submit()
+	function submit123()
 	{
-		/* 
-		if ($(".selecthang").is(":visible"))
-        {
-			$(".projectinsert").submit();
-        }
-		 */
+		
 		 
-		$(".projectinsert").submit();
+		$("#projectinsert").submit();
 		
 	}
 	
@@ -443,22 +462,23 @@
 						<!--======[ search Button ]======-->
 		
 						<!--======[ alarmButton ]======-->
-						<button id="alarmButton" class="btn banner-btn alarm-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="notifications" class="banner-btn-icon"></ion-icon>
-						</button>				
+						<button type="button" class="btn btn-secondary alarm-btn" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Bottom popover" style="<%=login%>">
+						  <ion-icon name="notifications" class="banner-btn-icon"></ion-icon>
+						</button>			
 						<!--======[ alarmButton ]======-->
+
 				    </div><!-- end .buttonBox -->
-				    <!-- 
-					<div id="profile">
-						<img class="memberImg" src="img/profileImg_1.png">
-					</div>
-					<span class="nickname" id="mem1">강구가구가구가</span>
-					<div class="gradeIcon">
-						🌱
-					</div>
-					 -->
+				    <a href="mypage.action">
+						<div id="profile" style="<%=login%>">
+							<img class="memberImg" src="img/profileImg_1.png">
+						</div>
+						<span class="nickname" id="mem1" style="<%=login%>">${member.nickname }</span>
+						<div class="gradeIcon" style="<%=login%>">
+							🌱
+						</div>
+					</a>
 					 <!-- 로그인/회원가입으로 이동 -->
-					<span class="nav-link log" ><a href="Login.action" class="link">로그인/회원가입</a></span>
+					<span class="nav-link log" ><a href="Login.action" class="link upside" style="<%=logout%>">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
 			    <!--=======[ member Icon ]=======-->
 			    </div>
@@ -469,7 +489,6 @@
 
 	
 	<!--===========[offCanvas]===========-->
-	
 	<div class="col-12">
 		
 		
@@ -612,52 +631,106 @@
 					</div>
 					<!-- <div class="memo">자신의 등급보다 한단계 낮은 등급까지 선택 가능합니다.</div> -->
 					<div class="ssmenu">
-						<div class="menu">실력 필터링(최소 조건 입력)(나보다 한단계 낮은 단계까지)</div>
+						<div class="menu">백엔드 필터링(최소 조건 입력)(나보다 한단계 낮은 단계까지)</div>
 						<div class="grademenu">
 							<label>
-							  <input type="radio" name="skillscore"  value="1" />
+							  <input type="radio" name="skillscore1"  value="1" disabled="disabled"/>
 							  <div class="radioimgbox">
 							  	<img src="img/grade_icon/1_seed.png" alt="html" class="radioimg" />
 							  </div>
 							  <span>씨앗</span>
 							</label>
 							<label>
-							  <input type="radio" name="skillscore" value="2" />
+							  <input type="radio" name="skillscore1" value="2" disabled="disabled"/>
 							  <div class="radioimgbox">
 							  	<img src="img/grade_icon/2_plant.png" alt="html" class="radioimg" />
 							  </div>
 							  <span>새싹</span>
 							</label>
 							<label>
-							  <input type="radio" name="skillscore" value="3" />
+							  <input type="radio" name="skillscore1" value="3" disabled="disabled"/>
 							  <div class="radioimgbox">
 							  	<img src="img/grade_icon/3_leaf.png" alt="html" class="radioimg" />
 							  </div>
 							  <span>잎새</span>
 							</label>
 							<label>
-							  <input type="radio" name="skillscore" value="4" />
+							  <input type="radio" name="skillscore1" value="4" disabled="disabled"/>
 							  <div class="radioimgbox">
 							  	<img src="img/grade_icon/4_branch.png" alt="html" class="radioimg" />
 							  </div>
 							  <span>가지</span>
 							</label>
 							<label>
-							  <input type="radio" name="skillscore" value="5" />
+							  <input type="radio" name="skillscore1" value="5" disabled="disabled"/>
 							  <div class="radioimgbox">
 							  	<img src="img/grade_icon/5_pear.png" alt="html" class="radioimg" />
 							  </div>
 							  <span>열매</span>
 							</label>
 							<label>
-							  <input type="radio" name="skillscore" value="6" />
+							  <input type="radio" name="skillscore1" value="6" disabled="disabled"/>
 							  <div class="radioimgbox">
 							  	<img src="img/grade_icon/6_tree.png" alt="html" class="radioimg" />
 							  </div>
 							  <span>나무</span>
 							</label>
 							<label>
-							  <input type="radio" name="skillscore" value="7" />
+							  <input type="radio" name="skillscore1" value="7" disabled="disabled"/>
+							  <div class="radioimgbox">
+							  	<img src="img/grade_icon/7_forest.png" alt="html" class="radioimg" />
+							  </div>
+							  <span>숲</span>
+							</label>
+						</div>
+					</div>
+					<div class="ssmenu">
+						<div class="menu">프론트 필터링(최소 조건 입력)(나보다 한단계 낮은 단계까지)</div>
+						<div class="grademenu">
+							<label>
+							  <input type="radio" name="skillscore2"  value="1" disabled="disabled"/>
+							  <div class="radioimgbox">
+							  	<img src="img/grade_icon/1_seed.png" alt="html" class="radioimg" />
+							  </div>
+							  <span>씨앗</span>
+							</label>
+							<label>
+							  <input type="radio" name="skillscore2" value="2" disabled="disabled"/>
+							  <div class="radioimgbox">
+							  	<img src="img/grade_icon/2_plant.png" alt="html" class="radioimg" />
+							  </div>
+							  <span>새싹</span>
+							</label>
+							<label>
+							  <input type="radio" name="skillscore2" value="3" disabled="disabled"/>
+							  <div class="radioimgbox">
+							  	<img src="img/grade_icon/3_leaf.png" alt="html" class="radioimg" />
+							  </div>
+							  <span>잎새</span>
+							</label>
+							<label>
+							  <input type="radio" name="skillscore2" value="4" disabled="disabled"/>
+							  <div class="radioimgbox">
+							  	<img src="img/grade_icon/4_branch.png" alt="html" class="radioimg" />
+							  </div>
+							  <span>가지</span>
+							</label>
+							<label>
+							  <input type="radio" name="skillscore2" value="5" disabled="disabled"/>
+							  <div class="radioimgbox">
+							  	<img src="img/grade_icon/5_pear.png" alt="html" class="radioimg" />
+							  </div>
+							  <span>열매</span>
+							</label>
+							<label>
+							  <input type="radio" name="skillscore2" value="6" disabled="disabled"/>
+							  <div class="radioimgbox">
+							  	<img src="img/grade_icon/6_tree.png" alt="html" class="radioimg" />
+							  </div>
+							  <span>나무</span>
+							</label>
+							<label>
+							  <input type="radio" name="skillscore2" value="7" disabled="disabled"/>
 							  <div class="radioimgbox">
 							  	<img src="img/grade_icon/7_forest.png" alt="html" class="radioimg" />
 							  </div>
@@ -668,17 +741,17 @@
 					<div class="gender">
 						<div class="menu" id="gender">성별</div>
 						<label>
-						  <input type="radio" name="gender" value="male" />
+						  <input type="radio" name="gender" value="male" disabled="disabled"/>
 						  <span>남성</span>
 						</label>
 						<label>
-						  <input type="radio" name="gender" value="female" />
+						  <input type="radio" name="gender" value="female" disabled="disabled"/>
 						  <span>여성</span>
 						</label>
 					</div>
 					<div class="age">
 						<div class="menu">연령대</div>
-						<select name="age" id="age" >
+						<select name="age" id="age" disabled="disabled">
 							<option value="">선택</option>
 							<option value="10">10대</option>
 							<option value="20">20대</option>
@@ -696,14 +769,14 @@
 						<div class="light_gray">
 						  <div class="blue" style=""></div>
 						</div><br>
-						<input type="number" name="inpnum" value="36.5" step="0.1"  maxlength="100" class="inpnum" id="inpnum">
+						<input type="number" name="inpnum" value="36.5" step="0.1"  maxlength="100" class="inpnum" id="inpnum" disabled="disabled">
 					</div>
 				</div>
 				<!-- </form> -->
 				<!-- 버튼 -->
 				<div class="btnmenu">
-					<button type="button" class="btn btn1" onclick="submit()">개설하기</button>
-					<button onclick="location.href='projectapplycancel.action'" class="btn btn1">취    소</button>
+					<button type="button" class="btn btn1" onclick="submit123()">개설하기</button>
+					<button type="button" "location.href='projectapplycancel.action'" class="btn btn1">취    소</button>
 				</div>
 				
 			</div>

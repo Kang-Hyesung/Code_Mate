@@ -666,7 +666,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 						<!--======[ alarmButton ]======-->
 
 				    </div><!-- end .buttonBox -->
-				    <a href="mypage.action" class="myinfo">
+				    <a href="mypage.action">
 						<div id="profile" style="<%=login%>">
 							<img class="memberImg" src="img/profileImg_1.png">
 						</div>
@@ -818,7 +818,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                                		<div class="jptitle1" >·내가 참여하고 있는 프로젝트</div>
 												
 											<c:forEach var="dto" items="${pjdto }">
-		                                    <div class="ingproject"><a href="projectProgress.action?ap_code=${dto.ap_code }" class="aa">
+		                                    <div class="ingproject"><a href="project.action?ap_code=${dto.ap_code }" class="aa">
 												<div class="col-12">
 													<div>
 														<p class="ptag">📁프로젝트</p>
@@ -881,7 +881,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                                	<div class="jptitle3" style="">
 												
 											<c:forEach var="dto" items="${pjall }">
-		                                    <div class="ingproject"><a href="" class="aa">
+		                                    <div class="ingproject"><a href="project.action?ap_code=${dto.ap_code }" class="aa">
 												<div class="col-12">
 												
 													<div>
@@ -953,7 +953,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                                	<div class="jptitle4" style="display:none;">
 												
 											<c:forEach var="dto" items="${pjing }">
-		                                    <div class="ingproject"><a href="" class="aa">
+		                                    <div class="ingproject"><a href="project.action?ap_code=${dto.ap_code }" class="aa">
 												<div class="col-12">
 												
 													<div>
@@ -1014,7 +1014,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                                	<div class="jptitle5" style="display: none;">
 												
 											<c:forEach var="dto" items="${pjend }">
-		                                    <div class="ingproject"><a href="" class="aa">
+		                                    <div class="ingproject"><a href="project.action?ap_code=${dto.ap_code }" class="aa">
 												<div class="col-12">
 												
 													<div>
