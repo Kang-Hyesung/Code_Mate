@@ -261,7 +261,7 @@ $(document).ready(function()
           </div>
           <div class="login__box">
             <i class='bx bx-lock login__icon'></i>
-            <input type="text" placeholder="Password" class="login__input" id="loginpw" name="pw">
+            <input type="password" placeholder="Password" class="login__input" id="loginpw" name="pw">
           </div>
           <a href="#" class="login__forgot">비밀번호를 잊으셨나요? </a>
           
