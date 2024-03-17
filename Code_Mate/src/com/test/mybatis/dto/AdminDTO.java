@@ -3,8 +3,17 @@ package com.test.mybatis.dto;
 public class AdminDTO
 {
 	private String mem_code, id, pw, nickname, kdate, mbti;
-	private int post, comments;
+	private int post, comments, rn;
 	
+	
+	public int getRn()
+	{
+		return rn;
+	}
+	public void setRn(int rn)
+	{
+		this.rn = rn;
+	}
 	public String getMem_code()
 	{
 		return mem_code;

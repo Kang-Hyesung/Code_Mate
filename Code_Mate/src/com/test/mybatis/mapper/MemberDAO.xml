@@ -19,10 +19,12 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 	</select>
 	
 	<select id="login" resultType="com.test.mybatis.dto.MemberDTO" >
-		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
-		FROM MEMBER
+		SELECT M.MEM_CODE, M.ID, M.PW, M.NICKNAME, M.MBTI_CODE, ADMIN_CODE
+		FROM MEMBER M
+			LEFT JOIN ADMIN A ON M.MEM_CODE = A.MEM_CODE
 		WHERE PW = #{arg1} AND ID = #{arg0}
 	</select>
+
 	
 	<!-- 정수반환 하므로 resultType에 Integer 넣어준다. -->
 	<select id="count" resultType="java.lang.Integer">
@@ -91,31 +93,6 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 							JOIN MEMBER_APPLY ma ON rc.RC_CODE = MA.RC_CODE 
 							JOIN "MEMBER" m ON MA.MEM_CODE = M.MEM_CODE
 		WHERE ao.AP_CODE = #{arg0} AND MA.AR_CODE = 'AR0001' AND RC.MR_CODE = 'MR0001'
-	 </select>
-	 
-	  <!-- 개설신청코드로 팀장 mem_code 뽑기 -->
-	 <select id="getLeader_mem" resultType="java.lang.String">
-		SELECT m.MEM_CODE
-		FROM APP_OPENING ao JOIN ROLE_COMP rc ON ao.AP_CODE = rc.AP_CODE
-							JOIN MEMBER_APPLY ma ON rc.RC_CODE = MA.RC_CODE 
-							JOIN "MEMBER" m ON MA.MEM_CODE = M.MEM_CODE
-		WHERE ao.AP_CODE = #{arg0} AND MA.AR_CODE = 'AR0001' AND RC.MR_CODE = 'MR0001'
-	 </select>
-	 
-	 <!-- 개설 신청 코드로 팀장제외 팀원 뽑아내는 쿼리문 -->
-	<select id="getMember" resultType="com.test.mybatis.dto.MemberDTO" >
-		SELECT ma.MA_CODE, m.mem_code, m.nickname
-		FROM APP_OPENING ao JOIN ROLE_COMP rc ON ao.AP_CODE = rc.AP_CODE
-							JOIN MEMBER_APPLY ma ON rc.RC_CODE = MA.RC_CODE 
-							JOIN "MEMBER" m ON MA.MEM_CODE = M.MEM_CODE
-		WHERE ao.AP_CODE = #{arg0} AND MA.AR_CODE = 'AR0001' AND RC.MR_CODE != 'MR0001'
-	</select>
-	 
-	 <!-- ap_code 로 cp_code 가져오기 public String getCp_code(String ap_code); -->
-	 <select id="getCp_code" resultType="java.lang.String">
-		SELECT CP_code
-		FROM APP_OPENING ao JOIN C_PROJECT cp ON ao.AP_CODE = cp.AP_CODE
-		WHERE ao.AP_CODE = #{arg0}
 	 </select>
 	 
 </mapper>

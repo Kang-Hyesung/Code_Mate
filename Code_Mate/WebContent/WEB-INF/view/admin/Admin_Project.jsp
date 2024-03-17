@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
-String cp = request.getContextPath();
-System.out.println(cp);
+	String cp = request.getContextPath();
+	System.out.println(cp);
 %>
 <!DOCTYPE html>
 <html>
@@ -13,7 +13,8 @@ System.out.println(cp);
 <!-- BootStrap -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/banner_side.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=cp%>/css/admin_banner_side.css" />
 <!-- chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- JQuery -->
@@ -362,7 +363,7 @@ nav.pagination2 {
 }
 .btn {
 	line-height: 0px;
-	height: 30px;
+	height: 38px;
 }
 .ellipsis-content {
 	white-space: nowrap;
@@ -423,6 +424,7 @@ h5 {
  	$(document).ready(function() {
  		
  		$("#date_first, #date_sysdate").on("change", function() {
+ 			
  	    	var dateFirst = $("#date_first").val();
  	        var dateSysdate = $("#date_sysdate").val();
  	        var dateFirstObj = new Date(dateFirst);
@@ -454,7 +456,54 @@ h5 {
     function resetSysdate() {
         $("#date_sysdate").val(getFormattedDate());
     }
+    
+    var teamMemberStr = "";
 	
+    $(document).ready(function() {
+        $(".number a").click(function(e) {
+            e.preventDefault();
+            var cp_code = $(this).data("cp_code");
+            sendDataToController(cp_code);
+        });
+
+        function sendDataToController(cp_code) {
+            var url = "Project_team.action?cp_code=" + cp_code; 
+            $.ajax({
+                type: "GET", 
+                url: url,
+                dataType: "json",
+                success: function(jsonObj) 
+                {
+                    for (var i = 0; i < jsonObj.length; i++)
+                    {
+                    	
+	                    teamMemberStr += "	<tr>                                                                       ";
+						teamMemberStr += "        <td class='text-center nickname'>"+jsonObj[i].nickname+"</td>            ";
+						teamMemberStr += "        <td class='text-center member_role'>"+jsonObj[i].member_role+"</td>      ";
+						teamMemberStr += "        <td class='text-center backend_score'>"+jsonObj[i].backScore+"</td>      ";
+						teamMemberStr += "        <td class='text-center frontend_score'>" +jsonObj[i].frontScore+"</td>    ";
+					    teamMemberStr += "	</tr>                                                                      ";
+                    	                                                                                               
+                    }
+                    
+                    $(".teamList").html(teamMemberStr);
+                    
+                    teamMemberStr = "";
+                
+                },
+                error: function(xhr, status, error) {
+                	
+                    console.error("데이터 전송 실패: " + error);
+                }
+            });
+        }
+    });
+
+	function selChange() {
+		var sel = document.getElementById('cntPerPage').value;
+		location.href="boardlist.action?nowPage=${paging.nowPage}&cntPerPage="+sel;
+	}	
+    
 </script>
 </head>
 <body>
@@ -473,56 +522,15 @@ h5 {
 							<table class="table no-wrap">
 							<thead>
 								<tr class="text-center">
-									<th class="border-top-0">#</th>
-									<th class="border-top-0">팀원 이름</th>
-									<th class="border-top-0">아이디</th>
-									<th class="border-top-0">역활</th>
-									<th class="border-top-0">합류 날짜</th>
+									<th class="border-top-0">닉네임</th>
+									<th class="border-top-0">역할</th>
+									<th class="border-top-0">백엔드 점수</th>
+									<th class="border-top-0">프론트 점수</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td class="text-center">1</td>
-									<td class="text-center">강혜성</td>
-									<td class="text-center">hs12345</td>
-									<td class="text-center">팀장</td>
-									<td class="text-center">2023-01-03</td>
-								</tr>
-								<tr>
-									<td class="text-center">2</td>
-									<td class="text-center">이윤수</td>
-									<td class="text-center">ys12345</td>
-									<td class="text-center">백엔드</td>
-									<td class="text-center">2023-01-03</td>
-								</tr>
-								<tr>
-									<td class="text-center">3</td>
-									<td class="text-center">정한울</td>
-									<td class="text-center">hu12345</td>
-									<td class="text-center">프론트</td>
-									<td class="text-center">2023-01-03</td>
-								</tr>	
-								<tr>
-									<td class="text-center">4</td>
-									<td class="text-center">김지민</td>
-									<td class="text-center">jm12345</td>
-									<td class="text-center">프론트</td>
-									<td class="text-center">2023-01-03</td>
-								</tr>
-								<tr>
-									<td class="text-center">5</td>
-									<td class="text-center">길현욱</td>
-									<td class="text-center">hw12345</td>
-									<td class="text-center">백엔드</td>
-									<td class="text-center">2023-01-03</td>
-								</tr>
-								<tr>
-									<td class="text-center">6</td>
-									<td class="text-center">박범구</td>
-									<td class="text-center">bg12345</td>
-									<td class="text-center">백엔드</td>
-									<td class="text-center">2023-01-03</td>
-								</tr>																																	
+							<tbody class="teamList">
+
+																																	
 							</tbody>
 						</table>
 					</div>
@@ -532,68 +540,69 @@ h5 {
 	</div>
 	<!-- 모달 창 끝 -->
 	
-	<div class="row mainArea">
-		<div class="col-12 bannerMain">
-			<div class="row bannerArea">
-				<nav class="navbar bg-body-tertiary">
-					<div class="container-fluid nav nav-underline bannerMainBox">
-						<!--===========[Logo]===========-->
-						<a class="navbar-brand bannerLogo link" href="#"> <img
-							alt="Logo" class="bannerLogoImage d-inline-block align-text-top"
-							src="img/TestLogo.png">
-						</a>
-						<!--===========[Logo]===========-->
-						<span class="nav-link"><a href="#" class="link">프로젝트게시판</a></span>
-						<span class="nav-link"><a href="#" class="link">커리어게시판</a></span>
-						<span class="nav-link"><a href="#" class="link">포트폴리오게시판</a></span>
-						<!--=======[ member Icon ]=======-->
-						<div class="oneMember">
-							<div class="buttonBox">
-								<!--======[ search Button ]======-->
-								<button id="searchButton" class="btn btn-primary" type="button"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-									aria-controls="offcanvasTop">
-									<ion-icon name="search-outline"></ion-icon>
-								</button>
-								<!--======[ search Button ]======-->
-								<!--======[ chat Button ]======-->
-								<button id="chatButton" class="btn btn-primary" type="button"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-									aria-controls="offcanvasTop">
-									<ion-icon name="chatbubble-outline"></ion-icon>
-								</button>
-								<!--======[ chat Button ]======-->
-								<!--======[ alarmButton ]======-->
-								<button id="alarmButton" class="btn btn-primary" type="button"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-									aria-controls="offcanvasTop">
-									<ion-icon name="notifications"></ion-icon>
-								</button>
-								<!--======[ alarmButton ]======-->
-							</div>
-							<!-- end .buttonBox -->
-							<!-- 
-					<div id="profile">
-						<img class="memberImg" src="img/profileImg_1.png">
-					</div>
-					<span class="nickname" id="mem1">강구가구가구가</span>
-					<div class="gradeIcon">
-						🌱
-					</div>
-					 -->
-							<!-- 로그인/회원가입으로 이동 -->
-							<span class="nav-link log"><a href="Login.action"
-								class="link">로그인/회원가입</a></span>
-						</div>
-						<!-- end .oneMember -->
-						<!--=======[ member Icon ]=======-->
-					</div>
-			</div>
-			<!-- end .container-fluid -->
+<div class="row mainArea">
+
+	<div class="col-12 bannerMain">
+		<div class="row bannerArea">
+			<nav class="navbar bg-body-tertiary">
+			  <div class="container-fluid nav nav-underline bannerMainBox">
+			    
+			 	<!--===========[Logo]===========-->
+				<a class="navbar-brand bannerLogo link" href="Code_Mate.action">
+					<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
+				</a>
+				<!--===========[Logo]===========-->
+				
+				<span class="nav-link"><a href="#" class="link">프로젝트 게시판</a></span>
+				<span class="nav-link"><a href="#" class="link">커리어 게시판</a></span>
+				<span class="nav-link"><a href="#" class="link">포트폴리오 게시판</a></span>
+			
+			    
+			    <!--=======[ member Icon ]=======-->
+			    <div class="oneMember">
+					<div class="buttonBox">
+						<!--======[ search Button ]======-->
+
+				    </div><!-- end .buttonBox -->
+				</div><!-- end .oneMember -->
+			    <!--=======[ member Icon ]=======-->
+			    </div>
+			  	</div><!-- end .container-fluid -->
 			</nav>
-		</div>
-		<!-- end .row .bannerArea  -->
+		</div><!-- end .row .bannerArea  -->
 	</div>
+	
+	<!--===========[offCanvas]===========-->
+	<div class="col-12">
+		
+		
+		<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+		  
+		  
+		  <!--[ 검색창을 열었을 때 보여지는 내용 ]-->
+		  <div class="offcanvas-body">
+		  
+		  	<div class="row searchFormArea align-self-center">
+		  	
+				<div class="col-2">
+					<ion-icon name="search-circle"></ion-icon>
+				</div><!-- end .col-1 -->
+				
+				<div class="col-8">
+				    <!--===========[searchForm]===========-->
+				    <form class="d-flex" role="search">
+				      <input class="form-control me-2 searchTextForm" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+				      <button class="btn btn-outline-success" type="submit">Search</button>
+				    </form>
+				    <!--===========[searchForm]===========-->
+			    </div><!-- end .col-8 -->
+			    
+		    </div><!-- end .row -->
+		    
+		  </div><!-- end .offcanvas-body -->
+		</div>
+	</div>
+	
 	<!--===========[offCanvas]===========-->
 	<div class="col-12">
 		<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop"
@@ -660,12 +669,12 @@ h5 {
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">문의사항<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<a href="Inquiry_Faq.action" class="majorTopic nav-link link">문의사항<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">1대1문의</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">FAQ</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">신고 관련 문의</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_1v1.action" class="nav-link link">1대1문의</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_Faq.action" class="nav-link link">FAQ</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_Report.action" class="nav-link link">신고 관련 문의</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -715,24 +724,8 @@ h5 {
 				</div>
 			</div>   
 			<div class="col-md-9 bordered-div" style="width: 76.3%; height: 86%;">
-				<h5>모든 프로젝트 조회</h5>
-				<div class="date-class">
-					<span style="margin-right: 14px;">기간별 검색</span>
-					<input class="date-input" id="date_first" type="date" data-placeholder="날짜 선택" required aria-required="true" ></input>
-					<span class="date-span">-</span>
-					<input class="date-input" id= "date_sysdate" type="date" data-placeholder="날짜 선택" required aria-required="true"></input>
-				</div>
-				
-				<div class="row-4 comm-div">
-					<select class="com-select">
-						<option selected>선택하세요</option>
-						<option value="1">제목</option>
-						<option value="2">프로젝트 이름</option>
-						<option value="3">글쓴이명</option>
-					</select>
-					<input type="text" class="com-input">
-					<button  type="button" class="btn btn-sm btn-secondary com-btn">검색</button>
-				</div>
+				<h5 style="margin-bottom: 41px;">모든 프로젝트 조회</h5>
+
 				<div class="table-responsive">
 					<table class="table no-wrap">
 						<thead>
@@ -745,40 +738,53 @@ h5 {
 								<th class="border-top-0">프로젝트 개설일</th>
 								<th class="border-top-0">프로젝트 종료일</th>
 								<th class="border-top-0">조회수</th>
-								<th class="border-top-0">관리</th>
+								<!-- <th class="border-top-0">관리</th> -->
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td class="text-center">1</td>
-								<td class="text-center"><a href="#">프로젝트명</a></td>
-								<td class="text-center">강혜성</td>
-								<td class="text-center"><a href="#" data-bs-toggle="modal"
-									data-bs-target="#teamMem_Modal">6</a></td>
-								<td class="text-center">2023-01-03</td>
-								<td class="text-center">2023-01-07</td>
-								<td class="text-center" >2024-03-18</td>
-								<td class="text-center" >375</td>
-								<td class="text-center"><a href="">
+							<c:forEach var="member" items="${project_list}">
+						    <tr>
+						        <td class="text-center">${member.cp_code}</td>
+						        <td class="text-center">${member.prj_name}</td>
+						        <td class="text-center">${member.nickname}</td>
+						        <td class="text-center number"><a href="#" data-bs-toggle="modal"
+									data-bs-target="#teamMem_Modal" data-cp_code="${member.cp_code }">${member.numbers}</a></td>
+						        <td class="text-center">${member.kdate}</td>
+						        <td class="text-center">${member.sdate}</td>
+						        <td class="text-center">${member.edate}</td>
+						        <td class="text-center">${member.views}</td>
+<!-- 								<td class="text-center"><a href="">
 									<span class="material-symbols-outlined" style="font-size: 22px; color: rgb(168 172 177);">settings</span></a>
-								</td>
-							</tr>
+								</td> -->
+						    </tr>
+						</c:forEach>	
 						</tbody>
 					</table>
+					<div style="display: block; text-align: center;">
+						<c:if test="${paging.startPage != 1 }">
+							<a
+								href="/Admin_Project.action?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+						</c:if>
+						<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
+							var="p">
+							<c:choose>
+								<c:when test="${p == paging.nowPage }">
+									<b>${p }</b>
+								</c:when>
+								<c:when test="${p != paging.nowPage }">
+									<a
+										href="<%=cp %>/Admin_Project.action?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${paging.endPage != paging.lastPage}">
+							<a
+								href="<%=cp %>/Admin_Project.action?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+						</c:if>
+					</div>					
 				</div>
-				<nav aria-label="...">
-					<ul class="pagination">
-						<li class="page-item pagination2"><a class="page-link">Previous</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">1</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">2</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">3</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">Next</a></li>
-					</ul>
-				</nav>
+
+
 			</div>
 			<!-- <div class="col-3">사이드를 여기에 작성하세요</div> -->
 		</div>

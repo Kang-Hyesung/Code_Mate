@@ -1,9 +1,32 @@
+<%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
-String cp = request.getContextPath();
-System.out.println(cp);
+	String cp = request.getContextPath();
+	System.out.println(cp);
+%>
+<%
+	
+	String login = "";
+	String logout = "";
+	String name = "";
+	
+	if(request.getSession().getAttribute("member") != null)
+	{
+		login = "";
+		logout = "display:none;";
+		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
+		
+		name = member.getNickname();
+	}
+	else
+	{
+		login = "display:none;";
+		logout = "";
+	}
+		
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -16,7 +39,7 @@ System.out.println(cp);
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
-	href="<%=cp%>/css/banner_side.css" />
+	href="<%=cp%>/css/admin_banner_side.css" />
 <!-- chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- JQuery -->
@@ -441,13 +464,154 @@ h5 {
 
 .btn-secondary { 
 
-	--bs-btn-hover-bg: #1FC1C0;
+    --bs-btn-bg: #ffffff;
+    --bs-btn-hover-bg: #4f59ca;
+    border: none;
 
 }
 
 </style>
+<script type="text/javascript">
+	
+	
+	$(function() {
+		
+	    $(".material-symbols-outlined").click(function() {
+	    	
+	        var tr = $(this).closest("tr");
+	        var mem_code = tr.find("td:eq(0)").html();
+	        var id = tr.find("td:eq(1)").html();
+	        var pw = tr.find("td:eq(2)").html();
+	        var nickname = tr.find("td:eq(3)").html();
+	        var mbti = tr.find("td:eq(7)").html();
+	        
+	        $("#mem_code").val(mem_code);
+	        $("#id").val(id);
+	        $("#pw").val(pw);
+	        $("#nickname").val(nickname);
+	        $("#mbti").val(mbti);
+	        
+	    });
+	});
+	
+	$(function() {
+		
+	    $("#save").click(function() {
+	    	
+	        $("#formsave").submit();
+	    });
+	});
+	
+	$(function() {
+		
+		$(".delete").click(function()
+		{
+
+ 			if (confirm("정말 이 회원을 탈퇴시키겠습니까?"))
+			{		   
+ 				var tr = $(this).closest("tr");
+				var mem_code = tr.find("td:eq(0)").html();
+				$(location).attr("href", "Member_delete.action?mem_code=" + mem_code);
+				
+			}  
+					
+		}); 
+	});
+	
+	$(document).ready(function () {
+	    // 페이지가 로드될 때 초기 데이터 로드
+	    //getPagedData(1);
+
+	    // 페이지 번호 클릭 시
+	    $(document).on('click', '.pagination a', function (e) {
+/* 	        e.preventDefault();
+	        var pageNum = $(this).text();
+	        getPagedData(pageNum); */
+	        alert("번호 클릭 시");
+	    });
+
+	    // 이전 페이지
+	    $(document).on('click', '.pagination .previous', function (e) {
+/* 	        e.preventDefault();
+	        var currentPage = parseInt($('.pagination .active').text());
+	        if (currentPage > 1) {
+	            getPagedData(currentPage - 1);
+	        } */
+	        
+	        alert("이전 페이지");
+	    });
+
+	    // 다음 페이지
+	    $(document).on('click', '.pagination .next', function (e) {
+/* 	        e.preventDefault();
+	        var currentPage = parseInt($('.pagination .active').text());
+	        var totalPage = parseInt($('.pagination .total').text());
+	        if (currentPage < totalPage) {
+	            getPagedData(currentPage + 1);
+	        } */
+	        
+	        alert("다음페이지");
+	    });
+
+	});
+	
+	function selChange() {
+		var sel = document.getElementById('cntPerPage').value;
+		location.href="boardlist.action?nowPage=${paging.nowPage}&cntPerPage="+sel;
+	}
+
+</script>
 </head>
 <body>
+
+	<!-- 모달 창 -->
+	<div class="modal fade" id="updateModal" tabindex="-1"
+		aria-labelledby="penaltyModalLabel" aria-hidden="true">
+		<div
+			class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="reportModalLabel">멤버 수정</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="Member_update.action" method="get" id="formsave">
+						<div class="mb-3">
+							<label for="recipient-name" class="col-form-label">멤버코드</label> <input
+								type="text" class="form-control" id="mem_code" name="mem_code" readonly="readonly">
+						</div>
+						<div class="mb-3">
+							<label for="recipient-name" class="col-form-label">ID</label>
+							 <input type="text" class="form-control" id="id" name="id">
+						</div>
+						<div class="mb-3">
+							<label for="recipient-name" class="col-form-label">PW</label>
+							 <input type="text" class="form-control" id="pw" name="pw">
+						</div>
+						<div class="mb-3">
+							<label for="recipient-name" class="col-form-label">닉네임</label>
+							 <input type="text" class="form-control" id="nickname" name="nickname">
+						</div>
+						<div class="mb-3">
+							<label for="message-text" class="col-form-label">MBTI</label> 
+							<select class="form-select" aria-label="Example select with button addon" id="mbti" name="mbti">
+								<c:forEach var="admin" items="${mbti_list}">
+									<option value="<c:out value="${admin.mbti}"/>"><c:out value="${admin.mbti }" />
+								</c:forEach>
+							</select>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary" id="save">수정하기</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 <div class="row mainArea">
 
 	<div class="col-12 bannerMain">
@@ -456,8 +620,8 @@ h5 {
 			  <div class="container-fluid nav nav-underline bannerMainBox">
 			    
 			 	<!--===========[Logo]===========-->
-				<a class="navbar-brand bannerLogo link" href="#">
-					<img alt="Logo" class="bannerLogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
+				<a class="navbar-brand bannerLogo link" href="Code_Mate.action">
+					<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 				</a>
 				<!--===========[Logo]===========-->
 				
@@ -470,34 +634,8 @@ h5 {
 			    <div class="oneMember">
 					<div class="buttonBox">
 						<!--======[ search Button ]======-->
-						<button id="searchButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="search-outline"></ion-icon>
-						</button>
-						<!--======[ search Button ]======-->
-		
-						<!--======[ chat Button ]======-->
-						<button id="chatButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="chatbubble-outline"></ion-icon>
-						</button>
-						<!--======[ chat Button ]======-->
-		
-						<!--======[ alarmButton ]======-->
-						<button id="alarmButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="notifications"></ion-icon>
-						</button>				
-						<!--======[ alarmButton ]======-->
+
 				    </div><!-- end .buttonBox -->
-				    <!-- 
-					<div id="profile">
-						<img class="memberImg" src="img/profileImg_1.png">
-					</div>
-					<span class="nickname" id="mem1">강구가구가구가</span>
-					<div class="gradeIcon">
-						🌱
-					</div>
-					 -->
-					 <!-- 로그인/회원가입으로 이동 -->
-					<span class="nav-link log" ><a href="Login.action" class="link">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
 			    <!--=======[ member Icon ]=======-->
 			    </div>
@@ -505,7 +643,37 @@ h5 {
 			</nav>
 		</div><!-- end .row .bannerArea  -->
 	</div>
-
+	
+	<!--===========[offCanvas]===========-->
+	<div class="col-12">
+		
+		
+		<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+		  
+		  
+		  <!--[ 검색창을 열었을 때 보여지는 내용 ]-->
+		  <div class="offcanvas-body">
+		  
+		  	<div class="row searchFormArea align-self-center">
+		  	
+				<div class="col-2">
+					<ion-icon name="search-circle"></ion-icon>
+				</div><!-- end .col-1 -->
+				
+				<div class="col-8">
+				    <!--===========[searchForm]===========-->
+				    <form class="d-flex" role="search">
+				      <input class="form-control me-2 searchTextForm" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+				      <button class="btn btn-outline-success" type="submit">Search</button>
+				    </form>
+				    <!--===========[searchForm]===========-->
+			    </div><!-- end .col-8 -->
+			    
+		    </div><!-- end .row -->
+		    
+		  </div><!-- end .offcanvas-body -->
+		</div>
+	</div>
 	
 	<!--===========[offCanvas]===========-->
 	<div class="col-12">
@@ -580,12 +748,12 @@ h5 {
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">문의사항<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<a href="Inquiry_Faq.action" class="majorTopic nav-link link">문의사항<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">1대1문의</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">FAQ</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">신고 관련 문의</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_1v1.action" class="nav-link link">1대1문의</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_Faq.action" class="nav-link link">FAQ</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_Report.action" class="nav-link link">신고 관련 문의</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -708,9 +876,9 @@ h5 {
 						<thead>
 							<tr class="text-center">
 								<th class="border-top-0">#</th>
-								<th class="border-top-0">닉네임</th>
 								<th class="border-top-0">아이디</th>
 								<th class="border-top-0">비밀번호</th>
+								<th class="border-top-0">닉네임</th>
 								<th class="border-top-0">글 수</th>
 								<th class="border-top-0">댓글 수</th>
 								<th class="border-top-0">가입일</th>
@@ -730,24 +898,38 @@ h5 {
 						        <td class="text-center">${member.kdate}</td>
 						        <td class="text-center">${member.mbti}</td>
 						        <td class="text-center">
-						            <a href=""><span class="material-symbols-outlined" style="font-size: 21px;">edit_square</span></a>
+						            <a href="#" data-bs-toggle="modal"
+									data-bs-target="#updateModal"><span class="material-symbols-outlined" style="font-size: 21px;">edit_square</span></a>
 						            <span class="spanicon">/</span>
-						            <a href=""><span class="material-symbols-outlined" style="font-size: 21px;">delete_forever</span></a>
+						            <a style="cursor:pointer;"><span class="material-symbols-outlined delete" style="font-size: 21px;">delete_forever</span></a>
 						        </td>
 						    </tr>
 						</c:forEach>
 						</tbody>
 					</table>
 				</div>
-				<nav aria-label="...">
-					<ul class="pagination">
-						<li class="page-item pagination2"><a class="page-link">Previous</a></li>
-						<li class="page-item pagination2"><a class="page-link" href="#">1</a></li>
-						<li class="page-item pagination2"><a class="page-link" href="#">2</a></li>
-						<li class="page-item pagination2"><a class="page-link" href="#">3</a></li>
-						<li class="page-item pagination2"><a class="page-link" href="#">Next</a></li>
-					</ul>
-				</nav>
+				<div style="display: block; text-align: center;">
+					<c:if test="${paging.startPage != 1 }">
+						<a
+							href="/Member.action?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+					</c:if>
+					<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
+						var="p">
+						<c:choose>
+							<c:when test="${p == paging.nowPage }">
+								<b>${p }</b>
+							</c:when>
+							<c:when test="${p != paging.nowPage }">
+								<a
+									href="<%=cp %>/Member.action?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${paging.endPage != paging.lastPage}">
+						<a
+							href="<%=cp %>/Member.action?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+					</c:if>
+				</div>
 			</div>
 			<!-- <div class="col-3">사이드를 여기에 작성하세요</div> -->
 		</div>

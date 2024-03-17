@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">				
+
+<!-- 루트 엘리먼트 -->
+<!-- namespace는 인터페이스 경로를 지정하면 된다.
+인터페이스와 연결되는 무언가를 만들겠다.          
+IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
+<mapper namespace="com.test.mybatis.dao.IInquiryDAO">
+
+	<!-- list()를 구현하기 위해서 select 가 필요하다 -->
+	<!-- id 속성에는 메소드 이름이 들어감 , 개행 공백 규칙 sqldeveloper과 같음-->
+	<!-- resultType : 반환하는 결과 타입 select 결과 MemberDTO 타입이 하나씩 나온다.-->
+	<select id="list" resultType="com.test.mybatis.dto.InquiryDTO">
+		SELECT FAQ_CODE, TILTE, CONTENT, KDATE, ADMIN_CODE
+		FROM FAQ
+		ORDER BY FAQ_CODE
+	</select>
+	
+	<!-- 정수반환 하므로 resultType에 Integer 넣어준다. -->
+
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM FAQ
+	</select>
+
+	<!-- parameterType="com.test.mybatis.MemberDTO" -->
+	<!-- <insert id="add"> -->
+	<!-- <insert id="add" parameterType="String"> -->
+<!-- 		INSERT INTO FAQ(FAQ_CODE, TILTE, CONTENT, KDATE, ADMIN_CODE)
+		VALUES(FAQ_SEQ.NEXTVAL, #{tilte}, #{content}, #{kdate}, #{admin_code})
+	</insert> -->
+<!-- 	
+	<delete id="remove">
+		DELETE
+		FROM FAQ
+		WHERE FAQ_CODE = ${faq_code}
+	</delete>
+ -->	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,7 +7,18 @@ package com.test.mybatis.dto;
 
 public class MemberDTO
 {	
-	private String mem_code, id, pw, nickname, kdate, mbti_code;
+	private String mem_code, id, pw, nickname, kdate, mbti_code, admin_code;
+	
+
+	public String getAdmin_code()
+	{
+		return admin_code;
+	}
+
+	public void setAdmin_code(String admin_code)
+	{
+		this.admin_code = admin_code;
+	}
 
 	public String getMem_code()
 	{
