@@ -318,15 +318,13 @@ ion-icon[name="search-circle"]
 }
 
 /* 회원 프로필이 들어갈 영역 지정 */
-#profile
-{
-	width: 40px;
-	height: 40px;
-	/* border: 1px solid blue; */
-	border-radius: 50%;
-	overflow: hidden;
-	/* margin: 20px 0 5px 5px; */
-	
+#profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    bottom: 4px;
 }
 
 
@@ -340,12 +338,13 @@ ion-icon[name="search-circle"]
 }
 
 /* 실력 등급 아이콘 이미지를 감싸는 div 영역 */
-.gradeIcon 
-{
+.gradeIcon {
     display: inline-block;
     width: 25px;
     height: 25px;
     overflow: hidden;
+    position: relative;
+    top: 4px;
 }
 
 /* 실력 등급 아이콘 이미지 스타일 */
@@ -357,15 +356,11 @@ img.skillGradeIconImg
 }
 
 /* 회원 닉네임 */
-.nickname
-{
-	/* margin: 25px 0px 25px 5px; */
-	+-size: 15px;
-	font-weight: bold;
-	line-height: 33px;
-	color: #2f4047;
-	margin: 0 5px 0 5px;
-	
+.nickname {
+    font-weight: bold;
+    line-height: 33px;
+    color: #2f4047;
+    padding: 0px 8px;
 }
 
 
@@ -610,3 +605,11 @@ img.skillGradeIconImg
     color: var(--bs-btn-hover-color);
     background-color: #4f59ca;
     }
+.nicknamelink{text-decoration: none; color:black;}
+.logout {
+    border: 1px solid black;
+    position: absolute;
+    bottom: -8px;
+    right: 223px;
+	display: none;
+}

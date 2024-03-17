@@ -1113,9 +1113,9 @@
 				</a>
 				<!--===========[Logo]===========-->
 				
-				<span class="nav-link"><a href="#" class="link">프로젝트 게시판</a></span>
-				<span class="nav-link"><a href="#" class="link">커리어 게시판</a></span>
-				<span class="nav-link"><a href="#" class="link">포트폴리오 게시판</a></span>
+				<span class="nav-link"><a href="ProjectList.action" class="link">프로젝트 게시판</a></span>
+				<span class="nav-link"><a href="boardlist.action" class="link">Q&A 게시판</a></span>
+				<span class="nav-link"><a href="portfoliolist.action" class="link">포트폴리오 게시판</a></span>
 			
 			    
 			    <!--=======[ member Icon ]=======-->

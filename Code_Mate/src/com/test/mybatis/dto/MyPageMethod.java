@@ -50,10 +50,15 @@ public class MyPageMethod
 			result[0] = cp + "/img/grade_icon/5_pear.png";
 			result[1] = "열매";
 		}
-		else if (skillScore >= 1501)
+		else if (skillScore <= 1600)
 		{
 			result[0] = cp + "/img/grade_icon/6_tree.png";
 			result[1] = "나무";
+		}
+		else if (skillScore >= 1601)
+		{
+			result[0] = cp + "/img/grade_icon/7_forest.png";
+			result[1] = "숲";
 		}
 
 		return result;

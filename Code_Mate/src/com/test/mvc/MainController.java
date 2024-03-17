@@ -5,6 +5,7 @@
 
 package com.test.mvc;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,7 +27,8 @@ import com.test.mybatis.dao.IProjectListDAO;
 import com.test.mybatis.dao.IProjectPageDAO;
 import com.test.mybatis.dao.IQnaListDAO;
 import com.test.mybatis.dto.MemberDTO;
-import com.test.mybatis.dto.MyPageMethod;
+import com.test.mybatis.dto.Milestone_MemberEvaluDTO;
+import com.test.mybatis.MyPageMethod;
 import com.test.mybatis.dto.ProjectPageDTO;
 
 @Controller
@@ -36,10 +38,29 @@ public class MainController
 	private SqlSession sqlSession;
 	
 	@RequestMapping(value="/Code_Mate.action", method=RequestMethod.GET)
-	public String hello(Model model, HttpServletRequest request)
+	public String hello(Model model, HttpServletRequest request, HttpSession session)
 	{	
 		IProjectListDAO pjdao = sqlSession.getMapper(IProjectListDAO.class);
 		IQnaListDAO qnadao = sqlSession.getMapper(IQnaListDAO.class);
+		
+		// 점수 
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		int backendScore;
+		int frontendScore;
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
 		
 		model.addAttribute("list", pjdao.list());
 		model.addAttribute("qnalist", qnadao.qnalist());
