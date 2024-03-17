@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
+
+<mapper namespace="com.test.mybatis.dao.IProjectJoinDAO">
+	<!-- 프로젝트 -->
+	<select id="project" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT AP.AP_CODE, AP.TITLE, AP.SUMMARY, AP.SDATE, AP.EDATE, AP.CONTENT, AP.KDATE
+        , AP.NUMBERS, AP.VIEWS, M.MEM_CODE, M.NICKNAME, SYSDATE
+        , CASE
+            WHEN AP.SDATE > SYSDATE THEN '모집중'
+            WHEN SYSDATE >= AP.SDATE THEN '모집완료'
+            ELSE ' ' END AS STATUS
+		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+		WHERE AP.AP_CODE = #{arg0}
+	</select>
+	
+	<!-- 뷰 수정 -->
+	<update id="updatepj">
+		UPDATE APP_OPENING
+		SET VIEWS = (VIEWS+1)
+		WHERE AP_CODE = #{arg0}
+	</update>
+	
+	
+	
+	<!-- 태그 -->
+	
+	<select id="tag" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT AP_CODE, TAG_NAME
+		FROM OPEN_TAG
+	</select>
+	
+	<!-- 전체 댓글 -->
+	
+	<select id="comment" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT NVL(COUNT(AO.AC_CODE),0) AS COUNT, AP.AP_CODE
+		FROM AO_COMMENT AO RIGHT JOIN APP_OPENING AP ON AO.AP_CODE = AP.AP_CODE
+		GROUP BY AP.AP_CODE
+	</select>
+	
+	<!-- 핫한 10위 -->
+	
+	<select id="hotpj" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT TITLE, AP_CODE
+		FROM (
+		    SELECT TITLE, AP_CODE
+		    FROM APP_OPENING
+		    WHERE 30 >= (SYSDATE - KDATE)
+		    ORDER BY VIEWS DESC
+		    )
+		WHERE 10 >= ROWNUM
+	</select>
+	
+	<!-- 새로운 프젝 -->
+	
+	<select id="newpj" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT TITLE, NICKNAME, TO_CHAR(KDATE, 'YYYY-MM-DD') AS KDATE
+		FROM (
+		    SELECT AP.TITLE, M.NICKNAME, AP.KDATE
+		    FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+		    ORDER BY KDATE DESC
+		    )
+		WHERE 2 >= ROWNUM
+	</select>
+	
+	<!-- 왼쪽 태그들 -->
+	
+	<select id="lefttag" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT TAG_NAME
+		FROM OPEN_TAG
+		WHERE 8 >= ROWNUM
+	</select>
+	
+	<!-- 프론트 인원수 -->
+	
+	<select id="frontnum" resultType="java.lang.Integer">
+		SELECT RC_NUMBER
+		FROM ROLE_COMP
+		WHERE AP_CODE = #{arg0} AND MR_CODE = 'MR0003'
+	</select>
+	
+	<!-- 백 인원수 -->
+	
+	<select id="backnum" resultType="java.lang.Integer">
+		SELECT RC_NUMBER
+		FROM ROLE_COMP
+		WHERE AP_CODE = #{arg0} AND MR_CODE = 'MR0002'
+	</select>
+	
+	<!-- 점수들 -->
+	
+	<select id="score" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT AVG(BACKEND_SCORE) AS BACKEND_SCORE, AVG(FRONTEND_SCORE) AS FRONTEND_SCORE, AVG(MANNER_SCORE) AS MANNER_SCORE
+		FROM PJ_MEMBER_SCORE_INFO_VIEW
+		WHERE P_MEM_CODE = #{arg0}
+		GROUP BY P_MEM_CODE
+	     , P_NICKNAME
+	     , BACKEND_SCORE, FRONTEND_SCORE, MANNER_SCORE
+	</select>
+	
+	<!-- 나이 조건 -->
+	
+	<select id="agecondition" resultType="java.lang.Integer">
+		SELECT RANGE
+		FROM AGE_VIEW
+		WHERE AP_CODE = #{arg0}
+	</select>
+	
+	<!-- 프론트 조건 -->
+	
+	<select id="frontcondition" resultType="java.lang.String">
+		SELECT NAME
+		FROM FGRADE_VIEW
+		WHERE AP_CODE = #{arg0}
+	</select>
+	
+	<!-- 백엔드 조건 -->
+	
+	<select id="backcondition" resultType="java.lang.String">
+		SELECT NAME
+		FROM GRADE_VIEW
+		WHERE AP_CODE = #{arg0}
+	</select>
+	
+	<!-- 성별 조건 -->
+	
+	<select id="gendercondition" resultType="java.lang.String">
+		SELECT GENDER
+		FROM GENDER_VIEW
+		WHERE AP_CODE = #{arg0}
+	</select>
+	
+	<!-- 매너 조건 -->
+	
+	<select id="mannercondition" resultType="java.lang.Double">
+		SELECT MIN
+		FROM MS_FILTER
+		WHERE AP_CODE = #{arg0}
+	</select>
+	
+	
+	<!-- 리스트(미정) -->
+	
+	<select id="lists" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT M.NICKNAME, RC.MR_CODE, AR.AR_CODE, RC.AP_CODE, M.MEM_CODE
+		FROM MEMBER_APPLY MA FULL JOIN ROLE_COMP RC ON MA.RC_CODE = RC.RC_CODE
+		                    FULL JOIN A_RESULT AR ON MA.AR_CODE = AR.AR_CODE
+		                    FULL JOIN MEMBER M ON MA.MEM_CODE = M.MEM_CODE
+		WHERE AR.AR_CODE = 'AR0000'  AND RC.AP_CODE = #{arg0} AND (RC.MR_CODE = 'MR0002' OR RC.MR_CODE = 'MR0003')
+		ORDER BY MA.KDATE DESC
+		
+	</select>
+	
+	<!-- 리스트(확정) -->
+	
+	<select id="haplists" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT M.NICKNAME, RC.MR_CODE, AR.AR_CODE, RC.AP_CODE, M.MEM_CODE
+		FROM MEMBER_APPLY MA FULL JOIN ROLE_COMP RC ON MA.RC_CODE = RC.RC_CODE
+		                    FULL JOIN A_RESULT AR ON MA.AR_CODE = AR.AR_CODE
+		                    FULL JOIN MEMBER M ON MA.MEM_CODE = M.MEM_CODE
+		WHERE AR.AR_CODE = 'AR0001'  AND RC.AP_CODE = #{arg0} AND (RC.MR_CODE = 'MR0002' OR RC.MR_CODE = 'MR0003')
+		ORDER BY MA.KDATE DESC
+		
+	</select>
+	
+	
+	<!-- RC코드, 인원수 (프론트) -->
+	
+	<select id="frcnumlists" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT RC_CODE, RC_NUMBER
+		FROM ROLE_COMP
+		WHERE MR_CODE = 'MR0003' AND AP_CODE = #{arg0}
+		
+	</select>
+	
+	<!-- RC코드, 인원수 (백엔드) -->
+	
+	<select id="brcnumlists" resultType="com.test.mybatis.dto.ProjectJoinDTO">
+		SELECT RC_CODE, RC_NUMBER
+		FROM ROLE_COMP
+		WHERE MR_CODE = 'MR0002' AND AP_CODE = #{arg0}
+		
+	</select>
+	
+	<!-- 멤버 지원 추가 (프론트)프론트 rc 넣기 -->
+	
+	<insert id="fmemapply">
+		INSERT INTO MEMBER_APPLY(MA_CODE, CONTENT, DDATE, MEM_CODE, RC_CODE, AR_CODE)
+		VALUES (TO_CHAR('MA'||LPAD(MA_SEQ.NEXTVAL,4,0)), '안녕하세요', TO_DATE('1111-11-11', 'YYYY-MM-DD'), #{arg0}, #{arg1}, 'AR0000')
+		
+	</insert>
+	
+	<!-- 멤버 지원 추가 (백엔드)백엔드rc 넣기-->
+	
+	<insert id="bmemapply">
+		INSERT INTO MEMBER_APPLY(MA_CODE, CONTENT, DDATE, MEM_CODE, RC_CODE, AR_CODE)
+		VALUES (TO_CHAR('MA'||LPAD(MA_SEQ.NEXTVAL,4,0)), '안녕하세요', TO_DATE('1111-11-11', 'YYYY-MM-DD'), #{arg0}, #{arg1}, 'AR0000')
+		
+	</insert>
+	
+	<!-- 멤버 지원 -> 확정(백엔드) -->
+	
+	<update id="bmemupdate">
+		UPDATE MEMBER_APPLY
+		SET DDATE = TO_DATE(SYSDATE,'YYYY-MM-DD') , AR_CODE = 'AR0001'
+		WHERE RC_CODE = #{arg0} AND MEM_CODE = #{arg1}
+	</update>
+	
+	<!-- 멤버 지원 -> 확정(프론트) -->
+	
+	<update id="fmemupdate">
+		UPDATE MEMBER_APPLY
+		SET DDATE = TO_DATE(SYSDATE,'YYYY-MM-DD'), AR_CODE = 'AR0001'
+		WHERE RC_CODE = #{arg0} AND MEM_CODE = #{arg1}
+	</update>
+	
+	<!-- 확정 인원수(백엔드) -->
+	
+	<select id="bcount" resultType="java.lang.Integer">
+		SELECT NVL(COUNT(*),0) AS COUNT
+		FROM MEMBER_APPLY MA FULL JOIN ROLE_COMP RC ON MA.RC_CODE = RC.RC_CODE
+		                    FULL JOIN A_RESULT AR ON MA.AR_CODE = AR.AR_CODE
+		WHERE AR.AR_CODE = 'AR0001' AND RC.MR_CODE = 'MR0002' AND RC.AP_CODE = #{arg0}
+		
+	</select>
+	
+	<!-- 확정 인원수(프론트) -->
+	
+	<select id="fcount" resultType="java.lang.Integer">
+		SELECT NVL(COUNT(*),0) AS COUNT
+		FROM MEMBER_APPLY MA FULL JOIN ROLE_COMP RC ON MA.RC_CODE = RC.RC_CODE
+		                    FULL JOIN A_RESULT AR ON MA.AR_CODE = AR.AR_CODE
+		WHERE AR.AR_CODE = 'AR0001' AND RC.MR_CODE = 'MR0003' AND RC.AP_CODE = #{arg0}
+		
+	</select>
+	
+	<!-- RC코드 -->
+	
+	<select id="rccode" resultType="java.lang.String">
+		SELECT RC_CODE
+		FROM ROLE_COMP
+		WHERE MR_CODE = #{arg0} AND AP_CODE = #{arg1}
+		
+	</select>
+	 
+</mapper>

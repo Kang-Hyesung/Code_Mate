@@ -16,13 +16,25 @@ public interface IProjectApplyDAO
 	// 성별 필터링
 	public int genderinsert(String gender_code, String ap_code);
 	
-	// 등급 필터링
-	public int gradeinsert(String grade_code, String ap_code);
+	// 백엔드 등급 필터링
+	public int backgradeinsert(String grade_code, String ap_code);
+	
+	// 프론트 등급 필터링
+	public int frontgradeinsert(String grade_code, String ap_code);
 	
 	// 연령 필터링
 	public int ageinsert(String ap_code, String aa_code);
 	
 	// 매너 필터링
 	public int mannerinsert(double min, String ap_code);
+	
+	// 팀장 직무 추가
+	public int leaderins(String ap_code);
+	
+	// 백엔드 직무 추가
+	public int backins(int back, String ap_code);
+	
+	// 프론트 직무 추가
+	public int frontins(int front, String ap_code);
 	
 }
