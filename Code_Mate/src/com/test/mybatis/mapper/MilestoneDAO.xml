@@ -5,6 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.test.mybatis.dao.IMilestoneDAO">
 
+	<!-- 마일스톤 체크리스트 항목들을 반환 -->
+	<!-- public ArrayList<Milestone_CheckListDTO> milestone_checkList(String prj_cp_code, String step); -->
 	<select id="milestone_checkList" resultType="com.test.mybatis.dto.Milestone_CheckListDTO">
 		SELECT M.MEM_CODE       AS "MEM_CODE"
 		     , MA.MA_CODE       AS "MA_CODE"
@@ -55,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE CHECKLIST_CODE = #{arg0}
 	</select>
 	
+	
 	<!-- 마일스톤 체크리스트 체크 혹은 체크 해제 액션 -->
 	<!-- public void checkingAction(String checklist_code, String is_checked_code); -->
 	
@@ -70,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE CK_CODE = #{arg0}
 	</update>
 
+
 	<!-- 마일스톤 항목 추가 입력 액션 -->
 	<!-- public void checkListInserting(String prj_cp_code, String ma_code, String step, String checklist_content); -->
 	<insert id="checkListInserting">
@@ -77,7 +81,182 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		call PRC_MILE_INSERTING(#{arg0}, #{arg1}, #{arg2}, #{arg3})
 	}
 	</insert>
+	
+	
+	<!-- 수정 버튼 클릭시, 매개변수로 받은 CK_CODE 에 해당하는 텍스트 내용을 반환 -->
+	<!-- public String searchCheckList(String checklist_code); -->
+	
+	<select id="searchCheckList" resultType="java.lang.String">
+		SELECT CONTENT
+		FROM CHECKLIST
+		WHERE CK_CODE = #{arg0}
+	</select>
+	
+	
+	<!-- 마일스톤 항목 수정 액션 -->
+	<!-- public void checkListEditOk(String checklist_code, String ma_code, String checklist_content); -->
+	
+	<update id="checkListEditOk">
+		UPDATE CHECKLIST
+		SET CONTENT = #{arg2}
+		  , MA_CODE = #{arg1}
+		  , CC_CODE = 'CC0001'
+		  , KDATE = SYSDATE
+		WHERE CK_CODE = #{arg0}
+	</update>
+	
+	
+	<!-- 마일스톤 항목 삭제 액션 -->
+	<!-- public void checkListDelOk(String checklist_code); -->
+	<delete id="checkListDelOk">
+		DELETE 
+		FROM CHECKLIST
+		WHERE CK_CODE = #{arg0}
+	</delete>
+	
+	
+	
+	<!-- 개설확정코드, 로그인한 회원의 멤버코드로 직위 반환 -->
+	<!-- public String whatIsMyMemberRole(String cp_code, String mem_code); -->
+	<select id="whatIsMyMemberRole" resultType="java.lang.String">
+		SELECT P_MEMBER_ROLE AS "MEMBER_ROLE"
+		FROM PJ_MEMBER_SCORE_INFO_VIEW
+		WHERE CP_CODE = #{arg0}
+		  AND P_MEM_CODE = #{arg1}
+	</select>
+	
+	
+	
+	<!-- 개설 확정 코드와, 멤버 코드로 멤버지원코드 반환받기 -->
+	<!-- public String searchMyMaCode(String mem_code, String prj_cp_code); -->
+	<select id="searchMyMaCode" resultType="java.lang.String">
+		SELECT MA_CODE
+		FROM PJ_MILE_VIEW
+		WHERE PRJ_CP_CODE = #{arg1}
+		  AND MEM_CODE = #{arg0}
+		GROUP BY MEM_CODE, MA_CODE
+	</select>
 
 
+
+	<!-- 체크리스트 코드를 이용하여, 대분류 단계명, 프로젝트 개설확정 코드 반환받기 -->
+	<!-- public String ckCodeToStepCpCode(String checklist_code); -->
+	<select id="ckCodeToStepCpCode" resultType="java.lang.String">
+		SELECT STEP || '/' || PRJ_CP_CODE AS STEP_AND_CP_CODE
+		FROM PJ_MILE_VIEW
+		WHERE CHECKLIST_CODE = #{arg0}
+	</select>
+
+
+
+	<!-- 마일스톤의 대분류 항목 완료 퍼센트(%) 반환 받기 -->
+	<!-- public String milestoneOkPercent(String step, String prj_cp_code); -->
+	<select id="milestoneOkPercent" resultType="java.lang.String">
+		SELECT  NVL( TRUNC( SUCCESS.PLAN_CHECK_SUCCESS_COUNT
+                          / TOT_COUNT.PLAN_CHECK_TOT_COUNT , 2), 0 ) * 100 
+		                          
+		        AS MILE_SUCCESS_PERCENT
+		FROM 
+		(
+		    SELECT PRJ_CP_CODE
+		         , STEP
+		         , COUNT(*) AS PLAN_CHECK_TOT_COUNT
+		    FROM PJ_MILE_VIEW
+		    GROUP BY PRJ_CP_CODE, STEP
+		) TOT_COUNT
+		
+		LEFT OUTER JOIN
+		(
+		    SELECT PRJ_CP_CODE
+		         , STEP
+		         , COUNT(*) AS PLAN_CHECK_SUCCESS_COUNT
+		    FROM PJ_MILE_VIEW
+		    WHERE IS_CHECKED = 1
+		    GROUP BY PRJ_CP_CODE, STEP
+		) SUCCESS
+		
+		 ON TOT_COUNT.PRJ_CP_CODE = SUCCESS.PRJ_CP_CODE
+		AND TOT_COUNT.STEP = SUCCESS.STEP
+		
+		WHERE TOT_COUNT.PRJ_CP_CODE = #{arg1}
+		  AND TOT_COUNT.STEP = #{arg0}
+	</select>
+	
+	
+	<!-- 마일스톤의 대분류 항목 전체 완료 퍼센트의 총합값 반환 받기 -->
+	<!-- public int allMileStoneTotalPercent(String prj_cp_code); -->
+	<select id="allMileStoneTotalPercent" resultType="java.lang.Integer">
+		SELECT  SUM(NVL( TRUNC( SUCCESS.PLAN_CHECK_SUCCESS_COUNT
+                          / TOT_COUNT.PLAN_CHECK_TOT_COUNT , 2), 0 ) * 100)
+		                          
+		        AS TOT_MILE_SUCCESS_PERCENT
+		FROM 
+		(
+		    SELECT PRJ_CP_CODE
+		         , STEP
+		         , COUNT(*) AS PLAN_CHECK_TOT_COUNT
+		    FROM PJ_MILE_VIEW
+		    GROUP BY PRJ_CP_CODE, STEP
+		) TOT_COUNT
+		
+		LEFT OUTER JOIN
+		(
+		    SELECT PRJ_CP_CODE
+		         , STEP
+		         , COUNT(*) AS PLAN_CHECK_SUCCESS_COUNT
+		    FROM PJ_MILE_VIEW
+		    WHERE IS_CHECKED = 1
+		    GROUP BY PRJ_CP_CODE, STEP
+		) SUCCESS
+		
+		 ON TOT_COUNT.PRJ_CP_CODE = SUCCESS.PRJ_CP_CODE
+		AND TOT_COUNT.STEP = SUCCESS.STEP
+		WHERE TOT_COUNT.PRJ_CP_CODE = #{arg0}
+	</select>
+	
+	
+	
+	
+	<!-- 마일스톤 대분류 항목 전체 완료시 보여질 팀원 평가에 보여질 내용을 DTO로 반환 -->
+	<!-- public Milestone_MemberEvaluDTO milestoneMemberEvaluation(String cp_code, String p_mem_code); -->
+	<select id="milestoneMemberEvaluation" resultType="com.test.mybatis.dto.Milestone_MemberEvaluDTO">
+		SELECT PSI.AP_CODE          AS "AP_CODE"
+		     , PSI.CP_CODE          AS "CP_CODE"
+		     , PSI.P_MEM_CODE       AS "P_MEM_CODE"
+		     , PSI.P_MA_CODE        AS "P_MA_CODE"
+		     , PSI.P_NICKNAME       AS "P_NICKNAME"
+		     , PSI.P_MEMBER_ROLE    AS "P_MEMBER_ROLE"
+		     , PSI.BACKEND_SCORE    AS "BACKEND_SCORE"
+		     , PSI.FRONTEND_SCORE   AS "FRONTEND_SCORE"
+		     , PSI.MANNER_SCORE     AS "MANNER_SCORE"
+		     ,
+		     (
+		        SELECT DECODE(COUNT(PEV.P_MEM_CODE), 0, '평가미완료', '평가완료')
+		        FROM PJ_EVALU_VIEW PEV
+		        WHERE CP_CODE = PSI.CP_CODE
+		          AND A_MEM_CODE = #{arg1}
+		          AND P_MEM_CODE = PSI.P_MEM_CODE
+		          
+		     ) AS "EVALU_OK"
+		FROM PJ_MEMBER_SCORE_INFO_VIEW PSI
+		WHERE CP_CODE = #{arg0}
+		  AND P_MEMBER_ROLE NOT IN ('팀장')
+		  AND P_MEM_CODE != #{arg1}
+		ORDER BY P_MEM_CODE ASC
+	</select>
+	
+	
+	<!-- 멤버 평가 실력 점수, 매너 점수 입력 -->
+	<!-- public void memberEvaluScore(String a_ma_code, String p_ma_code, String ed_code, int evalu_score); -->
+	<insert id="memberEvaluScore">
+		INSERT INTO EVALUATION(EV_CODE, KDATE
+		                     , SCORE, ED_CODE
+		                     , MA_CODEA, MA_CODEP)
+		VALUES ( TO_CHAR('EV' || LPAD(EV_SEQ.NEXTVAL, 4, '0')), SYSDATE
+		        , #{arg3}, #{arg2}
+		        , #{arg0}, #{arg1})
+	</insert>
+	
+	
 
 </mapper>
