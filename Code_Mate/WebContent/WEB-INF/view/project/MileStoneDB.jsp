@@ -1122,7 +1122,7 @@
 			  <div class="container-fluid nav nav-underline bannerMainBox">
 			    
 			 	<!--===========[Logo]===========-->
-				<a class="navbar-brand bannerLogo link" href="#">
+				<a class="navbar-brand bannerLogo link" href="Code_Mate.action">
 					<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 				</a>
 				<!--===========[Logo]===========-->
@@ -1152,10 +1152,14 @@
 					<div id="profile" style="<%=login%>">
 						<img class="memberImg" src="img/profileImg_1.png">
 					</div>
-					<span class="nickname" id="mem1" style="<%=login%>">${member.nickname }</span>
+					<span class="nickname" id="mem1" style="<%=login%>"><a href="mypage.action" class="nicknamelink">${member.nickname }</a></span>
 					<div class="gradeIcon" style="<%=login%>">
 						<img src="<%=iconUrlStr %>"  class="skillGradeIconImg" />
 					</div>
+					 
+					 <div class="logout">
+					 	<span class="logouttext">로그아웃</span>
+					 </div>
 					 
 					 <!-- 로그인/회원가입으로 이동 -->
 					<span class="nav-link log" ><a href="Login.action" class="link upside" style="<%=logout%>">로그인/회원가입</a></span>
