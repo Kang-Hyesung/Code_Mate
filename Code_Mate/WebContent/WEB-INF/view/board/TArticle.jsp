@@ -222,7 +222,21 @@ a{
 
 </style>
 
-
+<script type="text/javascript">
+		$(function()
+		{
+			  $(".memberImg").click(function()
+			{
+				$(".logout").show();
+			})
+			
+			$(".logout").click(function()
+			{
+				$(location).attr("href", "logout.action");
+			});
+			
+		})
+</script>
 
 <script type="text/javascript">
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
