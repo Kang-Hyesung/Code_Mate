@@ -392,6 +392,11 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 				$(".logout").show();
 			})
 			
+			$(".logout").click(function()
+			{
+				$(location).attr("href", "logout.action");
+			});
+			
 		})
 </script>
 
@@ -653,7 +658,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 					</div>
 					 
 					 <div class="logout">
-					 	로그아웃
+					 	<span class="logouttext">로그아웃</span>
 					 </div>
 					 
 					 <!-- 로그인/회원가입으로 이동 -->

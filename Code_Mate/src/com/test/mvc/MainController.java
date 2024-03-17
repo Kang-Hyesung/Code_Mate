@@ -331,11 +331,14 @@ public class MainController
 					return "/WEB-INF/view/main/qnaList.jsp";
 				}
 		
- @Scheduled(fixedDelay = 1000)
- public void hello() {
-	 
-	 System.out.println("test");
- }
+				// 로그아웃
+				@RequestMapping(value="/logout.action", method=RequestMethod.GET)
+				public String logout(ModelMap model, HttpSession session, HttpServletRequest request)
+				{	
+					session.invalidate();
+					
+					return "Code_Mate.action";
+				}
 }
 
 
