@@ -13,7 +13,7 @@
 	String view = "";
 	
 	
-		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
+		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member"); 
 	
 	if(request.getSession().getAttribute("member") != null)
 	{ 
