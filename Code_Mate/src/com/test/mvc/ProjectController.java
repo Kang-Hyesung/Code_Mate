@@ -85,7 +85,24 @@ public class ProjectController  extends HttpServlet
 		// 활동량
 		ArrayList<ReportDTO> rank = reportDao.rank(cp_code);
 		request.setAttribute("rank", rank);
-
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
 		String data = "" + "[";
 		
 		// 캘린더 events 에 들어갈 것
@@ -104,9 +121,26 @@ public class ProjectController  extends HttpServlet
 	}
 		
 	@RequestMapping(value = "/taskCal.action")
-	public String taskCal(HttpServletRequest request, ModelMap model, String ap_code, String cp_code)
+	public String taskCal(HttpServletRequest request, ModelMap model, String ap_code, String cp_code, HttpSession session)
 	{
-
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
 
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
@@ -147,8 +181,27 @@ public class ProjectController  extends HttpServlet
 	}
 	
 	@RequestMapping(value = "/taskView.action")
-	public String task(HttpServletRequest request, ModelMap model, String ap_code, String cp_code)
+	public String task(HttpServletRequest request, ModelMap model, String ap_code, String cp_code, HttpSession session)
 	{
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 
@@ -179,8 +232,27 @@ public class ProjectController  extends HttpServlet
 	}
 	
 	@RequestMapping(value = "/taskInsert.action")
-	public String taskInsert(TaskDTO dto, ModelMap model, String ap_code, String cp_code, HttpServletRequest request)
+	public String taskInsert(TaskDTO dto, ModelMap model, String ap_code, String cp_code, HttpServletRequest request, HttpSession session)
 	{
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 
@@ -203,11 +275,29 @@ public class ProjectController  extends HttpServlet
 	@RequestMapping(value = "/myTask.action")
 	public String myTask(TaskDTO dto, ModelMap model, HttpSession session, String cp_code,  String ap_code)
 	{
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
 
-		MemberDTO member =  (MemberDTO)session.getAttribute("member");
 		String mem_code =  member.getMem_code();
 
 		String ma_codep = memberDao.getMacode(mem_code, cp_code);;
@@ -237,9 +327,11 @@ public class ProjectController  extends HttpServlet
 	@RequestMapping(value = "/insertReport.action" , method = RequestMethod.POST)
 	public String insertReport(HttpServletRequest request, HttpServletResponse response, ReportDTO dto, ModelMap model) 
 	{
+		
+		
 		// 경로
 		//String uploadPath = request.getServletContext().getRealPath("/") + "File";
-		String uploadPath ="Code_Mate\\Code_Mate\\File";
+		String uploadPath ="Code_Mate\\Code_Mate\\HyesungFile";
 		System.out.println("경로 테스트 : " + uploadPath);
 
 		// 최대 파일 크기
@@ -285,10 +377,28 @@ public class ProjectController  extends HttpServlet
 	@RequestMapping(value = "/reportView.action")
 	public String Report(ReportDTO dto, ModelMap model, String cp_code, String ap_code, HttpSession session)
 	{
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 
-		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		String mem_code = member.getMem_code();
 		String leader_mem = memberDao.getLeader_mem(ap_code);
 

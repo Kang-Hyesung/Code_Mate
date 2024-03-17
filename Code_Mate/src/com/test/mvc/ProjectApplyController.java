@@ -22,6 +22,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.test.mybatis.dao.IMyPageDAO;
 import com.test.mybatis.dao.IProjectApplyDAO;
 import com.test.mybatis.dao.IProjectJoinDAO;
 import com.test.mybatis.dto.MemberDTO;
@@ -43,6 +44,23 @@ public class ProjectApplyController
 	{	
 			MemberDTO member = (MemberDTO)session.getAttribute("member");
 		
+			int backendScore;
+			int frontendScore;
+			
+			IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+			
+			if (member != null)
+			{
+				backendScore = myDao.backendScore(member.getMem_code());
+				frontendScore = myDao.frontendScore(member.getMem_code());
+				
+				// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+				model.addAttribute("backendScore", backendScore);
+				model.addAttribute("frontendScore", frontendScore);
+				
+			}
+			// 점수 끝
+			
 			request.setAttribute("member", member);
 			
 			if (member == null)
@@ -61,7 +79,24 @@ public class ProjectApplyController
 	{	
 			IProjectApplyDAO dao = sqlSession.getMapper(IProjectApplyDAO.class);
 			MemberDTO member = (MemberDTO)session.getAttribute("member");
-		
+			
+			int backendScore;
+			int frontendScore;
+			
+			IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+			
+			if (member != null)
+			{
+				backendScore = myDao.backendScore(member.getMem_code());
+				frontendScore = myDao.frontendScore(member.getMem_code());
+				
+				// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+				model.addAttribute("backendScore", backendScore);
+				model.addAttribute("frontendScore", frontendScore);
+				
+			}
+			// 점수 끝
+			
 			request.setAttribute("member", member);
 			
 			String titletextarea = request.getParameter("titletextarea");
@@ -317,6 +352,23 @@ public class ProjectApplyController
 	public String projectselect(ModelMap model, HttpSession session, HttpServletRequest request, String ap_code)
 	{	
 			MemberDTO member = (MemberDTO)session.getAttribute("member");
+			int backendScore;
+			int frontendScore;
+			
+			IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+			
+			if (member != null)
+			{
+				backendScore = myDao.backendScore(member.getMem_code());
+				frontendScore = myDao.frontendScore(member.getMem_code());
+				
+				// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+				model.addAttribute("backendScore", backendScore);
+				model.addAttribute("frontendScore", frontendScore);
+				
+			}
+			// 점수 끝
+			
 			System.out.println("-2");
 			request.setAttribute("member", member);
 			System.out.println("-1");
@@ -560,11 +612,7 @@ public class ProjectApplyController
 		
 	}
 		
- @Scheduled(fixedDelay = 1000)
- public void hello() {
-	 
-	 System.out.println("test");
- }
+
 }
 
 

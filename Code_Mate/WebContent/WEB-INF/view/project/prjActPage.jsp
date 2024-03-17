@@ -51,6 +51,7 @@
 			
 			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, backScore);
 			iconUrlStr = gradeIconUrlTxtArr[0];
+			System.out.println(iconUrlStr);
 			
 		}
 		else if (backScore < frontScore)
@@ -59,6 +60,7 @@
 			
 			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, frontScore);
 			iconUrlStr = gradeIconUrlTxtArr[0];
+			System.out.println(iconUrlStr);
 		}
 	}
 	

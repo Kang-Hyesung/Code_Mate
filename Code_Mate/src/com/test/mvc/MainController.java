@@ -347,10 +347,12 @@ public class MainController
 				public String insertProfileImgt(ModelMap model, HttpSession session, HttpServletRequest request)
 				{	
 					// 경로
-					String uploadPath = request.getServletContext().getRealPath("/") + "File";
+					String uploadPath = "C:\\Users\\hyesu\\git\\Code_Mate\\Code_Mate\\WebContent\\HyesungFile";
 					//String uploadPath ="Code_Mate\\Code_Mate\\File";
 					System.out.println("경로 테스트 : " + uploadPath);
-
+					
+					// multi.getFilesystemName("uploadFile");
+					
 					// 최대 파일 크기
 					int maxFileSize = 1024 * 1024 * 2;
 					String encType = "utf-8";
@@ -380,6 +382,7 @@ public class MainController
 
 						// 파일 경로 + 서버에 저장된 파일명
 						String path = uploadPath + multi.getFilesystemName("file");
+						System.out.println(path);
 						// 이용자가 올린 파일명
 						String fileName = multi.getOriginalFileName("file");
 					

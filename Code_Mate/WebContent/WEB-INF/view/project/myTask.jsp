@@ -603,7 +603,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 				<div class="container page-todo bootstrap snippets bootdeys">
 					<div class="col-sm-7 tasks">
 						<div class="task-list">
-							<h4>이윤수 님의 업무입니다.</h4>
+							<h4>${member.nickname } 님의 업무입니다.</h4>
 							<div class="priority high"><span>진행 중</span></div>
 								<c:forEach items="${getMyIng }" var="item" varStatus="status">
 									<c:choose> 
