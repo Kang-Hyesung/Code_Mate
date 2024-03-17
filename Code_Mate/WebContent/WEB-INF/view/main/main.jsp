@@ -352,14 +352,16 @@
 </style>
 
 <script type="text/javascript">
-	/* 	
-	const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-	const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-	
-	  $( function () {
-	    $( '[data-bs-toggle="popover"]' ).popover()
-	  } );
-		 */
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+  $( function () {
+    $( '[data-bs-toggle="popover"]' ).popover()
+  } );
+</script>
+
+<script type="text/javascript">
+		 
 		let currentSlide = 1;
 		let IMAGE_WIDTH = 1300;
 		
@@ -795,6 +797,8 @@
 				</div>
 				</div>
 	</div><!-- end flex -->
+
+
 
 </body>
 </html>
