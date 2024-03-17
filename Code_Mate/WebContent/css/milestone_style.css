@@ -1,12 +1,16 @@
 @charset "UTF-8";
 
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css");
+
 
 /* 마일스톤 최상위 부모 영역 div */
 .col-10.milestone-main-Parent-Area 
 {
+    /* height: 1900px; */
     height: 1400px;
     /* border: 1px solid mediumorchid; */
 }
+
 
 /* 마일스톤 메인 내용 영역 div */
 .row .milestone-mainBox-Area 
@@ -101,7 +105,7 @@ span.progress-bar-percent-content
     height: 8px;
     border-radius: 4px;
     width: 360px;
-    box-shadow: 0px 1px 2px #e9adbe;
+    box-shadow: 0px 1px 2px #b7b1a8;
     display: flex;
     position: relative;
 }
@@ -110,7 +114,6 @@ span.progress-bar-percent-content
 .progress-bar.milestone-progress-bar.plan.text-dark 
 {
     background: #ff6c6c;
-	width: 50%;    
 }
 
 /* 마일스톤의 대분류 텍스트를 감싸는 부모 div 영역 */
@@ -164,7 +167,8 @@ h3.milestone-mainCategory-text.plan-category-text.plan {
 }
 
 /* 체크 리스트의 짝수 번째에 해당하는 항목에 대한 스타일 */
-.one-milestone-checkbox.plan-check.plan:not(.add-checklist-box):nth-child(even)
+.outline-checkbox-Area:nth-child(even)
+>.one-milestone-checkbox.plan-check.plan:not(.add-checklist-box)
 {
   background : #ffc2c2;
 }
@@ -561,8 +565,7 @@ button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn:active
     text-shadow: 0 -3px 2px #2f3337;
 }
 
-a
-{display: flex;}
+
 /* 마일스톤 항목 추가 버튼 안에 있는 + 텍스트 스타일 */
 span.milestone-add-btn-icon.material-symbols-outlined 
 {
@@ -679,7 +682,8 @@ span.checklist-title-txt.plan-check-title.design
 }
 
 /* [설계] 짝수번째 체크리스트 항목에 대한 스타일 */
-.one-milestone-checkbox.plan-check.plan.design:not(.add-checklist-box):nth-child(even) 
+.outline-checkbox-Area:nth-child(even)
+>.one-milestone-checkbox.plan-check.plan.design:not(.add-checklist-box)
 {
     background: #b6f1f1;
 }
@@ -791,7 +795,8 @@ span.checklist-title-icon.material-symbols-outlined.implement
 }
 
 /* [구현] 체크리스트 짝수번째 항목에 대한 스타일 */
-.one-milestone-checkbox.plan-check.plan.implement:not(.add-checklist-box):nth-child(even) 
+.outline-checkbox-Area:nth-child(even)
+>.one-milestone-checkbox.plan-check.plan.implement:not(.add-checklist-box) 
 {
     background: #fbf496;
 }
@@ -828,6 +833,95 @@ button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn.implement:active
     background: #c77916;
     border: 1px solid #af5a1e;
 }
+
+
+/*=======================================*/
+/*================[결산]=================*/
+/*=======================================*/
+
+
+/* [결산] 마일스톤 체크리스트 대분류에 해당하는 박스 스타일 */
+.one-milestone-mainCategory-box.plan-category-box.plan.settlement 
+{
+    background: #b9f583;
+}
+
+/* [결산] 스텝 숫자에 해당하는 텍스트 스타일 */
+.milestone-step-numberBox.settlement 
+{
+    color: #a6ef7a;
+    text-shadow: -1px 0px 0px #3f7d32;
+    box-shadow: 6px 0px 3px #7faf4d;
+}
+
+/* [결산] 체크리스트 아이콘에 해당하는 스타일 */
+span.checklist-title-icon.material-symbols-outlined.settlement 
+{
+    color: #8bcd37;
+    text-shadow: 1px 0px 2px #316915;
+}
+
+/* [결산] 체크리스트 텍스트에 해당하는 스타일 */
+span.checklist-title-txt.plan-check-title.settlement 
+{
+    color: #8bcd37;
+}
+
+/* [결산] 체크리스트 전체 박스 영역 div */
+.checkbox-title.settlement
+{
+    border-bottom: 2px solid #8bcd77;
+}
+
+/* [결산] 프로그레스바 채워진 영역 색상 스타일 */
+div#settlement-progress-bar 
+{
+    background: #8bcd37;
+}
+
+/* [결산] 완료 퍼센트(%) 에 해당하는 텍스트 스타일 */
+span#settlement-percentage 
+{
+    color: #8bcd37;
+}
+
+/* [결산] 체크리스트 항목들을 전부 감싸는 스크롤 박스 */
+div#all-settlement-checklist 
+{
+    background: #e3ffc9;
+    border-left: 2px solid #8bcd37;
+}
+
+/* [결산] 체크리스트 항목 홀수번째에 해당하는 스타일 */
+.one-milestone-checkbox.plan-check.plan.settlement 
+{
+    border: 1px solid #a5c751;
+}
+
+
+/* [결산] 체크 리스트의 짝수 번째에 해당하는 항목에 대한 스타일 */
+.outline-checkbox-Area:nth-child(even) 
+>.one-milestone-checkbox.plan-check.plan.settlement:not(.add-checklist-box) 
+{
+    background: #c9ef6f;
+}
+
+/* [결산] 스크롤바 막대 */
+div#all-settlement-checklist::-webkit-scrollbar-thumb 
+{
+  background-color: #a2e55a;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 1px solid transparent;
+}
+
+/* [결산] 항목 추가 버튼에 해당하는 스타일*/
+button.new-checklist-item-btn.milestone-add-list-btn.btn.btn-light.plan-list-add-btn.settlement 
+{
+    background: #a7e371;
+    border: 1px solid #90b778;
+}
+
 
 /*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
 /*▩▩▩▩▩▩[ 마일스톤 항목 추가 액션 스타일 ]▩▩▩▩▩▩▩*/
@@ -963,8 +1057,109 @@ button.milestone-del-btn.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-da
 }
 
 
+/*=================[버튼 클릭 금지 처리에 대한 스타일]================*/
 
-/*====[앤애ㅣㅣ멩메ㅣㅣ션션]]====*//
+/* 수정 버튼 위에 올라가는 금지 아이콘 스타일 */
+span.dont-touch-icon-1.material-symbols-outlined 
+{
+    position: absolute;
+    font-size: 20px;
+    right: 77px;
+    bottom: 3px;
+    color: #d73636;
+}
+
+/* 삭제 버튼 위에 올라가는 금지 아이콘 스타일 */
+span.dont-touch-icon-2.material-symbols-outlined 
+{
+    position: absolute;
+    font-size: 20px;
+    right: 18px;
+    bottom: 3px;
+    color: #d73636;
+}
+
+/*=================[체크리스트 항목 수정에 대한 스타일]================*/
+
+/* 수정 창을 눌렀을 때 표시되는 입력창, 버튼을 감싸는 div 영역의 부모 div 영역 */
+.edit-checklist-all-item-Parent-box 
+{
+    display: flex;
+    /* border: 1px solid blue; */
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* 수정 창을 눌렀을 때 표시되는 입력창, 버튼을 감싸는 div 영역 */
+.edit-checklist-all-item-box 
+{
+    /* border: 1px solid red; */
+    display: flex;
+}
+
+
+/* 수정 창을 눌렀을 때 표시되는 입력창 옆의 버튼을 감싸는 div 영역 */
+.edit-checklist-btn-box.checkbox-all-btn-box.plan 
+{
+    position: relative;
+    top: 1px;
+    right: 0;
+}
+
+/* 수정 창을 눌렀을 때 표시되는 입력창의 input 엘리먼트 영역 */
+input.edit-checklist-content-input.add-checklist-content 
+{
+    width: 190px;
+    margin-right: 19px;
+    color: #395f6b;
+}
+
+
+
+/* 체크리스트 수정시 submit 버튼 스타일 */
+.edit-checklist-submit-btn
+{
+	padding: 4px 3px 4px 4px;
+    background: #ffffffab;
+    color: #786f83;
+}
+    
+    
+/*=================[최상단 프로젝트 제목에 대한 스타일]================*/
+
+
+/* 프로젝트 제목 영역 전체를 감싸는 최상위 부모 div */
+.project-info-top-Area {
+    border: 1px solid #79f5aa;
+    height: 105px;
+    display: flex;
+    padding: 12px;
+    margin: 0 0 0 85px;
+}
+
+/* 프로젝트명과, 설명 span 글을 감싸는 내용 div 영역 */
+.project-title-box 
+{
+    width: max-content;
+    border: 1px solid mediumpurple;
+    font-size: 33px;
+    font-weight: bold;
+}
+ 
+/* 프로젝트명 텍스트에 해당하는 span 스타일 */ 
+span.project-title-content 
+{
+    font-size: 35px;
+    color: #ffffff;
+    padding: 10px;
+    background: #ffaa6bf0;
+    text-shadow: 3px 0px 3px #9b5a30;
+    border-radius: 11px;
+    box-shadow: 0 1px 3px gray;
+}
+    
+    
+/*====[애니메이션]====*/
 
 
 /* 뚀잉 하는 애니메이션 */
@@ -1007,3 +1202,891 @@ button.milestone-del-btn.checkbox-btn.delete-check-btn.btn.btn-sm.btn-outline-da
 	
 }
 
+
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩▩[ 팀원 평가 캐러셀 스타일 ]▩▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+
+/* 팀원 평가 전체를 감싸는 최상위 영역 div */
+.col-12.member-evaluation-Parent-Area 
+{
+    border: 1px solid #cbcbcb;
+    height: 510px;
+    box-shadow: 0px 4px 2px #aba4a4;
+    border-radius: 10px;
+    display: none;
+    margin-top: 40px;
+    transition: 0.6s;
+}
+
+/* 팀원 평가 캐러셀 영역을 모두 감싸는 부모 영역 div */
+.row.member-evaluation-main-Area 
+{
+    width: inherit;
+    height: inherit;
+}
+
+
+/* 캐러셀을 감싸는 최상위 부모 div 영역 */
+div#member-evalu-carousel 
+{
+    /* border: 1px solid red; */
+    height: 370px;
+    border-radius: 15px;
+}
+
+/* 캐러셀 내부의 회원 정보들을 세로 정렬해 보여주는 캐러셀 한 페이지 div 영역 */
+.member-evalu-carousel-item-one-Page.carousel-item.active 
+{
+    display: flex;
+    justify-content: center;
+}
+
+/* 
+   【프로젝트 메인 컬러】
+    ▶[청록색] : #1fc1c0
+    ▶[파랑색] : #4f59c8 
+*/
+
+
+
+
+/* 캐러셀 내부의 회원 한 명에 해당하는 정보를 담는 박스 div 영역 */
+.one-member-info-main-Box 
+{
+    border: 1px solid #cdcdcd;
+    border-top: 6px solid #4f59ca;
+    width: 250px;
+    height: 340px;
+    border-radius: 12px;
+    margin: 14px;
+    box-shadow: 0 2px 3px #a3a3a3;
+}
+
+
+/* 캐러셀 내부의 회원 한 명의 프로필 사진 img를 감싸는 박스 div */
+.one-member-profile-image-Box 
+{
+    border: 1px solid #4f59ca;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 7px auto;
+}
+
+/* 캐러셀 내부의 회원 한 명의 프로필 사진에 대한 스타일 */
+img.one-member-profile-image 
+{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 캐러셀 내부의 회원 한 명의 닉네임과 담당 직무 정보를 모두 감싸는 영역 */
+.one-member-nick-role-all-Area 
+{
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid purple; */
+    height: 77px;
+    justify-content: space-evenly;
+}
+
+/* 캐러셀 내부의 회원 한 명의 닉네임을 감싸는 박스 div  */
+.one-member-nickname-Box 
+{
+    /* border: 1px solid green; */
+    width: 235px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+
+/* 닉네임 Nickname 설명 텍스트에 대한 스타일 */
+span.descTxt.member-nickname-desc 
+{
+    background: #1fc1c0;
+    text-align: center;
+    padding: 3px;
+    height: 24px;
+    width: 79px;
+    font-size: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 2px #234261;
+}
+
+/* 회원의 닉네임 텍스트에 대한 스타일 */
+span.one-member-nickname 
+{
+    /* border: 1px solid gray; */
+    width: 130px;
+    height: max-content;
+    text-align: center;
+    font-size: 14px;
+    color: #28282b;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/* 캐러셀 내부의 회원 한 명의 직무를 감싸는 박스 div */
+.one-member-role-Box 
+{
+    /* border: 1px solid blue; */
+    width: 235px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+/* 담당 직무 Member-role 설명 텍스트에 대한 스타일 */
+span.descTxt.member-role-desc 
+{
+    background: #1fc1c0;
+    text-align: center;
+    padding: 3px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 2px #234261;
+}
+
+/* 멤버의 담당 직무 텍스트에 해당하는 스타일 */
+span.one-member-role 
+{
+    /* border: 1px solid gray; */
+    width: 130px;
+    height: max-content;
+    text-align: center;
+    font-size: 14px;
+    color: #28282b;
+    font-weight: bold;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* 캐러셀 내부의 백엔드, 프론트엔드, 매너점수 전부를 감싸는 최상위 부모 div 박스 */
+.one-member-total-score-Parent-Box 
+{
+    display: flex;
+    justify-content: center;
+    /* border: 1px solid red; */
+    width: 235px;
+    height: 95px;
+    position: relative;
+    top: 11px;
+    margin: 0 auto;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/*===========================*/
+/*=========[백엔드]==========*/
+/*===========================*/
+
+/* 백엔드 등급 정보 전체를 감싸는 영역 div */
+.all-backend-grade-info-Parent-Area 
+{
+    /* border: 1px solid greenyellow; */
+    display: ruby;
+    width: 68px;
+    font-size: 13px;
+    height: 70px;
+}
+
+/* 백엔드 설명 텍스트 Back-end를 감싸는 스타일 */
+span.descTxt.backend-grade-desc 
+{
+    background: #68b8e9;
+    text-align: center;
+    display: inline-block;
+    width: 68px;
+    padding: 3px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 2px #234261;
+}
+
+
+/* 멤버의 백엔드 등급 아이콘을 감싸는 부모 영역 div */
+.one-member-backend-grade-icon-Parent-Box 
+{
+    /* border: 1px solid red; */
+    width: 68px;
+    height: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* 멤버의 백엔드 등급 아이콘을 감싸는 박스 div에 대한 스타일 */
+.one-member-backend-grade-icon-Box 
+{
+    width: 30px;
+    height: 30px;
+    /* border: 1px solid cornflowerblue; */
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* 멤버 한 명의 백엔드 등급 아이콘에 대한 스타일 */
+img.one-member-backend-grade-icon 
+{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+/*===============================*/
+/*=========[프론트엔드]==========*/
+/*===============================*/
+
+
+/* 프론트엔드 등급 정보 전체를 감싸는 영역 div */
+.all-frontend-grade-info-Parent-Area
+{
+    /* border: 1px solid greenyellow; */
+    display: ruby;
+    width: 68px;
+    font-size: 13px;
+    height: 70px;
+}
+
+
+/* 프론트엔드 설명 텍스트 Front-end를 감싸는 스타일 */
+.descTxt-Parent-Box.frontend 
+{
+    background: #f7d75c;
+    text-align: center;
+    display: inline-block;
+    width: 68px;
+    padding: 3px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 2px #234261;
+}
+
+/* 멤버의 프론트엔드 등급 아이콘을 감싸는 부모 영역 div */
+.one-member-frontend-grade-icon-Parent-Box 
+{
+    /* border: 1px solid red; */
+    width: 68px;
+    height: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+/* 멤버 한 명의 프론트엔드 등급 아이콘을 감싸는 박스 div에 대한 스타일 */
+.one-member-frontend-grade-icon-Box 
+{
+    width: 30px;
+    height: 30px;
+    /* border: 1px solid teal; */
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* 멤버 한 명의 프론트엔드 등급 아이콘에 대한 스타일 */
+img.one-member-frontend-grade-icon 
+{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+
+/*===============================*/
+/*==========[매너점수]===========*/
+/*===============================*/
+
+
+
+/* 매너 점수 정보 전체를 감싸는 영역 div */
+.all-manner-score-info-Parent-Area 
+{
+    /* border: 1px solid greenyellow; */
+    display: ruby;
+    width: 68px;
+    font-size: 13px;
+    height: 70px;
+}
+
+/* 매너점수 설명 텍스트 Manner를 감싸는 스타일 */
+span.descTxt.manner-score-desc 
+{
+    background: #f3899b;
+    text-align: center;
+    display: inline-block;
+    width: 68px;
+    padding: 3px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 2px #234261;
+}
+
+/* 멤버의 매너점수 숫자 텍스트를 감싸는 부모 영역 div */
+.one-member-manner-score-Parent-Box 
+{
+    /* border: 1px solid red; */
+    width: 68px;
+    height: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* 멤버의 매너점수 텍스트를 감싸는 박스 div */
+.one-member-manner-score-Box 
+{
+    margin: 0 auto;
+}
+
+
+/* 멤버의 매너점수 텍스트 스타일 */
+span.one-member-manner-score 
+{
+    /* border: 1px solid blue; */
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    font-size: 14px;
+    text-shadow: 0 1px 1px #a33944;
+    color: #f3899b;
+    line-height: 26px;
+}
+
+
+
+
+
+/*=====[별점 기능에 대한 스타일]=====*/
+
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+       .evalu-star-radio-set { display: inline-block;border: 0;margin-right: 15px;}
+.evalu-star-radio-set > input {display: none;}
+.evalu-star-radio-set > label {float: right;color: #ddd}
+.evalu-star-radio-set > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005 ";}
+.evalu-star-radio-set .half:before {content: "\f089 "; position: absolute;padding-right: 0;}
+.evalu-star-radio-set input:checked ~ label, 
+.evalu-star-radio-set label:hover,.evalu-star-radio-set label:hover ~ label { color: #f73c32 !important;  } 
+.evalu-star-radio-set input:checked + .evalu-star-radio-set label:hover,
+.evalu-star-radio-set input input:checked ~ label:hover,
+.evalu-star-radio-set input:checked ~ .evalu-star-radio-set label:hover ~ label,  
+.evalu-star-radio-set label:hover ~ input:checked ~ label { color: #f73c32 !important;  } 
+
+
+
+/* 멤버 평가 설명 텍스트 [팀원 평가] 를 감싸는 div 영역 */
+.member-evaluation-title-Area 
+{
+    background: #c0a4f5;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: left;
+    padding: 10px 0 5px 20px;
+    height: 80px;
+}
+
+
+/* 멤버 평가 옆에 있는 아이콘 span 스타일 */
+span.member-evaluation-icon.material-symbols-outlined 
+{
+    color: white;
+    font-weight: bold;
+    text-shadow: -1px 0px 2px #8127cb;
+    font-size: 35px;
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    left: 8px;
+    line-height: 36px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+
+/* 멤버 평가 설명 텍스트 스타일 */
+span.member-evaluation-title 
+{
+    color: white;
+    font-weight: bold;
+    text-shadow: -1px 0px 2px #8127cb;
+    font-size: 25px;
+    display: inline-block;
+    padding-left: 15px;
+    position: relative;
+    left: 20px;
+    top: 5px;
+    height: 40px;
+    line-height: 36px;
+    width: 315px;
+}
+
+/* 팀원 평가 캐러셀 버튼을 모두 감싸는 작은 부모 div 박스 영역 */
+.memberEvalu-all-btn-miniBox 
+{
+    width: 65px;
+    float: right;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 4px 6px 4px;
+    /* border: 1px solid red; */
+    position: relative;
+    bottom: 7px;
+    right: 3px;
+}
+
+
+
+/* 팀원 평가 캐러셀 이전 버튼 스타일 */
+button.carousel-control-prev 
+{
+    border: 1px solid #9d9d9d;
+    color: #008d81;
+    display: block;
+    width: 25px;
+    height: 25px;
+    box-shadow: 1px 1px 1px #adadad;
+    background: linear-gradient(0deg, #cbcbcb, white);
+    position: relative;
+    float: right;
+    border-radius: 50%;
+}
+
+/* 팀원 평가 캐러셀 이전 버튼 안에 들어가는 (<) 이미지 스타일 */
+span.carousel-control-prev-icon 
+{
+    width: 15px;
+    height: 15px;
+    position: relative;
+    top: 2px;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* 팀원 평가 캐러셀 다음 버튼 스타일 */
+button.carousel-control-next 
+{
+    border: 1px solid #9d9d9d;
+    color: #008d81;
+    display: block;
+    width: 25px;
+    height: 25px;
+    box-shadow: 1px 1px 1px #adadad;
+    background: linear-gradient(0deg, #cbcbcb, white);
+    position: relative;
+    float: right;
+    border-radius: 50%;
+}
+
+
+/* 팀원 평가 캐러셀 다음 버튼 안에 들어가는 (>) 이미지 스타일 */
+span.carousel-control-next-icon 
+{
+    width: 15px;
+    height: 15px;
+    position: relative;
+    top: 2px;
+    left: 1px;
+    display: inline-block;
+}
+
+/* 멤버 평가 한 페이지 안에 들어가는 모든 회원 정보를 감싸는 부모 div 영역 */
+.all-memberEvalu-one-page-box 
+{
+    display: flex;
+    /* border: 1px solid red; */
+    width: 930px;
+    justify-content: space-evenly;
+}
+
+
+/* 회원 평가를 클릭했을 때 보여지는 모달창의 안내문구 텍스트 스타일 */
+.evalu-guide-text-box {
+    color: #4f59ca;
+    font-size: 13px;
+    text-align: left;
+    font-weight: bold;
+    padding: 7px;
+    display: inline-block;
+    margin-left: 14px;
+}
+
+/* 모든 평가 점수 항목들을 감싸는 부모 div 박스 스타일 */
+.modal-body.member-all-evaluation-Parent-Area 
+{
+    display: flex;
+}
+
+/* 실력 점수, 매너 점수 스킬 평가 항목 텍스트 타이틀에 대한 스타일 */
+span.score-devision-title 
+{
+    background: #1fc1c0;
+    text-align: center;
+    padding: 3px;
+    height: 24px;
+    width: 196px;
+    font-size: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    display: inline-block;
+    text-shadow: 0 1px 2px #234261;
+}
+
+/* 별도로 지정한 매너 점수 스킬 평가 항목 텍스트 스타일 */
+span.score-devision-title.manner-score-title 
+{
+    background: #f3899b;
+}
+
+
+/* 별 이모티콘에 대한 스타일 */
+.evalu-star-radio-set > label:before 
+{
+    display: inline-block;
+    font-size: 30px;
+    padding: 0.3rem 0.2rem;
+    margin: 0;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f005 ";
+}
+
+/* 별 이모티콘을 모두 감싸는 영역 div 박스에 대한 스타일 */
+.evalu-star-radio-set 
+{
+    display: inline-block;
+    border: 0;
+    margin: unset;
+}
+
+/* 멤버 평가 모달창 안의 평가할 멤버 닉네임 텍스트에 대한 스타일 */
+span.evalu-member-nickname 
+{
+    font-size: 25px;
+    font-weight: bold;
+    color: #4f59ca;
+    margin: 5px;
+}
+
+/* 멤버 평가 모달창 안의 평가 완료, 취소 버튼을 감싸는 작은 박스 div */
+.member-evalu-buttons-Area 
+{
+    text-align: right;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+/* 평가 완료/미완료 텍스트를 감싸는 부모 div 박스  */
+.evaluation-done-or-not-box 
+{
+    position: relative;
+    left: 5px;
+    top: 7px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 2px #232d61;
+}
+
+
+/* 평가 완료/미완료 텍스트에 해당하는 스타일 */
+span.evaluation-done-or-not 
+{
+    font-size: 12px;
+    position: absolute;
+    background: #4f59ca;
+    padding: 4px 6px 4px 6px;
+    border-radius: 5px;
+}
+
+/* 평가 완료된 항목들을 가려줄 블라인드 박스 스타일 */
+.evalu-done-blind-box 
+{
+	display: none;
+    border: 1px solid #cdcdcd;
+    width: 250px;
+    height: 340px;
+    border-radius: 12px;
+    margin: 14px;
+    position: absolute;
+    background: #3939399e;
+    z-index: 10;
+}
+
+/* 평가 금지 모달창 타이틀 박스 div 영역 */
+.modal-header.dont-evaluation-title 
+{
+    background: #c32424;
+    box-shadow: 0 3px 3px gray;
+    border-bottom: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* 평가 금지 모달창 이런! 텍스트 스타일 */
+span#member-evalu-warning 
+{
+    display: inline-block;
+    border-radius: 5px;
+    color: #c32424;
+    width: 75px;
+    background: white;
+    font-weight: bold;
+    font-size: 19px !important;
+    text-align: center;
+    text-shadow: 0 1px 2px #cfbaba;
+    box-shadow: 0 3px 3px #53091d;
+}
+
+/* 평가 금지 모달창 평가 금지 안내문 텍스트 스타일 */
+span.modal-title.fs-5.dont-try-evaluation 
+{
+    font-size: 16px !important;
+    font-weight: bold;
+    color: white;
+    position: relative;
+    left: 13px;
+}
+
+/* 평가 금지 모달창 평가 금지 상세 내용 텍스트 스타일 */
+.modal-body.dont-evaluation-content 
+{
+	padding: 30px;
+    color: #3f3838;
+    font-size: 15px;
+}
+
+
+/* 평가 금지 멤버 닉네임 텍스트 스타일 */
+span.dont-evalu-member-nickname 
+{
+    font-size: 20px;
+    font-weight: bold;
+    color: #d33434;
+    margin: 4px;
+}
+
+
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩[체크리스트 더보기 모달창 스타일 추가]▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+
+/* 체크리스트 모달창의 닉네임, 직무 정보 전체를 감싸는 최상위 부모 div 영역	 */
+.modal-body.all-nickname-member-role-Parent-Area 
+{
+    display: ruby-text;
+}
+
+.modal-body.checklist-more-information-all-Area 
+{
+    border-radius: 7px;
+}
+
+
+
+/* 체크리스트 클릭시 나타나는 모달창의 전체 닉네임 정보를 감싸는 부모 div 박스 */
+.modal-body.all-nickname-info-Parent-Box {
+    display: flex;
+    padding: unset;
+    border: 1px solid #cbcbcb;
+    /* border-bottom-left-radius: 6px; */
+    border-radius: 8px;
+    border-bottom: 2px solid #4f59ca;
+    height: 28px;
+    width: 350px;
+}
+
+
+/* 체크리스트 클릭시 나타나는 모달창의 전체 멤버 직무 정보를 감싸는 부모 div 박스 */
+.modal-body.all-member-role-info-Parent-Box 
+{
+    display: flex;
+    padding: unset;
+    border: 1px solid #cbcbcb;
+    /* border-bottom-left-radius: 6px; */
+    border-radius: 8px;
+    border-bottom: 2px solid #4f59ca;
+    height: 28px;
+    width: 350px;
+    margin-top: 10px;
+}
+
+
+/* 체크리스트 항목 추가자 닉네임 설명 타이틀 텍스트 스타일 */
+span.score-devision-title.nickname-desc-text 
+{
+    background: #4f59ca;
+    width: 160px;
+    height: max-content;
+    padding: 4px;
+}
+
+/* 체크리스트 항목 추가자 직무 설명 타이틀 텍스트 스타일 */
+span.member-role-desc-text.score-devision-title 
+{
+    background: #4f59ca;
+    width: 160px;
+    height: max-content;
+    padding: 4px;
+}
+
+/* 체크리스트 항목 추가자 닉네임 옆 아이콘 스타일 */
+span.score-devision-title-icon.material-symbols-outlined 
+{
+    font-size: 19px;
+    position: absolute;
+    left: 8px;
+    top: 2px;
+}
+
+/* 체크리스트 항목 추가자 직무 옆 아이콘 스타일 */
+span.member-role-desc-text-icon.material-symbols-outlined {
+    font-size: 19px;
+    position: absolute;
+    left: 8px;
+    top: 3px;
+}
+
+
+/* 체크리스트 항목 추가자 닉네임 텍스트를 감싸는 div 영역 */
+.checkbox-modal-nickname-box 
+{
+    /* border: 1px solid red; */
+    width: inherit;
+    text-align: center;
+    font-size: 14px;
+    color: #4f59ca;
+    font-weight: bold;
+    line-height: 25px;
+}
+
+
+/* 체크리스트 항목 추가자 직무 텍스트를 감싸는 div 영역 */
+.checkbox-modal-member-role-box 
+{
+    /* border: 1px solid red; */
+    width: inherit;
+    text-align: center;
+    font-size: 14px;
+    color: #4f59ca;
+    font-weight: bold;
+    line-height: 25px;
+}
+
+
+/* 체크리스트 항목 전체 내용을 감싸는 부모 div 영역 */
+.modal-body.all-score-devision-info-Parent-Box 
+{
+    display: inline-block;
+    margin-top: 18px;
+    margin-bottom: 16px;
+    margin-left: 18px;
+    padding: unset;
+    border: 1px solid #cbcbcb;
+    border-radius: 8px;
+    border-bottom: 1px solid #c3c3c3;
+    height: max-content;
+    width: 430px;
+    box-shadow: 0 1px 2px gray;
+}
+
+/* 체크리스트 항목 전체 내용 보기 타이틀 텍스트 스타일 */
+span.score-devision-desc-text.score-devision-title 
+{
+	width: 429px;
+    height: 32px;
+    font-size: 13px;
+    line-height: 25px;
+}
+
+
+/* 체크리스트 항목 전체 내용 텍스트를 감싸는 div 영역 */
+.checkbox-modal-content-box 
+{
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #36344b;
+}
+
+/* 체크리스트 항목 전체보기 모달창 헤더 영역 스타일 */
+.modal-header.checklist-more-modal-header 
+{
+    background: #4f59ca;
+    text-align: left;
+    height: 63px;
+}
+
+/* 체크리스트 항목 전체보기 모달창 헤더 텍스트 스타일 */
+h1#checklist-more-Label 
+{
+    font-size: 18px !important;
+    color: white;
+}
+
+
+/* 체크리스트 항목 전체보기 모달창 헤더 마일스톤 대분류 스텝명 텍스트 스타일 */
+span.checkbox-modal-step 
+{
+    color: white;
+    font-weight: bold;
+    text-shadow: -3px 0px 2px #838383;
+    font-size: 23px;
+    padding-left: 15px;
+    position: relative;
+    line-height: 34px;
+    margin-right: 5px;
+}
+
+
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩[마일스톤 완료시, 체크리스트와 스텝 숫자 박스가 어두워지도록 처리]▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+
+/* 마일스톤 대분류 스텝 박스의 블라인드 박스 div */
+.milestone-success-step-blindBox 
+{
+    /* display: inline-block; */
+    position: absolute;
+    background: #6d6d6d70;
+    width: 102px;
+    height: 45px;
+    left: -16px;
+    top: 53px;
+    z-index: 100;
+    border-radius: 4px;
+    display: none;
+}
+
+/* 마일스톤 체크리스트 박스의 블라인드 박스 div */
+.milestone-success-blindBox 
+{
+    height: 508px;
+    border-radius: 10px;
+    position: absolute;
+    background: #0000006b;
+    width: 450px;
+    z-index: 5;
+    display: none;
+}
