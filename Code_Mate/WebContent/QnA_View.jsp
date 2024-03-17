@@ -27,7 +27,7 @@ a{
 	text-decoration: none;
 }
 
-.forum-post-top {
+.forum-post-top {   
     display: flex;
 }
 
