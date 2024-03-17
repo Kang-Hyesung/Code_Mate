@@ -818,7 +818,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                                		<div class="jptitle1" >·내가 참여하고 있는 프로젝트</div>
 												
 											<c:forEach var="dto" items="${pjdto }">
-		                                    <div class="ingproject"><a href="project.action?ap_code=${dto.ap_code }" class="aa">
+		                                    <div class="ingproject"><a href="projectProgress.action?ap_code=${dto.ap_code }" class="aa">
 												<div class="col-12">
 													<div>
 														<p class="ptag">📁프로젝트</p>
