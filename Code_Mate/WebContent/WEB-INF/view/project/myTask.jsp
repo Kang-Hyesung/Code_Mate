@@ -11,6 +11,8 @@
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 
+	System.out.println(cp);
+	
 	String login = "";
 	String logout = "";
 	String name = "";
@@ -503,10 +505,10 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 					
 					<div class="menuOptions nav nav-underline" id="nav">
 						<ul class="nav-item">
-							<a href="projectProgress.action" class="majorTopic nav-link link">프로젝트 메인<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
+							<a href="projectProgress.action??cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">프로젝트 메인<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
 						</ul>
 						<ul class="nav-item ">
-							<a href="Milestone.action" class="majorTopic nav-link link">마일스톤<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
+							<a href="Milestone.action?cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">마일스톤<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
 							<li  class="miniMenuOption">
 								<ul>
 									<li class="miniMenuOption"><a href="#" class="nav-link link">결산보고서 작성</a></li>
@@ -514,12 +516,12 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="taskCal.action" class="majorTopic nav-link link">업무<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<a href="taskCal.action?cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">업무<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="taskView.action" class="nav-link link">업무목록 조회</a></li>
-									<li class="miniMenuOption"><a href="myTask.action" class="nav-link link">내 업무 보기</a></li>
-									<li class="miniMenuOption"><a href="reportView.action" class="nav-link link">업무보고서 조회</a></li>
+									<li class="miniMenuOption"><a href="taskView.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">업무목록 조회</a></li>
+									<li class="miniMenuOption"><a href="myTask.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">내 업무 보기</a></li>
+									<li class="miniMenuOption"><a href="reportView.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">업무보고서 조회</a></li>
 								</ul>
 							</li>
 						</ul>

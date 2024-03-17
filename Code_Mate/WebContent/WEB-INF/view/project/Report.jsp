@@ -65,6 +65,8 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 			var nickname = $("." + "nickname" + id).text();
 			
 			var date = $("." + "date" + id).text();
+		
+			var title = $("." + "taskTitle" + id).text();
 			
 			var content = $("." + "content" + id).val();
 			
@@ -74,9 +76,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 			$("#date").val(date);
 			$("#content").val(content);
 			$("#summary").val(summary);
-			
-			//var title = $(this).children(".task").children(".oneReport").children(".content")text()); // 업무명
-			//alert("업무명 " + title);
+			$("#title").val(title);
 		})
 		
 		// 승인버튼 클릭시
@@ -184,7 +184,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	.highback{background-color: #87b4f5;}
 	.midback{background-color: #fded85f5;}
 	.lowback{background-color: #f5877e;}
-	.writer{display: flex;}
+	/* .writer{display: flex;}
 	.writerspace {
     position: relative;
     width: 300px;
@@ -197,7 +197,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	.form-control:disabled {
     background-color: #ffffff;
 }
-	.result{display: contents;}
+	.result{display: contents;} */
 </style>
 </head>
 <body>
@@ -304,10 +304,10 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 					
 					<div class="menuOptions nav nav-underline" id="nav">
 						<ul class="nav-item">
-							<a href="projectProgress.action" class="majorTopic nav-link link">프로젝트 메인<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
+							<a href="projectProgress.action??cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">프로젝트 메인<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
 						</ul>
 						<ul class="nav-item ">
-							<a href="Milestone.action" class="majorTopic nav-link link">마일스톤<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
+							<a href="Milestone.action?cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">마일스톤<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
 							<li  class="miniMenuOption">
 								<ul>
 									<li class="miniMenuOption"><a href="#" class="nav-link link">결산보고서 작성</a></li>
@@ -315,12 +315,12 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="taskCal.action" class="majorTopic nav-link link">업무<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<a href="taskCal.action?cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">업무<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="taskView.action" class="nav-link link">업무목록 조회</a></li>
-									<li class="miniMenuOption"><a href="myTask.action" class="nav-link link">내 업무 보기</a></li>
-									<li class="miniMenuOption"><a href="reportView.action" class="nav-link link">업무보고서 조회</a></li>
+									<li class="miniMenuOption"><a href="taskView.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">업무목록 조회</a></li>
+									<li class="miniMenuOption"><a href="myTask.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">내 업무 보기</a></li>
+									<li class="miniMenuOption"><a href="reportView.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">업무보고서 조회</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -362,19 +362,19 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 								
 								<div class="onerow" id="${reportList[i].br_code }">
 										<c:if test="${reportList[i].state == '승인'}"> 
-											<div class="task highback"> <div class="taskTitle">${reportList[i].title }</div></div>
+											<div class="task highback"> <div class="taskTitle taskTitle${reportList[i].br_code }">${reportList[i].title }</div></div>
 												<div class="oneReport">
 													<div class="content nickname${reportList[i].br_code }">${reportList[i].nickname }</div>
 													<div class="date date${reportList[i].br_code }">${reportList[i].kdate }</div>
 										</c:if>
 										<c:if test="${reportList[i].state == '보류'}"> 
-											<div class="task midback"> <div class="taskTitle">${reportList[i].title }</div></div>
+											<div class="task midback"> <div class="taskTitle taskTitle${reportList[i].br_code }">${reportList[i].title }</div></div>
 												<div class="oneReport">
 													<div class="content nickname${reportList[i].br_code }">${reportList[i].nickname }</div>
 													<div class="date date${reportList[i].br_code }">${reportList[i].kdate }</div>
 										</c:if>
 										<c:if test="${reportList[i].state == '거절'}"> 
-											<div class="task lowback"> <div class="taskTitle">${reportList[i].title }</div></div>
+											<div class="task lowback"> <div class="taskTitle taskTitle${reportList[i].br_code }">${reportList[i].title }</div></div>
 												<div class="oneReport">
 													<div class="content nickname${reportList[i].br_code }">${reportList[i].nickname }</div>
 													<div class="date date${reportList[i].br_code }">${reportList[i].kdate }</div>
@@ -401,13 +401,14 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 												<span class="stateText">${reportList[i].state }</span>
 											</div>
 										</c:if>
+										<img src="C\Downloads\보리.jpg" />
 									</div>
 								</div>
 							</c:forEach>
 						</div>
 					</div>
 			</div>
-		<br><br><br><br><br><br>
+	
 		</div>
 </div><!-- end .row -->
 
@@ -436,12 +437,18 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
             <label for="recipient-name" class="col-form-label">보고서 요약</label>
             <input type="text" class="form-control" id="summary" disabled="disabled">
         </div>
+         <div class="mb-3 other">
+            <label for="recipient-name" class="col-form-label">첨부 파일</label>
+            <a href= "C\Downloads\보리.jpg" download="보리.jpg">보리.jpg</a>
+        </div>
         
         <!-- 팀장인 경우에만 보이도록 처리해야 함 -->
-        <div class="result">
-	        <button class="btn btn-primary pass">승인</button>
-	        <button class="btn btn-dark nonepass">거절</button>
-	    </div>
+        <c:if test="${flag eq 'leader' }">
+	        <div class="result">
+		        <button class="btn btn-primary pass">승인</button>
+		        <button class="btn btn-dark nonepass">거절</button>
+		    </div>
+	    </c:if>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

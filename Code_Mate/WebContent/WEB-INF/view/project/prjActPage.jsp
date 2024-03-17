@@ -60,8 +60,18 @@
 	/* 업무보고서로 넘어가는 검색모양 input */
 	.searchInput{border: none; width: 400px; margin: 10px 0 0 22px; background: white;}
 	/* searchInput 감싸는 div */
-	.searchBar{width: 500px; height: 50px; border: 1px solid gray; float: right; border-radius: 40px;
-			   margin-left: auto; background: white; box-shadow: 0px 3px 5px 0px #919191;}
+	.searchBar {
+    width: 500px;
+    height: 50px;
+    border: 1px solid gray;
+    float: right;
+    border-radius: 40px;
+    margin-left: auto;
+    background: white;
+    box-shadow: 0px 3px 5px 0px #919191;
+    position: relative;
+    right: 50px;
+}
 	h2,h3,h5{color: black;}
 	.content-first, .content-second{display: flex;}
 	

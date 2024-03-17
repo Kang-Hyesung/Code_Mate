@@ -5,6 +5,7 @@
 
 package com.test.mvc;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -149,6 +150,9 @@ public class ProjectController  extends HttpServlet
 		request.setAttribute("frontList", frontList);
 		request.setAttribute("backList", backList);
 		
+		request.setAttribute("ap_code", ap_code);
+		request.setAttribute("cp_code", cp_code);
+		
 		model.addAttribute("data", data);
 		
 		return "/WEB-INF/view/project/taskCal.jsp";
@@ -180,11 +184,14 @@ public class ProjectController  extends HttpServlet
 		request.setAttribute("frontList", frontList);
 		request.setAttribute("backList", backList);
 		
+		request.setAttribute("ap_code", ap_code);
+		request.setAttribute("cp_code", cp_code);
+		
 		return "/WEB-INF/view/project/taskView.jsp";
 	}
 	
 	@RequestMapping(value = "/taskInsert.action")
-	public String taskInsert(TaskDTO dto, ModelMap model, String ap_code, String cp_code)
+	public String taskInsert(TaskDTO dto, ModelMap model, String ap_code, String cp_code, HttpServletRequest request)
 	{
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
@@ -199,19 +206,23 @@ public class ProjectController  extends HttpServlet
 		
 		taskDao.addTask(dto);
 		
+		request.setAttribute("ap_code", ap_code);
+		request.setAttribute("cp_code", cp_code);
+		
 		return "redirect:taskView.action";
 	}
 	
 	@RequestMapping(value = "/myTask.action")
-	public String myTask(TaskDTO dto, ModelMap model)
+	public String myTask(TaskDTO dto, ModelMap model, HttpSession session, String cp_code,  String ap_code)
 	{
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
 		
+		MemberDTO member =  (MemberDTO)session.getAttribute("member");
+		String mem_code =  member.getMem_code();
 		
-		
-		String ma_codep = "MA0011";
+		String ma_codep = memberDao.getMacode(mem_code, cp_code);;
 		
 		ArrayList<ReportDTO> reportList = reportDao.getReport(ma_codep);
 		
@@ -220,13 +231,15 @@ public class ProjectController  extends HttpServlet
 		model.addAttribute("reportList", reportList);
 		
 		// 내 task 날짜별로 분류
-		ArrayList<TaskDTO> getMyIng = taskDao.getMyIng("CP0002", "MA0011");
-		ArrayList<TaskDTO> getMyWill = taskDao.getMyWill("CP0002", "MA0011");
-		ArrayList<TaskDTO> getMyEnd = taskDao.getMyEnd("CP0002", "MA0011");
+		ArrayList<TaskDTO> getMyIng = taskDao.getMyIng(cp_code, ma_codep);
+		ArrayList<TaskDTO> getMyWill = taskDao.getMyWill(cp_code,ma_codep);
+		ArrayList<TaskDTO> getMyEnd = taskDao.getMyEnd(cp_code, ma_codep);
 		
 		model.addAttribute("getMyIng", getMyIng);
 		model.addAttribute("getMyWill", getMyWill);
 		model.addAttribute("getMyEnd", getMyEnd);
+		model.addAttribute("cp_code", cp_code);
+		model.addAttribute("ap_code", ap_code);
 		
 		
 		
@@ -236,7 +249,12 @@ public class ProjectController  extends HttpServlet
 	@RequestMapping(value = "/insertReport.action" , method = RequestMethod.POST)
 	public String insertReport(HttpServletRequest request, HttpServletResponse response, ReportDTO dto, ModelMap model) 
 	{
-		String uploadPath = "C:\\Downloads";
+		// 경로
+		//String uploadPath = request.getServletContext().getRealPath("/") + "File";
+		String uploadPath ="Code_Mate\\Code_Mate\\File";
+		System.out.println("경로 테스트 : " + uploadPath);
+		
+		// 최대 파일 크기
 		int maxFileSize = 1024 * 1024 * 2;
 		String encType = "utf-8";
 		
@@ -263,10 +281,12 @@ public class ProjectController  extends HttpServlet
 				System.out.println(e.toString());
 			}
 		
+			// 파일 경로 + 서버에 저장된 파일명
+			String path = uploadPath + multi.getFilesystemName("file");
+			// 이용자가 올린 파일명
+			String fileName = multi.getOriginalFileName("file");
+			
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
-		
-		String savePath = "C://Downloads";
-		
 		
 		
 		//reportDao.addReport(dto.getTask_code(), dto.getContent(), dto.getSummary());
@@ -275,18 +295,29 @@ public class ProjectController  extends HttpServlet
 	}
 	
 	@RequestMapping(value = "/reportView.action")
-	public String Report(ReportDTO dto, ModelMap model)
+	public String Report(ReportDTO dto, ModelMap model, String cp_code, String ap_code, HttpSession session)
 	{
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		
-		ArrayList<ReportDTO> reportList = reportDao.list("CP0002");
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		String mem_code = member.getMem_code();
+		String leader_mem = memberDao.getLeader_mem(ap_code);
+		
+		String flag = "";
+		if(mem_code.equals(leader_mem))
+				flag = "leader";
+		model.addAttribute("flag", flag);
+		
+		ArrayList<ReportDTO> reportList = reportDao.list(cp_code);
 		
 		model.addAttribute("reportList", reportList);
 		
-		ArrayList<MemberDTO> memberList = memberDao.getMember("AP0006");
+		ArrayList<MemberDTO> memberList = memberDao.getMember(ap_code);
 		
 		model.addAttribute("memberList", memberList);
+		model.addAttribute("cp_code", cp_code);
+		model.addAttribute("ap_code", ap_code);
 		
 		return "/WEB-INF/view/project/Report.jsp";
 	}
