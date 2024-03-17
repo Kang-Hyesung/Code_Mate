@@ -40,4 +40,7 @@ public interface IPortfolioDAO
 	
 	// 백 가져오기
 	public List<HashMap<String, String>> findBack(String p_code);
+	
+	// 개설 신청 태그 가져오기
+	public List<HashMap<String, String>> getSubjectTagList(String p_code);
 }

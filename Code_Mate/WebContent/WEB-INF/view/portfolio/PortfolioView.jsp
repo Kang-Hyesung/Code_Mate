@@ -683,10 +683,11 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 									<p class="intro_desc">
 										${list.content}<br>
 									</p>
-									
+									<!-- 
 									<div class="store-link">
 										<a href="" class="store-link_link"><ion-icon name="globe-outline" class="icon icon--web"></ion-icon>Web </a>
 									</div>
+									 -->
 								</div>
 								
 								<div style="position: relative;">
@@ -776,9 +777,14 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 							<h3 class="detail_title">태그</h3>
 							<div class="detail_tag">
 								<div class="project-tag__wrapper">
+									<!-- 
 									<button type="button" class="badge-tag" style="cursor: auto;"> #습관형성 </button>
 									<button type="button" class="badge-tag" style="cursor: auto;"> #습관형성 </button>
 									<button type="button" class="badge-tag" style="cursor: auto;"> #습관형성 </button>
+									 -->
+									 <c:forEach var="i" begin = "0" end = "${subjectTagList.size()-1}" step="1">
+										<button type="button" class="badge-tag" style="cursor: auto;">${subjectTagList.get(i).get("SUBJECT_TAG")}</button>
+									</c:forEach>
 								</div>
 							</div>
 						</div>

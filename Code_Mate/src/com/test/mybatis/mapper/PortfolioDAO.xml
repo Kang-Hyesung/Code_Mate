@@ -116,5 +116,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		AND AR.RESULT = '합격'
   		AND MR_CODE = 'MR0003'
 	</select>
+	
+	<select id="getSubjectTagList" resultType="hashmap">
+		SELECT O.TAG_NAME AS SUBJECT_TAG
+		FROM OPEN_TAG O, APP_OPENING A, C_PROJECT C, PORTFOLIO P
+		WHERE O.AP_CODE = A.AP_CODE
+  		AND A.AP_CODE = C.AP_CODE
+  		AND C.CP_CODE = P.CP_CODE
+  		AND P.P_CODE = #{arg0}
+	</select>
 
 </mapper>

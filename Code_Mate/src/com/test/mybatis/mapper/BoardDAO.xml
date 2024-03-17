@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mybatis.dao.IBoardDAO">
+	
+	<!-- 전체 게시판 -->
+	
+	<select id="getLists" resultType="com.test.mybatis.dto.BoardDTO">
+		SELECT Q.CQ_CODE AS CODE, Q.TITLE AS TITLE, Q.CONTENT AS CONTENT, TO_CHAR(Q.KDATE, 'YYYY-MM-DD') AS KDATE, Q.VIEWS AS VIEWS, M.NICKNAME AS NICKNAME, Q.MEM_CODE
+		,( SELECT NVL(COUNT(*), 0) AS COUNT FROM CQ_COMMENT C1 INNER JOIN C_QnA Q1 ON C1.CQ_CODE = Q1.CQ_CODE WHERE Q1.CQ_CODE = Q.CQ_CODE
+		) AS COMMENTS
+		FROM C_QnA Q, CQ_COMMENT C, MEMBER M
+		WHERE Q.CQ_CODE = C.CQ_CODE(+)
+		  AND Q.MEM_CODE = M.MEM_CODE
+		GROUP BY Q.CQ_CODE, Q.TITLE, Q.CONTENT, Q.KDATE, Q.VIEWS, Q.MEM_CODE, M.NICKNAME
+		    UNION 
+		SELECT T.TQ_CODE AS CODE, T.TITLE AS TITLE, T.CONTENT AS CONTENT, TO_CHAR(T.KDATE, 'YYYY-MM-DD') AS KDATE, T.VIEWS AS VIEWS, M.NICKNAME AS NICKNAME, T.MEM_CODE
+		,( SELECT NVL(COUNT(*), 0) AS COUNT FROM TQ_COMMENT CC1 INNER JOIN TECH_QNA T1 ON CC1.TQ_CODE = T1.TQ_CODE WHERE T1.TQ_CODE = T.TQ_CODE
+		) AS COMMENTS
+		FROM TECH_QNA T, TQ_COMMENT CC, MEMBER M
+		WHERE T.TQ_CODE = CC.TQ_CODE(+)
+		  AND T.MEM_CODE = M.MEM_CODE
+		GROUP BY T.TQ_CODE, T.TITLE, T.CONTENT, T.KDATE, T.VIEWS, T.MEM_CODE, NICKNAME
+		ORDER BY KDATE DESC
+	</select>
+	
+	<select id="getTotalCount" resultType="java.lang.Integer">
+		SELECT (SELECT COUNT(*) FROM C_QnA) + (SELECT COUNT(*) FROM TECH_QNA) AS COUNT
+		FROM DUAL
+	</select>
+	
+	<select id="getLikeRanking"  resultType="com.test.mybatis.dto.LikeDTO">
+		SELECT NICKNAME, TOTAL
+		FROM
+		(
+		SELECT NICKNAME, SUM(LIEKS) AS TOTAL
+		FROM
+		(
+		SELECT M.NICKNAME AS NICKNAME, COUNT(*) AS LIEKS
+		FROM TECH_UP U, TQ_COMMENT Q, MEMBER M
+		WHERE U.TC_CODE = Q.TC_CODE
+		  AND Q.MEM_CODE = M.MEM_CODE
+		GROUP BY NICKNAME
+		    UNION
+		SELECT M.NICKNAME AS NICKNAME, COUNT(*) AS LIEKS
+		FROM CAREER_UP U, CQ_COMMENT Q, MEMBER M
+		WHERE U.CQC_CODE = Q.CQC_CODE
+		  AND Q.MEM_CODE = M.MEM_CODE
+		GROUP BY NICKNAME
+		)
+		GROUP BY NICKNAME
+		ORDER BY TOTAL DESC
+		)
+		WHERE 7 >= ROWNUM
+	</select>
+	
+	<select id="getTrend" resultType="com.test.mybatis.dto.BoardDTO">
+		SELECT CODE, TITLE
+		FROM (
+		    SELECT CODE, TITLE, RN
+		    FROM (
+		        SELECT CODE, TITLE, ROW_NUMBER() OVER (ORDER BY VIEWS DESC) AS RN
+		        FROM (
+		            SELECT CQ_CODE AS CODE, TITLE, VIEWS
+		            FROM C_QnA
+		            WHERE KDATE >= SYSDATE - 30
+		            UNION ALL
+		            SELECT TQ_CODE AS CODE, TITLE, VIEWS
+		            FROM TECH_QnA
+		            WHERE KDATE >= SYSDATE - 30
+		        )
+		    )
+		    WHERE 6 >= RN
+		)
+	</select>
+	
+	<!-- 기술 게시판 -->
+	<select id="getTechLists" resultType="com.test.mybatis.dto.BoardDTO">
+		SELECT T.TQ_CODE AS CODE, T.TITLE AS TITLE, T.CONTENT AS CONTENT, TO_CHAR(T.KDATE, 'YYYY-MM-DD') AS KDATE, T.VIEWS AS VIEWS, M.NICKNAME AS NICKNAME, T.MEM_CODE
+		,( SELECT NVL(COUNT(*), 0) AS COUNT FROM TQ_COMMENT CC1 INNER JOIN TECH_QNA T1 ON CC1.TQ_CODE = T1.TQ_CODE WHERE T1.TQ_CODE = T.TQ_CODE
+		) AS COMMENTS
+		FROM TECH_QNA T, TQ_COMMENT CC, MEMBER M
+		WHERE T.TQ_CODE = CC.TQ_CODE(+)
+  		AND T.MEM_CODE = M.MEM_CODE
+		GROUP BY T.TQ_CODE, T.TITLE, T.CONTENT, T.KDATE, T.VIEWS, T.MEM_CODE, NICKNAME
+		ORDER BY KDATE DESC
+	</select>
+	
+	<select id="getTechCount" resultType="java.lang.Integer">
+		SELECT NVL(COUNT(*),0) AS COUNT
+		FROM TECH_QNA
+	</select>
+	
+	<select id="getTechLikeRanking"  resultType="com.test.mybatis.dto.LikeDTO">
+		SELECT NICKNAME, LIKES
+		FROM (
+		    SELECT M.NICKNAME AS NICKNAME, COUNT(*) AS LIKES
+		    FROM TECH_UP U, TQ_COMMENT Q, MEMBER M
+		    WHERE U.TC_CODE = Q.TC_CODE
+		      AND Q.MEM_CODE = M.MEM_CODE
+		    GROUP BY NICKNAME
+		    ORDER BY LIKES DESC
+		)
+		WHERE 7 >= ROWNUM
+	</select>
+	
+	<select id="getTechTrend" resultType="com.test.mybatis.dto.BoardDTO">
+		SELECT TQ_CODE, TITLE
+		FROM (
+		    SELECT TQ_CODE, TITLE, CONTENT, KDATE, VIEWS, MEM_CODE,
+		           ROW_NUMBER() OVER (ORDER BY VIEWS DESC) AS RN
+		    FROM TECH_QnA
+		    WHERE KDATE >= SYSDATE - 30
+		)
+		WHERE 6 >= RN
+	</select>
+	
+	<!-- 커리어 게시판 -->
+	<select id="getCarLists" resultType="com.test.mybatis.dto.BoardDTO">
+		SELECT Q.CQ_CODE AS CODE, Q.TITLE AS TITLE, Q.CONTENT AS CONTENT, TO_CHAR(Q.KDATE, 'YYYY-MM-DD') AS KDATE, Q.VIEWS AS VIEWS, M.NICKNAME AS NICKNAME, Q.MEM_CODE
+		,( SELECT NVL(COUNT(*), 0) AS COUNT FROM CQ_COMMENT C1 INNER JOIN C_QnA Q1 ON C1.CQ_CODE = Q1.CQ_CODE WHERE Q1.CQ_CODE = Q.CQ_CODE
+		) AS COMMENTS
+		FROM C_QnA Q, CQ_COMMENT C, MEMBER M
+		WHERE Q.CQ_CODE = C.CQ_CODE(+)
+  		AND Q.MEM_CODE = M.MEM_CODE
+		GROUP BY Q.CQ_CODE, Q.TITLE, Q.CONTENT, Q.KDATE, Q.VIEWS, Q.MEM_CODE, M.NICKNAME
+		ORDER BY KDATE DESC
+	</select>
+	
+	<select id="getCarCount" resultType="java.lang.Integer">
+		SELECT NVL(COUNT(*),0) AS COUNT
+		FROM C_QNA
+	</select>
+	
+	<select id="getCarLikeRanking"  resultType="com.test.mybatis.dto.LikeDTO">
+		SELECT NICKNAME, LIKES
+		FROM (
+		SELECT M.NICKNAME AS NICKNAME, COUNT(*) AS LIKES
+		FROM CAREER_UP U, CQ_COMMENT Q, MEMBER M
+		WHERE U.CQC_CODE = Q.CQC_CODE
+		  AND Q.MEM_CODE = M.MEM_CODE
+		GROUP BY NICKNAME
+		ORDER BY LIKES DESC
+		)
+		WHERE 7 >= ROWNUM
+	</select>
+	
+	<select id="getCarTrend" resultType="com.test.mybatis.dto.BoardDTO">
+		SELECT CQ_CODE, TITLE
+		FROM (
+		    SELECT CQ_CODE, TITLE, CONTENT, KDATE, VIEWS, MEM_CODE,
+		           ROW_NUMBER() OVER (ORDER BY VIEWS DESC) AS RN
+		    FROM C_QnA
+		    WHERE KDATE >= SYSDATE - 30
+		)
+		WHERE 6 >= RN
+	</select>
+	
+	<!-- 커리어 게시물-->
+	<select id="getCarArticle"  resultType="com.test.mybatis.dto.ArticleDTO">
+		SELECT C.CQ_CODE AS CODE, C.TITLE AS TITLE, C.CONTENT AS CONTENT, TO_CHAR(C.KDATE, 'YYYY-MM-DD') AS KDATE, C.VIEWS AS VIEWS, C.MEM_CODE AS MEM_CODE, M.NICKNAME AS NICKNAME
+		FROM C_QNA C, MEMBER M
+		WHERE C.MEM_CODE = M.MEM_CODE
+  		AND C.CQ_CODE = #{arg0}
+	</select>
+	
+	<select id="getCarComment" resultType="com.test.mybatis.dto.CommentDTO">
+		SELECT C.CQC_CODE, TO_CHAR(C.KDATE, 'YYYY-MM-DD') AS KDATE, C.COMMENTS, C.MEM_CODE, M.NICKNAME
+        ,(
+            SELECT NVL(COUNT(*), 0) AS COUNT FROM CAREER_UP U1 INNER JOIN CQ_COMMENT C1 ON U1.CQC_CODE = C1.CQC_CODE WHERE C1.CQC_CODE = C.CQC_CODE
+        ) AS LIKES
+		FROM CQ_COMMENT C, MEMBER M, CAREER_UP U
+		WHERE C.MEM_CODE = M.MEM_CODE
+        AND C.CQC_CODE = U.CQC_CODE(+)
+  		AND CQ_CODE = #{arg0}
+        GROUP BY C.CQC_CODE, C.KDATE, COMMENTS, C.MEM_CODE, M.NICKNAME
+        ORDER BY LIKES DESC
+	</select>
+	
+	<select id="getCFlag" resultType="com.test.mybatis.dto.FlagDTO">
+		SELECT C.CQC_CODE AS CoCODE, COUNT(*) AS FLAG
+		FROM CAREER_UP U, CQ_COMMENT C
+		WHERE U.CQC_CODE = C.CQC_CODE
+		  AND C.CQ_CODE = #{arg0}
+		  AND U.MEM_CODE = #{arg1}   
+		GROUP BY C.CQC_CODE
+	</select>
+	
+	<update id="carViewsUp">
+		UPDATE C_QNA
+		SET VIEWS = (SELECT NVL(VIEWS,0) +1 FROM C_QNA WHERE CQ_CODE = #{arg0})
+		WHERE CQ_CODE = #{arg0}
+	</update>
+	
+	<insert id="carLikeUp">
+		INSERT INTO CAREER_UP(CU_CODE, CQC_CODE, MEM_CODE) VALUES (TO_CHAR('CU'||LPAD(CU_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1})
+	</insert>
+	
+	<delete id="carLikeDown">
+		DELETE
+		FROM CAREER_UP
+		WHERE CQC_CODE = #{arg0}
+		AND   MEM_CODE = #{arg1}
+	</delete>
+	
+	<select id="finCLike" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM CAREER_UP
+		WHERE CQC_CODE = #{arg0}
+	</select>
+	
+	<select id="findCComment" resultType="hashmap">
+	SELECT C.CQC_CODE AS CQC_CODE
+	FROM C_QNA Q, CQ_COMMENT C, CQ_REPLY2 R
+	WHERE Q.CQ_CODE = C.CQ_CODE
+	  AND C.CQC_CODE = R.CQC_CODE(+)
+	  AND Q.CQ_CODE = #{arg0}
+	  GROUP BY C.CQC_CODE
+	</select>
+	
+	<select id="getCReply" resultType="com.test.mybatis.dto.ReplyDTO">
+		SELECT R.CQ2_CODE AS R_CODE, TO_CHAR(R.KDATE, 'YYYY-MM-DD') AS KDATE, R.COMMENTS AS REPLY, R.CQC_CODE AS CQC_CODE, R.MEM_CODE AS MEM_CODE, M.NICKNAME AS NICKNAME
+		FROM CQ_REPLY2 R, MEMBER M
+		WHERE R.MEM_CODE = M.MEM_CODE
+  		AND R.CQC_CODE = #{arg0}
+  		ORDER BY R.KDATE
+	</select>
+	
+	<insert id="cReplyInsert">
+		INSERT INTO CQ_REPLY2(CQ2_CODE, COMMENTS, CQC_CODE, MEM_CODE) 
+		VALUES(TO_CHAR('CQ2'||LPAD(CQ2_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1}, #{arg2})
+	</insert>
+	
+	<insert id="cCommentInsert">
+		INSERT INTO CQ_COMMENT(CQC_CODE, COMMENTS, CQ_CODE, MEM_CODE) VALUES(TO_CHAR('CQC'||LPAD(CQC_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1}, #{arg2})
+	</insert>
+	
+	<insert id="cInsert">
+		INSERT INTO C_QNA(CQ_CODE, TITLE, CONTENT, VIEWS, MEM_CODE) VALUES(TO_CHAR('CQ'||LPAD(CQ_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1}, 0, #{arg2})
+	</insert>
+	
+	<!-- 전체 페이징 리스트 -->
+	<select id="getPageList" resultType="com.test.mybatis.dto.BoardDTO">
+		SELECT RN, CODE, TITLE, CONTENT, KDATE, VIEWS, NICKNAME, MEM_CODE, COMMENTS
+		FROM (
+		    SELECT ROWNUM RN, A.*
+		    FROM (
+		        SELECT *
+		        FROM VIEW_TEST
+		        ORDER BY KDATE DESC
+		    ) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		ORDER BY KDATE DESC
+	</select>
+	
+	<!-- 기술 페이징 리스트 -->
+	<select id="getCPageList" resultType="com.test.mybatis.dto.BoardDTO">
+		SELECT RN, CODE, TITLE, CONTENT, KDATE, VIEWS, NICKNAME, MEM_CODE, COMMENTS
+		FROM (
+		    SELECT ROWNUM RN, A.*
+		    FROM (
+		        SELECT *
+		        FROM PAGINGVIEW_TECH
+		        ORDER BY KDATE DESC
+		    ) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		ORDER BY KDATE DESC
+	</select>
+	
+	<!-- 커리어 페이징 리스트 -->
+	<select id="getTPageList" resultType="com.test.mybatis.dto.BoardDTO">
+		SELECT RN, CODE, TITLE, CONTENT, KDATE, VIEWS, NICKNAME, MEM_CODE, COMMENTS
+		FROM (
+		    SELECT ROWNUM RN, A.*
+		    FROM (
+		        SELECT *
+		        FROM PAGINGVIEW_CAR
+		        ORDER BY KDATE DESC
+		    ) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		ORDER BY KDATE DESC
+	</select>
+	
+	<!-- 기술 페이지 뷰 -->
+	<select id="getTechArticle"  resultType="com.test.mybatis.dto.ArticleDTO">
+		SELECT T.TQ_CODE AS CODE, T.TITLE AS TITLE, T.CONTENT AS CONTENT, TO_CHAR(T.KDATE, 'YYYY-MM-DD') AS KDATE, T.VIEWS AS VIEWS, T.MEM_CODE AS MEM_CODE, M.NICKNAME AS NICKNAME
+		FROM TECH_QNA T, MEMBER M
+		WHERE T.MEM_CODE = M.MEM_CODE
+		AND T.TQ_CODE = #{arg0}
+	</select>
+	
+	<select id="getTarComment" resultType="com.test.mybatis.dto.CommentDTO">
+		SELECT T.TC_CODE AS CQC_CODE, TO_CHAR(T.KDATE, 'YYYY-MM-DD') AS KDATE, T.COMMENTS, T.MEM_CODE, M.NICKNAME
+        ,(
+            SELECT NVL(COUNT(*), 0) AS COUNT FROM TECH_UP U1 INNER JOIN TQ_COMMENT C1 ON U1.TC_CODE = C1.TC_CODE WHERE C1.TC_CODE = T.TC_CODE
+        ) AS LIKES
+		FROM TQ_COMMENT T, MEMBER M, TECH_UP U
+		WHERE T.MEM_CODE = M.MEM_CODE
+        AND T.TC_CODE = U.TC_CODE(+)
+  		AND TQ_CODE = #{arg0}
+        GROUP BY T.TC_CODE, T.KDATE, COMMENTS, T.MEM_CODE, M.NICKNAME
+        ORDER BY LIKES DESC
+	</select>
+	
+	<select id="getTFlag" resultType="com.test.mybatis.dto.FlagDTO">
+		SELECT C.TC_CODE AS CoCODE, COUNT(*) AS FLAG
+		FROM TECH_UP U, TQ_COMMENT C
+		WHERE U.TC_CODE = C.TC_CODE
+		  AND U.MEM_CODE = #{arg0}
+		  AND C.TQ_CODE = #{arg1}
+		  GROUP BY C.TC_CODE
+	</select>
+	
+	<update id="techViewsUp">
+		UPDATE TECH_QNA
+		SET VIEWS = (SELECT NVL(VIEWS,0) +1 FROM TECH_QNA WHERE TQ_CODE = #{arg0})
+		WHERE TQ_CODE = #{arg0}
+	</update>
+	
+	<insert id="techLikeUp">
+		INSERT INTO TECH_UP(TU_CODE, TC_CODE, MEM_CODE) VALUES (TO_CHAR('TU'||LPAD(TU_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1})
+	</insert>
+	
+	<delete id="techLikeDown">
+		DELETE
+		FROM TECH_UP
+		WHERE TC_CODE = #{arg0}
+		AND   MEM_CODE = #{arg1}
+	</delete>
+	
+	<select id="finTLike" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM TECH_UP
+		WHERE TC_CODE = #{arg0}
+	</select>
+	
+	<select id="findTComment" resultType="hashmap">
+	SELECT C.TC_CODE AS CQC_CODE
+	FROM TECH_QNA Q, TQ_COMMENT C, TQ_REPLY2 R
+	WHERE Q.TQ_CODE = C.TQ_CODE
+	  AND C.TC_CODE = R.TC_CODE(+)
+	  AND Q.TQ_CODE = #{arg0}
+	  GROUP BY C.TC_CODE
+	</select>
+	
+	<select id="getTReply" resultType="com.test.mybatis.dto.ReplyDTO">
+		SELECT R.T2_CODE AS R_CODE, TO_CHAR(R.KDATE, 'YYYY-MM-DD') AS KDATE, R.COMMENTS AS REPLY, R.TC_CODE AS CQC_CODE, R.MEM_CODE AS MEM_CODE, M.NICKNAME AS NICKNAME
+		FROM TQ_REPLY2 R, MEMBER M
+		WHERE R.MEM_CODE = M.MEM_CODE
+  		AND R.TC_CODE = #{arg0}
+  		ORDER BY R.KDATE
+	</select>
+	
+	<insert id="tReplyInsert">
+		INSERT INTO TQ_REPLY2(T2_CODE, COMMENTS, TC_CODE, MEM_CODE) 
+		VALUES(TO_CHAR('T2'||LPAD(T2_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1}, #{arg2})
+	</insert>
+	
+	<insert id="tCommentInsert">
+		INSERT INTO TQ_COMMENT(TC_CODE, COMMENTS, TQ_CODE, MEM_CODE) VALUES(TO_CHAR('TC'||LPAD(TC_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1}, #{arg2})
+	</insert>
+	
+	<insert id="tInsert">
+		INSERT INTO TECH_QNA(TQ_CODE, TITLE, CONTENT, VIEWS, MEM_CODE) VALUES(TO_CHAR('TQ'||LPAD(TQ_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1}, 0, #{arg2})
+	</insert>
+	
+	<select id="getReason" resultType="com.test.mybatis.dto.ReasonDTO">
+		SELECT RR_CODE, REASON
+		FROM REPORT_REASON
+	</select>
+	
+	<insert id="cReportInsert">
+		INSERT INTO CQ_REPORT (QR_CODE, CONTENT, CQ_CODE, RR_CODE, MEM_CODE) VALUES (TO_CHAR('QR'||LPAD(QR_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1}, #{arg2}, #{arg3})
+	</insert>
+	
+	<insert id="tReportInsert">
+		INSERT INTO TQ_REPORT (TQR_CODE, CONTENT, TQ_CODE, RR_CODE, MEM_CODE) VALUES (TO_CHAR('TQR'||LPAD(TQR_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1}, #{arg2}, #{arg3})
+	</insert>
+	
+	<select id="getVoteTitle" resultType="com.test.mybatis.dto.VoteDTO">
+		SELECT V_CODE, TITLE, CQ_CODE
+		FROM CVOTE
+		WHERE CQ_CODE = #{arg0}
+	</select>
+	
+	<select id="getVoteContent" resultType="com.test.mybatis.dto.VoteDTO">
+		SELECT S.VS_CODE, S.CONTENT, S.V_CODE
+		    ,
+		    (   
+		        SELECT NVL(COUNT(*), 0) AS COUNT
+		        FROM CVOTE_P P1
+		        INNER JOIN CVOTE_SEL S1
+		        ON P1.VS_CODE = S1.VS_CODE
+		        WHERE S1.VS_CODE = S.VS_CODE
+		    ) AS COUNT
+		FROM CVOTE V, CVOTE_SEL S, CVOTE_P P
+		WHERE V.V_CODE = S.V_CODE
+		AND S.VS_CODE = P.VS_CODE(+)
+		AND V.CQ_CODE = #{arg0}
+		GROUP BY S.VS_CODE, S.CONTENT, S.V_CODE
+		ORDER BY COUNT DESC
+	</select>
+	
+	<insert id="voteP">
+		INSERT INTO CVOTE_P(VP_CODE, VS_CODE, MEM_CODE) VALUES(TO_CHAR('VP'||LPAD(VP_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1})
+	</insert>
+	
+</mapper>
