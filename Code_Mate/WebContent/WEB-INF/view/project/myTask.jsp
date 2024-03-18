@@ -567,7 +567,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 							<a href="Milestone.action?cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">마일스톤<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
 							<li  class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">결산보고서 작성</a></li>
+									<li class="miniMenuOption"><a href="finalReportPage.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">결산보고서 작성</a></li>
 								</ul>
 							</li>
 						</ul>
