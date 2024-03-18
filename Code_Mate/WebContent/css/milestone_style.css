@@ -729,7 +729,7 @@ button.milestone-add-list-btn.btn.btn-light.plan-list-add-btn.design:active
 .progress-bar.milestone-progress-bar.plan.text-dark.implement 
 {
     background: #f3c027;
-    width: 50%;
+    width: 0%;
 }
 
 /* [구현] 완료한 마일스톤 체크리스트 퍼센트 숫자 텍스트 스타일 */

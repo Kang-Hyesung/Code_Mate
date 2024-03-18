@@ -43,8 +43,14 @@ public class MilestoneController
 	@RequestMapping(value = "/Milestone.action", method = RequestMethod.GET)
 	public String milestonePage(ModelMap model, HttpSession session, HttpServletRequest request, String ap_code, String cp_code)
 	{
+//		String testCpCode = (String) request.getAttribute("cp_code");
+//		String testApCode = (String) request.getAttribute("ap_code");
 		
 		System.out.println("마일스톤 페이지 요청 확인" + cp_code + " " + ap_code);
+		
+		
+//		System.out.println("테스트 cp 코드 : " + testCpCode);
+//		System.out.println("테스트 ap 코드 : " + testApCode);
 		
 		
 		
@@ -54,13 +60,16 @@ public class MilestoneController
 		
 		//[ 로그인한 회원의 MEM_CODE 와, 진입한 참여 프로젝트의 개설확정 코드 CP_CODE를 이용해
 		//  멤버 지원 코드 얻어내기 ]============================================================
+		System.out.println("1");
+		ap_code = dao.searchPjApCode(cp_code);
 		
-		
+		System.out.println("2");
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		int backendScore;
 		int frontendScore;
 		ArrayList<Milestone_MemberEvaluDTO> memberEvaluList = null;
 		String memberRole = null;
+		System.out.println("3");
 		
 		
 		if (member != null)
@@ -99,6 +108,9 @@ public class MilestoneController
 		
 		// 개설확정코드
 		model.addAttribute("cp_code", cp_code);
+		// 개설신청코드
+		model.addAttribute("ap_code", ap_code);
+		
 		
 		model.addAttribute("planCheckList", dao.milestone_checkList(cp_code, "기획"));
 		model.addAttribute("designCheckList", dao.milestone_checkList(cp_code, "설계"));
@@ -211,65 +223,98 @@ public class MilestoneController
 	//=================================================================================================
 	// [체크리스트 항목을 추가하는 액션 처리]
 	//=================================================================================================
-	@RequestMapping(value = "/checklist_insert.action", method = RequestMethod.POST)
-	public String checklistInsertingAction(String v_cp_code, String v_ma_code, String v_step, String v_content, ModelMap model)
+	@ResponseBody
+	@RequestMapping(value = "/checklist_insert.action", method = RequestMethod.GET)
+	public String checklistInsertingAction(String cp_code, String ap_code, String v_ma_code, String v_step, String v_content, ModelMap model, HttpServletRequest request)
 	{
 		//System.out.println("1");
 		//(String v_cp_code, String v_ma_code, String v_step, String v_content)
-		System.out.println("멤버추가 페이지 요청 확인" + v_cp_code);
+		System.out.println("멤버추가 페이지 요청 확인" + cp_code);
 		
 		IMilestoneDAO dao = sqlSession.getMapper(IMilestoneDAO.class);
 		
 		//System.out.println("컨트롤러 동작 확인");
 		
-		System.out.println("[체크리스트 항목 추가] 개설확정코드 : " + v_cp_code);
+		//String ap_code = dao.searchPjApCode(cp_code);
+		
+		System.out.println("[체크리스트 항목 추가] 개설신청코드 : " + ap_code);
+		System.out.println("[체크리스트 항목 추가] 개설확정코드 : " + cp_code);
 		System.out.println("[체크리스트 항목 추가] 멤버지원코드 : " + v_ma_code);
 		System.out.println("[체크리스트 항목 추가] 단계 : " + v_step);
 		System.out.println("[체크리스트 항목 추가] 내용 : " + v_content);
 
-		dao.checkListInserting(v_cp_code, v_ma_code, v_step, v_content);
+		dao.checkListInserting(cp_code, v_ma_code, v_step, v_content);
 		
-		model.addAttribute("cp_code", v_cp_code);
+		//model.addAttribute("cp_code", v_cp_code);
+		//model.addAttribute("ap_code", ap_code);
 		
-		return "redirect:Milestone.action?";
+		request.setAttribute("cp_code", cp_code);
+		request.setAttribute("ap_code", ap_code);
+		
+		System.out.println("인서트 ap_code 확인" + ap_code);
+		System.out.println("인서트 cp_code 확인" + cp_code);
+		
+		//return "Milestone.action?cp_code=" + cp_code + "&ap_code=" + ap_code;
+		return "hello";
 	}
 
 	
 	//[체크리스트 수정 버튼 클릭시, 이전 데이터 값 뿌려주기]=================================
 	@ResponseBody
 	@RequestMapping(value = "/checklist_edit.action", method = RequestMethod.POST)
-	public String checklistEditAction(String checklist_code)
+	public String checklistEditAction(String checklist_code, String cp_code)
 	{
 		
 		IMilestoneDAO dao = sqlSession.getMapper(IMilestoneDAO.class);
 		
-		String checklist_content = dao.searchCheckList(checklist_code);
+		StringBuffer sb = new StringBuffer();
+		String ap_code = dao.searchPjApCode(cp_code);
+		
+		
+		sb.append("{\"checklist_content\" : " + "\"" + dao.searchCheckList(checklist_code) + "\"");
+		sb.append(", \"cp_code\" : " + "\"" + cp_code + "\"");
+		sb.append(", \"ap_code\" : " + "\"" + ap_code + "\"}");
+		
+		System.out.println("완성된 Json 형태 문자열 : " + sb.toString());
+		
+		//System.out.println("[수정 버튼 클릭] cp_code : " + cp_code);
+		
+		
 		
 		//System.out.println("[체크리스트 수정 클릭] 넘어온 코드 값   : " + checklist_code);
 		//System.out.println("[체크리스트 수정 클릭] 클릭한 항목 내용 : " + checklist_content);
 		
-		return checklist_content;
+		//return checklist_content;
+		//return "hello~";
+		return sb.toString();
 	}
 	
 	
 	//[체크리스트 수정 액션]===================================================================
 	@RequestMapping(value = "/checklist_edit_ok.action", method = RequestMethod.GET)
-	public String checklistEditOkAction(String ma_code, String checklist_code, String checklist_content) throws ScriptException
+	public String checklistEditOkAction(HttpServletRequest request, String ma_code, String checklist_code, String checklist_content, String ap_code, String cp_code) throws ScriptException
 	{
 		IMilestoneDAO dao = sqlSession.getMapper(IMilestoneDAO.class);
 		
-		System.out.println("체크 코드 : " + checklist_code);
+		//ap_code = request.getParameter("ap_code");
+		//cp_code = request.getParameter("cp_code");
+		
+		
+		System.out.println("수정 체크 코드 : " + checklist_code);
+		System.out.println("개설 신청 코드 : " + ap_code);
+		System.out.println("개설 확정 코드 : " + cp_code);
 		System.out.println("멤버 지원 코드 : " + ma_code);
 		System.out.println("체크 리스트 내용 : " + checklist_content);
 		
 		dao.checkListEditOk(checklist_code, ma_code, checklist_content);
 		
-		return "redirect:Milestone.action";
+		return "redirect:Milestone.action?ap_code=" + ap_code + "&cp_code=" + cp_code;
 	}
 	
 	//[체크리스트 삭제 액션]===================================================================
+	@ResponseBody
 	@RequestMapping(value = "/checklist_delete_ok.action", method = RequestMethod.POST)
-	public String checklistDeleteOkAction(String checklist_code)
+	public void checklistDeleteOkAction(String checklist_code)
 	{
 		IMilestoneDAO dao = sqlSession.getMapper(IMilestoneDAO.class);
 		
@@ -277,7 +322,7 @@ public class MilestoneController
 		
 		dao.checkListDelOk(checklist_code);
 		
-		return "redirect:Milestone.action";
+		//return "redirect:Milestone.action";
 		
 	}
 	

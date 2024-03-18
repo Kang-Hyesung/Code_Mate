@@ -28,4 +28,7 @@ public interface IMemberDAO
 	
 	//ap_code 로 cp_code 가져오기
 	public String getCp_code(String ap_code);
+	
+	// 프로필 사진 업데이트
+	public void changeProfile(String path, String mem_code);
 }

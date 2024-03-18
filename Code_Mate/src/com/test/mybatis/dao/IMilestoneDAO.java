@@ -40,6 +40,10 @@ public interface IMilestoneDAO
 	
 	// [개설 확정 코드와, 멤버 코드로 멤버지원코드 반환받기]
 	public String searchMyMaCode(String mem_code, String prj_cp_code);
+
+	
+	// [개설 확정 코드로 개설 신청 코드 반환받기]
+	public String searchPjApCode(String cp_code);
 	
 	
 	// [체크리스트 코드를 이용하여, 대분류 단계명, 프로젝트 개설확정 코드 반환받기]

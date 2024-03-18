@@ -354,6 +354,7 @@ public class ProjectApplyController
 			MemberDTO member = (MemberDTO)session.getAttribute("member");
 			int backendScore;
 			int frontendScore;
+			 
 			
 			IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
 			

@@ -258,5 +258,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	
+	<!-- 개설 확정 코드로 개설 신청 코드 반환받기 -->
+	<!-- public String searchPjApCode(String cp_code); -->
+	<select id="searchPjApCode" resultType="java.lang.String">
+		SELECT 개설신청코드 AS "AP_CODE"
+		FROM OPEN_PRJ_MEMBERS_VIEW
+		WHERE 개설확정코드 = #{arg0}
+		GROUP BY 개설신청코드
+	</select>
+	
+	
 
 </mapper>

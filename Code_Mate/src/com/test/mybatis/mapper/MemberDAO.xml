@@ -19,9 +19,10 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 	</select>
 	
 	<select id="login" resultType="com.test.mybatis.dto.MemberDTO" >
-		SELECT M.MEM_CODE, M.ID, M.PW, M.NICKNAME, M.MBTI_CODE, ADMIN_CODE
+		SELECT M.MEM_CODE, M.ID, M.PW, M.NICKNAME, M.MBTI_CODE, ADMIN_CODE, p."PATH" 
 		FROM MEMBER M
 			LEFT JOIN ADMIN A ON M.MEM_CODE = A.MEM_CODE
+				 JOIN PROFILE p ON m.MEM_CODE = p.MEM_CODE
 		WHERE PW = #{arg1} AND ID = #{arg0}
 	</select>
 
@@ -119,6 +120,13 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 		FROM c_project
 		WHERE AP_CODE = #{arg0}
 	 </select>
+	 
+	 <!-- 프로필 사진 업데이트 public void changeProfile(String path); -->
+	 <update id="changeProfile">
+	 	UPDATE PROFILE 
+		SET PATH = #{arg0}
+		WHERE MEM_CODE = #{arg1}
+	 </update>
 	 
 </mapper>
 

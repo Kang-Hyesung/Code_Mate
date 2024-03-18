@@ -45,6 +45,41 @@
 	String frontScoreIcon = frontScoreIconArr[0];
 	String frontScoreTxt = frontScoreIconArr[1];
 	//==================================================================
+	
+	String[] gradeIconUrlTxtArr;
+	String iconUrlStr = "";
+			
+	/*[배너에 뿌려질 닉네임 옆 아이콘 변경하기]*/
+	if (request.getAttribute("backendScore") != null && request.getAttribute("frontendScore") != null)
+	{
+		int backScore = (Integer)request.getAttribute("backendScore");
+		int frontScore = (Integer)request.getAttribute("frontendScore");
+		System.out.println("백엔드 점수 수신 : " + backScore);
+		System.out.println("프론트엔드 점수 수신 : " + frontScore);
+		
+		if (backScore >= frontScore)
+		{
+			System.out.println("백엔드 점수가 더 높거나 같습니다.");
+			
+			//===================================================================================
+			// 『skillGradeIcon』 - String[] 반환
+			//===================================================================================
+			//  String[0] : 스킬 등급 아이콘 Url	(*ex : "/CodeMate/img/grade_icon/1_seed.png")
+			//  String[1] : 스킬 등급 텍스트 반환	(*ex : "씨앗")
+			//===================================================================================
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, backScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+			
+		}
+		else if (backScore < frontScore)
+		{
+			System.out.println("프론트엔드 점수가 더 높습니다.");
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, frontScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+		}
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -54,7 +89,7 @@
 <!-- BootStrap -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/Code_Mate/css/banner_side.css" />
+<link rel="stylesheet" type="text/css" href="<%=cp %>/css/banner_side.css" />
 
 <!-- JQuery -->
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
@@ -759,15 +794,17 @@ list-style-type: none;
 						<!--======[ alarmButton ]======-->
 
 				    </div><!-- end .buttonBox -->
-				    <a href="mypage.action">
-						<div id="profile" style="<%=login%>">
-							<img class="memberImg" src="img/profileImg_1.png">
-						</div>
-						<span class="nickname" id="mem1" style="<%=login%>">${member.nickname }</span>
-						<div class="gradeIcon" style="<%=login%>">
-							🌱
-						</div>
-					</a>
+				    <div id="profile" style="<%=login%>">
+						<img class="memberImg" src="<%=cp %>${member.path }">
+					</div>
+					<span class="nickname" id="mem1" style="<%=login%>"><a href="mypage.action" class="nicknamelink">${member.nickname }</a></span>
+					<div class="gradeIcon" style="<%=login%>">
+						<img src="<%=iconUrlStr %>"  class="skillGradeIconImg" />
+					</div>
+					 
+					 <div class="logout">
+					 	<span class="logouttext">로그아웃</span>
+					 </div>
 					 <!-- 로그인/회원가입으로 이동 -->
 					<span class="nav-link log" ><a href="Login.action" class="link upside" style="<%=logout%>">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->

@@ -498,6 +498,7 @@
 			(String v_cp_code, String v_ma_code, String v_step, String v_content)
 			*/
 			var v_cp_code = "${cp_code}";
+			var v_ap_code = "${ap_code}";
 			var v_ma_code = "${ma_code}";
 			var v_step = $(this).val();
 			var v_content = $(new_inputCheckBox_id).val();
@@ -506,17 +507,19 @@
 			
 			$.ajax(
 			{
-				type: "POST"
-				, url: "checklist_insert.action"
-				, data: "v_cp_code="	+ v_cp_code
+				type: "GET"
+				, url: "checklist_insert.action?cp_code=" + v_cp_code
+					  + "&ap_code="		+ v_ap_code
 					  + "&v_ma_code="	+ v_ma_code
 					  + "&v_step="		+ v_step
 					  + "&v_content="	+ v_content
-					  
-				, success: function()
-				{
+
+				, success: function(arg)
+				{	
+					//alert(arg);
 					//alert("Ajax 처리 완료");
-					$(location).attr("href", "Milestone.action");
+					$(location).attr("href", "Milestone.action?cp_code=" + v_cp_code
+							  + "&ap_code="		+ "${ap_code}");
 				}
 				, error: function()
 				{
@@ -790,8 +793,9 @@
 				, data: "checklist_code=" + checklist_code
 				, success: function()
 				{
-					$(location).attr("href", "Milestone.action");
 					//alert("삭제 완료했습니다.");
+					$(location).attr("href", "Milestone.action?cp_code=${cp_code}"
+							  + "&ap_code="	+ "${ap_code}");
 				}
 			});
 			
@@ -881,26 +885,41 @@
 					type: "POST"
 					, url: "checklist_edit.action"
 					, data: "checklist_code=" + checklist_code
-					, success: function(data)
+						  + "&cp_code=${cp_code}"
+					, dataType : "json"
+					, success: function(jsonObj)
 					{
+						
+						var json_cp_code = jsonObj.cp_code;
+						var json_ap_code = jsonObj.ap_code;
+						//alert(jsonObj);
+						//alert("Ajax에서 수신한 cp_code : " + json_cp_code);
+						//alert("Ajax에서 수신한 ap_code : " + json_ap_code);
+						
 						//-----------------------------------------------------------------------
 						// ② checklist_code에 해당하는 체크리스트 항목을 전달받는다. → (data)
 						//-----------------------------------------------------------------------
 						//alert("수신 성공!");
 						//alert(data);
 						$("#" + parentCkCodeId).empty();
+							
+							//alert("${ap_code}");
+							//alert("전역 변수 개설확정코드(v_cp_code) : " + v_cp_code);
+							//alert("전역 변수 개설신청코드(v_ap_code) : " + v_ap_code);
+							//alert("		<form name='checkform' action='checklist_edit_ok.action?cp_code=${cp_code}" + "&ap_code=${ap_code}'>");
 						
 						    changeHTMLContent = 
 							"<div class='edit-checklist-all-big-box " + elementClass + "'>"
 							+"	<div class='edit-checklist-all-item-Parent-box'>"
-							+"		<form name='checkform' action='checklist_edit_ok.action' method='get'>"
-							+"			                                                                                                                                                                                    "
+							+"		<form name='checkform' action='checklist_edit_ok.action'>"
 					        +"                                                                                                                                                                                              "
+							+"			<input type='hidden' name='cp_code' value='${cp_code }'>                                                                                                                            "
+							+"			<input type='hidden' name='ap_code' value='${ap_code }'>                                                                                                                            "
 							+"			<input type='hidden' name='ma_code' value='${ma_code }'>                                                                                                                            "
 							+"			<div class='edit-checklist-all-item-box'>                                                                                                                                           "
 							+"				<div class='edit-checklist-content-box add-checklist-content-box'>                                                                                                              "
 							+"					<input type='text' name='checklist_content' class='edit-checklist-content-input add-checklist-content'"
-							+"							value='" + data + "'>"                                                                     
+							+"							value='" + jsonObj.checklist_content + "'>"                                                                     
 							+"				</div>                                                                                                                                                                          "
 							+"			                                                                                                                                                                                    "
 							+"				<div class='edit-checklist-btn-box checkbox-all-btn-box plan'>                                                                                                                  "
@@ -1213,67 +1232,42 @@
 				
 					<!--===========[Logo]===========-->
 					<a class="navbar-brand mainLogo link" href="#">
-						<img alt="Logo" class="LogoImageBanner d-inline-block align-text-top lastchange" src="img/TestLogo.png" >
+						<img alt="Logo" class="LogoImageBanner d-inline-block align-text-top" src="img/TestLogo.png" >
 					</a>
 					<!--===========[Logo]===========-->
 					
 					
 					<div class="menuOptions nav nav-underline" id="nav">
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">프로젝트12345123<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
-							<li class="miniMenuOption">
-								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-								</ul>
-							</li>
+							<a href="projectProgress.action??cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">프로젝트 메인<ion-icon class="menuIcon" name="terminal-outline"></ion-icon></a>
 						</ul>
 						<ul class="nav-item ">
-							<a href="#" class="majorTopic nav-link link">프로젝345<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
+							<a href="Milestone.action?cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">마일스톤<ion-icon class="menuIcon" name="desktop-outline"></ion-icon></a>
 							<li  class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">결산보고서 작성</a></li>
 								</ul>
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">프로젝트123415<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<a href="taskCal.action?cp_code=${cp_code }&ap_code=${ap_code}" class="majorTopic nav-link link">업무<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
+									<li class="miniMenuOption"><a href="taskView.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">업무목록 조회</a></li>
+									<li class="miniMenuOption"><a href="myTask.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">내 업무 보기</a></li>
+									<li class="miniMenuOption"><a href="reportView.action?cp_code=${cp_code }&ap_code=${ap_code}" class="nav-link link">업무보고서 조회</a></li>
 								</ul>
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">프로젝2345<ion-icon class="menuIcon" name="person-outline"></ion-icon></a>
+							<a href="#" class="majorTopic nav-link link">프로젝트 관리 페이지<ion-icon class="menuIcon" name="person-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
+									<li class="miniMenuOption"><a href="#" class="nav-link link">팀원 관리</a></li>
 								</ul>
 							</li>
 						</ul>
-						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">프로젝2345<ion-icon class="menuIcon" name="person-outline"></ion-icon></a>
-							<li class="miniMenuOption">
-								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트121231345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">프로젝트12345</a></li>
-								</ul>
-							</li>
-						</ul>
+			
 						
 					</div><!-- end .menuOptions -->
 				</div><!-- end .leftmenuBar -->
