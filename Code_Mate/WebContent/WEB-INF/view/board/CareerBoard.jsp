@@ -786,7 +786,7 @@ function sendIt()
                                         <ul class="navbar-nav">
                                         	
                                         	<c:forEach var="item2" items="${trendList }" varStatus="status">
-                                        		<li><a href="#"><span>0${status.count }</span>${item2.title }</a>
+                                        		<li><a href="article.action?code=${item2.code }"><span>0${status.count }</span>${item2.title }</a>
                                         	</c:forEach>
                                         	
                                         	<!-- 

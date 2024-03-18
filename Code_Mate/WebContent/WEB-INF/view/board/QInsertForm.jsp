@@ -494,6 +494,47 @@
 		
 	}
 	
+	function voteH()
+	{	
+		var skillscore1Value = document.querySelector('input[name="skillscore1"]:checked').value;
+		
+		if (skillscore1Value === '1')
+		{
+			var voteContent = document.querySelector('.voteContent');
+		    if (voteContent.style.display === 'none' || voteContent.style.display === '') {
+		        voteContent.style.display = 'block';
+		        document.getElementById("addVote").value = "투표 취소하기";
+		        
+		        document.querySelector('.voteQ input[type="text"]').value = '';
+		        
+		        var voteOptions = document.querySelectorAll('.voteSel input[type="text"]');
+		        voteOptions.forEach(function(option) {
+		            option.value = '';
+		        });
+		        
+		        var formfield = document.getElementById('formfield');
+		        var inputTags = formfield.getElementsByTagName('input');
+		        while (inputTags.length > 2) {
+		            formfield.removeChild(inputTags[inputTags.length - 1]);
+		        }
+		        
+		        $("#han").attr("disabled", true);
+		        
+		        
+		    } else {
+		        voteContent.style.display = 'none';
+		        document.getElementById("addVote").value = "투표 추가하기";
+		        
+		        $("#han").attr("disabled", false);
+		    }	
+		}
+		else
+		{
+			alert("투표는 커리어 Q&A에서만 가능합니다.");
+		}
+	}
+	
+	
 
 </script>
 </head>
@@ -622,14 +663,45 @@
 							  <span>커리어</span>
 							</label>
 							<label>
-							  <input type="radio" name="skillscore1" value="2"/>
+							  <input type="radio" name="skillscore1" value="2" id="han"/>
 							  <div class="radioimgbox">
 							  	<img src="img/tech2.png" alt="html" class="radioimg" />
 							  </div>
 							  <span>기술</span>
 							</label>
 						</div>
-					</div>
+				</div>
+				
+				<div class="ssmenu">
+					<div class="menu">투표
+						
+							<div class="voteA" style="margin-top: 10px;">
+						
+								<input type="button" value="투표 추가하기" class="btn btn-primary" id="addVote" onclick="voteH()"/>
+								
+								<div class="voteContent" style="display: none; margin-top: 10px;">
+									<div class="voteQ">
+										<input type="text" class="form-control" placeholder="투표 제목" name="voteTitle" id="voteTitle"/>
+									</div>
+									
+									<div id="formfield" class="voteSel">
+								        <input type="text" name="voteSel" class="form-control" placeholder="선택지1" id="voteSel1">
+								        <input type="text" name="voteSel" class="form-control" placeholder="선택지2" id="voteSel2">
+							    	</div>
+								    <div class="controls">
+								    	<button type="button" class="btn" onclick="add()"><ion-icon name="add-circle-outline"></ion-icon></button>
+								    	<button type="button" class="btn" onclick="remove()"><ion-icon name="trash-outline"></ion-icon></ion-icon></button>
+								    </div>
+								</div>	
+							
+							</div>
+						
+						
+				  
+						</div>
+				</div>
+					
+				
 				
 				<div class="btnmenu">
 					<button type="button" class="btn btn1" onclick="sendIt()">개설하기</button>
@@ -642,6 +714,37 @@
 		</div>
 	</div>
 </form>
+
+<script type="text/javascript">
+var formfield = document.getElementById('formfield');
+
+function add(){
+  
+ var input_tags = formfield.getElementsByTagName('input');
+  if (input_tags.length > 3)
+  {
+	alert("선택지는 최대 4개 입니다.");
+	return;
+  }	
+	
+  var newField = document.createElement('input');
+  newField.setAttribute('type','text');
+  newField.setAttribute('name','voteSel');
+  newField.setAttribute('class','form-control');
+  newField.setAttribute('placeholder','선택지'+(input_tags.length+1));
+  newField.setAttribute('id','voteSel'+(input_tags.length+1));
+  formfield.appendChild(newField);
+  
+ 
+}
+
+function remove(){
+  var input_tags = formfield.getElementsByTagName('input');
+  if(input_tags.length > 2) {
+    formfield.removeChild(input_tags[(input_tags.length) - 1]);
+  }
+}
+</script>
 
 
 </body>
