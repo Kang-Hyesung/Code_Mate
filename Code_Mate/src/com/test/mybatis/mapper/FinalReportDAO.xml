@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
+
+<mapper namespace="com.test.mybatis.dao.IFinalReportDAO">
+
+
+	<!-- 결산 보고서 객체 반환받기 -->
+	<!-- public FinalReport_ReportDTO finalReportShow(String cp_code); -->
+	<select id="finalReportShow" resultType="com.test.mybatis.dto.FinalReport_ReportDTO">
+		SELECT FR.FR_CODE         AS "FR_CODE"
+		     , P.P_CODE           AS "P_CODE"
+		     , OPMV.개설신청코드  AS "AP_CODE"
+		     , OPMV.개설확정코드  AS "CP_CODE"
+		     , OPMV.회원코드      AS "LEADER_MEM_CODE"
+		     , OPMV.멤버지원코드  AS "LEADER_MA_CODE"
+		     , OPMV.프로젝트명    AS "PROJECT_NAME"
+		     , FR.TITLE           AS "REPORT_TITLE"
+		     , FR.CONTENT         AS "REPORT_CONTENT"
+		FROM FINAL_REPORT FR
+		     RIGHT OUTER JOIN OPEN_PRJ_MEMBERS_VIEW OPMV
+		        ON FR.CP_CODE = OPMV.개설확정코드
+		     LEFT OUTER JOIN PORTFOLIO P
+		        ON P.MEM_CODE = OPMV.회원코드
+		WHERE OPMV."담당직무" = '팀장'
+		  AND OPMV."개설확정코드" = #{arg0}
+	</select>
+	
+	
+	
+	<!-- 결산 보고서 태그 리스트 반환받기 -->
+	<!-- public ArrayList<FinalReport_PTagDTO> finalReportTagList(String cp_code); -->
+	<select id="finalReportTagList" resultType="com.test.mybatis.dto.FinalReport_PTagDTO">
+		SELECT P.P_CODE     AS "P_CODE"
+		     , PT.PT_CODE   AS "PT_CODE"
+		     , PT.TAG_NAME  AS "TAG_NAME"
+		FROM FINAL_REPORT FR
+		     RIGHT OUTER JOIN OPEN_PRJ_MEMBERS_VIEW OPMV
+		        ON FR.CP_CODE = OPMV.개설확정코드
+		     LEFT OUTER JOIN PORTFOLIO P
+		        ON P.MEM_CODE = OPMV.회원코드
+		     LEFT OUTER JOIN P_TAG PT
+		        ON P.P_CODE = PT.P_CODE
+		WHERE 담당직무 = '팀장'
+		  AND OPMV."개설확정코드" = #{arg0}
+	</select>
+
+
+
+	<!-- 개설 확정 코드와, 멤버 코드로 직위 반환받기 -->
+	<!-- public String whatIsMyMemberRole(String cp_code, String mem_code); -->
+	<select id="whatIsMyMemberRole" resultType="java.lang.String">
+		SELECT P_MEMBER_ROLE AS "MEMBER_ROLE"
+		FROM PJ_MEMBER_SCORE_INFO_VIEW
+		WHERE CP_CODE = #{arg0}
+		  AND P_MEM_CODE = #{arg1}
+	</select>
+	
+	
+
+	<!-- 개설 확정 코드를 이용해, 결산 보고서가 이미 작성 되었는지를 확인하는 문자열 반환받기 -->
+	<!-- public String didYouFinalReportWrite(String cp_code); -->
+	<select id="didYouFinalReportWrite" resultType="java.lang.String">
+		SELECT DECODE(COUNT(*), 0, '미작성', '작성완료') AS "EXIST_FINAL_REPORT"
+		FROM FINAL_REPORT
+		WHERE CP_CODE = #{arg0}
+	</select>
+	
+	
+	
+	<!-- 결산 보고서 INSERT 하기 -->
+	<!-- public void finalReportWrite(String cp_code, String report_title, String report_content); -->
+	<insert id="finalReportWrite">
+		INSERT INTO FINAL_REPORT(FR_CODE, TITLE
+		                      , CONTENT, KDATE
+		                      , CP_CODE)
+		VALUES (TO_CHAR('FR' || LPAD(FR_SEQ.NEXTVAL, 4, '0')), #{arg1}
+		      , #{arg2}, SYSDATE
+		      , #{arg0})
+	</insert>
+	
+	
+	
+	<!-- 이번에 INSERT 해야 할 포트폴리오의 PRIMARY_KEY 『P_CODE』 반환받기 -->
+	<!-- public String nowPortfolioCode(); -->
+	<select id="nowPortfolioCode" resultType="java.lang.String">
+		SELECT TO_CHAR('P' || LPAD(NVL(MAX(TO_NUMBER(SUBSTR(P_CODE, 2))), 0)+1, 4, '0')) AS NOW_P_CODE
+		FROM PORTFOLIO
+	</select>
+	
+	
+	<!-- 포트폴리오 INSERT 하기 -->
+	<!-- public void portFolioWrite(String now_p_code, String cp_code, String leader_mem_code, String report_title, String report_content); -->
+	<insert id="portFolioWrite">
+		INSERT INTO PORTFOLIO(P_CODE, TITLE
+		                    , CONTENT, KDATE
+		                    , VIEWS, MEM_CODE, CP_CODE)
+		VALUES(#{arg0}, #{arg3}
+		     , #{arg4}, SYSDATE
+		     , 0, #{arg2}, #{arg1})
+	</insert>
+	
+	
+	
+	<!-- 포트폴리오 태그 INSERT 하기 -->
+	<!-- public void portFolioAddTag(String now_p_code, String tag_name); -->
+	<insert id="portFolioAddTag">
+		INSERT INTO P_TAG(PT_CODE, P_CODE, TAG_NAME)
+		VALUES (TO_CHAR('PT' || LPAD(PT_SEQ.NEXTVAL, 4, '0'))
+		      , #{arg0}, #{arg1})
+	</insert>
+
+
+
+</mapper>
