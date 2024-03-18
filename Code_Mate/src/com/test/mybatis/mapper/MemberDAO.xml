@@ -14,7 +14,7 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 	<!-- resultType : 반환하는 결과 타입 select 결과 MemberDTO 타입이 하나씩 나온다.-->
 	<select id="list" resultType="com.test.mybatis.dto.MemberDTO">
 		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE
-		FROM MEMBER
+		FROM MEMBER M JOIN PROFILE p ON m.MEM_CODE = p.MEM_CODE
 		ORDER BY MEM_CODE
 	</select>
 	
