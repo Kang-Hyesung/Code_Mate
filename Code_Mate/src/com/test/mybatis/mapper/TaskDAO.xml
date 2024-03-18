@@ -76,8 +76,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         , TO_DATE(#{startDate}, 'YYYY-MM-DD'), TO_DATE(#{endDate}, 'YYYY-MM-DD'), #{ma_codea}, #{ma_codep}, #{cp_code}, #{color})
 	</insert>
 	
-	
-	
+	<!-- public void addFile(String path, String br_code); -->
+	<insert id="addFile">
+		INSERT INTO BR_FILE (BRF_CODE, "PATH", BR_CODE)
+		VALUES (TO_CHAR('BR' || LPAD(BR_SEQ.NEXTVAL, 4, '0')), #{arg0}, #{arg1});
+	</insert>
 </mapper>
 
 
