@@ -26,4 +26,6 @@ public interface ITaskDAO
 	
 	public String getWriter(String ma_code);
 	public void addTask(TaskDTO dto);
+	
+	public void addFile(String path, String br_code);
 }
