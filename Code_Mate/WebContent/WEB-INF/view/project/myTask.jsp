@@ -747,9 +747,6 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 																	
 																	</table>
 																	
-																	<button id="task_code" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" value="${report.task_code }">
-																	  작성하기
-																	</button>
 																</div>
 														</div>
 											</div>
