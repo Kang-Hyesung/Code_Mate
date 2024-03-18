@@ -443,7 +443,7 @@ function insertReply(cqc_code) {
 				    </div><!-- end .buttonBox -->
 				    
 					<div id="profile" style="<%=login%>">
-						<img class="memberImg" src="img/profileImg_1.png">
+						<img class="memberImg" src="<%=cp %>${member.path }">
 					</div>
 					<span class="nickname" id="mem1" style="<%=login%>"><a href="mypage.action" class="nicknamelink">${member.nickname }</a></span>
 					<div class="gradeIcon" style="<%=login%>">
