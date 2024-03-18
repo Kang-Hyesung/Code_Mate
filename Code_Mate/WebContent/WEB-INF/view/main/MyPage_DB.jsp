@@ -2228,10 +2228,10 @@
       </div>
       
       
-      <form action="insertProfileImgt.action" id="insertProfileImgt" method="post" enctype="multipart/form-data">
+      <form action="insertProfileImg.action" id="insertProfileImg" method="post" enctype="multipart/form-data">
       <div class="modal-body">
       	<div style="display: flex;">
-        <img src="<%=cp %>${member.path }" class="org_img" />
+        <img src="<%=cp %>${member.path}" class="org_img" />
         	<div>
         		<div class="mb-3">
 				  <label for="formFile" class="form-label">사진 불러오기</label>

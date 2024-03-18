@@ -126,7 +126,7 @@ public class MainController
 			MyPageMethod mpm = new MyPageMethod();
 			
 			MemberDTO member = (MemberDTO)session.getAttribute("member");
-			
+			System.out.println("1");
 			request.setAttribute("member", member);
 			
 			String mem_code = member.getMem_code();
@@ -137,7 +137,7 @@ public class MainController
 			model.addAttribute("backendScore", dao.backendScore(mem_code));
 			model.addAttribute("frontendScore", dao.frontendScore(mem_code));
 			model.addAttribute("mannerScore", dao.mannerScore(mem_code));
-
+			System.out.println("2");
 			//=======================================================
 			// 개인정보 공개 / 비공개 설정 가능 항목 처리
 			//=======================================================
@@ -145,7 +145,7 @@ public class MainController
 			int emailOpen = dao.emailOpen(mem_code);
 			int genderOpen = dao.genderOpen(mem_code);
 			int birthDayOpen = dao.birthDayOpen(mem_code);
-			
+			System.out.println("3");
 			String email = dao.email(mem_code);
 			String gender = dao.gender(mem_code);
 			String birthDay = dao.birthDay(mem_code);
@@ -153,7 +153,7 @@ public class MainController
 			email = mpm.nullOrBlindCheck(email, emailOpen, "이메일");
 			gender = mpm.nullOrBlindCheck(gender, genderOpen, "성별");
 			birthDay = mpm.nullOrBlindCheck(birthDay, birthDayOpen, "생년월일");
-			
+			System.out.println("4");
 			model.addAttribute("email", email);
 			model.addAttribute("gender", gender);
 			model.addAttribute("birthDay", birthDay);
@@ -164,7 +164,7 @@ public class MainController
 			
 			// 프로젝트 이력
 			model.addAttribute("pjHistoryList", dao.pjHistoryList(mem_code));
-			
+			System.out.println("5");
 			
 			//▦▦▦▦▦▦▦▦[ 2 페이지 - 본인이 작성한 게시글 ]▦▦▦▦▦▦▦▦
 				
@@ -363,11 +363,14 @@ public class MainController
 				}
 				
 				// 프로필 사진 변경
-				@RequestMapping(value="/insertProfileImgt.action", method=RequestMethod.POST)
+				@RequestMapping(value="/insertProfileImg.action", method=RequestMethod.POST)
 				public String insertProfileImgt(ModelMap model, HttpSession session, HttpServletRequest request)
 				{	
+					IMemberDAO dao = sqlSession.getMapper(IMemberDAO.class);
+					MemberDTO member = (MemberDTO)session.getAttribute("member");
+					
 					// 경로
-					String uploadPath = "C:\\Users\\hyesu\\git\\Code_Mate\\Code_Mate\\WebContent\\HyesungFile";
+					String uploadPath = "C:\\Users\\user\\git\\Code_Mate\\Code_Mate\\WebContent\\img";
 					//String uploadPath ="Code_Mate\\Code_Mate\\File";
 					System.out.println("경로 테스트 : " + uploadPath);
 					
@@ -405,7 +408,11 @@ public class MainController
 						System.out.println(path);
 						// 이용자가 올린 파일명
 						String fileName = multi.getOriginalFileName("file");
-					
+						
+						String uploadpath = "/img/" + multi.getFilesystemName("file");
+						
+						dao.changeProfile(uploadpath, member.getMem_code());
+						
 					return "redirect:mypage.action";
 				}
 }

@@ -328,7 +328,7 @@ public class MilestoneController
 	
 	
 	@RequestMapping(value = "/member_Evaluation.action", method = RequestMethod.GET)
-	public String memberEvaluInsertAction(HttpServletRequest request)
+	public String memberEvaluInsertAction(HttpServletRequest request, String a_ap_code, String b_cp_code)
 	{
 		IMilestoneDAO dao = sqlSession.getMapper(IMilestoneDAO.class);
 		
@@ -336,6 +336,9 @@ public class MilestoneController
 		String evaMannerScore = request.getParameter("manner-evaluation-score");
 		String a_ma_code = request.getParameter("a_ma_code");
 		String p_ma_code = request.getParameter("p_ma_code");
+		
+		System.out.println("cp_code 확인 " + a_ap_code);
+		System.out.println("ap_code 확인 " + b_cp_code);
 		
 		int skillScore = 0;
 		int mannerScore = 0;
@@ -372,7 +375,7 @@ public class MilestoneController
 		dao.memberEvaluScore(a_ma_code, p_ma_code, "ED0002", mannerScore);
 		
 		
-		return "redirect:Milestone.action";
+		return "redirect:Milestone.action?ap_code=" + a_ap_code + "&cp_code=" + b_cp_code;
 	}
 	
 

@@ -1090,6 +1090,8 @@
 			
 			var a_ma_code = "${ma_code}";
 			var p_ma_code = $(this).attr("id");
+			var a_ap_code = "${ap_code}";
+			var b_cp_code = "${cp_code}";
 			var p_nickname = $("#nickname-" + $(this).attr("id")).html();
 			var evalu_done = $("#evalu-done" + p_ma_code).html();
 			
@@ -3034,7 +3036,7 @@
 											</div>
 											
 											<div class="one-member-profile-image-Box">
-												<img src="<%=cp %>/img/test_profile_img/햄버거왜케맛있눙.png" class="one-member-profile-image">
+												<img src="<%=cp %>/img/pompomLove.png" class="one-member-profile-image">
 											</div>
 											
 												<div class="one-member-nick-role-all-Area">
@@ -3414,6 +3416,8 @@
       
       	  <input type="hidden" class="a-ma-code-hidden" name="a_ma_code" value="">
       	  <input type="hidden" class="p-ma-code-hidden" name="p_ma_code" value="">
+      	  <input type="hidden"  name="a_ap_code" value="${ap_code }">
+      	  <input type="hidden"  name="b_cp_code" value="${cp_code }">
 			<div class="evalu-guide-text-box">
 	        	<span class="evalu-guide-text">*평가점수를 입력하지 않으시면, 3점이 부여됩니다.</span>
 	       </div>
