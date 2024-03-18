@@ -597,7 +597,7 @@
 								<c:forEach items="${leader }" var="item">
 							      	<span><img src="<%=cp %>/img/crown.png" class="leadericon"/> Leader : </span>
 									<div class="membername">
-											<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+											<img src="<%=cp %>${item.path}" class="memberimg"/>
 											<span class="member-name">${item.nickname }</span>
 									</div>
 							    </c:forEach>
@@ -609,7 +609,7 @@
 									<div class="front">
 										<c:forEach items="${frontList }" var="item">
 											<div class="membername">
-													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+													<img src="<%=cp %>${item.path}" class="memberimg"/>
 													<span class="member-name">${item.nickname }</span>
 											</div>
 									    </c:forEach>
@@ -621,7 +621,7 @@
 									<div class="back">
 										<c:forEach items="${backList }" var="item">
 											<div class="membername">
-													<img src="<%=cp %>/img/pompomLove.png" class="memberimg"/>
+													<img src="<%=cp %>${item.path}" class="memberimg"/>
 													<span class="member-name">${item.nickname }</span>
 											</div>
 									    </c:forEach>

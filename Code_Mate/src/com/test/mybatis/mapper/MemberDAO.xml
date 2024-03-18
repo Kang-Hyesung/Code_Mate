@@ -53,7 +53,7 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 	
 	<!-- 프로젝트의 팀장 가져오는 쿼리 -->
 	<select id="getLeader" resultType="com.test.mybatis.dto.MemberDTO">
-		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE, p.MEM_CODE
+		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE, p.MEM_CODE, p."PATH" 
 		FROM MEMBER M JOIN PROFILE p ON m.MEM_CODE = p.MEM_CODE
 		WHERE MEM_CODE IN (SELECT MEM_CODE 
 						  FROM MEMBER_APPLY M JOIN ROLE_COMP R ON M.RC_CODE = R.RC_CODE
@@ -63,7 +63,7 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 	
 	<!--  프로젝트의 프론트 가져오는 쿼리 -->
 	<select id="getFront" resultType="com.test.mybatis.dto.MemberDTO" >
-		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE, p.MEM_CODE
+		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE, p.MEM_CODE, p."PATH" 
 		FROM MEMBER M JOIN PROFILE p ON m.MEM_CODE = p.MEM_CODE
 		WHERE MEM_CODE IN (SELECT MEM_CODE 
 						  FROM MEMBER_APPLY M JOIN ROLE_COMP R ON M.RC_CODE = R.RC_CODE
@@ -72,7 +72,7 @@ IMemberDAO의 역할을 MemberDAO.xml 이 하겠다. 				-->
 	
 	<!-- 프로젝트의 백 가져오는 쿼리 -->
 	<select id="getBack" resultType="com.test.mybatis.dto.MemberDTO" >
-		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE, p.MEM_CODE
+		SELECT MEM_CODE, ID, PW, NICKNAME, MBTI_CODE, p.MEM_CODE, p."PATH" 
 		FROM MEMBER M JOIN PROFILE p ON m.MEM_CODE = p.MEM_CODE
 		WHERE MEM_CODE IN (SELECT MEM_CODE 
 						  FROM MEMBER_APPLY M JOIN ROLE_COMP R ON M.RC_CODE = R.RC_CODE
