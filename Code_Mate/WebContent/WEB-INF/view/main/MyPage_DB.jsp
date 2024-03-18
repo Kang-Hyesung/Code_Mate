@@ -485,7 +485,7 @@
 
 							<div class="col col-3 profileImageBox">
 								<!-- 혜성강~ -->
-								<img class="profileImage" src="<%=cp %>/img/profileImg_1.png" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								<img class="profileImage" src="src="<%=cp %>${member.path }"" data-bs-toggle="modal" data-bs-target="#exampleModal">
 								<!-- <img class="profileImage" src="img/pompomLove.png"> -->
 							</div>
 							<!--  -->
