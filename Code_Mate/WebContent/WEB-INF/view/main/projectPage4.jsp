@@ -13,9 +13,8 @@
 	String name = "";
 	String view = "";
 	
-	MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
 	
-	
+		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
 	
 	if(request.getSession().getAttribute("member") != null)
 	{ 
@@ -691,7 +690,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 		
 		function selChange() {
 			var sel = document.getElementById('cntPerPage').value;
-			location.href="'<%=request.getContextPath() %>'ProjectList.action?nowPage=${paging.nowPage}&cntPerPage="+sel;
+			location.href="'<%=request.getContextPath() %>'ProjectList4.action?nowPage=${paging.nowPage}&cntPerPage="+sel;
 		}
 
 		function applypj() {
@@ -821,7 +820,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 				<aside class="l_widget forum_list">
                                <h3 class="wd_title">프로젝트 게시판</h3>
                                <ul class="navbar-nav ">
-                                   <li class="activenav-item" id="side1">
+                                   <li class="nav-item" id="side1">
                                        <a class="anav-item" href="ProjectList.action"><i class="social_tumbleupon"></i>전체 보기</a>
                                    </li>
                                    <li class="nav-item" id="side2">
@@ -835,7 +834,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
                                        <a class="anav-item"><i class="icon_lightbulb_alt"></i>추가 모집</a>
                                    </li>
                                     -->
-                                   <li class="nav-item"  id="side5">
+                                   <li class="activenav-item"  id="side5">
                                        <a class="anav-item " href="ProjectList4.action" style="<%=view %>"><i class="icon_lightbulb_alt"></i>내가 진행중인 프로젝트</a>
                                    </li>
                                </ul>
@@ -974,7 +973,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                                	
 	                                	 
 	                                	<!-- 전체 프로젝트 -->
-	                                  
+	                                  <%-- 
 	                                	<div class="jptitle3" style="">
 												
 											<c:forEach var="dto" items="${pjall }">
@@ -1044,7 +1043,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 													
 	                                	</div>
 	                                	
-	                                	<%-- 
+	                                	
 	                                	<!-- 모집중 프로젝트 -->
 	                                   
 	                                	<div class="jptitle4" style="display:none;">
@@ -1175,10 +1174,10 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                            </div>
 	                            <div class="row pagination_inner">
 	                                <div class="col-lg-2">
-	                                    <h6 class="total1" style="">Total: <span> ${allcount } </span></h6>
-	                                   <%--  <h6 class="total2" style="display: none;">Total: <span> ${ingcount } </span></h6> --%>
+	                                    <%-- <h6 class="total1" style="">Total: <span> ${allcount } </span></h6> --%>
+	                                    <%-- <h6 class="total2" style="display: none;">Total: <span> ${ingcount } </span></h6> --%>
 	                                    <%-- <h6 class="total3" style="display: none;">Total: <span> ${endcount } </span></h6> --%>
-	                                    <%-- <h6 class="total5" style="display: none;">Total: <span> ${mycount } </span></h6> --%>
+	                                    <h6 class="total5" style="">Total: <span> ${mycount } </span></h6>
 	                                </div>
 	                                <!-- 
 	                                <div class="col-lg-8">
@@ -1205,9 +1204,9 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                                </div>
 	                                 -->
 	                          <!-- 전체 -->       
-	                           <div id="list1" style="display: block; text-align: center;">		
+	                           <div id="list1" style="display: none; text-align: center;">		
 									<c:if test="${paging.startPage != 1 }">
-										<a href="<%=cp %>/ProjectList.action?nowPage=${paging1.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+										<a href="<%=cp %>/ProjectList4.action?nowPage=${paging1.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
 									</c:if>
 									<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 										<c:choose>
@@ -1215,12 +1214,12 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 												<b>${p }</b>
 											</c:when>
 											<c:when test="${p != paging1.nowPage }">
-												<a href="<%=cp %>/ProjectList.action?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+												<a href="<%=cp %>/ProjectList4.action?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
 											</c:when>
 										</c:choose>
 									</c:forEach>
 									<c:if test="${paging.endPage != paging.lastPage}">
-										<a href="<%=cp %>/ProjectList.action?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+										<a href="<%=cp %>/ProjectList4.action?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
 									</c:if>
 								</div>
 	                            </div>
@@ -1230,8 +1229,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 			
 			<div class="col-md-3" style="padding-left: 50px; padding-right: 70px;">
 				<aside class="r_widget qustion_wd">
-				
-                  	<button class="btn applybtn" type="button" id="applybtn" onclick="applypj()"><img src="img/question-1.png" alt=""> 개설 신청하기<ion-icon name="chevron-forward-outline" class="arrow"></ion-icon></i></button>
+	                      	<button class="btn applybtn" type="button" id="applybtn" onclick="applypj()"><img src="img/question-1.png" alt=""> 개설 신청하기<ion-icon name="chevron-forward-outline" class="arrow"></ion-icon></i></button>
 	                      	
                </aside>
                

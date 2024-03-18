@@ -1,44 +1,11 @@
 package com.test.mybatis.dto;
 
-public class ProjectPageDTO
+public class SearchViewDTO
 {
-	private String ap_code, title, summary, sdate, edate, content, kdate, mem_code, nickname, tag_name, status, reason, penalty_day, precessing;
+	private String ap_code, title, summary, sdate, edate, content, kdate, mem_code, nickname, cq_code, searchcon, status, tag_name;
 	private int numbers, views, count;
 	
 	
-	
-	public String getReason()
-	{
-		return reason;
-	}
-	public void setReason(String reason)
-	{
-		this.reason = reason;
-	}
-	public String getPenalty_day()
-	{
-		return penalty_day;
-	}
-	public void setPenalty_day(String penalty_day)
-	{
-		this.penalty_day = penalty_day;
-	}
-	public String getPrecessing()
-	{
-		return precessing;
-	}
-	public void setPrecessing(String precessing)
-	{
-		this.precessing = precessing;
-	}
-	public String getStatus()
-	{
-		return status;
-	}
-	public void setStatus(String status)
-	{
-		this.status = status;
-	}
 	public String getTag_name()
 	{
 		return tag_name;
@@ -54,22 +21,6 @@ public class ProjectPageDTO
 	public void setAp_code(String ap_code)
 	{
 		this.ap_code = ap_code;
-	}
-	public String getNickname()
-	{
-		return nickname;
-	}
-	public void setNickname(String nickname)
-	{
-		this.nickname = nickname;
-	}
-	public int getCount()
-	{
-		return count;
-	}
-	public void setCount(int count)
-	{
-		this.count = count;
 	}
 	public String getTitle()
 	{
@@ -127,6 +78,38 @@ public class ProjectPageDTO
 	{
 		this.mem_code = mem_code;
 	}
+	public String getNickname()
+	{
+		return nickname;
+	}
+	public void setNickname(String nickname)
+	{
+		this.nickname = nickname;
+	}
+	public String getCq_code()
+	{
+		return cq_code;
+	}
+	public void setCq_code(String cq_code)
+	{
+		this.cq_code = cq_code;
+	}
+	public String getSearchcon()
+	{
+		return searchcon;
+	}
+	public void setSearchcon(String searchcon)
+	{
+		this.searchcon = searchcon;
+	}
+	public String getStatus()
+	{
+		return status;
+	}
+	public void setStatus(String status)
+	{
+		this.status = status;
+	}
 	public int getNumbers()
 	{
 		return numbers;
@@ -143,6 +126,15 @@ public class ProjectPageDTO
 	{
 		this.views = views;
 	}
+	public int getCount()
+	{
+		return count;
+	}
+	public void setCount(int count)
+	{
+		this.count = count;
+	}
+	
 	
 	
 }

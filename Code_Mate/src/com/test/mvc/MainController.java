@@ -20,6 +20,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.test.mybatis.dao.IMemberDAO;
 import com.test.mybatis.dao.IMyPageDAO;
@@ -182,176 +183,6 @@ public class MainController
 		}
 		
 		
-		// TOP 프로젝트 모두보기 클릭시
-			@RequestMapping(value="/ProjectList.action", method=RequestMethod.GET)
-			public String projectlist(ModelMap model, HttpSession session, HttpServletRequest request)
-			{	
-				IProjectPageDAO dao = sqlSession.getMapper(IProjectPageDAO.class);
-				
-				MemberDTO member = (MemberDTO)session.getAttribute("member");
-				
-				// 점수 
-				IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
-				
-				int backendScore;
-				int frontendScore;
-				
-				if (member != null)
-				{
-					backendScore = myDao.backendScore(member.getMem_code());
-					frontendScore = myDao.frontendScore(member.getMem_code());
-					
-					// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
-					model.addAttribute("backendScore", backendScore);
-					model.addAttribute("frontendScore", frontendScore);
-					
-				}
-				// 점수 끝
-				
-				LocalDate now = LocalDate.now();
-				//System.out.println(now);
-				
-				
-				if (member == null)
-				{
-					request.setAttribute("member", member);
-					
-					// 전체 프로젝트 정보
-					
-					model.addAttribute("pjall",dao.allpjlist());
-					
-					
-					// 모집중 정보
-					
-					model.addAttribute("pjing",dao.ingpjlist());
-					
-					
-					// 모집 완료 정보
-					
-					model.addAttribute("pjend",dao.endpjlist());
-					
-					
-					// 태그
-					
-					model.addAttribute("tag",dao.tag());
-					
-					
-					// 댓글
-					
-					model.addAttribute("comment",dao.comment());
-					
-					
-					// 핫한 프로젝트
-					
-					model.addAttribute("hotpj",dao.hotpj());
-					
-					// 새로운 프젝
-					
-					model.addAttribute("newpj",dao.newpj());
-					
-					
-					// 왼쪽 태그들
-					model.addAttribute("lefttag",dao.lefttag());
-					
-					
-					// 전체 카운트
-					model.addAttribute("allcount",dao.allcount());
-					
-					
-					// 진행중 카운트
-					model.addAttribute("ingcount",dao.ingcount());
-					
-					
-					// 진행완료 카운트
-					model.addAttribute("endcount",dao.endcount());
-					
-					
-					
-					return "/WEB-INF/view/main/projectPage.jsp";
-				}
-				else
-				{
-					request.setAttribute("member", member);
-					
-					String mem_code = member.getMem_code();
-					
-					// 회원일때 참여 프로젝트 정보
-					model.addAttribute("pjdto",dao.pjdto(mem_code));
-					
-					
-					// 전체 프로젝트 정보
-					
-					model.addAttribute("pjall",dao.allpjlist());
-					
-					
-					
-					// 모집중 정보
-					
-					model.addAttribute("pjing",dao.ingpjlist());
-					
-					
-					
-					// 모집 완료 정보
-					
-					model.addAttribute("pjend",dao.endpjlist());
-					
-					
-					// 태그
-					
-					model.addAttribute("tag",dao.tag());
-					
-					
-					// 댓글
-					
-					model.addAttribute("comment",dao.comment());
-					
-					
-					// 핫한 프로젝트
-					
-					model.addAttribute("hotpj",dao.hotpj());
-					
-					
-					// 새로운 프젝
-					
-					model.addAttribute("newpj",dao.newpj());
-					
-					
-					// 왼쪽 태그들
-					model.addAttribute("lefttag",dao.lefttag());
-					
-					
-					// 전체 카운트
-					model.addAttribute("allcount",dao.allcount());
-					
-					
-					// 진행중 카운트
-					model.addAttribute("ingcount",dao.ingcount());
-					
-					
-					// 진행완료 카운트
-					model.addAttribute("endcount",dao.endcount());
-					
-					
-					// 내가진행중 카운트
-					model.addAttribute("mycount",dao.mycount(mem_code));
-					
-					
-					return "/WEB-INF/view/main/projectPage.jsp";
-					
-				}
-				
-					
-					
-				}
-				
-				// TOP QNA 모두보기 클릭시
-				@RequestMapping(value="/QnaList.action", method=RequestMethod.GET)
-				public String qnalist(ModelMap model, HttpSession session, HttpServletRequest request)
-				{	
-					
-					
-					return "/WEB-INF/view/main/qnaList.jsp";
-				}
 		
 				// 로그아웃
 				@RequestMapping(value="/logout.action", method=RequestMethod.GET)
@@ -415,6 +246,812 @@ public class MainController
 						
 					return "redirect:mypage.action";
 				}
+				
+				
+				// TOP 프로젝트 모두보기 클릭시
+				@RequestMapping(value="/ProjectList.action", method=RequestMethod.GET)
+				public String projectlist(ModelMap model, HttpSession session, HttpServletRequest request,  PagingVO vo
+						, @RequestParam(value="nowPage", required=false)String nowPage
+						, @RequestParam(value="cntPerPage", required=false)String cntPerPage)
+				{	
+					IProjectPageDAO dao = sqlSession.getMapper(IProjectPageDAO.class);
+					
+					MemberDTO member = (MemberDTO)session.getAttribute("member");
+					
+					LocalDate now = LocalDate.now();
+					//System.out.println(now);
+					
+					int count = dao.allcount(); // 전체 보기
+					int ingcount = dao.ingcount(); // 모집중
+					int endcount = dao.endcount(); // 모집완료
+					
+					if (nowPage == null && cntPerPage == null) {
+			            nowPage = "1";
+			            cntPerPage = "5";
+			        } else if (nowPage == null) {
+			            nowPage = "1";
+			        } else if (cntPerPage == null) {
+			            cntPerPage = "5";
+			        }
+			        
+					
+					if (member == null)
+					{
+						request.setAttribute("member", member);
+						
+						// 전체 프로젝트 정보
+						
+						//model.addAttribute("pjall",dao.allpjlist());
+						
+						vo = new PagingVO(count, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        model.addAttribute("paging", vo);
+				        model.addAttribute("pjall", dao.pagelist(vo));
+						
+						
+						// 모집중 정보
+						
+						//model.addAttribute("pjing",dao.ingpjlist());
+				        
+				        //vo = new PagingVO(ingcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjing", dao.pagelist(vo));
+						
+						
+						// 모집 완료 정보
+						
+						//model.addAttribute("pjend",dao.endpjlist());
+				        
+				        //vo = new PagingVO(endcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjend", dao.pagelist(vo));
+						
+						
+						// 전체 카운트
+						model.addAttribute("allcount",dao.allcount());
+						
+						
+						// 진행중 카운트
+						model.addAttribute("ingcount",dao.ingcount());
+						
+						
+						// 진행완료 카운트
+						model.addAttribute("endcount",dao.endcount());
+						
+						
+						// 태그
+						
+						model.addAttribute("tag",dao.tag());
+						
+						
+						// 댓글
+						
+						model.addAttribute("comment",dao.comment());
+						
+						
+						// 핫한 프로젝트
+						
+						model.addAttribute("hotpj",dao.hotpj());
+						
+						// 새로운 프젝
+						
+						model.addAttribute("newpj",dao.newpj());
+						
+						
+						// 왼쪽 태그들
+						model.addAttribute("lefttag",dao.lefttag());
+						
+						
+						
+						
+						
+						
+						return "/WEB-INF/view/main/projectPage.jsp";
+					}
+					else
+					{
+						request.setAttribute("member", member);
+						
+						String mem_code = member.getMem_code();
+						
+						// 회원일때 참여 프로젝트 정보
+						model.addAttribute("pjdto",dao.pjdto(mem_code));
+						
+						
+						// 전체 프로젝트 정보
+						
+						//model.addAttribute("pjall",dao.allpjlist());
+						
+						vo = new PagingVO(count, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        model.addAttribute("paging", vo);
+				        model.addAttribute("pjall", dao.pagelist(vo));
+						
+						
+						// 모집중 정보
+						
+						//model.addAttribute("pjing",dao.ingpjlist());
+				        
+				        //vo = new PagingVO(ingcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjing", dao.pagelist(vo));
+						
+						
+						// 모집 완료 정보
+						
+						//model.addAttribute("pjend",dao.endpjlist());
+				        
+				        //vo = new PagingVO(endcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjend", dao.pagelist(vo));
+						
+						
+						// 태그
+						
+						model.addAttribute("tag",dao.tag());
+						
+						
+						// 댓글
+						
+						model.addAttribute("comment",dao.comment());
+						
+						
+						// 핫한 프로젝트
+						
+						model.addAttribute("hotpj",dao.hotpj());
+						
+						
+						// 새로운 프젝
+						
+						model.addAttribute("newpj",dao.newpj());
+						
+						
+						// 왼쪽 태그들
+						model.addAttribute("lefttag",dao.lefttag());
+						
+						
+						// 전체 카운트
+						model.addAttribute("allcount",dao.allcount());
+						
+						
+						// 진행중 카운트
+						model.addAttribute("ingcount",dao.ingcount());
+						
+						
+						// 진행완료 카운트
+						model.addAttribute("endcount",dao.endcount());
+						
+						
+						// 내가진행중 카운트
+						model.addAttribute("mycount",dao.mycount(mem_code));
+						
+						
+						// 신고
+						ProjectPageDTO reportmem = dao.reportmem(mem_code);
+						int reportcount = dao.reportcount(mem_code);
+						
+						if (reportcount != 0)
+						{
+							
+							if (reportmem.getPrecessing().equals("패널티중")) 
+							{
+								model.addAttribute("report","pe");
+							}
+							
+						}
+						else
+						{
+							model.addAttribute("report","ee");
+						}
+						
+						
+						return "/WEB-INF/view/main/projectPage.jsp";
+						
+					}
+					
+				}
+				
+				// TOP 프로젝트 모집중 클릭시
+				@RequestMapping(value="/ProjectList2.action", method=RequestMethod.GET)
+				public String ingprojectlist(Model model, HttpSession session, HttpServletRequest request,  PagingVO vo
+						, @RequestParam(value="nowPage", required=false)String nowPage
+						, @RequestParam(value="cntPerPage", required=false)String cntPerPage)
+				{	
+					IProjectPageDAO dao = sqlSession.getMapper(IProjectPageDAO.class);
+					
+					MemberDTO member = (MemberDTO)session.getAttribute("member");
+					
+					LocalDate now = LocalDate.now();
+					//System.out.println(now);
+					
+					int count = dao.allcount(); // 전체 보기
+					int ingcount = dao.ingcount(); // 모집중
+					int endcount = dao.endcount(); // 모집완료
+					
+					if (nowPage == null && cntPerPage == null) {
+			            nowPage = "1";
+			            cntPerPage = "5";
+			        } else if (nowPage == null) {
+			            nowPage = "1";
+			        } else if (cntPerPage == null) {
+			            cntPerPage = "5";
+			        }
+			        
+					
+					if (member == null)
+					{
+						request.setAttribute("member", member);
+						
+						// 전체 프로젝트 정보
+						
+						//model.addAttribute("pjall",dao.allpjlist());
+						
+						//vo = new PagingVO(count, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjall", dao.pagelist(vo));
+						
+						
+						// 모집중 정보
+						
+						//model.addAttribute("pjing",dao.ingpjlist());
+				        
+				        vo = new PagingVO(ingcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        model.addAttribute("paging", vo);
+				        model.addAttribute("pjing", dao.ingpagelist(vo));
+						
+						
+						// 모집 완료 정보
+						
+						//model.addAttribute("pjend",dao.endpjlist());
+				        
+				        //vo = new PagingVO(endcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjend", dao.pagelist(vo));
+						
+						
+						// 전체 카운트
+						model.addAttribute("allcount",dao.allcount());
+						
+						
+						// 진행중 카운트
+						model.addAttribute("ingcount",dao.ingcount());
+						
+						
+						// 진행완료 카운트
+						model.addAttribute("endcount",dao.endcount());
+						
+						
+						// 태그
+						
+						model.addAttribute("tag",dao.tag());
+						
+						
+						// 댓글
+						
+						model.addAttribute("comment",dao.comment());
+						
+						
+						// 핫한 프로젝트
+						
+						model.addAttribute("hotpj",dao.hotpj());
+						
+						// 새로운 프젝
+						
+						model.addAttribute("newpj",dao.newpj());
+						
+						
+						// 왼쪽 태그들
+						model.addAttribute("lefttag",dao.lefttag());
+						
+						
+						
+						
+						
+						
+						return "/WEB-INF/view/main/projectPage2.jsp";
+					}
+					else
+					{
+						request.setAttribute("member", member);
+						
+						String mem_code = member.getMem_code();
+						
+						// 회원일때 참여 프로젝트 정보
+						//model.addAttribute("pjdto",dao.pjdto(mem_code));
+						
+						
+						// 전체 프로젝트 정보
+						
+						//model.addAttribute("pjall",dao.allpjlist());
+						
+						//vo = new PagingVO(count, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjall", dao.pagelist(vo));
+						
+						
+						// 모집중 정보
+						
+						//model.addAttribute("pjing",dao.ingpjlist());
+				        
+				        vo = new PagingVO(ingcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        model.addAttribute("paging", vo);
+				        model.addAttribute("pjing", dao.ingpagelist(vo));
+						
+						
+						// 모집 완료 정보
+						
+						//model.addAttribute("pjend",dao.endpjlist());
+				        
+				        //vo = new PagingVO(endcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjend", dao.pagelist(vo));
+						
+						
+						// 태그
+						
+						model.addAttribute("tag",dao.tag());
+						
+						
+						// 댓글
+						
+						model.addAttribute("comment",dao.comment());
+						
+						
+						// 핫한 프로젝트
+						
+						model.addAttribute("hotpj",dao.hotpj());
+						
+						
+						// 새로운 프젝
+						
+						model.addAttribute("newpj",dao.newpj());
+						
+						
+						// 왼쪽 태그들
+						model.addAttribute("lefttag",dao.lefttag());
+						
+						
+						// 전체 카운트
+						model.addAttribute("allcount",dao.allcount());
+						
+						
+						// 진행중 카운트
+						model.addAttribute("ingcount",dao.ingcount());
+						
+						
+						// 진행완료 카운트
+						model.addAttribute("endcount",dao.endcount());
+						
+						
+						// 내가진행중 카운트
+						model.addAttribute("mycount",dao.mycount(mem_code));
+						
+						// 신고
+						ProjectPageDTO reportmem = dao.reportmem(mem_code);
+						int reportcount = dao.reportcount(mem_code);
+						
+						if (reportcount != 0)
+						{
+							
+							if (reportmem.getPrecessing().equals("패널티중")) 
+							{
+								model.addAttribute("report","pe");
+							}
+							
+						}
+						else
+						{
+							model.addAttribute("report","ee");
+						}
+						
+						
+						
+						return "/WEB-INF/view/main/projectPage2.jsp";
+						
+					}
+					
+				}
+				
+				// TOP 프로젝트 모집완료 클릭시
+				@RequestMapping(value="/ProjectList3.action", method=RequestMethod.GET)
+				public String endprojectlist(Model model, HttpSession session, HttpServletRequest request,  PagingVO vo
+						, @RequestParam(value="nowPage", required=false)String nowPage
+						, @RequestParam(value="cntPerPage", required=false)String cntPerPage)
+				{	
+					IProjectPageDAO dao = sqlSession.getMapper(IProjectPageDAO.class);
+					
+					MemberDTO member = (MemberDTO)session.getAttribute("member");
+					
+					LocalDate now = LocalDate.now();
+					//System.out.println(now);
+					
+					int count = dao.allcount(); // 전체 보기
+					int ingcount = dao.ingcount(); // 모집중
+					int endcount = dao.endcount(); // 모집완료
+					
+					if (nowPage == null && cntPerPage == null) {
+			            nowPage = "1";
+			            cntPerPage = "5";
+			        } else if (nowPage == null) {
+			            nowPage = "1";
+			        } else if (cntPerPage == null) {
+			            cntPerPage = "5";
+			        }
+			        
+					
+					if (member == null)
+					{
+						request.setAttribute("member", member);
+						
+						// 전체 프로젝트 정보
+						
+						//model.addAttribute("pjall",dao.allpjlist());
+						
+						//vo = new PagingVO(count, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjall", dao.pagelist(vo));
+						
+						
+						// 모집중 정보
+						
+						//model.addAttribute("pjing",dao.ingpjlist());
+				        
+				        //vo = new PagingVO(ingcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjing", dao.pagelist(vo));
+						
+						
+						// 모집 완료 정보
+						
+						//model.addAttribute("pjend",dao.endpjlist());
+				        
+				        vo = new PagingVO(endcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        model.addAttribute("paging", vo);
+				        model.addAttribute("pjend", dao.endpagelist(vo));
+						
+						
+						// 전체 카운트
+						model.addAttribute("allcount",dao.allcount());
+						
+						
+						// 진행중 카운트
+						model.addAttribute("ingcount",dao.ingcount());
+						
+						
+						// 진행완료 카운트
+						model.addAttribute("endcount",dao.endcount());
+						
+						
+						// 태그
+						
+						model.addAttribute("tag",dao.tag());
+						
+						
+						// 댓글
+						
+						model.addAttribute("comment",dao.comment());
+						
+						
+						// 핫한 프로젝트
+						
+						model.addAttribute("hotpj",dao.hotpj());
+						
+						// 새로운 프젝
+						
+						model.addAttribute("newpj",dao.newpj());
+						
+						
+						// 왼쪽 태그들
+						model.addAttribute("lefttag",dao.lefttag());
+						
+						
+						
+						
+						
+						
+						return "/WEB-INF/view/main/projectPage3.jsp";
+					}
+					else
+					{
+						request.setAttribute("member", member);
+						
+						String mem_code = member.getMem_code();
+						
+						// 회원일때 참여 프로젝트 정보
+						//model.addAttribute("pjdto",dao.pjdto(mem_code));
+						
+						
+						// 전체 프로젝트 정보
+						
+						//model.addAttribute("pjall",dao.allpjlist());
+						
+						//vo = new PagingVO(count, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjall", dao.pagelist(vo));
+						
+						
+						// 모집중 정보
+						
+						//model.addAttribute("pjing",dao.ingpjlist());
+				        
+				        //vo = new PagingVO(ingcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjing", dao.pagelist(vo));
+						
+						
+						// 모집 완료 정보
+						
+						//model.addAttribute("pjend",dao.endpjlist());
+				        
+				        vo = new PagingVO(endcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        model.addAttribute("paging", vo);
+				        model.addAttribute("pjend", dao.endpagelist(vo));
+						
+						
+						// 태그
+						
+						model.addAttribute("tag",dao.tag());
+						
+						
+						// 댓글
+						
+						model.addAttribute("comment",dao.comment());
+						
+						
+						// 핫한 프로젝트
+						
+						model.addAttribute("hotpj",dao.hotpj());
+						
+						
+						// 새로운 프젝
+						
+						model.addAttribute("newpj",dao.newpj());
+						
+						
+						// 왼쪽 태그들
+						model.addAttribute("lefttag",dao.lefttag());
+						
+						
+						// 전체 카운트
+						model.addAttribute("allcount",dao.allcount());
+						
+						
+						// 진행중 카운트
+						model.addAttribute("ingcount",dao.ingcount());
+						
+						
+						// 진행완료 카운트
+						model.addAttribute("endcount",dao.endcount());
+						
+						
+						// 내가진행중 카운트
+						model.addAttribute("mycount",dao.mycount(mem_code));
+						
+						// 신고
+						ProjectPageDTO reportmem = dao.reportmem(mem_code);
+						int reportcount = dao.reportcount(mem_code);
+						
+						if (reportcount != 0)
+						{
+							
+							if (reportmem.getPrecessing().equals("패널티중")) 
+							{
+								model.addAttribute("report","pe");
+							}
+							
+						}
+						else
+						{
+							model.addAttribute("report","ee");
+						}
+						
+						
+						return "/WEB-INF/view/main/projectPage3.jsp";
+						
+					}
+					
+				}
+				
+				// TOP 프로젝트 내가 참여프젝 클릭시
+				@RequestMapping(value="/ProjectList4.action", method=RequestMethod.GET)
+				public String myprojectlist(Model model, HttpSession session, HttpServletRequest request,  PagingVO vo
+						, @RequestParam(value="nowPage", required=false)String nowPage
+						, @RequestParam(value="cntPerPage", required=false)String cntPerPage)
+				{	
+					IProjectPageDAO dao = sqlSession.getMapper(IProjectPageDAO.class);
+					
+					MemberDTO member = (MemberDTO)session.getAttribute("member");
+					
+					LocalDate now = LocalDate.now();
+					//System.out.println(now);
+					
+					int count = dao.allcount(); // 전체 보기
+					int ingcount = dao.ingcount(); // 모집중
+					int endcount = dao.endcount(); // 모집완료
+					
+					if (nowPage == null && cntPerPage == null) {
+			            nowPage = "1";
+			            cntPerPage = "5";
+			        } else if (nowPage == null) {
+			            nowPage = "1";
+			        } else if (cntPerPage == null) {
+			            cntPerPage = "5";
+			        }
+			        
+					
+					if (member == null)
+					{
+						request.setAttribute("member", member);
+						
+						// 전체 프로젝트 정보
+						
+						//model.addAttribute("pjall",dao.allpjlist());
+						
+						//vo = new PagingVO(count, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjall", dao.pagelist(vo));
+						
+						
+						// 모집중 정보
+						
+						//model.addAttribute("pjing",dao.ingpjlist());
+				        
+				        //vo = new PagingVO(ingcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjing", dao.pagelist(vo));
+						
+						
+						// 모집 완료 정보
+						
+						//model.addAttribute("pjend",dao.endpjlist());
+				        
+				        //vo = new PagingVO(endcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjend", dao.pagelist(vo));
+						
+						
+						// 전체 카운트
+						model.addAttribute("allcount",dao.allcount());
+						
+						
+						// 진행중 카운트
+						model.addAttribute("ingcount",dao.ingcount());
+						
+						
+						// 진행완료 카운트
+						model.addAttribute("endcount",dao.endcount());
+						
+						
+						// 태그
+						
+						model.addAttribute("tag",dao.tag());
+						
+						
+						// 댓글
+						
+						model.addAttribute("comment",dao.comment());
+						
+						
+						// 핫한 프로젝트
+						
+						model.addAttribute("hotpj",dao.hotpj());
+						
+						// 새로운 프젝
+						
+						model.addAttribute("newpj",dao.newpj());
+						
+						
+						// 왼쪽 태그들
+						model.addAttribute("lefttag",dao.lefttag());
+						
+						
+						
+						
+						
+						
+						return "/WEB-INF/view/main/projectPage4.jsp";
+					}
+					else
+					{
+						request.setAttribute("member", member);
+						
+						String mem_code = member.getMem_code();
+						
+						// 회원일때 참여 프로젝트 정보
+						model.addAttribute("pjdto",dao.pjdto(mem_code));
+						
+						
+						// 전체 프로젝트 정보
+						
+						//model.addAttribute("pjall",dao.allpjlist());
+						
+						//vo = new PagingVO(count, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjall", dao.pagelist(vo));
+						
+						
+						// 모집중 정보
+						
+						//model.addAttribute("pjing",dao.ingpjlist());
+				        
+				        //vo = new PagingVO(ingcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjing", dao.pagelist(vo));
+						
+						
+						// 모집 완료 정보
+						
+						//model.addAttribute("pjend",dao.endpjlist());
+				        
+				        //vo = new PagingVO(endcount, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				        //model.addAttribute("paging", vo);
+				        //model.addAttribute("pjend", dao.pagelist(vo));
+						
+						
+						// 태그
+						
+						model.addAttribute("tag",dao.tag());
+						
+						
+						// 댓글
+						
+						model.addAttribute("comment",dao.comment());
+						
+						
+						// 핫한 프로젝트
+						
+						model.addAttribute("hotpj",dao.hotpj());
+						
+						
+						// 새로운 프젝
+						
+						model.addAttribute("newpj",dao.newpj());
+						
+						
+						// 왼쪽 태그들
+						model.addAttribute("lefttag",dao.lefttag());
+						
+						
+						// 전체 카운트
+						model.addAttribute("allcount",dao.allcount());
+						
+						
+						// 진행중 카운트
+						model.addAttribute("ingcount",dao.ingcount());
+						
+						
+						// 진행완료 카운트
+						model.addAttribute("endcount",dao.endcount());
+						
+						
+						// 내가진행중 카운트
+						model.addAttribute("mycount",dao.mycount(mem_code));
+						
+						
+						// 신고
+						ProjectPageDTO reportmem = dao.reportmem(mem_code);
+						int reportcount = dao.reportcount(mem_code);
+						
+						if (reportcount != 0)
+						{
+							
+							if (reportmem.getPrecessing().equals("패널티중")) 
+							{
+								model.addAttribute("report","pe");
+							}
+							
+						}
+						else
+						{
+							model.addAttribute("report","ee");
+						}
+						
+						
+						return "/WEB-INF/view/main/projectPage4.jsp";
+						
+					}
+					
+				}
+				
+				
 }
 
 
