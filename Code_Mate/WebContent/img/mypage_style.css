@@ -1,0 +1,1319 @@
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'Pretendard-Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+		format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+* {
+	font-family: 'SUITE-Regular';
+}
+
+/* 웹페이지 body 영역 */
+body {
+	height: 100%;
+}
+
+/* 전체 div 영역 */
+div {
+	/* border: 1px solid gray; */
+	
+}
+
+
+
+/* 마이페이지 영역 전체를 감싸는 최상위 부모 div */
+.myPageMainArea {
+	/* height: 1400px; */
+	
+}
+
+/* 마이페이지 본문 영역 */
+div#main-tab {
+	padding: 18px;
+	margin: auto;
+}
+
+/* 전체 영역을 감싸는 최상의 본문 div */
+.mainContent-area 
+{
+	margin-left: 500px;
+}
+
+/* 마이페이지 본문 영역 div */
+.myPageArea {
+	height: 130%;
+	margin-left: 25%;
+	padding: 20px;
+	border-radius: 10px;
+	width: 1050px;
+}
+
+/* 버튼 영역 전체를 감싸는 부모 div 영역 */
+.profileBtnArea 
+{
+    /* border: 1px solid red; */
+	height: 95px;
+}
+
+
+
+/* 수정 버튼, 블라인드 버튼을 감싸는 div 영역 */
+.all-btn-box 
+{
+    display: flex;
+    /* border: 1px solid blue; */
+    width: 160px;
+    height: 45px;
+    position: relative;
+    left: 805px;
+    margin-top: 48px;
+    justify-content: space-around;
+    
+}
+
+
+/* ① 수정 버튼 안에 존재하는 톱니바퀴 아이콘 스타일 */
+span.material-symbols-outlined.col.edit-btn-icon 
+{
+    position: relative;
+    top: 6px;
+    font-size: 24px;
+}
+
+/* ① 수정 버튼 위에 마우스를 올려 놓았을시 - hover 스타일 */
+button.btn.btn-outline-dark.edit-btn:hover 
+{
+    color: white;
+    background-color: #1fc1c0;
+    transition: 0.3s;
+    text-shadow: 0 2px 2px #198089;
+    box-shadow: 0px 4px 4px #525091;
+}
+
+
+/* ① 수정 버튼 클릭시 - active 스타일 */
+button.btn.btn-outline-dark.edit-btn:active {
+    color: #cfcfcf;
+    background: #4f59ca;
+    text-shadow: 0 3px 3px #5d1322;
+    box-shadow: 0px -3px 5px #733a55;
+    transition: 0.3s;
+    font-size: 16px;
+    transform: scale3d(0.85, 0.85, 0.85);
+    border: 1px solid #325a6952;
+    line-height: 35px;
+}
+
+/* ① 수정 버튼 스타일 지정 */
+button.btn.btn-outline-dark.edit-btn 
+{
+    --bs-btn-padding-x: 6px;
+    --bs-btn-padding-y: 2px;
+    font-size: 15px;
+    font-weight: bold;
+    --bs-btn-font-size: 1rem;
+    --bs-btn-font-weight: 40;
+    --bs-btn-line-height: 28.5px;
+    --bs-btn-color: #4f59ca;
+    --bs-btn-bg: transparent;
+    --bs-btn-border-width: var(--bs-border-width);
+    --bs-btn-border-color: transparent;
+    --bs-btn-border-radius: var(--bs-border-radius);
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+/* ② 블라인드 버튼 안에 존재하는 톱니바퀴 아이콘 스타일 */
+span.material-symbols-outlined.blind-btn-icon
+{
+    position: relative;
+    top: 6px;
+    font-size: 24px;
+}
+
+/* ② 블라인드 버튼 위에 마우스를 올려 놓았을시 - hover 스타일 */
+button.btn.btn-outline-dark.blind-btn:hover 
+{
+    color: white;
+    background-color: #1fc1c0;
+    transition: 0.3s;
+    text-shadow: 0 2px 2px #198089;
+    box-shadow: 0px 4px 4px #6c6ab9;
+}
+
+
+/* ② 블라인드 버튼 클릭시 - active 스타일 */
+button.btn.btn-outline-dark.blind-btn:active {
+    color: #cfcfcf;
+    background: #4c877a;
+    text-shadow: 0 3px 3px #103f41;
+    box-shadow: 0px -3px 5px #243f3f;
+    transition: 0.3s;
+    font-size: 16px;
+    transform: scale3d(0.85, 0.85, 0.85);
+    border: 1px solid #325a6952;
+    line-height: 35px;
+}
+
+
+/* ② 블라인드 버튼 스타일 지정 */
+button.btn.btn-outline-dark.blind-btn
+{
+    --bs-btn-padding-x: 6px;
+    --bs-btn-padding-y: 2px;
+    font-size: 15px;
+    font-weight: bold;
+    --bs-btn-font-size: 1rem;
+    --bs-btn-font-weight: 40;
+    --bs-btn-line-height: 28.5px;
+    --bs-btn-color: #4f59ca;
+    --bs-btn-bg: transparent;
+    --bs-btn-border-width: var(--bs-border-width);
+    --bs-btn-border-color: transparent;
+    --bs-btn-border-radius: var(--bs-border-radius);
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+
+
+
+/* 프로필 하단 본문 영역 div */
+.row.mainTextArea {
+	height: inherit;
+}
+
+/* 프로필 영역전체에 해당하는 최상위 부모 div */
+.row.row-cols-2.profileArea 
+{
+    background: #f0f1ff;
+    border-radius: 25px;
+    border: 1px solid #4f59ca;
+    margin-bottom: 45px;
+}
+
+/* 프로필 이미지를 감싸는 부모 div */
+.profileImageBox {
+	overflow: hidden;
+	border-radius: 70%;
+	width: 200px;
+	height: 200px;
+	margin: 56px;
+	transition: 0.5s;
+	box-shadow: 6px 6px #4f59ca;
+}
+
+/* 프로필 이미지를 감싸는 부모 div에 마우스를 올렸을 때 */
+.profileImageBox:hover {
+	overflow: hidden;
+	border-radius: 70%;
+	width: 200px;
+	height: 200px;
+	margin: 56px;
+	transform: scale3d(1.15, 1.15, 1.15);
+}
+
+/* 등급 영역 내용을 감싸는 최상위 부모 영역 div */
+.gradeIcon-parentBox 
+{
+    display: inline-block;
+    position: relative;
+    top: 4px;
+}
+
+/* 등급 영역 내용을 감싸는 등급 정보 영역 div */
+.gradeIcon-infoBox 
+{
+    display: flex;
+    justify-content: space-around;
+    width: 90px;
+    /* border: 1px solid burlywood; */
+}
+
+
+/* 등급 아이콘 스타일 */
+img.gradeIconImg 
+{
+    object-fit: contain;
+    width: 33px;
+    height: 33px;
+}
+
+
+/* 등급, 매너온도 정보 텍스트 */
+span.gradeText, span.mannerText 
+{
+    color: #4f59ca;
+    font-weight: bold;
+    font-size: 16px;
+    display: flow;
+    width: 56px;
+    line-height: 36px;
+    /* border: 1px solid red; */
+}
+
+/* 등급 아이콘을 감싸는 박스 영역 */
+.gradeIconBox, .mannerIconBox
+{
+    font-size: 35px;
+    background: #f9f9f9;
+    width: 164px;
+    position: relative;
+    left: 22px;
+    border-radius: 12px;
+    border-bottom: 2px solid #1fc1c0;
+}
+
+
+/* 등급과 등급 설명 텍스트 글을 감싸는 박스 영역 */
+.gradeIcon-miniBox 
+{
+    /* border: 1px solid gainsboro; */
+    display: inline-grid;
+}
+
+/* Back-end, Front-end 텍스트 앞에 붙는 아이콘 스타일 */
+ion-icon.grade-icon.md.hydrated 
+{
+    position: relative;
+    top: 3px;
+    font-weight: bold;
+}
+
+/* 매너 온도 텍스트 앞에 붙는 하트 아이콘 스타일 */
+span.material-symbols-outlined.manner-icon 
+{
+    position: relative;
+    top: 2px;
+    background: #fb8375;
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 18px;
+}
+
+
+/* 프로필 최상단 Skill-Grade를 감싸는 div 영역 */
+.col-12.mainTextBox {
+	text-align: left;
+	font-size: 25px;
+	color: #345f53;
+	border-radius: 10px;
+	/* border-bottom: 3px solid gray; */
+}
+
+/* 프로필 최상단 Back-end, Front-end 설명 텍스트 박스 영역 */
+.skill-mini-box, .manner-mini-box
+{
+    text-align: left;
+    padding: 10px 0px 10px 10px;
+    font-size: 18px;
+    color: #41b179;
+    box-shadow: inherit;
+    width: 230px;
+    position: relative;
+    left: 22px;
+    font-weight: bold;
+}
+
+/* 매너온도 온도계 아이콘 */
+span.material-symbols-outlined.temperature-icon 
+{
+    color: #eb7f7f;
+    font-size: 33px;
+}
+
+/* 매너온도 텍스트 스타일 */
+span.mannerText 
+{
+    color: #eb7f7f;
+}
+
+/* 프로필 이미지 */
+.profileImage {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* 프로필 이메일 */
+.col-6.emailBox {
+	font-size: 14px;
+	color: gray;
+	line-height: 50px;
+}
+/* 프로필 표시 영역 - [닉네임, 이메일 div] */
+.nickAndEmailBox {
+	overflow: hidden;
+	margin: 40px;
+	text-align: left;
+}
+
+/* 프로필 닉네임 */
+.nickNameBox {
+	font-weight: bold;
+	font-size: 30px;
+	color: #4f59ca;
+}
+
+
+
+/* 각각의 카테고리 탭 하나에 해당하는 영역 */
+.category-tab {
+	width: 265px;
+	text-align: center;
+	margin: auto;
+}
+
+/* 비활성화 된 카테고리 탭 내용에 대한 스타일 */
+.fade:not(.show) 
+{
+    opacity: 0;
+    display: none;	/* display : none 이어야, 다음 탭에서 공간 차지를 하지 않음. */
+}
+
+/* 각각의 항목들을 설명하는 큰 텍스트를 감싸는 div 영역 */
+
+.descTextBox 
+{
+    color: #4f59ca;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    border-top: 5px solid #4f59ca;
+    padding: 12px;
+    box-shadow: initial;
+    margin: 30px 10px 10px 15px;
+}
+
+
+/* 자기소개란 텍스트 */
+span.content-text {
+	width: 200px;
+	text-align: center;
+	font-weight: bold;
+	position: relative;
+    right: 5px;
+    top: 2px;
+}
+
+/* 프로필 표시 영역 - [스킬 div] */
+.skillBox {
+	margin: 30px 20px 30px 20px;
+}
+
+/* 개인 정보 리스트를 담는 스타일 */
+ul.privacy-list {
+	text-align: left;
+	margin: 15px 0 15px 27px;
+	list-style-type: none;
+}
+
+/* 개인 정보 하나에 해당하는 리스트 한 줄 스타일 */
+li.one-privacy {
+	margin: 20px 0 0 0;
+}
+
+
+
+/* 스킬 박스를 감싸는 부모 div 영역 */
+.all-skill-area.row 
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* 스킬 영역 공통 스타일 */
+.skill-area.col-6.front-end-area, .skill-area.col-6.back-end-area
+{
+    width: 470px;
+}
+
+
+
+/* 스킬 태그 하나에 해당하는 스타일 */
+.one-skill-tag {
+	margin: 6px 3px 6px 3px;
+	border-radius: 17px;
+	border: 1px solid #aab7aa;
+	padding: 6px 10px 6px 10px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 15px;
+	background: linear-gradient(0deg, #d9d9d9, transparent);
+	color: #1fc1c0;
+	width: fit-content;
+}
+
+/* 스킬 태그를 감싸는 부모 div 영역 */
+.skill-content 
+{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+/* 프로필 수정 및 공개 비공개 버튼 영역 div */
+.profileBtnArea {
+	text-align: right;
+}
+
+/* 마이페이지 - 상단 개인정보(성별, 생년월일, MBTI) 부분 박스 영역 div */
+.contentBox 
+{
+	box-shadow: 3px 3px 3px 3px #d1d1d1;
+	border-radius: 10px;
+	margin: 20px;
+	padding: 15px;
+}
+
+
+
+/* ul 리스트 각각에 해당하는 아이콘 이미지 지정 */
+.one-privacy {
+	list-style-image: url("img/arrow.png");
+}
+
+/* 개인정보 리스트 ul 하나를 감싸는 영역 div */
+.privacy-box {
+	position: relative;
+	bottom: 7px;
+	display: flex;
+}
+
+/* 성별 아이콘 */
+.gender {
+	position: relative;
+	top: 5px;
+}
+
+/* 젠더 아이콘 스타일 */
+span.gender-icon.material-symbols-outlined.gender 
+{
+    background: linear-gradient(180deg, #a9ffb8, #2088c9);
+    border-radius: 50%;
+    padding: 2px;
+    color: white;
+    text-shadow: 2px 2px #0976a5;
+    font-size: 20px;
+    position: relative;
+    top: 5px;
+    right: 10px;
+}
+
+/* 생일 아이콘 스타일 */
+span.birth-icon.material-symbols-outlined 
+{
+    background: linear-gradient(180deg, #f9f991, #f15673);
+    border-radius: 50%;
+    padding: 2px;
+    color: white;
+    text-shadow: 2px 2px #9d2020;
+    font-size: 20px;
+    position: relative;
+    top: 5px;
+    right: 10px;
+}
+
+/* MBTI 아이콘 스타일 */
+span.mbti-icon.material-symbols-outlined 
+{
+    background: linear-gradient(180deg, #57388d, #e76f85);
+    border-radius: 50%;
+    padding: 2px;
+    color: #fff78c;
+    text-shadow: 2px 2px #c3672b;
+    font-size: 20px;
+    position: relative;
+    top: 5px;
+    right: 10px;
+}
+
+/* 사용자의 성별에 해당하는 스타일 */
+span.gender-info-text 
+{
+    background: #f5f5f0;
+    padding: 3px 20px 3px 20px;
+    border-radius: 7px;
+    font-size: 15px;
+    display: inline-block;
+    color: #65626f;
+    width: 145px;
+}
+
+/* 사용자의 생년월일에 해당하는 스타일 */
+span.birth-info-text 
+{
+    background: #f5f5f0;
+    padding: 3px 20px 3px 20px;
+    border-radius: 7px;
+    font-size: 15px;
+    display: inline-block;
+    color: #65626f;
+    width: 145px;
+}
+
+
+/* 사용자의 MBTI 정보에 해당하는 텍스트 스타일 */
+span.mbti-info-text 
+{
+/*  
+	background: linear-gradient(180deg, #b356c7, #ed7087);
+    padding: 4px 15px 4px 15px;
+    border-radius: 7px;
+    font-size: 15px;
+    display: inline;
+    color: #fff398;
+    text-shadow: 1px 1px 5px #b92377; */
+    
+    background: #f5f5f0;
+    padding: 3px 20px 3px 20px;
+    border-radius: 7px;
+    font-size: 15px;
+    display: inline-block;
+    color: #65626f;
+    width: 145px;
+}
+
+/* 개인 정보 제목에 해당하는 텍스트 (성별, 생년월일, MBTI) */
+span.title-text {
+	color: white;
+	width: 95px;
+	margin-right: 30px;
+	font-size: 16px;
+	text-align: center;
+	font-weight: bold;
+	background: #1FC1C0;
+	border-radius: 10px;
+	padding: 8px;
+	text-shadow: 0 1px black;
+
+}
+
+
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩『카테고리』▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+
+
+/* ① 메인 자기소개 카테고리 탭 - 비활성화 됐을 때 스타일 */
+button.category-tab.nav-link.main-introduce-tab
+{
+    transition: 0.5s;
+    transform: skewX(-8deg) translateY(4px) scale(0.9);
+    font-size: 14px;
+}
+
+/* ① 메인 자기소개 탭 - 활성화 됐을 때 스타일 */
+button.category-tab.nav-link.main-introduce-tab.active
+{
+    background: #4f59ca;
+    border: 1px solid #131855;
+    color: white;
+    font-weight: 500;
+    transition: 0.3s;
+    transform: scale(1.05);
+    font-size: 19px;
+}
+
+
+
+/* ② 게시글 카테고리 탭 - 비활성화 됐을 때 스타일 */
+button.category-tab.nav-link.col.post-written-tab 
+{
+    transition: 0.5s;
+    transform: skewX(-8deg) translateY(4px) scale(0.9);
+    font-size: 14px;
+}
+
+/* ② 게시글 카테고리 탭 - 활성화 됐을 때 스타일 */
+button.category-tab.nav-link.col.post-written-tab.active 
+{
+    background: #4f59ca;
+    border: 1px solid #131855;
+    color: white;
+    font-weight: 500;
+    transition: 0.3s;
+    transform: scale(1.05);
+    font-size: 19px;
+}
+
+/* ③ 댓글 카테고리 탭 - 비활성화 됐을 때 스타일 */
+button.category-tab.nav-link.col.comment-written-tab 
+{
+    transition: 0.5s;
+    transform: skewX(-8deg) translateY(4px) scale(0.9);
+    font-size: 14px;
+}
+
+/* ③ 댓글 카테고리 탭 - 활성화 됐을 때 스타일 */
+button.category-tab.nav-link.col.comment-written-tab.active 
+{
+    background: #4f59ca;
+    border: 1px solid #131855;
+    color: white;
+    font-weight: 500;
+    transition: 0.3s;
+    transform: scale(1.05);
+    font-size: 19px;
+}
+
+
+
+/* 비활성화된 카테고리 탭에 대한 스타일 */
+button.category-tab 
+{
+    height: 45px;
+    color: #a3a3a3;
+    background: #f5f5f59e;
+}
+
+/* 마이페이지 탭 아래의 본문 전체 영역 */
+.mainTextArea 
+{
+	height: 1000px;
+}
+
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩『경  력』▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+
+
+/* 회사명 */
+.companyName {
+	font-weight: bold;
+}
+
+/* '총' 에 해당하는 텍스트 스타일 */
+span.total-career-descText 
+{
+    color: #8a8b8f;
+}
+
+
+/* 총 경력 요소들을 감싸는 box 영역 */
+.total-period-career-box 
+{
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    width: 375px;
+}
+
+
+/* 경력 리스트 전체를 감싸는 영역 */
+.careerListArea .row .row-cols-3 
+{
+	margin: 20px;
+	box-shadow: 3px 3px 3px 3px #d1d1d1;
+	border-radius: 10px;
+}
+
+/* 경력 리스트 ul 영역 */
+ul.careerList 
+{
+    margin-top: 18px;
+}
+
+
+/* 경력 리스트 ul 태그 클래스(리스트 전체) */
+.one-careerBox 
+{
+	list-style-type: none;
+	text-align: left;
+	margin-left: 40px;
+	height: 100px;
+}
+
+/* 경력 내부의 회사명 텍스트 스타일 */
+span.career-company 
+{
+    font-size: 18px;
+    font-weight: bold;
+    color: #0aafa1;
+}
+
+
+/* 경력 내부의 재직기간 텍스트 스타일 */
+span.career-period 
+{
+    background: #f5f5f0;
+    padding: 1px 15px 1px 15px;
+    border-radius: 7px;
+    font-size: 13px;
+    display: inline;
+    font-weight: bold;
+    color: #69c9d9;
+    text-shadow: 0px 1px 1px #b9b3a7;
+}
+
+/* 총 경력 텍스트 (N년, n개월) 스타일 */
+span.career-info-text 
+{
+    margin-left: 10px;
+    color: #4f59ca;
+    background: #f5f5f0;
+    position: relative;
+    display: inline-block;
+    width: 280px;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 1.5px;
+}
+
+
+
+/* 경력 리스트 li 옆 세로줄 */
+.one-careerBox:not(:last-of-type)
+{
+	border-left: 1px solid gray;
+}
+
+/* 경력 리스트 li 항목 아이콘 - 맨 마지막 요소가 아닌 것을 선택 */
+.one-careerBox:not(:last-of-type)::before 
+{
+    background: url(/Backup01_Code_Mate/img/square.svg);
+    background-repeat: no-repeat;
+    display: inline-block;
+    content: "";
+    background-color: #fff;
+    height: 21px;
+    width: 21px;
+    position: relative;
+    left: -10px;
+    top: -2px;
+}
+
+/* 경력 리스트 li 항목 아이콘 - 맨 마지막 요소 선택  */
+.one-careerBox:last-of-type::before 
+{
+    background: url(/Backup01_Code_Mate/img/disc.svg);
+    background-repeat: no-repeat;
+    display: inline-block;
+    content: "";
+    background-color: #fff;
+    height: 21px;
+    width: 22px;
+    position: relative;
+    left: -10px;
+    top: -2px;
+    
+}
+
+
+
+/* 경력 리스트 ul 하나에 해당하는 내용 전체를 감싸는 div */
+.career-info-txtBox 
+{
+    position: relative;
+    top: -30px;
+    padding-left: 30px;
+    width: 325px;
+    /* border: 1px solid darkcyan; */
+}   
+
+/* 하나의 경력 재직기간 전체를 감싸는 최상위 부모 div */
+.career-all-period-parent-box 
+{
+    display: flex;
+    position: relative;
+}
+
+/* 하나의 경력에 해당하는 총 재직기간 스타일  */
+.career-tot-period-box {
+    /* border: 1px solid lawngreen; */
+    position: absolute;
+    left: 175px;
+    width: 115px;
+    bottom: 24px;
+}
+
+/* 하나의 경력 기간에 해당하는 텍스트 스타일  */
+span.career-tot-period 
+{
+    color: #4f59ca;
+    font-weight: bold;
+    /* border: 1px solid red; */
+}
+
+
+
+/* 백엔드 스킬 영역 박스 */
+.backSkillGradeBox, .frontSkillGradeBox
+{
+    width: 190px;
+}
+
+
+/* 프로젝트 이력 텍스트들을 감싸는 영역 */
+.descTextBox.pj-history-Text 
+{
+    display: flex;
+    justify-content: left;
+}
+
+/* 프로젝트 완료 비율 설명 텍스트를 감싸는 영역 */
+.pjComplete-info-box 
+{
+    position: relative;
+    left: 9px;
+    top: 1px;
+}
+/* 프로젝트 완료 퍼센트 설명 텍스트 스타일 */
+span.descText.pjComplete-ratio-txt 
+{
+    color: #1fc1c0;
+    position: relative;
+    display: inline-block;
+    width: 170px;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 1.5px;
+    font-size: 16px;
+    line-height: 30px;
+    bottom: 6px;
+    right: 11px;
+}
+    
+    
+}
+
+/* 프로젝트 완료 퍼센트 박스 */
+.pjComplete-info-box 
+{
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    width: 310px;
+}
+
+/* 프로젝트 참여 이력 하나 카드에 해당하는 스타일 */
+.card-body.pj-history 
+{
+    padding: unset;
+    position: absolute;
+    width: 100%;
+}
+
+/* [프로젝트 요약, 기간, 완료 여부]를 모두 감싸는 div 영역 */
+.card-inner.pj-item-totBox 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 110px;
+    /* border: 1px solid red; */
+}
+
+/* 프로젝트 이력 하나에 해당하는 스타일 */
+.card.one-projectBox 
+{
+    width: 285px;
+    height: 220px;
+    border: 1px solid #4f59ca;
+}
+
+/* 프로젝트 제목에 해당하는 스타일 */
+h5.card-header.project-name 
+{
+    color: white;
+    background: #4f59ca;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* 프로젝트 담당 직무 텍스트 스타일 - 팀장, 백엔드, 프론트엔드 */
+h6.card-title.project-position 
+{
+	margin: 8px 0 8px 8px;
+	background: #f5f5f0;
+    padding: 4px 10px 4px 10px;
+    border-radius: 7px;
+    font-size: 15px;
+    display: block;
+    color: #4f59ca;
+    width: fit-content;
+    border: 1px solid #d7d7d7;
+    font-weight: bold;
+}
+
+
+/* 프로젝트 요약에 해당하는 스타일 */
+
+p.card-text.project-desc  
+{
+	
+    /* border: 1px solid gray; */
+	display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    width: 235px;
+    height: 40px;
+    position: relative;
+    left: 10px;
+    font-size: 14px;
+    text-align: left;
+  
+}
+
+
+/* 더보기 및 접기 버튼 스타일 */
+.view-control-btn
+{
+    float: right;
+    height: 10px;
+    line-height: 14px;
+    shape-outside: border-box;
+    position: relative;
+    top: 22px;
+    right: 6px;
+    display: none;
+}
+
+
+/* 프로젝트 진행 기간에 해당하는 스타일 */
+.card-inner.project-term-box 
+{
+    font-size: 13px;
+    text-align: left;
+    margin-left: 8px;
+    color: #acacae;
+}
+
+/* 프로젝트 완료 여부에 대한 텍스트 스타일 */
+.card-inner.project-ok-box 
+{
+    text-align: left;
+    color: #4f59ca;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+
+
+/* 프로젝트 완료 비율 퍼센트 스타일 */
+span.pjCompleteRatio 
+{
+    color: #ffffff;
+    position: relative;
+    display: inline-block;
+    padding: 2px 9px 2px 9px;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 1.5px;
+    background: #1fc1c0;
+    bottom: 6px;
+    font-size: 16px;
+    right: 18px;
+}
+
+/* Back-end, Front-end 텍스트 박스 스타일 */
+span.descText.grade-descTxt, .manner-descTxt
+{
+    padding: 1px 2px 2px 10px;
+    background-color: #1fc1c0;
+    color: white;
+    position: relative;
+    display: block;
+    width: 164px;
+    border-radius: 8px;
+    font-weight: 100;
+    text-shadow: 1px 1px 1px #376161;
+    position: relative;
+    right: 10px;
+}
+
+
+/* 캐러셀 한 페이지 (3개의 프로젝트 이력) 영역 */
+.carousel-item.active.one-pj-history-miniBox 
+{
+    /* display: flex; */
+    
+}
+
+/* 캐러셀 이전, 이후 버튼, 박스를 모두 감싸는 최상위 부모 div 영역 */
+.pj-hist-carousel-btn-area 
+{
+    width: 100%;
+    /* border: 1px solid green; */
+    height: 27px;
+    display: flex;
+}
+
+/* 캐러셀 이전, 이후 버튼 미니 박스를 감싸는 div 영역 */
+.pj-hist-all-btn-box 
+{
+    /* border: 1px solid orange; */
+    float: right;
+    display: block;
+    width: inherit;
+}
+
+/* 캐러셀 이전, 이후 버튼만을 감싸는 미니 박스 div 영역 */
+.pj-hist-all-btn-miniBox 
+{
+    /* border: 1px solid blue; */
+    width: 65px;
+    float: right;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 4px 6px 4px;
+}
+
+/* 캐러셀 이전, 이후 버튼 공통 스타일 */
+button.carousel-control-next.pj-hist-carousel-btn.pj-hist-next-btn
+, button.carousel-control-prev.pj-hist-carousel-btn.pj-hist-prev-btn 
+{
+    border: 1px solid #9d9d9d;
+    color: #008d81;
+    display: block;
+    width: 25px;
+    height: 25px;
+    box-shadow: 1px 1px 1px #adadad;
+    background: linear-gradient(0deg, #cbcbcb, white);
+    position: relative;
+    float: right;
+    border-radius: 50%;
+
+}
+
+/* 프로젝트 이력 각각을 감싸는 div 영역 */
+.oh-my-god 
+{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+
+/*▩▩▩▩▩▩▩[게시글 탭 본문]▩▩▩▩▩▩▩*/
+
+/* 게시글 리스트 바디(forum_body)를 감싸는 div 영역 */
+.post-total-area 
+{
+    height: 500px;
+    width: 750px;
+    overflow-y: scroll;
+    padding: 10px;
+    border: antiquewhite;
+    display: inline-block;
+    position: relative;
+    top: 10px;
+    right: 4px;
+}
+
+/* 게시글 리스트를 감싸는 total-area의 부모 div 영역 */
+.post-total-parentBox 
+{
+    /* border: 1px solid gray; */
+    border-radius: 15px;
+    width: 780px;
+    height: 520px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+
+/* 작성한 게시글 하나에 해당하는 공통 스타일 */
+.topic_list
+{
+	border-radius: 10px;	
+	box-shadow: 0px 2px 2px gray;
+}
+
+/* 작성한 게시글 중, 마지막 자식을 제외한 li에 해당하는 스타일 */
+.topic_list:not(:last-child)
+{
+/* 	box-shadow: 0px 2px 2px gray; */
+	
+}
+
+/* 게시글의 제목에 해당하는 텍스트 스타일 */
+h4.post-title-text-box 
+{
+    font-weight: bold;
+    font-size: 19px;
+    color: #4f59ca;
+    font-weight: bold;
+    margin-top: 18px;
+
+}
+/* 어떤 게시판의 게시글인지를 나타내는, 게시글 클래스 텍스트 스타일 */
+span.post-class-text 
+{
+    font-size: 14px;
+    background: #1fc1c0;
+    color: white;
+    display: block;
+    border-radius: 8px;
+    padding: 2px 10px 2px 10px;
+    margin-bottom: 10px;
+    text-shadow: 0 1px #4f59ca;
+    font-weight: bold;
+}
+
+
+/* 게시글 제목, 내용, 태그 텍스트 스타일 */
+.board-a-tag-link 
+{
+    text-decoration: none;
+    color: #4f59ca;
+}
+
+
+
+/*=========[내가 작성한 게시글 - 스크롤바 스타일]=========*/
+
+/* 스크롤바 전체 */
+.post-total-area::-webkit-scrollbar 
+{
+    width: 13px;
+}
+/* 스크롤바 막대 */
+.post-total-area::-webkit-scrollbar-thumb 
+{
+  background-color: #4f59ca;
+  border-radius: 10px;
+  background-clip: padding-box;
+  /* box-shadow: 0px 5px 5px #329162; */
+  border: 1px solid transparent;
+}
+/* 스크롤바 트랙 (막대 외부) */
+.post-total-area::-webkit-scrollbar-track 
+{
+  background-color: #e1ede5;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+
+/* 요약 더보기 내용 창 */
+.card.card-body.pj-more-desc-box 
+{
+    width: 145px;
+    display: none;
+    position: absolute;
+    left: 131px;
+    top: 73px;
+    font-size: 14px;
+    height: 136px;
+    overflow-y: scroll;
+    padding: 5px 10px 5px 10px;
+    background: #ffffffd6;
+    border: 1px solid #d5d5d5;
+    box-shadow: 0px 1px 1px gray;
+    border-top: 2px solid #9ae4d4;
+}
+
+/* 요약 더보기 내용 스크롤바 숨기기 - 1 */
+.card.card-body.pj-more-desc-box ::-webkit-scrollbar 
+{
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+/* 요약 내용 더보기 스크롤바 숨기기 - 2 */
+.card.card-body.pj-more-desc-box 
+{
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+/* 요약 더보기 버튼 */
+a#showMore 
+{
+    font-weight: bold;
+    line-height: 21px;
+    font-size: 11px;
+    padding: unset;
+    position: relative;
+    background: #1fc1c0;
+    width: 58px;
+    right: 211px;
+    bottom: 35px;
+    height: 23px;
+    color: white;
+    font-weight: bold;
+    line-height: 21px;
+}
+
+/* 요약 더보기 버튼 마우스 올렸을 때 스타일 */
+a#showMore:hover
+{
+	background-color: #4f59ca;
+	transition: 0.4s;
+	
+}
+
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩▩▩[3 페이지 - 댓글]▩▩▩▩▩▩▩▩▩*/
+/*▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩▩*/
+
+/* 댓글 한 개 안의 원본 게시글 제목 텍스트 스타일 */
+.comment-post-title-txt-box 
+{
+    font-size: 19px;
+    color: #4f59ca;
+    opacity: 0.8;
+    /* font-weight: bold; */
+    /* text-shadow: 0px 1px 1px #c7c7c7; */
+}
+
+/* 댓글 따봉을 감싸는 최상위 부모 div 영역 */
+.comment-up-parentBox 
+{
+    /* border: 1px solid cornflowerblue; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;F
+    text-align: center;
+    border-radius: 20%;
+    width: 80px;
+    height: 70px;
+    background: #4f59ca;
+    position: relative;
+    left: 33px;
+    top: 4px;
+}
+
+/* 댓글 따봉을 감싸는 작은 div 영역 */
+.comment-up-miniBox 
+{
+ 	color: white;
+    /* border: 1px solid orange; */
+    width: 50px;
+    height: 33px;
+    display: inline-block;
+    position: relative;
+    top: 21px;
+}
+
+/* 댓글 내용에 해당하는 스타일 */
+p.comment-content-text 
+{
+    font-size: 19px;
+    font-weight: bold;
+}
+
+
+/* 따봉 개수와, 아이콘에 해당하는 스타일 */
+a.comment-up-link.count.board-a-tag-link.like-link 
+{
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 2px #05081a;
+}

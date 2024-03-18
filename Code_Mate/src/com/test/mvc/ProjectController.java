@@ -187,11 +187,18 @@ public class ProjectController  extends HttpServlet
 		
 		int backendScore;
 		int frontendScore;
-		
+		System.out.println("1");
 		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		IProjectDAO projectDao = sqlSession.getMapper(IProjectDAO.class);
+		
+		System.out.println("cpcode : " + cp_code);
+		System.out.println("apcode : " + ap_code);
+		
+		ap_code = projectDao.getApCode(cp_code);
 		
 		if (member != null)
 		{
+			System.out.println("2");
 			backendScore = myDao.backendScore(member.getMem_code());
 			frontendScore = myDao.frontendScore(member.getMem_code());
 			
@@ -201,7 +208,7 @@ public class ProjectController  extends HttpServlet
 			
 		}
 		// 점수 끝
-		
+		System.out.println("3");
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 
@@ -213,7 +220,7 @@ public class ProjectController  extends HttpServlet
 		model.addAttribute("getWeek", getWeek);
 		model.addAttribute("getIng", getIng);
 		model.addAttribute("getWill", getWill);
-		
+		System.out.println("4");
 		System.out.println(getWill.size());
 		
 		// 멤버리스트
@@ -236,6 +243,8 @@ public class ProjectController  extends HttpServlet
 	{
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		
+        ap_code =	(String)request.getAttribute("ap_code");
+		
 		int backendScore;
 		int frontendScore;
 		
@@ -252,10 +261,17 @@ public class ProjectController  extends HttpServlet
 			
 		}
 		// 점수 끝
-		
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
-
+		
+		System.out.println("a" + dto.getMa_codep());
+		System.out.println("cp" + cp_code);
+		
+		IProjectDAO projectDao = sqlSession.getMapper(IProjectDAO.class);
+		ap_code = projectDao.getApCode(cp_code);
+		
+		System.out.println(ap_code);
+		
 		String ma_codep = memberDao.getMacode(dto.getMa_codep(), cp_code);
 		String ma_codea = memberDao.getLeader_ma(ap_code);
 
@@ -269,7 +285,7 @@ public class ProjectController  extends HttpServlet
 		request.setAttribute("ap_code", ap_code);
 		request.setAttribute("cp_code", cp_code);
 
-		return "redirect:taskView.action";
+		return "redirect:taskView.action?ap_code="+ ap_code + "&cp_code=" + cp_code ;
 	}
 	
 	@RequestMapping(value = "/myTask.action")
@@ -379,6 +395,11 @@ public class ProjectController  extends HttpServlet
 	{
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		
+		System.out.println("reportview");
+		System.out.println("ap" + ap_code);
+		System.out.println("cp" + cp_code);
+
+		
 		int backendScore;
 		int frontendScore;
 		
@@ -422,24 +443,27 @@ public class ProjectController  extends HttpServlet
 
 	// 보고서 승인됨
 	@RequestMapping(value = "/reportpass.action")
-	public String Reportpass(String br_code, ModelMap model)
+	public String Reportpass(String br_code, ModelMap model, String ap_code, String cp_code)
 	{
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
 
 		reportDao.setpass(br_code);
+		
+		System.out.println("ap" + ap_code);
+		System.out.println("cp" + cp_code);
 
-		return "redirect:Report.action";
+		return "redirect:reportView.action?ap_code=" + ap_code + "&cp_code=" + cp_code;
 	}
 
 	// 보고서 거절됨
 	@RequestMapping(value = "/reportnonepass.action")
-	public String Reportnonepass(String br_code, ModelMap model)
+	public String Reportnonepass(String br_code, ModelMap model, String ap_code, String cp_code)
 	{
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
 
 		reportDao.setnonepass(br_code);
 
-		return "redirect:Report.action";
+		return "redirect:reportView.action?ap_code=" + ap_code + "&cp_code=" + cp_code;
 	}
 }
 

@@ -380,7 +380,7 @@ public class MainController
 					int maxFileSize = 1024 * 1024 * 2;
 					String encType = "utf-8";
 
-					MultipartRequest multi = null;
+						MultipartRequest multi = null;
 
 						try{
 							System.out.println("업로드 시도");

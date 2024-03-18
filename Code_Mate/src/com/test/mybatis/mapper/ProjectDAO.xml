@@ -9,4 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM APP_OPENING
 		WHERE AP_CODE = #{arg0}
 	</select>
+	
+	<!-- public String getApCode(String cp_code); -->
+	<select id="getApCode" resultType="java.lang.String">
+		SELECT ao.AP_CODE 
+		FROM APP_OPENING ao JOIN C_PROJECT cp ON ao.AP_CODE = cp.AP_CODE 
+		WHERE cp.CP_CODE  = #{arg0}
+	</select>
 </mapper>

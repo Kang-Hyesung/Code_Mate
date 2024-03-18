@@ -5,4 +5,5 @@ import com.test.mybatis.dto.ProjectDTO;
 public interface IProjectDAO
 {
 	public ProjectDTO getProject(String ap_code);
+	public String getApCode(String cp_code);
 }

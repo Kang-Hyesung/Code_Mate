@@ -135,13 +135,13 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 		// 승인버튼 클릭시
 		$(".pass").click(function()
 		{
-			$(location).attr("href", "reportpass.action?br_code=" + id);
+			$(location).attr("href", "reportpass.action?br_code=" + id + "&ap_code=" + "${ap_code}" + "&cp_code=" + "${cp_code}");
 		})
 		
 		// 승인버튼 클릭시
 		$(".nonepass").click(function()
 		{
-			$(location).attr("href", "reportnonepass.action?br_code=" + id);
+			$(location).attr("href", "reportnonepass.action?br_code=" + id + "&ap_code=" + "${ap_code}" + "&cp_code=" + "${cp_code}");
 		})
 	})
 </script> 
@@ -496,7 +496,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
         </div>
          <div class="mb-3 other">
             <label for="recipient-name" class="col-form-label">첨부 파일</label>
-            <a href= "C\Downloads\보리.jpg" download="보리.jpg">보리.jpg</a>
+            <a href= "C\Downloads\mypage_style.css" download="mypage_style.css">side.css</a>
         </div>
         
         <!-- 팀장인 경우에만 보이도록 처리해야 함 -->

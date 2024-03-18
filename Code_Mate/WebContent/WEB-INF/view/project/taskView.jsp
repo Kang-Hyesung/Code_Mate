@@ -48,10 +48,10 @@
 			//  String[0] : 스킬 등급 아이콘 Url	(*ex : "/CodeMate/img/grade_icon/1_seed.png")
 			//  String[1] : 스킬 등급 텍스트 반환	(*ex : "씨앗")
 			//===================================================================================
-			
+			System.out.println("1");
 			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, backScore);
 			iconUrlStr = gradeIconUrlTxtArr[0];
-			
+			System.out.println("뷰다음?");
 		}
 		else if (backScore < frontScore)
 		{
@@ -745,7 +745,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="insertTask" action="taskInsert.action" method="get">
+        <form id="insertTask" action="taskInsert.action?ap_code=${ap_code }&cp_code=${cp_code}" method="get">
         	<div class="mb-3">
 			  <label for="exampleFormControlInput1" class="form-label"><span class="dateText">업무 명</span></label>
 			  <input type="text" class="form-control" name="title">
@@ -754,7 +754,8 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 			  <label for="exampleFormControlTextarea1" class="form-label"><span class="dateText">업무 설명</span></label>
 			  <textarea class="form-control" name="content" rows="3"></textarea>
 			</div>
-			
+			<input type="hidden" name="cp_code" value="${cp_code }" />
+			<input type="hidden" name="ap_code" value="${ap_code }"/>
 			<div class="datepick">
 				<span class="dateText">시작일 : </span><input type="date" id="datePicker" class="form-control datepicker" name="startDate">&nbsp;&nbsp;
 				<span class="dateText">종료일 : </span><input type="date" id="datePicker" class="form-control datepicker" name="endDate">
