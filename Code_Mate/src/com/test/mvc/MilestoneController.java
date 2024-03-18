@@ -43,7 +43,9 @@ public class MilestoneController
 	@RequestMapping(value = "/Milestone.action", method = RequestMethod.GET)
 	public String milestonePage(ModelMap model, HttpSession session, HttpServletRequest request, String ap_code, String cp_code)
 	{
+		
 		System.out.println("마일스톤 페이지 요청 확인" + cp_code + " " + ap_code);
+		
 		
 		
 		IMilestoneDAO dao = sqlSession.getMapper(IMilestoneDAO.class);
@@ -95,7 +97,8 @@ public class MilestoneController
 //			memberRole = dao.whatIsMyMemberRole("CP0001", "MEM0001");
 //		}
 		
-		
+		// 개설확정코드
+		model.addAttribute("cp_code", cp_code);
 		
 		model.addAttribute("planCheckList", dao.milestone_checkList(cp_code, "기획"));
 		model.addAttribute("designCheckList", dao.milestone_checkList(cp_code, "설계"));
@@ -213,6 +216,8 @@ public class MilestoneController
 	{
 		//System.out.println("1");
 		//(String v_cp_code, String v_ma_code, String v_step, String v_content)
+		System.out.println("멤버추가 페이지 요청 확인" + v_cp_code);
+		
 		IMilestoneDAO dao = sqlSession.getMapper(IMilestoneDAO.class);
 		
 		//System.out.println("컨트롤러 동작 확인");
@@ -226,7 +231,7 @@ public class MilestoneController
 		
 		model.addAttribute("cp_code", v_cp_code);
 		
-		return "redirect:Milestone.action";
+		return "redirect:Milestone.action?";
 	}
 
 	

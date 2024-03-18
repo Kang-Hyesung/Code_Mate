@@ -497,7 +497,7 @@
 			/*  
 			(String v_cp_code, String v_ma_code, String v_step, String v_content)
 			*/
-			var v_cp_code = "CP0001";
+			var v_cp_code = "${cp_code}";
 			var v_ma_code = "${ma_code}";
 			var v_step = $(this).val();
 			var v_content = $(new_inputCheckBox_id).val();
