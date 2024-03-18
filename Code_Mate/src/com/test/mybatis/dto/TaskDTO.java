@@ -2,9 +2,29 @@ package com.test.mybatis.dto;
 
 public class TaskDTO
 {
-	private String task_code, title, content, startDate, endDate, ma_codep, kdate, ma_codea, cp_code, color;
+	private String task_code, title, content, startDate, endDate, ma_codep, kdate, ma_codea, cp_code, color, path, File_Name;
 	
 	
+
+	public String getFile_Name()
+	{
+		return File_Name;
+	}
+
+	public void setFile_Name(String file_Name)
+	{
+		File_Name = file_Name;
+	}
+
+	public String getPath()
+	{
+		return path;
+	}
+
+	public void setPath(String path)
+	{
+		this.path = path;
+	}
 
 	public String getColor()
 	{
