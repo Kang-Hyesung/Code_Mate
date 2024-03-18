@@ -1016,7 +1016,7 @@ list-style-type: none;
 	                			<a href="" style="cursor: pointer;">
 	                				<div class="pic">
 	                					<div class="imgboxx">
-	                						<img class="contentimg" src="img/poby.png" alt="html" />
+	                						<img class="contentimg" src="<%=cp %>${member.path }" alt="html" />
 	                					</div>
 	                					
 	                					<div class="ppp">
