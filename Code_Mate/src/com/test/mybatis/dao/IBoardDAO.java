@@ -162,4 +162,13 @@ public interface IBoardDAO
 	
 	// 투표 참여
 	public int voteP(String vs_code, String mem_code);
+	
+	// 선택지 2개 프로시저
+	public int qnaPro2(String title, String content, String mem_code, String vote_title, String vost_sel1, String vost_sel2);
+	
+	// 선택지 3개 프로시저
+	public int qnaPro3(String title, String content, String mem_code, String vote_title, String vost_sel1, String vost_sel2, String vost_sel3);
+	
+	// 선택지 4개 프로시저
+	public int qnaPro4(String title, String content, String mem_code, String vote_title, String vost_sel1, String vost_sel2, String vost_sel3, String vost_sel4);
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.connector.Response;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -457,7 +458,9 @@ public class BoardController
 
 	// 게시물 인서트
 	@RequestMapping(value="/qnainsert.action", method=RequestMethod.GET)
-	public String qnaInsert(HttpSession session, String titletextarea, String contextarea, String skillscore1, String mem_code)
+	public String qnaInsert(HttpSession session, String titletextarea, String contextarea, String skillscore1, String mem_code
+			, @RequestParam(value="voteTitle", required=false) String voteTitle
+			, @RequestParam(value="voteSel", required=false) String[] voteSel)
 	{	
 		//System.out.println(titletextarea);
 		//System.out.println(contextarea);
@@ -465,10 +468,54 @@ public class BoardController
 		//System.out.println(mem_code);
 		
 		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);
-		
+						
 		if (skillscore1.equals("1"))
-		{
-			dao.cInsert(titletextarea, contextarea, mem_code);
+		{	
+			/*
+			if (voteTitle == null)
+			{
+				dao.cInsert(titletextarea, contextarea, mem_code);
+			}
+			else
+			{
+				if (voteSel.length == 2)
+				{
+					dao.qnaPro2(titletextarea, contextarea, mem_code, voteTitle, voteSel[0], voteSel[1]);
+				}
+		        else if (voteSel.length == 3)
+				{
+		        	dao.qnaPro3(titletextarea, contextarea, mem_code, voteTitle, voteSel[0], voteSel[1], voteSel[2]);
+				}
+		        else
+		        {
+		        	dao.qnaPro4(titletextarea, contextarea, mem_code, voteTitle, voteSel[0], voteSel[1], voteSel[2], voteSel[3]);
+		        }
+			}
+			*/
+//			if(voteTitle.equals(""))
+//				System.out.println("공백입니다");
+			
+			if (!voteTitle.equals("")) 
+			{
+				System.out.println("null이 들어오나요 [voteTitle] : " + voteTitle);
+		        if (voteSel.length == 2)
+				{
+					dao.qnaPro2(titletextarea, contextarea, mem_code, voteTitle, voteSel[0], voteSel[1]);
+				}
+		        else if (voteSel.length == 3)
+				{
+		        	dao.qnaPro3(titletextarea, contextarea, mem_code, voteTitle, voteSel[0], voteSel[1], voteSel[2]);
+				}
+		        else
+		        {
+		        	dao.qnaPro4(titletextarea, contextarea, mem_code, voteTitle, voteSel[0], voteSel[1], voteSel[2], voteSel[3]);
+		        }
+		    }
+			else
+			{
+				dao.cInsert(titletextarea, contextarea, mem_code);
+			}
+			
 		}
 		else
 		{

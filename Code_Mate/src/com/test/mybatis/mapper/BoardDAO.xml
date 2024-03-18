@@ -106,7 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getTechTrend" resultType="com.test.mybatis.dto.BoardDTO">
-		SELECT TQ_CODE, TITLE
+		SELECT TQ_CODE AS CODE, TITLE
 		FROM (
 		    SELECT TQ_CODE, TITLE, CONTENT, KDATE, VIEWS, MEM_CODE,
 		           ROW_NUMBER() OVER (ORDER BY VIEWS DESC) AS RN
@@ -147,11 +147,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getCarTrend" resultType="com.test.mybatis.dto.BoardDTO">
-		SELECT CQ_CODE, TITLE
+		SELECT CQ_CODE AS CODE, TITLE
 		FROM (
 		    SELECT CQ_CODE, TITLE, CONTENT, KDATE, VIEWS, MEM_CODE,
 		           ROW_NUMBER() OVER (ORDER BY VIEWS DESC) AS RN
-		    FROM C_QnA
+		    FROM C_QNA
 		    WHERE KDATE >= SYSDATE - 30
 		)
 		WHERE 6 >= RN
@@ -407,6 +407,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="voteP">
 		INSERT INTO CVOTE_P(VP_CODE, VS_CODE, MEM_CODE) VALUES(TO_CHAR('VP'||LPAD(VP_SEQ.NEXTVAL,4, 0)), #{arg0}, #{arg1})
+	</insert>
+	
+	<insert id="qnaPro2">
+	{
+		call PRC_VOTE_INSERT2(#{arg0}, #{arg1}, #{arg2}, #{arg3}, #{arg4}, #{arg5})
+	}
+	</insert>
+	
+	<insert id="qnaPro3">
+	{
+		call PRC_VOTE_INSERT3(#{arg0}, #{arg1}, #{arg2}, #{arg3}, #{arg4}, #{arg5}, #{arg6})
+	}
+	</insert>
+	
+	<insert id="qnaPro4">
+	{
+		call PRC_VOTE_INSERT4(#{arg0}, #{arg1}, #{arg2}, #{arg3}, #{arg4}, #{arg5}, #{arg6}, #{arg7})
+	}
 	</insert>
 	
 </mapper>
