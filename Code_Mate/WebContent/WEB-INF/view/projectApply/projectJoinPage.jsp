@@ -594,7 +594,6 @@ list-style-type: none;
     	width: 48%;
     	height: 230px;
     	border-bottom: 1px solid gray;
-    	overflow:scroll;
     	
     }
     .list2
@@ -837,9 +836,8 @@ list-style-type: none;
 				
 				<div class="col-8">
 				    <!--===========[searchForm]===========-->
-				    <form class="d-flex" role="search" action="search.action" method="get">
-				      <input class="form-control me-2 searchTextForm" type="search" name="searchcon" placeholder="검색어를 입력하세요." aria-label="Search">
-				      
+				    <form class="d-flex" role="search">
+				      <input class="form-control me-2 searchTextForm" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
 				      <button class="btn btn-outline-success" type="submit">Search</button>
 				    </form>
 				    <!--===========[searchForm]===========-->
@@ -1101,15 +1099,15 @@ list-style-type: none;
 	          <div class="projectcon" style="display: flex;">
 	           
             	<label for="recipient-name" class="col-form-label">·연령대 : </label>
-	            <input type="text" class="form-control intitleform1" id="modalage" value="${agecondition eq 0 ? '없음' : agecondition}" disabled="disabled">
+	            <input type="text" class="form-control intitleform1" id="modalage" value="${agecondition eq 0 ? '없음' : agecondition}대" disabled="disabled">
             	<label for="recipient-name" class="col-form-label">·성&nbsp;&nbsp;&nbsp;별 : </label>
-	            <input type="text" class="form-control intitleform1" id="modalgender" value="${gendercondition eq 0 ? '없음' : gendercondition}" disabled="disabled">
+	            <input type="text" class="form-control intitleform1" id="modalgender" value="${gendercondition eq '' ? '없음' : gendercondition}" disabled="disabled">
 	          
 	          </div>
 	          <div class="projectcon" style="display: flex;">
 	           
             	<label for="recipient-name" class="col-form-label">·프론트 : </label>
-	            <input type="text" class="form-control intitleform1" id="modalfront" value="${frontcondition eq 0 ? '없음' : frontcondition}" disabled="disabled">
+	            <input type="text" class="form-control intitleform1" id="modalfront" value="${frontcondition eq '' ? '없음' : frontcondition}" disabled="disabled">
 	            <input type="image" class="form-control intitleform2" id="modalfront1" disabled="disabled" src="img/grade_icon/1_seed.png" style="display: none;">
 	            <input type="image" class="form-control intitleform2" id="modalfront2" disabled="disabled" src="img/grade_icon/2_plant.png" style="display: none;">
 	            <input type="image" class="form-control intitleform2" id="modalfront3" disabled="disabled" src="img/grade_icon/3_leaf.png" style="display: none;">
@@ -1118,7 +1116,7 @@ list-style-type: none;
 	            <input type="image" class="form-control intitleform2" id="modalfront6" disabled="disabled" src="img/grade_icon/6_tree.png" style="display: none;">
 	            <input type="image" class="form-control intitleform2" id="modalfront7" disabled="disabled" src="img/grade_icon/7_forest.png" style="display: none;">
             	<label for="recipient-name" class="col-form-label">·백엔드 : </label>
-	            <input type="text" class="form-control intitleform1" id="modalback" value="${backcondition eq 0 ? '없음' :  backcondition}" disabled="disabled">
+	            <input type="text" class="form-control intitleform1" id="modalback" value="${backcondition eq '' ? '없음' :  backcondition}" disabled="disabled">
 	            <input type="image" class="form-control intitleform2" id="modalback1" disabled="disabled" src="img/grade_icon/1_seed.png" style="display: none;">
 	            <input type="image" class="form-control intitleform2" id="modalback2" disabled="disabled" src="img/grade_icon/2_plant.png" style="display: none;">
 	            <input type="image" class="form-control intitleform2" id="modalback3" disabled="disabled" src="img/grade_icon/3_leaf.png" style="display: none;">
@@ -1131,7 +1129,7 @@ list-style-type: none;
 	          <div class="projectcon" style="display: flex;">
 	           
             	<label for="recipient-name" class="col-form-label">·매&nbsp;&nbsp;&nbsp;너 : </label>
-	            <input type="text" class="form-control intitleform1" id="modalmanner" value="${mannercondition eq 0.0 ? '없음' :  mannercondition}" disabled="disabled">
+	            <input type="text" class="form-control intitleform1" id="modalmanner" value="${mannercondition eq 0.0 ? '없음' :  mannercondition}℃" disabled="disabled">
             	
 	          </div>
 	          </div>

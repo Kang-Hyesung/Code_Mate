@@ -765,7 +765,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 					<ul class="proslide proslide1">
 					<c:forEach var="list" items="${list }" begin="0" end="11" step="1" varStatus="status">
 						
-						<a href="project.action?ap_code=${list.ap_code}" class="a1">
+						<a href="" class="a1">
 						<li href="" class="aa" id="aa1">
 							<div class="litop">
 								<div class="menu"><span>📁프로젝트</span></div>

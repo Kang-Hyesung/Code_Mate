@@ -22,6 +22,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.test.mybatis.dao.IMyPageDAO;
 import com.test.mybatis.dao.IProjectApplyDAO;
 import com.test.mybatis.dao.IProjectJoinDAO;
 import com.test.mybatis.dto.MemberDTO;
@@ -43,11 +44,28 @@ public class ProjectApplyController
 	{	
 			MemberDTO member = (MemberDTO)session.getAttribute("member");
 		
+			int backendScore;
+			int frontendScore;
+			
+			IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+			
+			if (member != null)
+			{
+				backendScore = myDao.backendScore(member.getMem_code());
+				frontendScore = myDao.frontendScore(member.getMem_code());
+				
+				// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+				model.addAttribute("backendScore", backendScore);
+				model.addAttribute("frontendScore", frontendScore);
+				
+			}
+			// 점수 끝
+			
 			request.setAttribute("member", member);
 			
 			if (member == null)
 			{
-				return "redirect:Login.action"; 
+				return "redirect:Login.action";
 			}
 			else
 			{
@@ -61,7 +79,24 @@ public class ProjectApplyController
 	{	
 			IProjectApplyDAO dao = sqlSession.getMapper(IProjectApplyDAO.class);
 			MemberDTO member = (MemberDTO)session.getAttribute("member");
-		
+			
+			int backendScore;
+			int frontendScore;
+			
+			IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+			
+			if (member != null)
+			{
+				backendScore = myDao.backendScore(member.getMem_code());
+				frontendScore = myDao.frontendScore(member.getMem_code());
+				
+				// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+				model.addAttribute("backendScore", backendScore);
+				model.addAttribute("frontendScore", frontendScore);
+				
+			}
+			// 점수 끝
+			
 			request.setAttribute("member", member);
 			
 			String titletextarea = request.getParameter("titletextarea");
@@ -81,8 +116,16 @@ public class ProjectApplyController
 			int num = 0;
 			String mem_code = member.getMem_code();
 			
-			num = Integer.parseInt(back)+ Integer.parseInt(front); // 전체 인원수
-			
+			if (request.getParameter("skillscore1") != null || request.getParameter("skillscore2") != null || request.getParameter("gender") != null
+				|| request.getParameter("age") != null || request.getParameter("inpnum") != null)
+			{
+				skillscore1 = request.getParameter("skillscore1");	//백엔드
+				skillscore2 = request.getParameter("skillscore2"); // 프론트
+				gender = request.getParameter("gender");
+				age = request.getParameter("age");
+				inpnum = request.getParameter("inpnum");
+				num = Integer.parseInt(back)+ Integer.parseInt(front)+1; // 전체 인원수
+			}
 			System.out.println(back);
 			
 			dao.apinsert(titletextarea, subcontextarea, sdate, edate, contextarea, num, mem_code, projectnametextarea);
@@ -90,7 +133,6 @@ public class ProjectApplyController
 			
 			String ap_code = dao.apselect(mem_code, titletextarea, subcontextarea);
 			
-			// 태그
 			ScriptEngineManager sem = new ScriptEngineManager();
 	        ScriptEngine engine = sem.getEngineByName("javascript");
 	        
@@ -116,235 +158,170 @@ public class ProjectApplyController
 	        	
 	        }
 			
-	        System.out.println("10");
-	        
 	        // 백엔드 등급
-	        try
-			{
-	        	if (request.getParameter("skillscore1") != null)
-				{
-					skillscore1 = request.getParameter("skillscore1");	//백엔드
-					
-				}
-		        
-		        	 // 백엔드 등급 분류
-			        String backgrade_code ="";
-			       
-			        
-			        if (skillscore1.equals("1"))
-					{
-			        	backgrade_code = "GRADE0001";
-					}
-			        else if(skillscore1.equals("2"))
-			        {
-			        	backgrade_code = "GRADE0002";
-			        }
-			        else if(skillscore1.equals("3"))
-			        {
-			        	backgrade_code = "GRADE0003";
-			        }
-			        else if(skillscore1.equals("4"))
-			        {
-			        	backgrade_code = "GRADE0004";
-			        }
-			        else if(skillscore1.equals("5"))
-			        {
-			        	backgrade_code = "GRADE0005";
-			        }
-			        else if(skillscore1.equals("6"))
-			        {
-			        	backgrade_code = "GRADE0006";
-			        }
-			        else if(skillscore1.equals("7"))
-			        {
-			        	backgrade_code = "GRADE0007";
-			        }
-			        else
-			        {
-			        	backgrade_code = "";
-			        }
-				
-					dao.backgradeinsert(backgrade_code, ap_code);
-					
-			} catch (Exception e)
-			{
-				System.out.println(e.toString());
-				System.out.println("백엔드 문제");
-			}
 	        
+	        	 // 백엔드 등급 분류
+		        String backgrade_code ="";
+		       
+		        
+		        if (skillscore1.equals("1"))
+				{
+		        	backgrade_code = "GRADE0001";
+				}
+		        else if(skillscore1.equals("2"))
+		        {
+		        	backgrade_code = "GRADE0002";
+		        }
+		        else if(skillscore1.equals("3"))
+		        {
+		        	backgrade_code = "GRADE0003";
+		        }
+		        else if(skillscore1.equals("4"))
+		        {
+		        	backgrade_code = "GRADE0004";
+		        }
+		        else if(skillscore1.equals("5"))
+		        {
+		        	backgrade_code = "GRADE0005";
+		        }
+		        else if(skillscore1.equals("6"))
+		        {
+		        	backgrade_code = "GRADE0006";
+		        }
+		        else if(skillscore1.equals("7"))
+		        {
+		        	backgrade_code = "GRADE0007";
+		        }
+		        else
+		        {
+		        	backgrade_code = "";
+		        }
+			if (!skillscore1.equals(""))
+			{
+				dao.backgradeinsert(backgrade_code, ap_code);
 				
-				
+			}	
 			
-	        System.out.println("11");
+			
 	        
 	        // 프론트  등급
-	        try
+	        	       
+		        
+		        // 프론트 분류
+		        String frontgrade_code ="";
+		        
+		        
+		        if (skillscore2.equals("1"))
+		        {
+		        	frontgrade_code = "GRADE0001";
+		        }
+		        else if(skillscore2.equals("2"))
+		        {
+		        	frontgrade_code = "GRADE0002";
+		        }
+		        else if(skillscore2.equals("3"))
+		        {
+		        	frontgrade_code = "GRADE0003";
+		        }
+		        else if(skillscore2.equals("4"))
+		        {
+		        	frontgrade_code = "GRADE0004";
+		        }
+		        else if(skillscore2.equals("5"))
+		        {
+		        	frontgrade_code = "GRADE0005";
+		        }
+		        else if(skillscore2.equals("6"))
+		        {
+		        	frontgrade_code = "GRADE0006";
+		        }
+		        else if(skillscore2.equals("7"))
+		        {
+		        	frontgrade_code = "GRADE0007";
+		        }
+		        else
+		        {
+		        	frontgrade_code = "";
+		        }
+		    if (!skillscore2.equals(""))
 			{
-	        	if (request.getParameter("skillscore2") != null)
-				{
-					skillscore2 = request.getParameter("skillscore2"); // 프론트
-				}
-			        
-			        // 프론트 분류
-			        String frontgrade_code ="";
-			        
-			        
-			        if (skillscore2.equals("1"))
-			        {
-			        	frontgrade_code = "GRADE0001";
-			        }
-			        else if(skillscore2.equals("2"))
-			        {
-			        	frontgrade_code = "GRADE0002";
-			        }
-			        else if(skillscore2.equals("3"))
-			        {
-			        	frontgrade_code = "GRADE0003";
-			        }
-			        else if(skillscore2.equals("4"))
-			        {
-			        	frontgrade_code = "GRADE0004";
-			        }
-			        else if(skillscore2.equals("5"))
-			        {
-			        	frontgrade_code = "GRADE0005";
-			        }
-			        else if(skillscore2.equals("6"))
-			        {
-			        	frontgrade_code = "GRADE0006";
-			        }
-			        else if(skillscore2.equals("7"))
-			        {
-			        	frontgrade_code = "GRADE0007";
-			        }
-			        else
-			        {
-			        	frontgrade_code = "";
-			        }
-			    
-			    	dao.frontgradeinsert(frontgrade_code, ap_code);
-			    	
-			} catch (Exception e)
-			{
-				System.out.println(e.toString());
-				System.out.println("프론트 문제");
-			}
-	        
+		    	dao.frontgradeinsert(frontgrade_code, ap_code);
 				
-	        System.out.println("12");  
+			}    
 			
 	        // 성별
-	        try
-			{
-	        	if (request.getParameter("gender") != null)
-				{
-					gender = request.getParameter("gender");
-				}
-		        
-		        	 // 성별 분류
-			        if (gender.equals("male"))
-					{
-						gender = "GENDER0001";
-					}
-			        else if (gender.equals("female"))
-			        {
-			        	gender = "GENDER0002";
-			        }
-			        else
-			        {
-			        	gender = "";
-			        }
-			        
-		        
-		        	dao.genderinsert(gender, ap_code);
-	        	
-			} catch (Exception e)
-			{
-				System.out.println(e.toString());
-				System.out.println("성별 문제");
-			}
 	        
+	        	 // 성별 분류
+		        if (gender.equals("male"))
+				{
+					gender = "GENDER0001";
+				}
+		        else if (gender.equals("female"))
+		        {
+		        	gender = "GENDER0002";
+		        }
+		        else
+		        {
+		        	gender = "";
+		        }
+		        
+	        if (!gender.equals(""))
+			{
+	        	dao.genderinsert(gender, ap_code);
 				
-	        System.out.println("13");	
+			}	
 			
 	        // 연령대
-        	try
-			{
-        		if (request.getParameter("age") != null)
+        	
+        		//연령대 구분
+    	        if (age.equals("10"))
     			{
-    				age = request.getParameter("age");
+    				age = "AA0001";
     			}
-    	        
-            		//연령대 구분
-        	        if (age.equals("10"))
-        			{
-        				age = "AA0001";
-        			}
-        	        else if(age.equals("20"))
-        	        {
-        	        	age = "AA0002";
-        	        }
-        	        else if(age.equals("30"))
-        	        {
-        	        	age = "AA0003";
-        	        }
-        	        else if(age.equals("40"))
-        	        {
-        	        	age = "AA0004";
-        	        }
-        	        else if(age.equals("50"))
-        	        {
-        	        	age = "AA0005";
-        	        }
-        	        else if(age.equals("60"))
-        	        {
-        	        	age = "AA0006";
-        	        }
-        	        else
-        	        {
-        	        	age = "";
-        	        }
-            	
-            		dao.ageinsert(ap_code, age);
-            		
-			} catch (Exception e)
+    	        else if(age.equals("20"))
+    	        {
+    	        	age = "AA0002";
+    	        }
+    	        else if(age.equals("30"))
+    	        {
+    	        	age = "AA0003";
+    	        }
+    	        else if(age.equals("40"))
+    	        {
+    	        	age = "AA0004";
+    	        }
+    	        else if(age.equals("50"))
+    	        {
+    	        	age = "AA0005";
+    	        }
+    	        else if(age.equals("60"))
+    	        {
+    	        	age = "AA0006";
+    	        }
+    	        else
+    	        {
+    	        	age = "";
+    	        }
+        	if (!age.equals(""))
 			{
-				System.out.println(e.toString());
-				System.out.println("나이 문제");
-			}
-	        
-        	 System.out.println("14");	
+        		dao.ageinsert(ap_code, age);
+				
+			}	
 			
         	
 	        // 매너
-    		try
+        	if (!inpnum.equals(""))
 			{
-    			if (request.getParameter("inpnum") != null)
-    			{
-    				
-    				inpnum = request.getParameter("inpnum");
-    				double inpnum1 = Double.parseDouble(inpnum); 
-                	dao.mannerinsert(inpnum1, ap_code);
-    			}
-        		else
-        		{
-        			double inpnum12 = 0.0;
-                	dao.mannerinsert(inpnum12, ap_code);
-        		}
-            		
-            	
-				
-			} catch (Exception e)
-			{
-				System.out.println(e.toString());
-				System.out.println("매너점수 문제");
+        		
+        		
+	        	double inpnum1 = Double.parseDouble(inpnum); 
+	        	dao.mannerinsert(inpnum1, ap_code);
 			}
-    		
-    		 System.out.println("15");
+			
         	
         	// 직무 추가
-        	
-        	
+        	if (!back.equals(""))
+			{
 				
         		int intback = Integer.parseInt(back);
         		int intfront = Integer.parseInt(front);
@@ -352,8 +329,8 @@ public class ProjectApplyController
         		//dao.leaderins(ap_code);
         		dao.backins(intback, ap_code);
         		dao.frontins(intfront, ap_code);
-			
-        		 System.out.println("16");
+			}
+			 
 			
 			return "redirect:ProjectList.action";
 	}
@@ -375,6 +352,24 @@ public class ProjectApplyController
 	public String projectselect(ModelMap model, HttpSession session, HttpServletRequest request, String ap_code)
 	{	
 			MemberDTO member = (MemberDTO)session.getAttribute("member");
+			int backendScore;
+			int frontendScore;
+			 
+			
+			IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+			
+			if (member != null)
+			{
+				backendScore = myDao.backendScore(member.getMem_code());
+				frontendScore = myDao.frontendScore(member.getMem_code());
+				
+				// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+				model.addAttribute("backendScore", backendScore);
+				model.addAttribute("frontendScore", frontendScore);
+				
+			}
+			// 점수 끝
+			
 			System.out.println("-2");
 			request.setAttribute("member", member);
 			System.out.println("-1");
@@ -618,11 +613,7 @@ public class ProjectApplyController
 		
 	}
 		
- @Scheduled(fixedDelay = 1000)
- public void hello() {
-	 
-	 System.out.println("test");
- }
+
 }
 
 

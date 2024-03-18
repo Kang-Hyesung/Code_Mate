@@ -562,9 +562,8 @@
 				
 				<div class="col-8">
 				    <!--===========[searchForm]===========-->
-				    <form class="d-flex" role="search" action="search.action" method="get">
-				      <input class="form-control me-2 searchTextForm" type="search" name="searchcon" placeholder="검색어를 입력하세요." aria-label="Search">
-				      
+				    <form class="d-flex" role="search">
+				      <input class="form-control me-2 searchTextForm" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
 				      <button class="btn btn-outline-success" type="submit">Search</button>
 				    </form>
 				    <!--===========[searchForm]===========-->
