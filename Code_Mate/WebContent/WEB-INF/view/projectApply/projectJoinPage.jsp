@@ -765,17 +765,17 @@ list-style-type: none;
 	<div class="col-12 bannerMain">
 		<div class="row bannerArea">
 			<nav class="navbar bg-body-tertiary">
-			  <div class="container-fluid nav nav-underline">
+			  <div class="container-fluid nav nav-underline bannerMainBox">
 			    
 			 	<!--===========[Logo]===========-->
-				<a class="navbar-brand bannerLogo" href="#">
-					<img alt="Logo" class="bannerLogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
+				<a class="navbar-brand bannerLogo link" href="Code_Mate.action">
+					<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 				</a>
 				<!--===========[Logo]===========-->
 				
-				<span class="nav-link"><a href="#" class="link">프로젝트 게시판</a></span>
-				<span class="nav-link"><a href="#" class="link">커리어 게시판</a></span>
-				<span class="nav-link"><a href="#" class="link">포트폴리오 게시판</a></span>
+				<span class="nav-link"><a href="ProjectList.action" class="link">프로젝트 게시판</a></span>
+				<span class="nav-link"><a href="boardlist.action" class="link">Q&A 게시판</a></span>
+				<span class="nav-link"><a href="portfoliolist.action" class="link">포트폴리오 게시판</a></span>
 			
 			    
 			    <!--=======[ member Icon ]=======-->
@@ -794,7 +794,8 @@ list-style-type: none;
 						<!--======[ alarmButton ]======-->
 
 				    </div><!-- end .buttonBox -->
-				    <div id="profile" style="<%=login%>">
+				    
+					<div id="profile" style="<%=login%>">
 						<img class="memberImg" src="<%=cp %>${member.path }">
 					</div>
 					<span class="nickname" id="mem1" style="<%=login%>"><a href="mypage.action" class="nicknamelink">${member.nickname }</a></span>
@@ -805,6 +806,7 @@ list-style-type: none;
 					 <div class="logout">
 					 	<span class="logouttext">로그아웃</span>
 					 </div>
+					 
 					 <!-- 로그인/회원가입으로 이동 -->
 					<span class="nav-link log" ><a href="Login.action" class="link upside" style="<%=logout%>">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
