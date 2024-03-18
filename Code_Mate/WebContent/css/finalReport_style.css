@@ -1,0 +1,348 @@
+@charset "UTF-8";
+
+
+
+
+/* 결산 보고서 제목 영역 */
+.FinalReport-report-title-Area {
+    margin-bottom: 25px;
+    display: flex;
+    padding: unset;
+    border: 1px solid #cbcbcb;
+    border-radius: 8px;
+    border-bottom: 2px solid #4f59ca;
+    height: 40px;
+    width: 874px;
+}
+
+.FinalReport-Body-Area {
+    padding: 12px;
+}
+
+
+/* 결산 보고서 제목 텍스트를 감싸는 div [실제 사용자 입력 제목] */
+.report-content-box.FinalReport-report-main-title 
+{
+    /*border: 1px solid sandybrown;*/
+    line-height: 46px;
+    width: 100%;
+    text-align: center;
+}
+
+
+
+/* 결산 보고서 제목 설명 텍스트를 감싸는 div [결산 보고서 제목] */
+.desc-title-box.FinalReport-report-title-desc {
+    /* border: 1px solid chocolate; */
+    width: 170px;
+    border-bottom: 1px solid #4f59ca;
+    line-height: 36px;
+    text-align: center;
+    background-color: #1fc1c0;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 2px 2px gray;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+/* 결산 보고서 설명글과 내용을 감싸는 부모 div 영역 */
+.FinalReport-report-content-Area {
+    display: flex;
+    /* border: 1px solid darkorange; */
+    height: 440px;
+    border-radius: 10px;
+   	border-bottom: 2px solid #4f59ca;
+}
+/* 결산 보고서 내용 설명 텍스트를 감싸는 div 영역 */
+.desc-title-box.FinalReport-report-content-desc 
+{
+    /* border: 1px solid chocolate; */
+    width: 146px;
+    border-bottom: 2px solid #4f59ca;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #1fc1c0;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 2px gray;
+}
+
+/* 결산 보고서 태그들을 감싸는 div 영역 */
+.report-content-box.FinalReport-report-main-skill-tagList 
+{
+    /* border: 1px solid sandybrown; */
+    height: max-content;
+}
+
+/* 결산 보고서 태그 설명 텍스트를 감싸는 div */
+.desc-title-box.FinalReport-report-tag-desc {
+    padding: 5px;
+    background: #4f59ca;
+    text-align: center;
+    height: 35px;
+    color: white;
+    margin-top: 25px;
+    font-weight: bold;
+    text-shadow: -2px 0px 2px #303353;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    font-size: 15px;
+    position: relative;
+}
+
+/* 결산보고서 내용 텍스트 인풋 박스 영역 */
+input.report-content-text.FinalReport-report-content 
+{
+    width: 754px;
+    height: 500px;
+}
+
+/* 결산 보고서 제목 텍스트를 감싸는 input 영역 */
+input.FinalReport-report-main-title-text {
+    border: 1px solid #a7a7a7;
+    border-bottom: 2px solid #4f59ca;
+    text-align: center;
+    padding: 5px;
+    display: block;
+    font-size: 16px;
+    color: #474c97;
+    font-weight: bold;
+    resize: none;
+    width: inherit;
+    height: 38px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+    outline: none;
+    border-bottom-right-radius: 10px;
+    position: relative;
+}
+
+.report-content-box.FinalReport-report-main-content {
+    width: 752px;
+    /* border: 1px solid blue; */
+    height: 439px;
+}
+
+textarea.report-content-text.FinalReport-report-content {
+    display: block;
+    resize: none;
+    width: 730px;
+    height: inherit;
+    padding: 10px;
+    font-size: 16px;
+    color: #286d8f;
+    overflow: hidden;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    outline: none;
+    border: 2px solid #a7a7a7;
+    border-bottom: 2px solid #4f59ca; 
+}
+
+/* 결산 보고서 헤더 영역 div */
+.FinalReport-header-Area {
+    background: #4f59ca;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: center;
+    line-height: 77px;
+    height: 80px;
+    color: white;
+    font-weight: bold;
+    text-shadow: -2px 0px 2px #303353;
+    font-size: 23px;
+    padding-left: 15px;
+    position: relative;
+    margin-bottom: 12px;
+}
+
+
+/* 결산 보고서 최상위 부모 div */
+.FinalReport-total-Parent-Area {
+    border: 2px solid #4f59ca;
+    width: 900px;
+    height: max-content;
+    border-radius: 10px;
+    box-shadow: 0 4px 4px gray;
+    margin-bottom: 150px;
+    margin-top: 50px;
+}
+
+.tagify__input {
+    flex-grow: 1;
+    display: inline-block;
+    min-width: 110px;
+    margin: 5px;
+    padding: var(--tag-pad);
+    line-height: normal;
+    position: relative;
+    white-space: pre-wrap;
+    color: var(--input-color);
+    box-sizing: inherit;
+    width: 861px;
+}
+
+ 
+.FinalReport-report-tag-write-Area {
+    /* border: 1px solid red; */
+    height: 85px;
+    margin-top: 25px;
+}
+
+span.desc-title-text.FinalReport-report-tag-write-text {
+    font-size: 15px;
+    font-weight: bold;
+    color: #4f59ca;
+    border-bottom: 2px solid #4f59ca;
+    display: inline-block;
+    width: 50%;
+    padding-left: 10px;
+}
+
+.report-tag-write-box {
+    /* border: 1px solid green; */
+    height: 45px;
+    width: 60%;
+    margin-top: 5px;
+    box-shadow: 0 2px 2px gray;
+    border-top: aliceblue;
+    border-left: 2px solid #1fc1c0;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-left: 0px;
+}
+
+
+.buttonContainer 
+{
+    display: none;
+}
+
+
+.row.main-text {
+    display: flex;
+    justify-content: center;
+}
+
+.FinalReport-report-submit-btn-Box {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    float: right;
+}
+
+.col-12.main-FinalReport-Info-Parent-Area {
+    justify-content: center;
+    display: flex;
+    position: relative;
+    right: 125px;
+}
+
+
+canvas {
+    z-index: 10;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    transform: scale(1.1);
+    right: 100px;
+}
+
+tags.tagify.tagify--noTags.tagify--empty {
+    border-bottom-right-radius: 10px;
+    width: 873px;
+    position: relative;
+    right: 9px;
+    border-radius: 10px;
+    height: max-content;
+    border: unset;
+}
+
+
+
+span.portFolio-skill-tag-Text {
+    margin: 6px 3px 6px 3px;
+    border-radius: 12px;
+    border: 1px solid #aab7aa;
+    padding: 6px 10px 6px 10px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px;
+    background: linear-gradient(0deg, #dbdbdb, transparent);
+    color: #4f59ca;
+    height: 33px;
+    line-height: 18px;
+    width: fit-content;
+    display: inline-block;
+}
+
+
+.FinalReport-skill-tag {
+    margin-bottom: 25px;
+    display: flex;
+    border: 1px solid #cbcbcb;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom: 2px solid #4f59ca;
+    padding: 8px;
+    height: max-content;
+}
+
+
+.FinalReport-is-complete {
+    color: #4f59ca;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    border-top: 5px solid #4f59ca;
+    padding: 12px;
+    box-shadow: initial;
+    width: 300px;
+    display: inline-block;
+    position: relative;
+    right: 422px;
+    top: 40px;
+}
+
+
+span.FinalReport-title-icon.material-symbols-outlined {
+    font-size: 25px;
+    border: 4px solid white;
+    position: relative;
+    top: 5px;
+    right: 23px;
+    border-radius: 50%;
+    text-shadow: 0 3px 2px #201a43;
+    box-shadow: 0 3px 3px #201a43;
+}
+
+span.FinalReport-title-text {
+    position: relative;
+    right: 250px;
+    top: 1px;
+}
+
+
+tags.tagify {
+    width: 873px;
+    right: 9px;
+    border-radius: 6px;
+    border: unset;
+}
+
+span.tagify__input {
+    background: #9fc4fd38;
+    border: 1px solid #b5d7f9;
+    border-radius: 10px;
+    left: 10px;
+    width: 800px;
+    box-shadow: 0 -1px 2px #7f88a9;
+}
+
+tag.tagify__tag {
+    margin-left: 15px;
+}

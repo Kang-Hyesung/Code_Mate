@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 모집중 -->
 	 
 	<select id="ingpjlist" resultType="com.test.mybatis.dto.ProjectPageDTO">
-		SELECT AP.AP_CODE, AP.TITLE, AP.SUMMARY, TO_CHAR(AP.SDATE, 'YYYY-MM-DD'), TO_CHAR(AP.EDATE, 'YYYY-MM-DD'), AP.CONTENT, TO_CHAR(AP.KDATE, 'YYYY-MM-DD'), AP.NUMBERS, AP.VIEWS, M.MEM_CODE, M.NICKNAME
+		SELECT AP.AP_CODE, AP.TITLE, AP.SUMMARY, AP.SDATE, AP.EDATE, AP.CONTENT, AP.KDATE, AP.NUMBERS, AP.VIEWS, M.MEM_CODE, M.NICKNAME
 		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
         WHERE AP.SDATE > SYSDATE
         ORDER BY AP.KDATE DESC
@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 모집 완료 -->
 
 	<select id="endpjlist" resultType="com.test.mybatis.dto.ProjectPageDTO">
-		SELECT AP.AP_CODE, AP.TITLE, AP.SUMMARY, TO_CHAR(AP.SDATE, 'YYYY-MM-DD'), TO_CHAR(AP.EDATE, 'YYYY-MM-DD'), AP.CONTENT, TO_CHAR(AP.KDATE, 'YYYY-MM-DD'), AP.NUMBERS, AP.VIEWS, M.MEM_CODE, M.NICKNAME
+		SELECT AP.AP_CODE, AP.TITLE, AP.SUMMARY, AP.SDATE, AP.EDATE, AP.CONTENT, AP.KDATE, AP.NUMBERS, AP.VIEWS, M.MEM_CODE, M.NICKNAME
 		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
         WHERE SYSDATE >= AP.SDATE AND AP.EDATE >= SYSDATE
 		ORDER BY AP.KDATE DESC  
@@ -77,12 +77,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 핫한 10위 -->
 	<select id="hotpj" resultType="com.test.mybatis.dto.ProjectPageDTO">
-		SELECT TITLE, AP_CODE
+		SELECT TITLE, AP_CODE, NICKNAME
 		FROM (
-		    SELECT TITLE, AP_CODE
-		    FROM APP_OPENING
-		    WHERE 30 >= (SYSDATE - KDATE)
-		    ORDER BY VIEWS DESC
+		    SELECT AP.TITLE AS TITLE, AP.AP_CODE AS AP_CODE, M.NICKNAME AS NICKNAME, AP.KDATE AS KDATE, AP.VIEWS AS VIEWS
+            FROM APP_OPENING AP FULL JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+            WHERE 30 >= (SYSDATE - AP.KDATE)
+            ORDER BY AP.VIEWS DESC
 		    )
 		WHERE 10 >= ROWNUM
 	</select>
@@ -134,6 +134,94 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		                FROM ROLE_COMP RC JOIN MEMBER_APPLY MA ON MA.RC_CODE = RC.RC_CODE
 		                                    JOIN C_PROJECT CP ON RC.AP_CODE = CP.AP_CODE
 		                WHERE AR_CODE = 'AR0001'AND MEM_CODE = #{mem_code}) AND SYSDATE >= AP.SDATE AND AP.EDATE >= SYSDATE
+	</select>
+	
+	<!-- 페이징 처리 전체 페이지 출력 -->
+	<select id="pagelist" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT RN, AP_CODE, TITLE, SUMMARY, TO_CHAR(SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(EDATE,'YYYY-MM-DD') AS EDATE, CONTENT, TO_CHAR(KDATE,'YYYY-MM-DD') AS KDATE, NUMBERS, VIEWS, MEM_CODE, NICKNAME, STATUS
+	    FROM(
+	        SELECT ROWNUM RN, A.*
+	        FROM (
+	        SELECT AP.AP_CODE AS AP_CODE, AP.TITLE AS TITLE, AP.SUMMARY AS SUMMARY, AP.SDATE AS SDATE, AP.EDATE AS EDATE, AP.CONTENT AS CONTENT, AP.KDATE AS KDATE
+	        , AP.NUMBERS AS NUMBERS, AP.VIEWS AS VIEWS, M.MEM_CODE AS MEM_CODE, M.NICKNAME AS NICKNAME
+	        , CASE
+	                WHEN AP.SDATE > SYSDATE THEN '모집중'
+	                WHEN SYSDATE >= AP.SDATE THEN '모집완료'
+	                ELSE ' ' END AS STATUS
+	        FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+	        ORDER BY KDATE DESC
+	        ) A
+	    )
+	    WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 모집중 페이지 출력 -->
+	<select id="ingpagelist" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT RN, AP_CODE, TITLE, SUMMARY, TO_CHAR(SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(EDATE,'YYYY-MM-DD') AS EDATE, CONTENT, TO_CHAR(KDATE,'YYYY-MM-DD') AS KDATE, NUMBERS, VIEWS, MEM_CODE, NICKNAME
+	    FROM(
+	        SELECT ROWNUM RN, A.*
+	        FROM (
+	        SELECT AP.AP_CODE AS AP_CODE, AP.TITLE AS TITLE, AP.SUMMARY AS SUMMARY, AP.SDATE AS SDATE, AP.EDATE AS EDATE, AP.CONTENT AS CONTENT, AP.KDATE AS KDATE
+	        , AP.NUMBERS AS NUMBERS, AP.VIEWS AS VIEWS, M.MEM_CODE AS MEM_CODE, M.NICKNAME AS NICKNAME
+			FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+	        WHERE AP.SDATE > SYSDATE
+	        ORDER BY AP.KDATE DESC
+	        ) A
+	    )
+	    WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 페이징 처리 모집완료 페이지 출력 -->
+	<select id="endpagelist" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT RN, AP_CODE, TITLE, SUMMARY, TO_CHAR(SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(EDATE,'YYYY-MM-DD') AS EDATE, CONTENT, TO_CHAR(KDATE,'YYYY-MM-DD') AS KDATE, NUMBERS, VIEWS, MEM_CODE, NICKNAME
+	    FROM(
+	        SELECT ROWNUM RN, A.*
+	        FROM (
+	        SELECT AP.AP_CODE AS AP_CODE, AP.TITLE AS TITLE, AP.SUMMARY AS SUMMARY, AP.SDATE AS SDATE, AP.EDATE AS EDATE, AP.CONTENT AS CONTENT, AP.KDATE AS KDATE
+	        , AP.NUMBERS AS NUMBERS, AP.VIEWS AS VIEWS, M.MEM_CODE AS MEM_CODE, M.NICKNAME AS NICKNAME
+			FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+	        WHERE SYSDATE >= AP.SDATE AND AP.EDATE >= SYSDATE
+			ORDER BY AP.KDATE DESC
+	        ) A
+	    )
+	    WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 신고 -->
+	<select id="reportmem" resultType="com.test.mybatis.dto.ProjectPageDTO">
+		SELECT MEM_CODE, ID, NICKNAME, CODE, REASON, CONTENT, TO_CHAR(KDATE,'YYYY-MM-DD') AS KDATE,
+		    (
+		        CASE 
+		            WHEN PE_NAME = '3일 정지' THEN TO_CHAR(KDATE+3, 'YYYY-MM-DD')
+		            WHEN PE_NAME = '7일 정지' THEN TO_CHAR(KDATE+7, 'YYYY-MM-DD') 
+		            WHEN PE_NAME = '30일 정지' THEN TO_CHAR(KDATE+30, 'YYYY-MM-DD')
+		        END
+		    ) AS PENALTY_DAY
+		  , NVL(CASE
+		        WHEN  (
+		                 CASE 
+		                     WHEN PE_NAME = '3일 정지' THEN TO_CHAR(KDATE+3, 'YYYY-MM-DD')
+		                     WHEN PE_NAME = '7일 정지' THEN TO_CHAR(KDATE+7, 'YYYY-MM-DD') 
+		                     WHEN PE_NAME = '30일 정지' THEN TO_CHAR(KDATE+30, 'YYYY-MM-DD')
+		                 END
+		             )
+		            >= TO_CHAR(SYSDATE,'YYYY-MM-DD') 
+		        THEN '패널티중'
+		        ELSE '패널티 종료'
+		    END,0) AS PRECESSING  
+		FROM PRO_GET_PROCESS_VIEW
+		WHERE CODE LIKE 'AOR%'
+		AND MEM_CODE = #{mem_code}
+		ORDER BY KDATE
+	</select>
+	
+	<!-- 신고 카운트 -->
+	<select id="reportcount" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT  
+		FROM PRO_GET_PROCESS_VIEW
+		WHERE CODE LIKE 'AOR%'
+		AND MEM_CODE = #{mem_code}
+		ORDER BY KDATE
 	</select>
 	 
 </mapper>
