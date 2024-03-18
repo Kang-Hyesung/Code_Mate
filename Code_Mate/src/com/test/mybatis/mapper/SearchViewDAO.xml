@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">	
+
+<mapper namespace="com.test.mybatis.dao.ISearchViewDAO">
+	
+	<!-- 검색 프로젝트 리스트 -->
+	<select id="pjlist" resultType="com.test.mybatis.dto.SearchViewDTO">
+		SELECT AP.AP_CODE , AP.TITLE , AP.SUMMARY , TO_CHAR(AP.SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(AP.EDATE,'YYYY-MM-DD') AS EDATE, AP.CONTENT 
+			, TO_CHAR(AP.KDATE,'YYYY-MM-DD') AS KDATE , AP.NUMBERS , AP.VIEWS , M.MEM_CODE , M.NICKNAME 
+			, CASE
+	        WHEN AP.SDATE > SYSDATE THEN '모집중'
+	        WHEN SYSDATE >= AP.SDATE THEN '모집완료'
+	        ELSE ' ' END AS STATUS
+		FROM APP_OPENING AP JOIN MEMBER M ON AP.MEM_CODE = M.MEM_CODE
+		WHERE TITLE LIKE '%' || #{searchcon} || '%'
+		 AND  SUMMARY LIKE '%' || #{searchcon} || '%'
+		 AND  CONTENT LIKE '%' || #{searchcon} || '%'
+		
+	</select>
+	
+	<!-- 검색 QNA 리스트 -->
+	<select id="qnalist" resultType="com.test.mybatis.dto.SearchViewDTO">
+		SELECT AQ.TQ_CODE, AQ.TITLE, AQ.CONTENT, TO_CHAR(AQ.KDATE,'YYYY-MM-DD') AS KDATE, AQ.VIEWS, M.MEM_CODE, M.NICKNAME
+		FROM ALLQNALIST_VIEW AQ JOIN MEMBER M ON AQ.MEM_CODE = M.MEM_CODE
+		WHERE TITLE LIKE '%' || #{searchcon} || '%'
+		 AND  CONTENT LIKE '%' || #{searchcon} || '%'
+		
+	</select>
+	
+	<!-- 검색 QNA 댓글 -->
+	<select id="qnacomment" resultType="com.test.mybatis.dto.SearchViewDTO">
+		SELECT CQC.CQ_CODE, NVL(COUNT(*),0) AS COUNT
+		FROM CQ_COMMENT CQC FULL JOIN CQ_REPLY2 CQ2 ON CQC.CQC_CODE = CQ2.CQC_CODE
+		GROUP BY CQC.CQ_CODE
+		UNION ALL
+		SELECT TC.TQ_CODE,NVL(COUNT(*),0) AS COUNT
+		FROM TQ_COMMENT TC FULL JOIN TQ_REPLY2 T2 ON TC.TC_CODE = T2.TC_CODE
+		GROUP BY TC.TQ_CODE
+		
+	</select>
+	
+	
+	<!-- 검색 프로젝트 댓글 -->
+	<select id="pjcomment" resultType="com.test.mybatis.dto.SearchViewDTO">
+		SELECT AO.AP_CODE, NVL(COUNT(*),0) AS COUNT
+		FROM AO_COMMENT AO FULL JOIN AO_REPLY2 A2 ON AO.AC_CODE = A2.AC_CODE               
+		GROUP BY AO.AP_CODE
+		
+	</select>
+	
+	
+	<!-- 태그 -->
+	
+	<select id="tag" resultType="com.test.mybatis.dto.SearchViewDTO">
+		SELECT AP_CODE, TAG_NAME
+		FROM OPEN_TAG
+	</select>
+	
+	
+
+	<!-- 핫한 10위 -->
+	<select id="hotpj" resultType="com.test.mybatis.dto.SearchViewDTO">
+		SELECT TITLE, AP_CODE, NICKNAME
+		FROM (
+		    SELECT TITLE, AP_CODE, NICKNAME
+            FROM ALLVIEW
+            WHERE 30 >= (SYSDATE - KDATE)
+            ORDER BY VIEWS DESC
+		    )
+		WHERE 10 >= ROWNUM
+	</select>
+	
+	
+	<!-- 프젝 카운트 -->
+	<select id="pjcount" resultType="java.lang.Integer">
+		SELECT NVL(COUNT(*),0) AS COUNT
+		FROM APP_OPENING
+		WHERE TITLE LIKE '%' || #{searchcon} || '%'
+		 AND  SUMMARY LIKE '%' || #{searchcon} || '%'
+		 AND  CONTENT LIKE '%' || #{searchcon} || '%'
+	</select>
+	
+	<!-- QNA 카운트 -->
+	<select id="qnacount" resultType="java.lang.Integer">
+		SELECT NVL(COUNT(*),0) AS COUNT
+		FROM ALLQNALIST_VIEW
+		WHERE TITLE LIKE '%' || #{searchcon} || '%'
+		 AND  CONTENT LIKE '%' || #{searchcon} || '%'
+	</select>
+
+</mapper>

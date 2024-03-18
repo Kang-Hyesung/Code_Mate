@@ -2,7 +2,9 @@ package com.test.mybatis.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import com.test.mvc.PagingVO;
 import com.test.mybatis.dto.ProjectPageDTO;
 
 public interface IProjectPageDAO
@@ -46,5 +48,20 @@ public interface IProjectPageDAO
 	
 	// 내가 진행중 카운트
 	public int mycount(String mem_code);
+	
+	// 전체 페이징 처리
+	public List<ProjectPageDTO> pagelist(PagingVO vo);
+	
+	// 전체 페이징 처리
+	public List<ProjectPageDTO> ingpagelist(PagingVO vo);
+	
+	// 전체 페이징 처리
+	public List<ProjectPageDTO> endpagelist(PagingVO vo);
+	
+	// 신고
+	public ProjectPageDTO reportmem(String mem_code);
+	
+	// 신고
+	public int reportcount(String mem_code);
 	
 }
