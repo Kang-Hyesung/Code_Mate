@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //    사용자 정의 컨트롤러 클래스를 구성한다.
 //    cf. Controller Annotation 활용
 
+import com.test.mybatis.dao.IMyPageDAO;
 import com.test.mybatis.dao.IPortfolioDAO;
 import com.test.mybatis.dto.MemberDTO;
 import com.test.mybatis.dto.PortfolioDTO;
@@ -33,8 +35,27 @@ public class PortfolioController
 	
 	// 포트폴리오 리스트
 	@RequestMapping(value="/portfoliolist.action", method=RequestMethod.GET)
-	public String hello(HttpServletRequest request)
+	public String hello(HttpServletRequest request, HttpSession session, ModelMap model)
 	{	
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
 		IPortfolioDAO dao = sqlSession.getMapper(IPortfolioDAO.class);
 		
 		List<PortfolioDTO> list = dao.getLists();
@@ -45,9 +66,26 @@ public class PortfolioController
 	
 	// 포트폴리오 뷰 
 	@RequestMapping(value="/portfolioview.action", method=RequestMethod.GET)
-	public String viewArticle(HttpServletRequest request, HttpSession session)
+	public String viewArticle(HttpServletRequest request, HttpSession session, ModelMap model)
 	{	
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
 		
 		String p_code = request.getParameter("article");
 		String mem_code = null;

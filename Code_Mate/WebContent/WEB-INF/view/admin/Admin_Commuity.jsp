@@ -13,7 +13,8 @@ System.out.println(cp);
 <!-- BootStrap -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/banner_side.css" />
+<link rel="stylesheet" type="text/css"
+	href="<%=cp%>/css/admin_banner_side.css" />
 <!-- chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- JQuery -->
@@ -362,7 +363,7 @@ nav.pagination2 {
 }
 .btn {
 	line-height: 0px;
-	height: 30px;
+	height: 38px;
 }
 .ellipsis-content {
 	white-space: nowrap;
@@ -453,6 +454,62 @@ h5 {
     function resetSysdate() {
         $("#date_sysdate").val(getFormattedDate());
     }
+
+	$(document).ready(function()
+	{
+
+		$(".paging-tq,.paging-cq,.paging-port").hide();
+
+		$('[data-toggle="tooltip"]').tooltip();
+
+		$('.ellipsis-content').on('click', function()
+		{
+
+			var content = $(this).html();
+
+			$('#modal_content').text(content);
+			$('#reportModal').modal("show");
+
+		});
+
+		$("#searchvalue").click(function()
+		{
+			// 테스트
+			// alert("테스트~~~~!!");
+			$(".paging-project, .paging-tq, .paging-cq,.paging-port").hide();
+
+			var selectbox = $("#selectbox option:selected").val();
+
+			if (selectbox == '1')
+			{
+
+				$(".paging-project").show();
+
+			} else if (selectbox == '2')
+			{
+
+				$(".paging-tq").show();
+
+			} else if (selectbox == '3')
+			{
+
+				$(".paging-cq").show();
+
+			} else if (selectbox == '4')
+			{
+
+				$(".paging-port").show();
+
+			}
+		});
+	});
+
+	function selChange()
+	{
+		var sel = document.getElementById('cntPerPage').value;
+		location.href = "boardlist.action?nowPage=${paging.nowPage}&cntPerPage="
+				+ sel;
+	}
 	
 </script>
 </head>
@@ -529,68 +586,69 @@ h5 {
 		</div>
 	</div>
 	<!-- 모달 창 끝 -->
-	<div class="row mainArea">
-		<div class="col-12 bannerMain">
-			<div class="row bannerArea">
-				<nav class="navbar bg-body-tertiary">
-					<div class="container-fluid nav nav-underline bannerMainBox">
-						<!--===========[Logo]===========-->
-						<a class="navbar-brand bannerLogo link" href="#"> <img
-							alt="Logo" class="bannerLogoImage d-inline-block align-text-top"
-							src="img/TestLogo.png">
-						</a>
-						<!--===========[Logo]===========-->
-						<span class="nav-link"><a href="#" class="link">프로젝트게시판</a></span>
-						<span class="nav-link"><a href="#" class="link">커리어게시판</a></span>
-						<span class="nav-link"><a href="#" class="link">포트폴리오게시판</a></span>
-						<!--=======[ member Icon ]=======-->
-						<div class="oneMember">
-							<div class="buttonBox">
-								<!--======[ search Button ]======-->
-								<button id="searchButton" class="btn btn-primary" type="button"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-									aria-controls="offcanvasTop">
-									<ion-icon name="search-outline"></ion-icon>
-								</button>
-								<!--======[ search Button ]======-->
-								<!--======[ chat Button ]======-->
-								<button id="chatButton" class="btn btn-primary" type="button"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-									aria-controls="offcanvasTop">
-									<ion-icon name="chatbubble-outline"></ion-icon>
-								</button>
-								<!--======[ chat Button ]======-->
-								<!--======[ alarmButton ]======-->
-								<button id="alarmButton" class="btn btn-primary" type="button"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-									aria-controls="offcanvasTop">
-									<ion-icon name="notifications"></ion-icon>
-								</button>
-								<!--======[ alarmButton ]======-->
-							</div>
-							<!-- end .buttonBox -->
-							<!-- 
-					<div id="profile">
-						<img class="memberImg" src="img/profileImg_1.png">
-					</div>
-					<span class="nickname" id="mem1">강구가구가구가</span>
-					<div class="gradeIcon">
-						🌱
-					</div>
-					 -->
-							<!-- 로그인/회원가입으로 이동 -->
-							<span class="nav-link log"><a href="Login.action"
-								class="link">로그인/회원가입</a></span>
-						</div>
-						<!-- end .oneMember -->
-						<!--=======[ member Icon ]=======-->
-					</div>
-			</div>
-			<!-- end .container-fluid -->
+<div class="row mainArea">
+
+	<div class="col-12 bannerMain">
+		<div class="row bannerArea">
+			<nav class="navbar bg-body-tertiary">
+			  <div class="container-fluid nav nav-underline bannerMainBox">
+			    
+			 	<!--===========[Logo]===========-->
+				<a class="navbar-brand bannerLogo link" href="Code_Mate.action">
+					<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
+				</a>
+				<!--===========[Logo]===========-->
+				
+				<span class="nav-link"><a href="#" class="link">프로젝트 게시판</a></span>
+				<span class="nav-link"><a href="#" class="link">커리어 게시판</a></span>
+				<span class="nav-link"><a href="#" class="link">포트폴리오 게시판</a></span>
+			
+			    
+			    <!--=======[ member Icon ]=======-->
+			    <div class="oneMember">
+					<div class="buttonBox">
+						<!--======[ search Button ]======-->
+
+				    </div><!-- end .buttonBox -->
+				</div><!-- end .oneMember -->
+			    <!--=======[ member Icon ]=======-->
+			    </div>
+			  	</div><!-- end .container-fluid -->
 			</nav>
-		</div>
-		<!-- end .row .bannerArea  -->
+		</div><!-- end .row .bannerArea  -->
 	</div>
+	
+	<!--===========[offCanvas]===========-->
+	<div class="col-12">
+		
+		
+		<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+		  
+		  
+		  <!--[ 검색창을 열었을 때 보여지는 내용 ]-->
+		  <div class="offcanvas-body">
+		  
+		  	<div class="row searchFormArea align-self-center">
+		  	
+				<div class="col-2">
+					<ion-icon name="search-circle"></ion-icon>
+				</div><!-- end .col-1 -->
+				
+				<div class="col-8">
+				    <!--===========[searchForm]===========-->
+				    <form class="d-flex" role="search">
+				      <input class="form-control me-2 searchTextForm" type="search" placeholder="검색어를 입력하세요." aria-label="Search">
+				      <button class="btn btn-outline-success" type="submit">Search</button>
+				    </form>
+				    <!--===========[searchForm]===========-->
+			    </div><!-- end .col-8 -->
+			    
+		    </div><!-- end .row -->
+		    
+		  </div><!-- end .offcanvas-body -->
+		</div>
+	</div>
+	
 	<!--===========[offCanvas]===========-->
 	<div class="col-12">
 		<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop"
@@ -657,12 +715,12 @@ h5 {
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">문의사항<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<a href="Inquiry_Faq.action" class="majorTopic nav-link link">문의사항<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">1대1문의</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">FAQ</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">신고 관련 문의</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_1v1.action" class="nav-link link">1대1문의</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_Faq.action" class="nav-link link">FAQ</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_Report.action" class="nav-link link">신고 관련 문의</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -713,67 +771,220 @@ h5 {
 			</div>
 			<div class="col-md-9 bordered-div" style="width: 76.3%; height: 86%;">
 				<h5>모든 게시판 조회</h5>
-				<div class="date-class">
-					<span style="margin-right: 14px;">기간별 검색</span>
-					<input class="date-input" id="date_first" type="date" data-placeholder="날짜 선택" required aria-required="true" ></input>
-					<span class="date-span">-</span>
-					<input class="date-input" id= "date_sysdate" type="date" data-placeholder="날짜 선택" required aria-required="true"></input>
-				</div>
 				
-				<div class="row-4 comm-div">
-					<select class="com-select">
-						<option selected>선택하세요</option>
-						<option value="1">제목</option>
-						<option value="2">게시물 코드</option>
-						<option value="3">닉네임</option>
+				<div class="input-group col-4" style="width: 25%; margin-left: 74%; margin-bottom: 2%;">
+					<select class="form-select" id="selectbox" name='selectbox' aria-label="Example select with button addon">
+						<option selected value="1">개설신청</option>
+						<option value="2">기술</option>
+						<option value="3">커리어</option>
+						<option value="4">포트폴리오</option>
 					</select>
-					<input type="text" class="com-input">
-					<button  type="button" class="btn btn-sm btn-secondary com-btn">검색</button>
+					<button class="btn btn-outline-secondary" type="button" id='searchvalue' name='searchvalue' style="color: #ffffff;">검색</button>
 				</div>
 				<div class="table-responsive">
-					<table class="table no-wrap">
-						<thead>
+					<div class="paging-project">
+						<table class="table no-wrap" id= project>
+							<thead>
+								<tr class="text-center">
+									<th class="border-top-0">#</th>
+									<th class="border-top-0">게시판 유형</th>
+									<th class="border-top-0">제목</th>
+									<th class="border-top-0">개설일자</th>
+									<th class="border-top-0">조회수</th>
+									<th class="border-top-0">댓글 수</th>
+									<!-- <th class="border-top-0">관리</th> -->
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="member" items="${board_app}">
+							    <tr>
+							        <td class="text-center">${member.mem_code}</td>
+							        <td class="text-center">${member.code}</td>
+							        <td class="text-center">${member.title}</td>
+							        <td class="text-center">${member.kdate}</td>
+							        <td class="text-center">${member.views}</td>
+							        <td class="text-center">${member.count}</td>
+<!-- 							        <td class="text-center">
+							           <a href="#"><span class="material-symbols-outlined" style="font-size: 25px; color: rgb(168 172 177);">settings</span></a>
+							        </td> -->
+							    </tr>
+							</c:forEach>																																																								
+							</tbody>
+						</table>					
+						<div style="display: block; text-align: center;">
+						<c:if test="${paging.startPage != 1 }">
+							<a href="/Admin_Communiity.action?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+						</c:if>
+						<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
+							var="p">
+							<c:choose>
+								<c:when test="${p == paging.nowPage }">
+									<b>${p }</b>
+								</c:when>
+								<c:when test="${p != paging.nowPage }">
+									<a href="<%=cp %>/Admin_Communiity.action?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${paging.endPage != paging.lastPage}">
+							<a href="<%=cp %>/Admin_Communiity.action?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+						</c:if>
+					</div>	
+					</div>
+					
+					<div class="paging-tq">
+						<table class="table no-wrap" id= tq>
+							<thead>
+								<tr class="text-center">
+									<th class="border-top-0">#</th>
+									<th class="border-top-0">게시판 유형</th>
+									<th class="border-top-0">제목</th>
+									<th class="border-top-0">개설일자</th>
+									<th class="border-top-0">조회수</th>
+									<th class="border-top-0">댓글 수</th>
+<!-- 									<th class="border-top-0">관리</th>	 -->	
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="member" items="${board_te}">
+							    <tr>
+							        <td class="text-center">${member.mem_code}</td>
+							        <td class="text-center">${member.code}</td>
+							        <td class="text-center">${member.title}</td>
+							        <td class="text-center">${member.kdate}</td>
+							        <td class="text-center">${member.views}</td>
+							        <td class="text-center">${member.count}</td>
+<!-- 							        <td class="text-center">
+							           <a href="#"><span class="material-symbols-outlined" style="font-size: 25px; color: rgb(168 172 177);">settings</span></a>
+							        </td> -->
+							    </tr>
+							</c:forEach>																																																								
+							</tbody>
+						</table>
+						<div style="display: block; text-align: center;">
+							<c:if test="${paging2.startPage != 1 }">
+								<a href="/Admin_Communiity.action?nowPage=${paging2.startPage - 1 }&cntPerPage=${paging2.cntPerPage}">&lt;</a>
+							</c:if>
+							<c:forEach begin="${paging2.startPage }" end="${paging2.endPage }"
+								var="p">
+								<c:choose>
+									<c:when test="${p == paging2.nowPage }">
+										<b>${p }</b>
+									</c:when>
+									<c:when test="${p != paging2.nowPage }">
+										<a href="<%=cp %>/Admin_Communiity.action?nowPage=${p }&cntPerPage=${paging2.cntPerPage}">${p }</a>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+							<c:if test="${paging2.endPage != paging2.lastPage}">
+								<a href="<%=cp %>/Admin_Communiity.action?nowPage=${paging2.endPage+1 }&cntPerPage=${paging2.cntPerPage}">&gt;</a>
+							</c:if>
+						</div>						
 						
-							<tr class="text-center">
-								<th class="border-top-0">#</th>
-								<th class="border-top-0">게시판 유형</th>
-								<th class="border-top-0">게시판명</th>
-								<th class="border-top-0">글쓴이</th>
-								<th class="border-top-0">조회수</th>
-								<th class="border-top-0">전체 댓글수</th>
-								<th class="border-top-0">작성일</th>
-								<th class="border-top-0">관리</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="text-center">1</td>
-								<td class="text-center">CQ_CODE</td>
-								<td class="text-center"><a href="">내 이력서 한번만 봐주세요;;;</a></td>
-								<td class="text-center">현욱짱짱</td>
-								<td class="text-center">182</td>
-								<td class="text-center">57</td>
-								<td class="text-center" >2024-02-29</td>
-								<td class="text-center"><a href="">
-									<span class="material-symbols-outlined" style="font-size: 25px; color: rgb(168 172 177);">settings</span></a>
-								</td>
-							</tr>																																																										
-						</tbody>
-					</table>
+					</div>
+					
+					<div class="paging-cq">
+						<table class="table no-wrap" id= cq>
+							<thead>
+								<tr class="text-center">
+									<th class="border-top-0">#</th>
+									<th class="border-top-0">게시판 유형</th>
+									<th class="border-top-0">제목</th>
+									<th class="border-top-0">개설일자</th>
+									<th class="border-top-0">조회수</th>
+									<th class="border-top-0">댓글 수</th>
+									<!-- <th class="border-top-0">관리</th> -->
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="member" items="${board_cq}">
+							    <tr>
+							        <td class="text-center">${member.mem_code}</td>
+							        <td class="text-center">${member.code}</td>
+							        <td class="text-center">${member.title}</td>
+							        <td class="text-center">${member.kdate}</td>
+							        <td class="text-center">${member.views}</td>
+							        <td class="text-center">${member.count}</td>
+<!-- 							        <td class="text-center">
+							           <a href="#"><span class="material-symbols-outlined" style="font-size: 25px; color: rgb(168 172 177);">settings</span></a>
+							        </td> -->
+							    </tr>
+							</c:forEach>	
+							</tbody>
+						</table>	
+							<div style="display: block; text-align: center;">
+								<c:if test="${paging3.startPage != 1 }">
+									<a href="/Admin_Communiity.action?nowPage=${paging3.startPage - 1 }&cntPerPage=${paging3.cntPerPage}">&lt;</a>
+								</c:if>
+								<c:forEach begin="${paging3.startPage }" end="${paging3.endPage }"
+									var="p">
+									<c:choose>
+										<c:when test="${p == paging3.nowPage }">
+											<b>${p }</b>
+										</c:when>
+										<c:when test="${p != paging3.nowPage }">
+											<a href="<%=cp %>/Admin_Communiity.action?nowPage=${p }&cntPerPage=${paging3.cntPerPage}">${p }</a>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+								<c:if test="${paging3.endPage != paging3.lastPage}">
+									<a href="<%=cp %>/Admin_Communiity.action?nowPage=${paging3.endPage+1 }&cntPerPage=${paging3.cntPerPage}">&gt;</a>
+								</c:if>
+							</div>					
+					</div>
+						
+					<div class="paging-port">
+						<table class="table no-wrap" id= port>
+							<thead>
+								<tr class="text-center">
+									<th class="border-top-0">#</th>
+									<th class="border-top-0">게시판 유형</th>
+									<th class="border-top-0">제목</th>
+									<th class="border-top-0">개설일자</th>
+									<th class="border-top-0">조회수</th>
+									<th class="border-top-0">댓글 수</th>
+<!-- 									<th class="border-top-0">관리</th>
+ -->								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="member" items="${board_p}">
+							    <tr>
+							        <td class="text-center">${member.mem_code}</td>
+							        <td class="text-center">${member.code}</td>
+							        <td class="text-center">${member.title}</td>
+							        <td class="text-center">${member.kdate}</td>
+							        <td class="text-center">${member.views}</td>
+							        <td class="text-center">${member.count}</td>
+<!-- 							        <td class="text-center">
+							           <a href="#"><span class="material-symbols-outlined" style="font-size: 25px; color: rgb(168 172 177);">settings</span></a>
+							        </td> -->
+							    </tr>
+							</c:forEach>	
+							</tbody>
+						</table>					
+								<div style="display: block; text-align: center;">
+									<c:if test="${paging4.startPage != 1 }">
+										<a href="/Admin_Communiity.action?nowPage=${paging4.startPage - 1 }&cntPerPage=${paging4.cntPerPage}">&lt;</a>
+									</c:if>
+									<c:forEach begin="${paging4.startPage }" end="${paging4.endPage }"
+										var="p">
+										<c:choose>
+											<c:when test="${p == paging4.nowPage }">
+												<b>${p }</b>
+											</c:when>
+											<c:when test="${p != paging4.nowPage }">
+												<a href="<%=cp %>/Admin_Communiity.action?nowPage=${p }&cntPerPage=${paging4.cntPerPage}">${p }</a>
+											</c:when>
+										</c:choose>
+									</c:forEach>
+									<c:if test="${paging4.endPage != paging4.lastPage}">
+										<a href="<%=cp %>/Admin_Communiity.action?nowPage=${paging4.endPage+1 }&cntPerPage=${paging4.cntPerPage}">&gt;</a>
+									</c:if>
+								</div>						
+					
+					</div>
+								
 				</div>
-				<nav aria-label="...">
-					<ul class="pagination">
-						<li class="page-item pagination2"><a class="page-link">Previous</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">1</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">2</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">3</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">Next</a></li>
-					</ul>
-				</nav>
 			</div>
 			<!-- <div class="col-3">사이드를 여기에 작성하세요</div> -->
 		</div>

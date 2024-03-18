@@ -1,9 +1,31 @@
+<%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
-String cp = request.getContextPath();
-System.out.println(cp);
+	String cp = request.getContextPath();
+	System.out.println(cp);
+%>
+<%
+	
+	String login = "";
+	String logout = "";
+	String name = "";
+	
+	if(request.getSession().getAttribute("member") != null)
+	{
+		login = "";
+		logout = "display:none;";
+		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
+		
+		name = member.getNickname();
+	}
+	else
+	{
+		login = "display:none;";
+		logout = "";
+	}
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -16,7 +38,7 @@ System.out.println(cp);
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
-	href="<%=cp%>/css/banner_side.css" />
+	href="<%=cp%>/css/admin_banner_side.css" />
 <!-- chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- JQuery -->
@@ -30,6 +52,18 @@ System.out.println(cp);
 <link
 	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
 	rel="stylesheet" />
+<script src="script.js" defer></script>
+
+<script type="text/javascript">
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+	
+	  $( function () {
+	    $( '[data-bs-toggle="popover"]' ).popover()
+	    
+	  });
+	  
+</script>
 <style>
 .prjname {
 	vertical-align: middle;
@@ -442,13 +476,16 @@ h5 {
 
 .btn-secondary { 
 
-	--bs-btn-hover-bg: #1FC1C0;
+    --bs-btn-bg: #ffffff;
+    --bs-btn-hover-bg: #4f59ca;
+    border: none;
 
 }
 
 </style>
 </head>
 <body>
+
 <div class="row mainArea">
 
 	<div class="col-12 bannerMain">
@@ -457,8 +494,8 @@ h5 {
 			  <div class="container-fluid nav nav-underline bannerMainBox">
 			    
 			 	<!--===========[Logo]===========-->
-				<a class="navbar-brand bannerLogo link" href="#">
-					<img alt="Logo" class="bannerLogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
+				<a class="navbar-brand bannerLogo link" href="Code_Mate.action">
+					<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 				</a>
 				<!--===========[Logo]===========-->
 				
@@ -471,34 +508,8 @@ h5 {
 			    <div class="oneMember">
 					<div class="buttonBox">
 						<!--======[ search Button ]======-->
-						<button id="searchButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="search-outline"></ion-icon>
-						</button>
-						<!--======[ search Button ]======-->
-		
-						<!--======[ chat Button ]======-->
-						<button id="chatButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="chatbubble-outline"></ion-icon>
-						</button>
-						<!--======[ chat Button ]======-->
-		
-						<!--======[ alarmButton ]======-->
-						<button id="alarmButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="notifications"></ion-icon>
-						</button>				
-						<!--======[ alarmButton ]======-->
+
 				    </div><!-- end .buttonBox -->
-				    <!-- 
-					<div id="profile">
-						<img class="memberImg" src="img/profileImg_1.png">
-					</div>
-					<span class="nickname" id="mem1">강구가구가구가</span>
-					<div class="gradeIcon">
-						🌱
-					</div>
-					 -->
-					 <!-- 로그인/회원가입으로 이동 -->
-					<span class="nav-link log" ><a href="Login.action" class="link">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
 			    <!--=======[ member Icon ]=======-->
 			    </div>
@@ -506,7 +517,6 @@ h5 {
 			</nav>
 		</div><!-- end .row .bannerArea  -->
 	</div>
-
 	
 	<!--===========[offCanvas]===========-->
 	<div class="col-12">
@@ -581,12 +591,12 @@ h5 {
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">문의사항<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<a href="Inquiry_Faq.action" class="majorTopic nav-link link">문의사항<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">1대1문의</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">FAQ</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">신고 관련 문의</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_1v1.action" class="nav-link link">1대1문의</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_Faq.action" class="nav-link link">FAQ</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_Report.action" class="nav-link link">신고 관련 문의</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -597,8 +607,6 @@ h5 {
 									<li class="miniMenuOption"><a href="Admin_Communiity.action"class="nav-link link">게시판</a></li>
 									<li class="miniMenuOption"><a href="Admin_Project.action"class="nav-link link">프로젝트</a></li>
 								</ul>
-							</li>
-						</ul>
 							</li>
 						</ul>
 						

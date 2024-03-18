@@ -14,8 +14,8 @@
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/banner_side.css" />
-
+<link rel="stylesheet" type="text/css"
+	href="<%=cp%>/css/admin_banner_side.css" />
 <!-- chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- JQuery -->
@@ -415,7 +415,7 @@ nav.pagination2 {
 
 .btn {
 	line-height: 0px;
-	height: 30px;
+	height: 38px;
 }
 
 .ellipsis-content {
@@ -433,7 +433,6 @@ h5 {
 }
 </style>
 <script type="text/javascript">
-	
 
 	var code;	// 이벤트 핸들러 밖에 선언 
 	
@@ -464,7 +463,7 @@ h5 {
 	$(document).ready(function()
 	{
 
-		$("#tq, #tq, #cq, #port").hide();
+		$(".paging-tq,.paging-cq,.paging-port").hide();
 
 		$('[data-toggle="tooltip"]').tooltip();
 
@@ -482,25 +481,25 @@ h5 {
 		{
 			// 테스트
 			// alert("테스트~~~~!!");
-			$("#project, #tq, #cq, #port").hide();
+			$(".paging-project, .paging-tq, .paging-cq,.paging-port").hide();
 
 			var selectbox = $("#selectbox option:selected").val();
 
 			if (selectbox == '1') {
 
-				$("#project").show();
+				$(".paging-project").show();
 
 			} else if (selectbox == '2') {
 
-				$("#tq").show();
+				$(".paging-tq").show();
 
 			} else if (selectbox == '3') {
 
-				$("#cq").show();
+				$(".paging-cq").show();
 
 			} else if (selectbox == '4') {
 
-				$("#port").show();
+				$(".paging-port").show();
 
 			}
 		});
@@ -525,9 +524,14 @@ h5 {
 			$("#code").val(code);
 			
 			$("#formsave").submit();
+			
 		});
 	});
 	
+	function selChange() {
+		var sel = document.getElementById('cntPerPage').value;
+		location.href="boardlist.action?nowPage=${paging.nowPage}&cntPerPage="+sel;
+	}
 	
 </script>
 </head>
@@ -594,7 +598,6 @@ h5 {
 								data-bs-dismiss="modal">Close</button>
 							<button type="button" class="btn btn-primary" id="save">패널티 부여</button>
 						</div>
-						
 							<input type="hidden"  id="code" name='code'/>
 					</form>
 				</div>
@@ -645,46 +648,7 @@ h5 {
 						<!--=======[ member Icon ]=======-->
 						<div class="oneMember">
 							<div class="buttonBox">
-								<!--======[ search Button ]======-->
-								<button id="searchButton" class="btn btn-primary" type="button"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-									aria-controls="offcanvasTop">
-									<ion-icon name="search-outline"></ion-icon>
-								</button>
-								<!--======[ search Button ]======-->
-
-								<!--======[ chat Button ]======-->
-								<button id="chatButton" class="btn btn-primary" type="button"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-									aria-controls="offcanvasTop">
-									<ion-icon name="chatbubble-outline"></ion-icon>
-								</button>
-								<!--======[ chat Button ]======-->
-
-								<!--======[ alarmButton ]======-->
-								<button id="alarmButton" class="btn btn-primary" type="button"
-									data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
-									aria-controls="offcanvasTop">
-									<ion-icon name="notifications"></ion-icon>
-								</button>
-								<!--======[ alarmButton ]======-->
-							</div>
-							<!-- end .buttonBox -->
-							<!-- 
-					<div id="profile">
-						<img class="memberImg" src="img/profileImg_1.png">
-					</div>
-					<span class="nickname" id="mem1">강구가구가구가</span>
-					<div class="gradeIcon">
-						🌱
-					</div>
-					-->
-							<!-- 로그인/회원가입으로 이동 -->
-							<span class="nav-link log"><a href="Login.action"
-								class="link">로그인/회원가입</a></span>
 						</div>
-						<!-- end .oneMember -->
-						<!--=======[ member Icon ]=======-->
 					</div>
 			</div>
 			<!-- end .container-fluid -->
@@ -843,7 +807,8 @@ h5 {
 				</div>
 
 				<div class="table-responsive">
-					<table class="table no-wrap" id="project">
+					<div class="paging-project">
+						<table class="table no-wrap" id="project">
 						<thead>
 							<tr class="text-center">
 								<th class="border-top-0">#</th>
@@ -874,7 +839,28 @@ h5 {
 						</c:forEach>
 						</tbody>
 					</table>
-	
+					<div style="display: block; text-align: center;">
+						<c:if test="${paging.startPage != 1 }">
+							<a href="/Member_report.action?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+						</c:if>
+						<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
+							var="p">
+							<c:choose>
+								<c:when test="${p == paging.nowPage }">
+									<b>${p }</b>
+								</c:when>
+								<c:when test="${p != paging.nowPage }">
+									<a href="<%=cp %>/Member_report.action?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${paging.endPage != paging.lastPage}">
+							<a href="<%=cp %>/Member_report.action?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+						</c:if>
+					</div>
+					</div>					
+						
+					<div class="paging-tq">
 					<table class="table no-wrap" id="tq">
 						<thead>
 							<tr class="text-center">
@@ -903,10 +889,30 @@ h5 {
 								</td>
 						    </tr>
 						</c:forEach>
-
 						</tbody>
-					</table>
+					</table>					
+					<div style="display: block; text-align: center;">
+						<c:if test="${paging2.startPage != 1 }">
+							<a href="/Member_report.action?nowPage=${paging2.startPage - 1 }&cntPerPage=${paging2.cntPerPage}">&lt;</a>
+						</c:if>
+						<c:forEach begin="${paging2.startPage }" end="${paging2.endPage }"
+							var="p">
+							<c:choose>
+								<c:when test="${p == paging2.nowPage }">
+									<b>${p }</b>
+								</c:when>
+								<c:when test="${p != paging2.nowPage }">
+									<a href="<%=cp %>/Member_report.action?nowPage=${p }&cntPerPage=${paging2.cntPerPage}">${p }</a>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${paging2.endPage != paging2.lastPage}">
+							<a href="<%=cp %>/Member_report.action?nowPage=${paging2.endPage+1 }&cntPerPage=${paging2.cntPerPage}">&gt;</a>
+						</c:if>				
+					</div>
+					</div>
 
+					<div class="paging-cq">
 					<table class="table no-wrap" id="cq">
 						<thead>
 							<tr class="text-center">
@@ -937,51 +943,80 @@ h5 {
 						</c:forEach>
 						</tbody>
 					</table>
-
-					<table class="table no-wrap" id="port">
-						<thead>
-							<tr class="text-center">
-								<th class="border-top-0">#</th>
-								<th class="border-top-0">닉네임</th>
-								<th class="border-top-0">아이디</th>
-								<th class="border-top-0">신고 번호</th>
-								<th class="border-top-0">신고 사유</th>
-								<th class="border-top-0">신고 내용</th>
-								<th class="border-top-0">신고 날짜</th>
-								<th class="border-top-0">패널티 부여</th>
-							</tr>
-						</thead>
-						<tbody>
-						<c:forEach var="member" items="${mem_penalpog}">
-						    <tr>
-						        <td class="text-center">${member.mem_code}</td>
-						        <td class="text-center">${member.id}</td>
-						        <td class="text-center">${member.nickname}</td>
-						        <td class="text-center">${member.code}</td>
-						        <td class="text-center">${member.reason}</td>
-						        <td class="text-center ellipsis-content" data-toggle="tooltip" data-placement="top" title="전체 내용을 보려면 클릭하세요.">${member.content}</td>
-						        <td class="text-center">${member.kdate}</td>
-						        <td class="text-center"><a href="#" data-bs-toggle="modal"
-									data-bs-target="#penaltyModal"> <span class="material-symbols-outlined" style="font-size: 25px;">lock_person</span></a>
-								</td>
-						    </tr>
+					<div style="display: block; text-align: center;">
+						<c:if test="${paging.startPage != 1 }">
+							<a href="/Member_report.action?nowPage=${paging3.startPage - 1 }&cntPerPage=${paging3.cntPerPage}">&lt;</a>
+						</c:if>
+						<c:forEach begin="${paging3.startPage }" end="${paging3.endPage }"
+							var="p">
+							<c:choose>
+								<c:when test="${p == paging3.nowPage }">
+									<b>${p }</b>
+								</c:when>
+								<c:when test="${p != paging3.nowPage }">
+									<a href="<%=cp %>/Member_report.action?nowPage=${p }&cntPerPage=${paging3.cntPerPage}">${p }</a>
+								</c:when>
+							</c:choose>
 						</c:forEach>
-						</tbody>
-					</table>					
+						<c:if test="${paging3.endPage != paging3.lastPage}">
+							<a href="<%=cp %>/Member_report.action?nowPage=${paging3.endPage+1 }&cntPerPage=${paging3.cntPerPage}">&gt;</a>
+						</c:if>				
+					</div>					
+					</div>
+					<div class="paging-port">
+						<table class="table no-wrap" id="port">
+							<thead>
+								<tr class="text-center">
+									<th class="border-top-0">#</th>
+									<th class="border-top-0">닉네임</th>
+									<th class="border-top-0">아이디</th>
+									<th class="border-top-0">신고 번호</th>
+									<th class="border-top-0">신고 사유</th>
+									<th class="border-top-0">신고 내용</th>
+									<th class="border-top-0">신고 날짜</th>
+									<th class="border-top-0">패널티 부여</th>
+								</tr>
+							</thead>
+							<tbody>
+							<c:forEach var="member" items="${mem_penalpog}">
+							    <tr>
+							        <td class="text-center">${member.mem_code}</td>
+							        <td class="text-center">${member.id}</td>
+							        <td class="text-center">${member.nickname}</td>
+							        <td class="text-center">${member.code}</td>
+							        <td class="text-center">${member.reason}</td>
+							        <td class="text-center ellipsis-content" data-toggle="tooltip" data-placement="top" title="전체 내용을 보려면 클릭하세요.">${member.content}</td>
+							        <td class="text-center">${member.kdate}</td>
+							        <td class="text-center"><a href="#" data-bs-toggle="modal"
+										data-bs-target="#penaltyModal"> <span class="material-symbols-outlined" style="font-size: 25px;">lock_person</span></a>
+									</td>
+							    </tr>
+							</c:forEach>
+							</tbody>
+						</table>					
+					<div style="display: block; text-align: center;">
+						<c:if test="${paging4.startPage != 1 }">
+							<a href="/Member_report.action?nowPage=${paging4.startPage - 1 }&cntPerPage=${paging4.cntPerPage}">&lt;</a>
+						</c:if>
+						<c:forEach begin="${paging4.startPage }" end="${paging4.endPage }"
+							var="p">
+							<c:choose>
+								<c:when test="${p == paging4.nowPage }">
+									<b>${p }</b>
+								</c:when>
+								<c:when test="${p != paging4.nowPage }">
+									<a href="<%=cp %>/Member_report.action?nowPage=${p }&cntPerPage=${paging4.cntPerPage}">${p }</a>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${paging4.endPage != paging4.lastPage}">
+							<a href="<%=cp %>/Member_report.action?nowPage=${paging4.endPage+1 }&cntPerPage=${paging4.cntPerPage}">&gt;</a>
+						</c:if>				
+					</div>					
+					</div>
+					
 				</div>
-				<nav aria-label="...">
-					<ul class="pagination">
-						<li class="page-item pagination2"><a class="page-link">Previous</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">1</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">2</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">3</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">Next</a></li>
-					</ul>
-				</nav>
+
 			</div>
 			<!-- <div class="col-3">사이드를 여기에 작성하세요</div> -->
 		</div>

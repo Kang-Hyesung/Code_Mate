@@ -11,12 +11,14 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.test.mybatis.dao.IBoardDAO;
+import com.test.mybatis.dao.IMyPageDAO;
 import com.test.mybatis.dao.IPortfolioDAO;
 import com.test.mybatis.dto.ArticleDTO;
 import com.test.mybatis.dto.BoardDTO;
@@ -37,8 +39,28 @@ public class BoardController
 	@RequestMapping(value="/boardlist.action", method=RequestMethod.GET)
 	public String hello(HttpServletRequest request, PagingVO vo, Model model
 			, @RequestParam(value="nowPage", required=false)String nowPage
-			, @RequestParam(value="cntPerPage", required=false)String cntPerPage)
+			, @RequestParam(value="cntPerPage", required=false)String cntPerPage
+			, HttpSession session)
 	{	
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
 		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);
 		
 		//List<BoardDTO> list = dao.getLists();
@@ -71,8 +93,28 @@ public class BoardController
 	@RequestMapping(value="/techlist.action", method=RequestMethod.GET)
 	public String techView(HttpServletRequest request, PagingVO vo, Model model
 			, @RequestParam(value="nowPage", required=false)String nowPage
-			, @RequestParam(value="cntPerPage", required=false)String cntPerPage)
+			, @RequestParam(value="cntPerPage", required=false)String cntPerPage
+			, HttpSession session)
 	{	
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
 		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);
 		
 		//List<BoardDTO> list = dao.getTechLists();
@@ -105,8 +147,28 @@ public class BoardController
 	@RequestMapping(value="/careerlist.action", method=RequestMethod.GET)
 	public String carView(HttpServletRequest request, PagingVO vo, Model model
 			, @RequestParam(value="nowPage", required=false)String nowPage
-			, @RequestParam(value="cntPerPage", required=false)String cntPerPage)
+			, @RequestParam(value="cntPerPage", required=false)String cntPerPage
+			, HttpSession session)
 	{	
+		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
 		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);
 		
 		//List<BoardDTO> list = dao.getCarLists();
@@ -137,9 +199,27 @@ public class BoardController
 	}
 	
 	@RequestMapping(value="/article.action", method=RequestMethod.GET)
-	public String articleView(HttpServletRequest request, HttpSession session, String code)
+	public String articleView(HttpServletRequest request, HttpSession session, String code, ModelMap model)
 	{	
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
 		String mem_code = null;
 		
 		IBoardDAO dao = sqlSession.getMapper(IBoardDAO.class);

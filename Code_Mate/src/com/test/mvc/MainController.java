@@ -28,6 +28,8 @@ import com.test.mybatis.dao.IProjectPageDAO;
 import com.test.mybatis.dao.IQnaListDAO;
 import com.test.mybatis.dto.MemberDTO;
 import com.test.mybatis.dto.Milestone_MemberEvaluDTO;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.test.mybatis.MyPageMethod;
 import com.test.mybatis.dto.ProjectPageDTO;
 
@@ -97,7 +99,7 @@ public class MainController
 		IMemberDAO dao = sqlSession.getMapper(IMemberDAO.class);
 		
 		// 아이디와 비밀번호가 일치하는 member를 받아옴
-		MemberDTO member = dao.login(id, pw);
+		MemberDTO member = dao.login(id.toUpperCase(), pw.toUpperCase());
 		
 		if(member == null)	// 로그인 실패
 			return "/WEB-INF/view/main/arr.jsp";
@@ -338,6 +340,53 @@ public class MainController
 					session.invalidate();
 					
 					return "Code_Mate.action";
+				}
+				
+				// 프로필 사진 변경
+				@RequestMapping(value="/insertProfileImgt.action", method=RequestMethod.POST)
+				public String insertProfileImgt(ModelMap model, HttpSession session, HttpServletRequest request)
+				{	
+					// 경로
+					String uploadPath = "C:\\Users\\hyesu\\git\\Code_Mate\\Code_Mate\\WebContent\\HyesungFile";
+					//String uploadPath ="Code_Mate\\Code_Mate\\File";
+					System.out.println("경로 테스트 : " + uploadPath);
+					
+					// multi.getFilesystemName("uploadFile");
+					
+					// 최대 파일 크기
+					int maxFileSize = 1024 * 1024 * 2;
+					String encType = "utf-8";
+
+					MultipartRequest multi = null;
+
+						try{
+							System.out.println("업로드 시도");
+							multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
+							System.out.println("업로드 완료");
+
+							System.out.println("이름 출력 시도");
+							String please = multi.getFilesystemName("file");
+							System.out.println(please);
+
+							System.out.println("서버에 저장된 파일명 : " + multi.getFilesystemName("file"));
+							System.out.println("업로드한 파일명 : " + multi.getOriginalFileName("file"));
+							System.out.println("파일 타입 : " + multi.getContentType("file"));
+
+
+						}
+						catch(Exception e)
+						{
+							System.out.println("업로드 실패");
+							System.out.println(e.toString());
+						}
+
+						// 파일 경로 + 서버에 저장된 파일명
+						String path = uploadPath + multi.getFilesystemName("file");
+						System.out.println(path);
+						// 이용자가 올린 파일명
+						String fileName = multi.getOriginalFileName("file");
+					
+					return "redirect:mypage.action";
 				}
 }
 

@@ -1,3 +1,4 @@
+<%@page import="com.test.mybatis.MyPageMethod"%>
 <%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,22 +10,58 @@
 	String logout = "";
 	String name = "";
 	
-	if(request.getSession().getAttribute("dto") != null)
+	if(request.getSession().getAttribute("member") != null)
 	{
 		login = "";
 		logout = "display:none;";
-		MemberDTO dto = (MemberDTO)request.getSession().getAttribute("dto");
+		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
 		
-		name = dto.getNickname();
+		name = member.getNickname();                                                                                                                                                                                                                                                                        
 	}
 	else
 	{
 		login = "display:none;";
 		logout = "";
 	}
-		
+
 	
+	MyPageMethod mpm = new MyPageMethod();
+	
+	String[] gradeIconUrlTxtArr;
+	String iconUrlStr = "";
+	
+	/*[배너에 뿌려질 닉네임 옆 아이콘 변경하기]*/
+	if (request.getAttribute("backendScore") != null && request.getAttribute("frontendScore") != null)
+	{
+		int backScore = (Integer)request.getAttribute("backendScore");
+		int frontScore = (Integer)request.getAttribute("frontendScore");
+		System.out.println("백엔드 점수 수신 : " + backScore);
+		System.out.println("프론트엔드 점수 수신 : " + frontScore);
 		
+		if (backScore >= frontScore)
+		{
+			System.out.println("백엔드 점수가 더 높거나 같습니다.");
+			
+			//===================================================================================
+			// 『skillGradeIcon』 - String[] 반환
+			//===================================================================================
+			//  String[0] : 스킬 등급 아이콘 Url	(*ex : "/CodeMate/img/grade_icon/1_seed.png")
+			//  String[1] : 스킬 등급 텍스트 반환	(*ex : "씨앗")
+			//===================================================================================
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, backScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+			
+		}
+		else if (backScore < frontScore)
+		{
+			System.out.println("프론트엔드 점수가 더 높습니다.");
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, frontScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+		}
+	}
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -43,6 +80,22 @@
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+<script type="text/javascript">
+		$(function()
+		{
+			  $(".memberImg").click(function()
+			{
+				$(".logout").show();
+			})
+			
+			$(".logout").click(function()
+			{
+				$(location).attr("href", "logout.action");
+			});
+			
+		})
+</script>
 
 <style type="text/css">
 
@@ -185,14 +238,14 @@
 			  <div class="container-fluid nav nav-underline bannerMainBox">
 			    
 			 	<!--===========[Logo]===========-->
-				<a class="navbar-brand bannerLogo link" href="#">
+				<a class="navbar-brand bannerLogo link" href="Code_Mate.action">
 					<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 				</a>
 				<!--===========[Logo]===========-->
 				
-				<span class="nav-link"><a href="#" class="link">프로젝트 게시판</a></span>
-				<span class="nav-link"><a href="#" class="link">커리어 게시판</a></span>
-				<span class="nav-link"><a href="#" class="link">포트폴리오 게시판</a></span>
+				<span class="nav-link"><a href="ProjectList.action" class="link">프로젝트 게시판</a></span>
+				<span class="nav-link"><a href="boardlist.action" class="link">Q&A 게시판</a></span>
+				<span class="nav-link"><a href="portfoliolist.action" class="link">포트폴리오 게시판</a></span>
 			
 			    
 			    <!--=======[ member Icon ]=======-->
@@ -205,21 +258,24 @@
 						<!--======[ search Button ]======-->
 		
 						<!--======[ alarmButton ]======-->
-						<button id="alarmButton" class="btn banner-btn alarm-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="<%=login%>">
-							<ion-icon name="notifications" class="banner-btn-icon"></ion-icon>
-						</button>				
+						<button type="button" class="btn btn-secondary alarm-btn" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="Bottom popover" style="<%=login%>">
+						  <ion-icon name="notifications" class="banner-btn-icon"></ion-icon>
+						</button>			
 						<!--======[ alarmButton ]======-->
+
 				    </div><!-- end .buttonBox -->
 				    
-					<a href="mypage.action" class="myinfo">
-						<div id="profile" style="<%=login%>">
-							<img class="memberImg" src="img/profileImg_1.png">
-						</div>
-						<span class="nickname" id="mem1" style="<%=login%>">${member.nickname }</span>
-						<div class="gradeIcon" style="<%=login%>">
-							🌱
-						</div>
-					</a>
+					<div id="profile" style="<%=login%>">
+						<img class="memberImg" src="img/profileImg_1.png">
+					</div>
+					<span class="nickname" id="mem1" style="<%=login%>"><a href="mypage.action" class="nicknamelink">${member.nickname }</a></span>
+					<div class="gradeIcon" style="<%=login%>">
+						<img src="<%=iconUrlStr %>"  class="skillGradeIconImg" />
+					</div>
+					 
+					 <div class="logout">
+					 	<span class="logouttext">로그아웃</span>
+					 </div>
 					 
 					 <!-- 로그인/회원가입으로 이동 -->
 					<span class="nav-link log" ><a href="Login.action" class="link upside" style="<%=logout%>">로그인/회원가입</a></span>

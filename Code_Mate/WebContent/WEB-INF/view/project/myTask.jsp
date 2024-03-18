@@ -1,3 +1,4 @@
+<%@page import="com.test.mybatis.MyPageMethod"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@page import="java.util.ArrayList"%>
@@ -11,8 +12,6 @@
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 
-	System.out.println(cp);
-	
 	String login = "";
 	String logout = "";
 	String name = "";
@@ -23,14 +22,51 @@
 		logout = "display:none;";
 		MemberDTO member = (MemberDTO)request.getSession().getAttribute("member");
 		
-		name = member.getNickname();
+		name = member.getNickname();                                                                                                                                                                                                                                                                        
 	}
 	else
 	{
 		login = "display:none;";
 		logout = "";
 	}
+
 	
+	MyPageMethod mpm = new MyPageMethod();
+	
+	String[] gradeIconUrlTxtArr;
+	String iconUrlStr = "";
+	
+	/*[배너에 뿌려질 닉네임 옆 아이콘 변경하기]*/
+	if (request.getAttribute("backendScore") != null && request.getAttribute("frontendScore") != null)
+	{
+		int backScore = (Integer)request.getAttribute("backendScore");
+		int frontScore = (Integer)request.getAttribute("frontendScore");
+		System.out.println("백엔드 점수 수신 : " + backScore);
+		System.out.println("프론트엔드 점수 수신 : " + frontScore);
+		
+		if (backScore >= frontScore)
+		{
+			System.out.println("백엔드 점수가 더 높거나 같습니다.");
+			
+			//===================================================================================
+			// 『skillGradeIcon』 - String[] 반환
+			//===================================================================================
+			//  String[0] : 스킬 등급 아이콘 Url	(*ex : "/CodeMate/img/grade_icon/1_seed.png")
+			//  String[1] : 스킬 등급 텍스트 반환	(*ex : "씨앗")
+			//===================================================================================
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, backScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+			
+		}
+		else if (backScore < frontScore)
+		{
+			System.out.println("프론트엔드 점수가 더 높습니다.");
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, frontScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+		}
+	}
 	
 %>
 <!DOCTYPE html>
@@ -50,6 +86,22 @@
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+<script type="text/javascript">
+		$(function()
+		{
+			  $(".memberImg").click(function()
+			{
+				$(".logout").show();
+			})
+			
+			$(".logout").click(function()
+			{
+				$(location).attr("href", "logout.action");
+			});
+			
+		})
+</script>
 
 <script type="text/javascript">
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
@@ -437,15 +489,19 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 						<!--======[ alarmButton ]======-->
 
 				    </div><!-- end .buttonBox -->
-				    <a href="mypage.action" class="myinfo">
-						<div id="profile" style="<%=login%>">
-							<img class="memberImg" src="img/profileImg_1.png">
-						</div>
-						<span class="nickname" id="mem1" style="<%=login%>">${member.nickname }</span>
-						<div class="gradeIcon" style="<%=login%>">
-							🌱
-						</div>
-					</a>
+				    
+					<div id="profile" style="<%=login%>">
+						<img class="memberImg" src="img/profileImg_1.png">
+					</div>
+					<span class="nickname" id="mem1" style="<%=login%>"><a href="mypage.action" class="nicknamelink">${member.nickname }</a></span>
+					<div class="gradeIcon" style="<%=login%>">
+						<img src="<%=iconUrlStr %>"  class="skillGradeIconImg" />
+					</div>
+					 
+					 <div class="logout">
+					 	<span class="logouttext">로그아웃</span>
+					 </div>
+					 
 					 <!-- 로그인/회원가입으로 이동 -->
 					<span class="nav-link log" ><a href="Login.action" class="link upside" style="<%=logout%>">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
@@ -547,7 +603,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 				<div class="container page-todo bootstrap snippets bootdeys">
 					<div class="col-sm-7 tasks">
 						<div class="task-list">
-							<h4>이윤수 님의 업무입니다.</h4>
+							<h4>${member.nickname } 님의 업무입니다.</h4>
 							<div class="priority high"><span>진행 중</span></div>
 								<c:forEach items="${getMyIng }" var="item" varStatus="status">
 									<c:choose> 

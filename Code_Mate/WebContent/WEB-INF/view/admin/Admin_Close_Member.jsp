@@ -16,7 +16,7 @@ System.out.println(cp);
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
-	href="<%=cp%>/css/banner_side.css" />
+	href="<%=cp%>/css/admin_banner_side.css" />
 <!-- chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- JQuery -->
@@ -438,6 +438,14 @@ h5 {
     color: #546071;
 }
 </style>
+<script type="text/javascript">
+
+	function selChange() {
+		var sel = document.getElementById('cntPerPage').value;
+		location.href="boardlist.action?nowPage=${paging.nowPage}&cntPerPage="+sel;
+	}
+	
+</script>
 </head>
 <body>
 <div class="row mainArea">
@@ -448,7 +456,7 @@ h5 {
 			  <div class="container-fluid nav nav-underline bannerMainBox">
 			    
 			 	<!--===========[Logo]===========-->
-				<a class="navbar-brand bannerLogo link" href="#">
+				<a class="navbar-brand bannerLogo link" href="Code_Mate.action">
 					<img alt="Logo" class="bannerLogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 				</a>
 				<!--===========[Logo]===========-->
@@ -462,34 +470,8 @@ h5 {
 			    <div class="oneMember">
 					<div class="buttonBox">
 						<!--======[ search Button ]======-->
-						<button id="searchButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="search-outline"></ion-icon>
-						</button>
-						<!--======[ search Button ]======-->
-		
-						<!--======[ chat Button ]======-->
-						<button id="chatButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="chatbubble-outline"></ion-icon>
-						</button>
-						<!--======[ chat Button ]======-->
-		
-						<!--======[ alarmButton ]======-->
-						<button id="alarmButton" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
-							<ion-icon name="notifications"></ion-icon>
-						</button>				
-						<!--======[ alarmButton ]======-->
+
 				    </div><!-- end .buttonBox -->
-				    <!-- 
-					<div id="profile">
-						<img class="memberImg" src="img/profileImg_1.png">
-					</div>
-					<span class="nickname" id="mem1">강구가구가구가</span>
-					<div class="gradeIcon">
-						🌱
-					</div>
-					 -->
-					 <!-- 로그인/회원가입으로 이동 -->
-					<span class="nav-link log" ><a href="Login.action" class="link">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
 			    <!--=======[ member Icon ]=======-->
 			    </div>
@@ -572,12 +554,12 @@ h5 {
 							</li>
 						</ul>
 						<ul class="nav-item">
-							<a href="#" class="majorTopic nav-link link">문의사항<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
+							<a href="Inquiry_Faq.action" class="majorTopic nav-link link">문의사항<ion-icon class="menuIcon" name="reader-outline"></ion-icon></a>
 							<li class="miniMenuOption">
 								<ul>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">1대1문의</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">FAQ</a></li>
-									<li class="miniMenuOption"><a href="#" class="nav-link link">신고 관련 문의</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_1v1.action" class="nav-link link">1대1문의</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_Faq.action" class="nav-link link">FAQ</a></li>
+									<li class="miniMenuOption"><a href="Inquiry_Report.action" class="nav-link link">신고 관련 문의</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -588,8 +570,6 @@ h5 {
 									<li class="miniMenuOption"><a href="Admin_Communiity.action"class="nav-link link">게시판</a></li>
 									<li class="miniMenuOption"><a href="Admin_Project.action"class="nav-link link">프로젝트</a></li>
 								</ul>
-							</li>
-						</ul>
 							</li>
 						</ul>
 					</div><!-- end .menuOptions -->
@@ -625,7 +605,7 @@ h5 {
 			</div>
 			<div class="col-md-9 col-lg-9 col-sm-9 col-xs-9 bordered-div"
 				style="width: 76.3%; height: 84%;">
-				<h5>탈퇴한 회원</h5>
+				<h5 style="margin-bottom: 46px; ">탈퇴한 회원</h5>
 				<div class="table-responsive">
 					<table class="table no-wrap">
 						<thead>
@@ -655,36 +635,28 @@ h5 {
 						        <td class="text-center">${member.close_date}</td>
 						    </tr>
 						</c:forEach>
-<!-- 							<tr>
-								<td class="text-center">1</td>
-								<td class="text-center">현욱 짱짱</td>
-								<td class="text-center">hw0106</td>
-								<td class="text-center">2024-02-26</td>
-								<td class="text-center">10</td>
-								<td class="text-center">100</td>
-								<td class="text-center">1</td>
-								<td class="text-center">없음</td>
-								<td class="text-center">
-								<a href="">
-								<span class="material-symbols-outlined" style="font-size: 25px; color: #6e7577">move_item</span></a>
-								</td> -->
-							</tr>																																																							
 						</tbody>
 					</table>
 				</div>
-				<nav aria-label="...">
-					<ul class="pagination">
-						<li class="page-item pagination2"><a class="page-link">Previous</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">1</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">2</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">3</a></li>
-						<li class="page-item pagination2"><a class="page-link"
-							href="#">Next</a></li>
-					</ul>
-				</nav>
+				<div style="display: block; text-align: center;">
+					<c:if test="${paging.startPage != 1 }">
+						<a href="/Member_close.action?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+					</c:if>
+					<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
+						var="p">
+						<c:choose>
+							<c:when test="${p == paging.nowPage }">
+								<b>${p }</b>
+							</c:when>
+							<c:when test="${p != paging.nowPage }">
+								<a href="<%=cp %>/Member_close.action?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${paging.endPage != paging.lastPage}">
+						<a href="<%=cp %>/Member_close.action?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+					</c:if>
+				</div>
 			</div>
 			<!-- <div class="col-3">사이드를 여기에 작성하세요</div> -->
 		</div>

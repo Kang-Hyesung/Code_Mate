@@ -1,3 +1,4 @@
+<%@page import="com.test.mybatis.MyPageMethod"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.test.mybatis.dto.ProjectPageDTO"%>
 <%@page import="com.test.mybatis.dto.MemberDTO"%>
@@ -37,9 +38,46 @@
 	}
 	
 	
+MyPageMethod mpm = new MyPageMethod();
 	
+	String[] gradeIconUrlTxtArr;
+	String iconUrlStr = "";
+	
+	/*[배너에 뿌려질 닉네임 옆 아이콘 변경하기]*/
+	if (request.getAttribute("backendScore") != null && request.getAttribute("frontendScore") != null)
+	{
+		int backScore = (Integer)request.getAttribute("backendScore");
+		int frontScore = (Integer)request.getAttribute("frontendScore");
+		System.out.println("백엔드 점수 수신 : " + backScore);
+		System.out.println("프론트엔드 점수 수신 : " + frontScore);
+		
+		if (backScore >= frontScore)
+		{
+			System.out.println("백엔드 점수가 더 높거나 같습니다.");
+			
+			//===================================================================================
+			// 『skillGradeIcon』 - String[] 반환
+			//===================================================================================
+			//  String[0] : 스킬 등급 아이콘 Url	(*ex : "/CodeMate/img/grade_icon/1_seed.png")
+			//  String[1] : 스킬 등급 텍스트 반환	(*ex : "씨앗")
+			//===================================================================================
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, backScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+			
+		}
+		else if (backScore < frontScore)
+		{
+			System.out.println("프론트엔드 점수가 더 높습니다.");
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, frontScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+		}
+	}
 		
 %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -461,6 +499,22 @@ list-style-type: none;
 </style>
 
 <script type="text/javascript">
+		$(function()
+		{
+			  $(".memberImg").click(function()
+			{
+				$(".logout").show();
+			})
+			
+			$(".logout").click(function()
+			{
+				$(location).attr("href", "logout.action");
+			});
+			
+		})
+</script>
+
+<script type="text/javascript">
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
 	
@@ -645,9 +699,9 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 				</a>
 				<!--===========[Logo]===========-->
 				
-				<span class="nav-link"><a href="#" class="link">프로젝트 게시판</a></span>
-				<span class="nav-link"><a href="#" class="link">커리어 게시판</a></span>
-				<span class="nav-link"><a href="#" class="link">포트폴리오 게시판</a></span>
+				<span class="nav-link"><a href="ProjectList.action" class="link">프로젝트 게시판</a></span>
+				<span class="nav-link"><a href="boardlist.action" class="link">Q&A 게시판</a></span>
+				<span class="nav-link"><a href="portfoliolist.action" class="link">포트폴리오 게시판</a></span>
 			
 			    
 			    <!--=======[ member Icon ]=======-->
@@ -666,15 +720,19 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 						<!--======[ alarmButton ]======-->
 
 				    </div><!-- end .buttonBox -->
-				    <a href="mypage.action">
-						<div id="profile" style="<%=login%>">
-							<img class="memberImg" src="img/profileImg_1.png">
-						</div>
-						<span class="nickname" id="mem1" style="<%=login%>">${member.nickname }</span>
-						<div class="gradeIcon" style="<%=login%>">
-							🌱
-						</div>
-					</a>
+				    
+					<div id="profile" style="<%=login%>">
+						<img class="memberImg" src="img/profileImg_1.png">
+					</div>
+					<span class="nickname" id="mem1" style="<%=login%>"><a href="mypage.action" class="nicknamelink">${member.nickname }</a></span>
+					<div class="gradeIcon" style="<%=login%>">
+						<img src="<%=iconUrlStr %>"  class="skillGradeIconImg" />
+					</div>
+					 
+					 <div class="logout">
+					 	<span class="logouttext">로그아웃</span>
+					 </div>
+					 
 					 <!-- 로그인/회원가입으로 이동 -->
 					<span class="nav-link log" ><a href="Login.action" class="link upside" style="<%=logout%>">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
@@ -818,7 +876,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 	                                		<div class="jptitle1" >·내가 참여하고 있는 프로젝트</div>
 												
 											<c:forEach var="dto" items="${pjdto }">
-		                                    <div class="ingproject"><a href="project.action?ap_code=${dto.ap_code }" class="aa">
+		                                    <div class="ingproject"><a href="projectProgress.action?ap_code=${dto.ap_code }" class="aa">
 												<div class="col-12">
 													<div>
 														<p class="ptag">📁프로젝트</p>

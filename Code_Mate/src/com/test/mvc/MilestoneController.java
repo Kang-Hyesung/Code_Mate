@@ -41,8 +41,11 @@ public class MilestoneController
 	//=================================================================================================
 
 	@RequestMapping(value = "/Milestone.action", method = RequestMethod.GET)
-	public String milestonePage(ModelMap model, HttpSession session, HttpServletRequest request)
+	public String milestonePage(ModelMap model, HttpSession session, HttpServletRequest request, String ap_code, String cp_code)
 	{
+		System.out.println("마일스톤 페이지 요청 확인" + cp_code + " " + ap_code);
+		
+		
 		IMilestoneDAO dao = sqlSession.getMapper(IMilestoneDAO.class);
 		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
 		MyPageMethod mpm = new MyPageMethod();
@@ -54,13 +57,13 @@ public class MilestoneController
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
 		int backendScore;
 		int frontendScore;
-		ArrayList<Milestone_MemberEvaluDTO> memberEvaluList;
-		String memberRole;
+		ArrayList<Milestone_MemberEvaluDTO> memberEvaluList = null;
+		String memberRole = null;
 		
 		
 		if (member != null)
 		{
-			model.addAttribute("ma_code", dao.searchMyMaCode(member.getMem_code(), "CP0001"));
+			model.addAttribute("ma_code", dao.searchMyMaCode(member.getMem_code(), cp_code));
 			
 			backendScore = myDao.backendScore(member.getMem_code());
 			frontendScore = myDao.frontendScore(member.getMem_code());
@@ -69,42 +72,44 @@ public class MilestoneController
 			model.addAttribute("backendScore", backendScore);
 			model.addAttribute("frontendScore", frontendScore);
 			
+			System.out.println("멤버코드 : " + member.getMem_code());
+			
 			// 로그인한 회원을 제외한 팀원 평가 항목 리스트 모델에 저장.
-			memberEvaluList = dao.milestoneMemberEvaluation("CP0001", member.getMem_code());
+			memberEvaluList = dao.milestoneMemberEvaluation(cp_code, member.getMem_code());
 			
 			// 로그인한 회원의 직무 모델에 저장.
-			memberRole = dao.whatIsMyMemberRole("CP0001", member.getMem_code());
+			memberRole = dao.whatIsMyMemberRole(cp_code, member.getMem_code());
 			
 			System.out.println("로그인한 회원의 직무 : " + memberRole);
 		}
-		else
-		{
-			// 로그인 정보가 없을 경우, 임시로 임의 회원 정보 보내기
-			//------------------------------
-			// MEM_CODE : MEM0001
-			// ID 		: QWE
-			// PW 		: 123
-			//------------------------------
-			model.addAttribute("ma_code", "MA0001");
-			memberEvaluList = dao.milestoneMemberEvaluation("CP0001", "MEM0001");
-			memberRole = dao.whatIsMyMemberRole("CP0001", "MEM0001");
-		}
+//		else
+//		{
+//			// 로그인 정보가 없을 경우, 임시로 임의 회원 정보 보내기
+//			//------------------------------
+//			// MEM_CODE : MEM0001
+//			// ID 		: QWE
+//			// PW 		: 123
+//			//------------------------------
+//			model.addAttribute("ma_code", "MA0001");
+//			memberEvaluList = dao.milestoneMemberEvaluation(cp_code, "MEM0001");
+//			memberRole = dao.whatIsMyMemberRole("CP0001", "MEM0001");
+//		}
 		
 		
 		
-		model.addAttribute("planCheckList", dao.milestone_checkList("CP0001", "기획"));
-		model.addAttribute("designCheckList", dao.milestone_checkList("CP0001", "설계"));
-		model.addAttribute("implementCheckList", dao.milestone_checkList("CP0001", "구현"));
-		model.addAttribute("settlementCheckList", dao.milestone_checkList("CP0001", "결산"));
+		model.addAttribute("planCheckList", dao.milestone_checkList(cp_code, "기획"));
+		model.addAttribute("designCheckList", dao.milestone_checkList(cp_code, "설계"));
+		model.addAttribute("implementCheckList", dao.milestone_checkList(cp_code, "구현"));
+		model.addAttribute("settlementCheckList", dao.milestone_checkList(cp_code, "결산"));
 		
-		model.addAttribute("planInitialPercent", dao.milestoneOkPercent("기획", "CP0001"));
-		model.addAttribute("designInitialPercent", dao.milestoneOkPercent("설계", "CP0001"));
-		model.addAttribute("implementInitialPercent", dao.milestoneOkPercent("구현", "CP0001"));
-		model.addAttribute("settlementInitialPercent", dao.milestoneOkPercent("결산", "CP0001"));
+		model.addAttribute("planInitialPercent", dao.milestoneOkPercent("기획", cp_code));
+		model.addAttribute("designInitialPercent", dao.milestoneOkPercent("설계", cp_code));
+		model.addAttribute("implementInitialPercent", dao.milestoneOkPercent("구현", cp_code));
+		model.addAttribute("settlementInitialPercent", dao.milestoneOkPercent("결산", cp_code));
 		
 		
 		//[전체 마일스톤 완료 퍼센트 총합값 전달]===========================
-		int total_percent = dao.allMileStoneTotalPercent("CP0001");
+		int total_percent = dao.allMileStoneTotalPercent(cp_code);
 		model.addAttribute("total_percent", total_percent);
 		
 		//[멤버 평가를 위한 프로젝트 참여 멤버 정보 전송하기]
@@ -138,6 +143,8 @@ public class MilestoneController
 	public String checkingAction(String checklist_code)
 	{
 		IMilestoneDAO dao = sqlSession.getMapper(IMilestoneDAO.class);
+		
+		
 		
 		int isCheckedNum = dao.isChecked(checklist_code);
 		String is_checked_code = "";
@@ -202,9 +209,9 @@ public class MilestoneController
 	// [체크리스트 항목을 추가하는 액션 처리]
 	//=================================================================================================
 	@RequestMapping(value = "/checklist_insert.action", method = RequestMethod.POST)
-	public String checklistInsertingAction(String v_cp_code, String v_ma_code, String v_step, String v_content)
+	public String checklistInsertingAction(String v_cp_code, String v_ma_code, String v_step, String v_content, ModelMap model)
 	{
-		System.out.println("1");
+		//System.out.println("1");
 		//(String v_cp_code, String v_ma_code, String v_step, String v_content)
 		IMilestoneDAO dao = sqlSession.getMapper(IMilestoneDAO.class);
 		
@@ -217,6 +224,7 @@ public class MilestoneController
 
 		dao.checkListInserting(v_cp_code, v_ma_code, v_step, v_content);
 		
+		model.addAttribute("cp_code", v_cp_code);
 		
 		return "redirect:Milestone.action";
 	}
@@ -232,8 +240,8 @@ public class MilestoneController
 		
 		String checklist_content = dao.searchCheckList(checklist_code);
 		
-		System.out.println("[체크리스트 수정 클릭] 넘어온 코드 값   : " + checklist_code);
-		System.out.println("[체크리스트 수정 클릭] 클릭한 항목 내용 : " + checklist_content);
+		//System.out.println("[체크리스트 수정 클릭] 넘어온 코드 값   : " + checklist_code);
+		//System.out.println("[체크리스트 수정 클릭] 클릭한 항목 내용 : " + checklist_content);
 		
 		return checklist_content;
 	}
