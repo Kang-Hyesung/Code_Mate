@@ -46,7 +46,7 @@ public class ProjectController  extends HttpServlet
 	public String projectProgress(HttpServletRequest request, ModelMap model, HttpSession session, String ap_code)
 	{
 		MemberDTO member = (MemberDTO)session.getAttribute("member");
-
+		
 		IMemberDAO memberDao = sqlSession.getMapper(IMemberDAO.class);
 		ITaskDAO taskDao = sqlSession.getMapper(ITaskDAO.class);
 		IMeetingDAO meetingDao = sqlSession.getMapper(IMeetingDAO.class);
@@ -57,7 +57,7 @@ public class ProjectController  extends HttpServlet
 
 		request.setAttribute("ap_code", ap_code);
 		request.setAttribute("cp_code", cp_code);
-
+		
 		ProjectDTO project = projectDao.getProject(ap_code);
 		request.setAttribute("project", project);
 

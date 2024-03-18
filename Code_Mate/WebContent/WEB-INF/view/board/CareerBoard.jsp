@@ -410,7 +410,6 @@ function sendIt()
 	
 	<div class="col-12">
 		
-		
 		<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
 		  
 		  
