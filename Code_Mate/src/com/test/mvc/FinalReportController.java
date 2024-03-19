@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.test.mybatis.dao.IFinalReportDAO;
+import com.test.mybatis.dao.IMyPageDAO;
 import com.test.mybatis.dto.FinalReport_PTagDTO;
 import com.test.mybatis.dto.FinalReport_ReportDTO;
 import com.test.mybatis.dto.MemberDTO;
@@ -36,11 +37,29 @@ public class FinalReportController
 		//=======================
 		// ※ 임시 정적 데이터
 		//=======================
-		cp_code = "CP0001";
+		//cp_code = "CP0001";
 		//=======================
 		
 		IFinalReportDAO dao = sqlSession.getMapper(IFinalReportDAO.class);
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		
+		
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
 		
 		String mem_code = "";
 		
@@ -53,7 +72,7 @@ public class FinalReportController
 			//=======================
 			// ※ 임시 정적 데이터
 			//=======================
-			mem_code = "MEM0001";
+			//mem_code = "MEM0001";
 			//=======================
 		}
 		
@@ -92,7 +111,6 @@ public class FinalReportController
 		model.addAttribute("pTagList", pTagList);
 		
 		
-		
 		return "/WEB-INF/view/project/FinalReport.jsp";
 	}
 	
@@ -100,7 +118,7 @@ public class FinalReportController
 	// [결산 보고서 Insert 액션]==================================================
 	@RequestMapping(value = "/finalReport_write.action", method = RequestMethod.GET)
 	public String finalReportWriteAction(HttpServletRequest request, HttpServletResponse response
-									 , HttpSession session , String cp_code) throws UnsupportedEncodingException, ScriptException
+									 , HttpSession session , String cp_code, ModelMap model) throws UnsupportedEncodingException, ScriptException
 	{
 		
 		response.setCharacterEncoding("UTF-8");
@@ -112,7 +130,29 @@ public class FinalReportController
 		
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 		
-		String mem_code;
+    	//cp_code = (String)request.getAttribute("cp_code");
+		
+		String hidden_cp_code = request.getParameter("cp_code");
+    	
+    	System.out.println(hidden_cp_code);
+		int backendScore;
+		int frontendScore;
+		
+		IMyPageDAO myDao = sqlSession.getMapper(IMyPageDAO.class);
+		
+		if (member != null)
+		{
+			backendScore = myDao.backendScore(member.getMem_code());
+			frontendScore = myDao.frontendScore(member.getMem_code());
+			
+			// 로그인한 회원의 백엔드 / 프론트엔드 점수 모델에 저장.
+			model.addAttribute("backendScore", backendScore);
+			model.addAttribute("frontendScore", frontendScore);
+			
+		}
+		// 점수 끝
+		
+		String mem_code = null;
 		
 		if (member != null)
 		{
@@ -123,14 +163,14 @@ public class FinalReportController
 			//=======================
 			// ※ 임시 정적 데이터
 			//=======================
-			mem_code = "MEM0001";
+			//mem_code = "MEM0001";
 			//=======================
 		}
 		
 		//=======================
 		// ※ 임시 정적 데이터
 		//=======================
-		cp_code = "CP0001";
+		//cp_code = "CP0001";
 		//=======================
 		
 		
@@ -165,7 +205,7 @@ public class FinalReportController
 		//================================================================
 		// ③ [포트폴리오 INSERT]
 		//================================================================
-		dao.portFolioWrite(now_p_code, cp_code, mem_code, report_title, report_content);
+		dao.portFolioWrite(now_p_code, hidden_cp_code, mem_code, report_title, report_content);
 		//================================================================
 		
 		

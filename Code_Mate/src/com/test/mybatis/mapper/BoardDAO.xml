@@ -248,11 +248,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    FROM (
 		        SELECT *
 		        FROM VIEW_TEST
-		        ORDER BY KDATE DESC
 		    ) A
 		)
 		WHERE RN BETWEEN #{start} AND #{end}
-		ORDER BY KDATE DESC
 	</select>
 	
 	<!-- 기술 페이징 리스트 -->
@@ -263,11 +261,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    FROM (
 		        SELECT *
 		        FROM PAGINGVIEW_TECH
-		        ORDER BY KDATE DESC
 		    ) A
 		)
 		WHERE RN BETWEEN #{start} AND #{end}
-		ORDER BY KDATE DESC
 	</select>
 	
 	<!-- 커리어 페이징 리스트 -->
@@ -278,11 +274,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    FROM (
 		        SELECT *
 		        FROM PAGINGVIEW_CAR
-		        ORDER BY KDATE DESC
 		    ) A
 		)
 		WHERE RN BETWEEN #{start} AND #{end}
-		ORDER BY KDATE DESC
 	</select>
 	
 	<!-- 기술 페이지 뷰 -->

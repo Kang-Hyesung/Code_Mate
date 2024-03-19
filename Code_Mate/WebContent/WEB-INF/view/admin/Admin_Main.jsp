@@ -609,6 +609,8 @@ h5 {
 								</ul>
 							</li>
 						</ul>
+							</li>
+						</ul>
 						
 					</div><!-- end .menuOptions -->
 				</div><!-- end .leftmenuBar -->
@@ -717,38 +719,52 @@ h5 {
 
 				<div>
 					<canvas id="pieChart" style="width: 100%; height: 340px;"></canvas>
+					<p id="noDataMessage"
+						style="display: none; display: block; margin-top: 24%; margin-left: 36%;
+						 font-family: 'SUITE-Regular'; font-size: 20px; font-weight: bolder;">
+						 오늘 들어온 신고 없음</p>
 				</div>
-
+				
 				<script>
+			    var post_count = ${post_count};
+			    var team_count = ${team_count};
+			    var comment_count = ${comment_count};
+			    var reply2_count = ${reply2_count};
 
-					var dataset = {
-					    label: "신고 수",
-					    data: [${post_count}, ${team_count}, ${comment_count}, ${reply2_count}]
-					}
-					
-					var labels=['게시판','프로젝트','댓글','대댓글']; 
-					  
-					var datasets={ datasets:[dataset], labels:labels }
-					
-					var config = {
-						    type: 'pie',
-						    data: datasets, 
-						    options: {
-						        responsive: true,
-						        maintainAspectRatio: false, 
-						        plugins: {
-						            labels: {
-						                render: 'value',
-						                fontColor: 'black',
-						                fontSize: 20,
-						                precision: 3
-						            }
+			    // 데이터가 없는 경우 메시지를 표시
+			    if (post_count === 0 && team_count === 0 && comment_count === 0 && reply2_count === 0) {
+			        document.getElementById("pieChart").style.display = "none";
+			        document.getElementById("noDataMessage").style.display = "block";
+			    } else {
+			        var dataset = {
+			            label: "신고 수",
+			            data: [post_count, team_count, comment_count, reply2_count]
+			        }
 
-						        }
-						    }
-						}
-						var canvas=document.getElementById('pieChart');
-						var pieChart = new Chart(canvas,config);
+			        var labels = ['게시판', '프로젝트', '댓글', '대댓글'];
+
+			        var datasets = { datasets: [dataset], labels: labels }
+
+			        var config = {
+			            type: 'pie',
+			            data: datasets,
+			            options: {
+			                responsive: true,
+			                maintainAspectRatio: false,
+			                plugins: {
+			                    labels: {
+			                        render: 'value',
+			                        fontColor: 'black',
+			                        fontSize: 20,
+			                        precision: 3
+			                    }
+			                }
+			            }
+			        }
+
+			        var canvas = document.getElementById('pieChart');
+			        var pieChart = new Chart(canvas, config);
+			    }
 				</script>
 			</div>
 
@@ -798,4 +814,5 @@ h5 {
 	<!-- end .row -->
 </body>
 </html>
+
 

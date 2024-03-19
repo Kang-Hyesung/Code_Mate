@@ -1,3 +1,4 @@
+<%@page import="com.test.mybatis.MyPageMethod"%>
 <%@page import="com.test.mybatis.dto.FinalReport_ReportDTO"%>
 <%@page import="com.test.mybatis.dto.MemberDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -25,6 +26,45 @@
 	}
 		
 	
+	MyPageMethod mpm = new MyPageMethod();
+	
+	String[] gradeIconUrlTxtArr;
+	String iconUrlStr = "";
+	
+	/*[배너에 뿌려질 닉네임 옆 아이콘 변경하기]*/
+	if (request.getAttribute("backendScore") != null && request.getAttribute("frontendScore") != null)
+	{
+		int backScore = (Integer)request.getAttribute("backendScore");
+		int frontScore = (Integer)request.getAttribute("frontendScore");
+		System.out.println("백엔드 점수 수신 : " + backScore);
+		System.out.println("프론트엔드 점수 수신 : " + frontScore);
+		
+		if (backScore >= frontScore)
+		{
+			System.out.println("백엔드 점수가 더 높거나 같습니다.");
+			
+			//===================================================================================
+			// 『skillGradeIcon』 - String[] 반환
+			//===================================================================================
+			//  String[0] : 스킬 등급 아이콘 Url	(*ex : "/CodeMate/img/grade_icon/1_seed.png")
+			//  String[1] : 스킬 등급 텍스트 반환	(*ex : "씨앗")
+			//===================================================================================
+			System.out.println("1");
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, backScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+			System.out.println("뷰다음?");
+		}
+		else if (backScore < frontScore)
+		{
+			System.out.println("프론트엔드 점수가 더 높습니다.");
+			
+			gradeIconUrlTxtArr = mpm.skillGradeIcon(cp, frontScore);
+			iconUrlStr = gradeIconUrlTxtArr[0];
+		}
+	}
+	
+
+	
 	String isReportExist = (String) request.getAttribute("isFinalFinalReportExist");
 	System.out.println("[결산 보고서 페이지] - 결산 보고서 완료 여부 문자열 확인 : " + isReportExist);
 	
@@ -45,6 +85,9 @@
 		System.out.println("[결산 보고서 페이지] 결산 보고서가 이미 존재합니다.");
 	}
 	
+	String cp_code = (String)request.getAttribute("cp_code");
+	
+	System.out.println("cp_code : "  + cp_code);
 		
 %>
 <!DOCTYPE html>
@@ -140,15 +183,17 @@ $(document).ready(function(){
 						<!--======[ alarmButton ]======-->
 
 				    </div><!-- end .buttonBox -->
-				    <a href="mypage.action">
-						<div id="profile" style="<%=login%>">
-							<img class="memberImg" src="img/profileImg_1.png">
-						</div>
-						<span class="nickname" id="mem1" style="<%=login%>">${member.nickname }</span>
-						<div class="gradeIcon" style="<%=login%>">
-							🌱
-						</div>
-					</a>
+				    <div id="profile" style="<%=login%>">
+						<img class="memberImg" src="<%=cp %>${member.path }">
+					</div>
+					<span class="nickname" id="mem1" style="<%=login%>"><a href="mypage.action" class="nicknamelink">${member.nickname }</a></span>
+					<div class="gradeIcon" style="<%=login%>">
+						<img src="<%=iconUrlStr %>"  class="skillGradeIconImg" />
+					</div>
+					 
+					 <div class="logout">
+					 	<span class="logouttext">로그아웃</span>
+					 </div>
 					 <!-- 로그인/회원가입으로 이동 -->
 					<span class="nav-link log" ><a href="Login.action" class="link upside" style="<%=logout%>">로그인/회원가입</a></span>
 				</div><!-- end .oneMember -->
@@ -288,6 +333,8 @@ $(document).ready(function(){
 										결산 보고서 제목
 									</span>
 								</div>
+								
+								<input type="hidden" name="cp_code" value="${cp_code }"/>
 								
 								<c:choose>
 								

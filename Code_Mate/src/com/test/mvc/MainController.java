@@ -101,6 +101,12 @@ public class MainController
 		// 아이디와 비밀번호가 일치하는 member를 받아옴
 		MemberDTO member = dao.login(id.toUpperCase(), pw.toUpperCase());
 		
+		if (member.getAdmin_code() != null ) {
+			
+			return "redirect:Code_Mate_admin.action";
+			
+		}
+		
 		if(member == null)	// 로그인 실패
 			return "/WEB-INF/view/main/arr.jsp";
 		else
