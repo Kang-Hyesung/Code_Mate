@@ -335,6 +335,7 @@ $(document).ready(function(){
 								</div>
 								
 								<input type="hidden" name="cp_code" value="${cp_code }"/>
+								<input type="hidden" name="ap_Code" value="${ap_code }" />
 								
 								<c:choose>
 								

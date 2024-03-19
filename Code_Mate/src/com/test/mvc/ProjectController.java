@@ -340,54 +340,56 @@ public class ProjectController  extends HttpServlet
 		return "/WEB-INF/view/project/myTask.jsp";
 	}
 	
-	@RequestMapping(value = "/insertReport.action" , method = RequestMethod.POST)
-	public String insertReport(HttpServletRequest request, HttpServletResponse response, ReportDTO dto, ModelMap model) 
+	@RequestMapping(value = "/insertReport.action" , method = RequestMethod.GET)
+	public String insertReport(HttpServletRequest request, HttpServletResponse response, ReportDTO dto, ModelMap model, String ap_code, String cp_code) 
 	{
 		
+		String task_code = (String)request.getParameter("task_code");
 		
+		System.out.println(task_code);
 		// 경로
 		//String uploadPath = request.getServletContext().getRealPath("/") + "File";
-		String uploadPath ="Code_Mate\\Code_Mate\\HyesungFile";
-		System.out.println("경로 테스트 : " + uploadPath);
-
-		// 최대 파일 크기
-		int maxFileSize = 1024 * 1024 * 2;
-		String encType = "utf-8";
-
-		MultipartRequest multi = null;
-
-			try{
-				System.out.println("업로드 시도");
-				multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
-				System.out.println("업로드 완료");
-
-				System.out.println("이름 출력 시도");
-				String please = multi.getFilesystemName("file");
-				System.out.println(please);
-
-				System.out.println("서버에 저장된 파일명 : " + multi.getFilesystemName("file"));
-				System.out.println("업로드한 파일명 : " + multi.getOriginalFileName("file"));
-				System.out.println("파일 타입 : " + multi.getContentType("file"));
-
-
-			}
-			catch(Exception e)
-			{
-				System.out.println("업로드 실패");
-				System.out.println(e.toString());
-			}
-
-			// 파일 경로 + 서버에 저장된 파일명
-			String path = uploadPath + multi.getFilesystemName("file");
-			// 이용자가 올린 파일명
-			String fileName = multi.getOriginalFileName("file");
+//		String uploadPath ="Code_Mate\\Code_Mate\\HyesungFile";
+//		System.out.println("경로 테스트 : " + uploadPath);
+//
+//		// 최대 파일 크기
+//		int maxFileSize = 1024 * 1024 * 2;
+//		String encType = "utf-8";
+//
+//		MultipartRequest multi = null;
+//
+//			try{
+//				System.out.println("업로드 시도");
+//				multi = new MultipartRequest(request, uploadPath, maxFileSize, encType, new DefaultFileRenamePolicy());
+//				System.out.println("업로드 완료");
+//
+//				System.out.println("이름 출력 시도");
+//				String please = multi.getFilesystemName("file");
+//				System.out.println(please);
+//
+//				System.out.println("서버에 저장된 파일명 : " + multi.getFilesystemName("file"));
+//				System.out.println("업로드한 파일명 : " + multi.getOriginalFileName("file"));
+//				System.out.println("파일 타입 : " + multi.getContentType("file"));
+//
+//
+//			}
+//			catch(Exception e)
+//			{
+//				System.out.println("업로드 실패");
+//				System.out.println(e.toString());
+//			}
+//
+//			// 파일 경로 + 서버에 저장된 파일명
+//			String path = uploadPath + multi.getFilesystemName("file");
+//			// 이용자가 올린 파일명
+//			String fileName = multi.getOriginalFileName("file");
 
 		IReportDAO reportDao = sqlSession.getMapper(IReportDAO.class);
 
 
-		//reportDao.addReport(dto.getTask_code(), dto.getContent(), dto.getSummary());
+		reportDao.addReport(dto.getTask_code(), dto.getContent(), dto.getSummary());
 
-		return "redirect:myTask.action";
+		return "redirect:myTask.action?ap_code=" + ap_code + "&cp_code=" + cp_code ;
 	}
 	
 	@RequestMapping(value = "/reportView.action")

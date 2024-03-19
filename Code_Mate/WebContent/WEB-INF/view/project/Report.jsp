@@ -458,7 +458,6 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 												<span class="stateText">${reportList[i].state }</span>
 											</div>
 										</c:if>
-										<img src="C\Downloads\보리.jpg" />
 									</div>
 								</div>
 							</c:forEach>

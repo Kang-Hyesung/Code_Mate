@@ -143,7 +143,8 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 		
 		$("#task_code").click(function()
 		{
-			var code = $("#task_code").val();
+			var code = $(".open").val();
+			alert(code);
 			$("#place").val(code);
 			
 		})
@@ -768,7 +769,7 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
         <h5 class="modal-title" id="staticBackdropLabel">업무 보고서 작성</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="insertReport.action" id="insertReport" method="post" enctype="multipart/form-data">
+      <form action="insertReport.action" id="insertReport" method="get" >
       	<div class="modal-body">
       
 			<div class="mb-3">
@@ -779,10 +780,9 @@ const popoverList = [popoverTriggerList].map(popoverTriggerEl => new bootstrap.P
 			  <label for="exampleFormControlInput1" class="form-label"><span class="dateText">요약</span></label>
 			  <input type="text" class="form-control" name="summary">
 			</div>
-		    <div class="mb-3">
-			  <label for="formFile" class="form-label">첨부 파일</label>
-			  <input class="form-control" type="file" id="file"  name="file">
-		    </div>
+		    
+		    <input type="hidden" name="cp_code" value="${cp_code }" />
+		    <input type="hidden" name="ap_code" value="${ap_code }" />
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>

@@ -387,7 +387,7 @@
 			  <div class="container-fluid nav nav-underline bannerMainBox">
 			    
 			 	<!--===========[Logo]===========-->
-				<a class="navbar-brand bannerLogo link" href="#">
+				<a class="navbar-brand bannerLogo link" href="Code_Mate.action">
 					<img alt="Logo" class="LogoImage d-inline-block align-text-top" src="img/TestLogo.png" >
 				</a>
 				<!--===========[Logo]===========-->
